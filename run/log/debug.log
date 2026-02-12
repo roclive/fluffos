@@ -1,6 +1,7 @@
+Your locale 'c/utf-8/c/c/c/c' is not UTF8 compliant, you will likely run into issues.
 ========================================================================
 Full Command Line: ../build/bin/driver config.cfg 
-Boot Time: Wed Feb 11 23:38:06 2026
+Boot Time: Thu Feb 12 22:42:27 2026
 Version: fluffos 20240714-4a59909c-ee813760 (Mac OS X)
 jemalloc Version: 5.3.0-0-g54eaed1d8b56b1aa528be3bdd1877e59c56fa90c
 ICU Version: 78.2
@@ -464,21 +465,6 @@ Initializations complete.
 /kungfu/skill/force.c line 8: Warning: Number of arguments disagrees with previous definition.
   int valid_learn() { return 1;
                    ^
-/kungfu/skill/duanshi-shenfa.c line 177: Warning: Unused local variable 'ap'
-  }
-   ^
-/kungfu/skill/duanshi-shenfa.c line 177: Warning: Unused local variable 'dp'
-  }
-   ^
-/kungfu/skill/duanshi-shenfa.c line 177: Warning: Unused local variable 'diff1'
-  }
-   ^
-/kungfu/skill/duanshi-shenfa.c line 177: Warning: Unused local variable 'diff2'
-  }
-   ^
-/kungfu/skill/duanshi-shenfa.c line 177: Warning: Unused local variable 'weapon'
-  }
-   ^
 /include/armor.h line 9: Warning: redefinition of #define ARMOR
 
   #define SURCOAT		"/inherit/armor/surcoat
@@ -500,19 +486,46 @@ Initializations complete.
 /inherit/room/room.c line 257: Warning: Unused local variable 'item_desc'
   }
    ^
+/cmds/std/look.c line 197: Warning: Unused local variable 'limb_status'
+  }
+   ^
 /inherit/char/npc.c line 185: Warning: Unused local variable 'weapon'
   }
    ^
-/include/armor.h line 9: Warning: redefinition of #define ARMOR
-
-  #define SURCOAT		"/inherit/armor/surcoat
-  ^
-/cmds/std/look.c line 197: Warning: Unused local variable 'limb_status'
+/d/shaolin/npc/mu-ren.c line 184: Warning: clean_up() inherited from both /feature/clean_up.c and /feature/clean_up.c (via /inherit/char/npc.c); using the definition in /feature/clean_up.c.
+/cmds/skill/prepare.c line 146: Warning: Unused local variable 'count'
+  }
+   ^
+/adm/daemons/combatd.c line 333: Warning: Unused local variable 'status'
+  }
+   ^
+/adm/daemons/combatd.c line 845: Warning: Unused local variable 'ob'
+  }
+   ^
+/kungfu/skill/duanshi-shenfa.c line 177: Warning: Unused local variable 'ap'
+  }
+   ^
+/kungfu/skill/duanshi-shenfa.c line 177: Warning: Unused local variable 'dp'
+  }
+   ^
+/kungfu/skill/duanshi-shenfa.c line 177: Warning: Unused local variable 'diff1'
+  }
+   ^
+/kungfu/skill/duanshi-shenfa.c line 177: Warning: Unused local variable 'diff2'
+  }
+   ^
+/kungfu/skill/duanshi-shenfa.c line 177: Warning: Unused local variable 'weapon'
+  }
+   ^
+/cmds/skill/perform.c line 110: Warning: Unknown \ escape.
+  return notify_fail("你请先用 enable 指令选择你要使用的外功\。\n")
+                                                                                     ^
+/cmds/skill/perform.c line 111: Warning: Unused local variable 'result'
   }
    ^
 /cmds/usr/quit.c line 110: Warning: Unused local variable 'stage'
   }
    ^
-/cmds/std/drop.c line 87: Warning: Unused local variable 'str'
-  }
-   ^
+******** FATAL ERROR: SIGINT: Process interrupted
+FluffOS driver attempting to exit gracefully.
+crash() in master called successfully.  Aborting.
