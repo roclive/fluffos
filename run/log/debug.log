@@ -1,12 +1,11 @@
 ========================================================================
-Full Command Line: ../build/bin/driver config.cfg 
-Boot Time: Wed Feb 11 23:38:06 2026
-Version: fluffos 20240714-4a59909c-ee813760 (Mac OS X)
+Full Command Line: ..\build\bin\driver.exe config.cfg 
+Boot Time: Thu Feb 12 13:12:31 2026
+Version: fluffos 20240714-4a59909c-c8286826 (Microsoft Windows)
 jemalloc Version: 5.3.0-0-g54eaed1d8b56b1aa528be3bdd1877e59c56fa90c
 ICU Version: 78.2
-libdw or libbfd is not found, you will only get very limited crash stacktrace.
-Core Dump: No, Max FD: 65535.
 ========================================================================
+Warning: Signal handler installation failed, not backtrace on crash!
 Final Debug Level: 0
 Processing config file: config.cfg
 *Warning: obsolete line in config file, please delete:
@@ -14,7 +13,7 @@ Processing config file: config.cfg
 New Debug log location: "log/debug.log".
 Execution root: .
 Initializing internal stuff ....
-Event backend in use: kqueue
+Event backend in use: win32
 WARNING: Platform doesn't support eval limit!
 ==== Runtime Config Table ====
 time to clean up : 600
@@ -88,7 +87,7 @@ enable msdp : 0
 #define MUDOS 
 #define MUD_NAME "ES2-UTF8"
 #define SIZEOFINT 8
-#define __ARCH__ "Mac OS X"
+#define __ARCH__ "Microsoft Windows"
 #define __ARGUMENTS_IN_TRACEBACK__ 
 #define __ARRAY_STATS__ 
 #define __AUTO_SETEUID__ 
@@ -98,11 +97,16 @@ enable msdp : 0
 #define __CFG_EVALUATOR_STACK_SIZE__ 65536
 #define __CFG_MAX_CALL_DEPTH__ 150
 #define __CFG_MAX_GLOBAL_VARIABLES__ 65536
+#define __CHECK_MEMORY__ 
 #define __CLASS_STATS__ 
 #define __COMMAND_BUF_SIZE__ 2000
-#define __COMPILER__ "/usr/bin/c++"
+#define __COMPILER__ "C:/msys64/mingw64/bin/c++.exe"
 #define __CXXFLAGS__ "Broken"
+#define __DEBUGMALLOC_EXTENSIONS__ 
+#define __DEBUGMALLOC__ 
 #define __DEBUG_MACRO__ 
+#define __DEBUG__ 
+#define __DEFAULT_DB__ 1
 #define __DEFAULT_PRAGMAS__ PRAGMA_WARNINGS + PRAGMA_SAVE_TYPES + PRAGMA_ERROR_CONTEXT + PRAGMA_OPTIMIZE
 #define __DSLIB__ 
 #define __ED_INDENT_SPACES__ 4
@@ -112,7 +116,6 @@ enable msdp : 0
 #define __HAVE_DIRENT_H__ 1
 #define __HAVE_JEMALLOC__ 1
 #define __HAVE_SIGNAL_H__ 1
-#define __HAVE_SYS_RESOURCE_H__ 1
 #define __HAVE_SYS_STAT_H__ 1
 #define __HAVE_SYS_TIME_H__ 1
 #define __HAVE_TIME_H__ 1
@@ -127,7 +130,7 @@ enable msdp : 0
 #define __PACKAGE_COMPRESS__ 
 #define __PACKAGE_CONTRIB__ 
 #define __PACKAGE_CORE__ 
-#define __PACKAGE_CRYPTO__ 
+#define __PACKAGE_DB__ 
 #define __PACKAGE_DEVELOP__ 
 #define __PACKAGE_EXTERNAL__ 
 #define __PACKAGE_MATH__ 
@@ -143,7 +146,7 @@ enable msdp : 0
 #define __PARSE_DEBUG__ 
 #define __PORT__ 5555
 #define __PRIVS__ 
-#define __PROJECT_VERSION__ "fluffos 20240714-4a59909c-ee813760"
+#define __PROJECT_VERSION__ "fluffos 20240714-4a59909c-c8286826"
 #define __RANDOMIZED_RESETS__ 
 #define __RECEIVE_SNOOP__ 
 #define __REF_RESERVED_WORD__ 
@@ -163,7 +166,8 @@ enable msdp : 0
 #define __TRACE__ 
 #define __TRAP_CRASHES__ 
 #define __USE_32BIT_ADDRESSES__ 
-#define __VERSION__ "fluffos 20240714-4a59909c-ee813760"
+#define __USE_SQLITE3__ 1
+#define __VERSION__ "fluffos 20240714-4a59909c-c8286826"
 #define __WARN_OLD_RANGE_BEHAVIOR__ 
 ========================
 Loading simul_efun file : /adm/single/simul_efun
@@ -187,8 +191,6 @@ Loading master file: /adm/single/master
 Loading preload files ...
 /adm/daemons/securityd...
 /feature/treemap.c line 2: Warning: Unknown #pragma, ignored.
-  // This file is part of the TMI mudlib distribution
-  ^
 /adm/daemons/securityd.c line 126: Warning: Unused local variable 'uid'
   }
    ^
@@ -223,8 +225,6 @@ Loading preload files ...
 /adm/daemons/logind...
 /adm/daemons/logind.c line 9: Warning: redefinition of #define MAX_USERS
 
-  inherit F_DBASE
-  ^
 /adm/daemons/logind.c line 113: Warning: Unused local variable 'ppl'
   }
    ^
@@ -297,25 +297,30 @@ Loading preload files ...
 /adm/daemons/channeld...
 /adm/daemons/channeld.c line 199: Warning: Non-void functions must return a value.
   if(!stringp(arg)) return;
-		if( channels[verb]["omit_address"] ) localmsg = remove_addresses(arg, 1)
                              ^
 /adm/daemons/channeld.c line 202: Warning: Non-void functions must return a value.
   if(!stringp(localmsg)) return;
-		message( "channel:" + verb
                                   ^
 /adm/daemons/natured...
+错误讯息被拦截: 
+执行时段错误：*Value being indexed is zero.
+
+程式：/adm/daemons/natured.c 第 35 行
+物件: /adm/daemons/natured
+呼叫来自：/adm/single/master.c 的 preload() 第 104 行，物件： /adm/single/master
+呼叫来自：/adm/single/master.c 的 CATCH() 第 104 行，物件： /adm/single/master
+呼叫来自：/adm/daemons/natured.c 的 create() 第 25 行，物件： /adm/daemons/natured
+呼叫来自：/adm/daemons/natured.c 的 init_day_phase() 第 35 行，物件： /adm/daemons/natured
 /adm/daemons/weapond...
 /adm/daemons/network/dns_master...
 /adm/daemons/network/dns_master.c line 435: Warning: Unused local variable 'new_mud'
   }
-// deletes an entry for a mu
    ^
 /adm/daemons/network/dns_master.c line 435: Warning: Unused local variable 'svc'
   }
-// deletes an entry for a mu
    ^
 /adm/daemons/network/dns_master.c line 565: Warning: Expression has no side effects, and the value is unused
-  return
+  return;
           ^
 /adm/daemons/network/dns_master.c line 623: Warning: Unused local variable 'm'
   }
@@ -341,27 +346,27 @@ Loading preload files ...
 /adm/daemons/ftpd...
 /include/net/ftpdconf.h line 90: Warning: redefinition of #define VALID_READ
 
-  #define RESTRICTED_READ  1              // ditto, but limited to public dir
+  #define RESTRICTED_READ  1              // ditto, but limited to public dirs
   ^
 /include/net/ftpdconf.h line 91: Warning: redefinition of #define RESTRICTED_READ
 
-  #define WRITE_LIMIT_READ 2              // access limited by write acces
+  #define WRITE_LIMIT_READ 2              // access limited by write access
   ^
 /include/net/ftpdconf.h line 92: Warning: redefinition of #define WRITE_LIMIT_READ
 
-  /*#endif*
+  /*#endif*/
   ^
 /include/net/ftpdconf.h line 105: Warning: redefinition of #define VALID_WRITE
 
-  #define RESTRICTED_WRITE 1              // ditto, but limited to public dir
+  #define RESTRICTED_WRITE 1              // ditto, but limited to public dirs
   ^
 /include/net/ftpdconf.h line 106: Warning: redefinition of #define RESTRICTED_WRITE
 
-  #define READ_ONLY        2              // no write access, at al
+  #define READ_ONLY        2              // no write access, at all
   ^
 /include/net/ftpdconf.h line 107: Warning: redefinition of #define READ_ONLY
 
-  /*#endif*
+  /*#endif*/
   ^
 /include/net/ftpdsupp.h line 67: Warning: Unused local variable 'file'
   }
@@ -387,32 +392,14 @@ Initializations complete.
   }
    ^
 /inherit/char/char.c line 4: Warning: Unknown #pragma, ignored.
-  #include <action.h
-  ^
 /inherit/char/char.c line 4: Warning: Unknown #pragma, ignored.
-  #include <action.h
-  ^
 /feature/alias.c line 5: Warning: Unknown #pragma, ignored.
-  #include <ansi.h
-  ^
 /inherit/char/char.c line 4: Warning: Unknown #pragma, ignored.
-  #include <action.h
-  ^
 /inherit/char/char.c line 4: Warning: Unknown #pragma, ignored.
-  #include <action.h
-  ^
 /inherit/char/char.c line 4: Warning: Unknown #pragma, ignored.
-  #include <action.h
-  ^
 /inherit/char/char.c line 4: Warning: Unknown #pragma, ignored.
-  #include <action.h
-  ^
 /inherit/char/char.c line 4: Warning: Unknown #pragma, ignored.
-  #include <action.h
-  ^
 /inherit/char/char.c line 4: Warning: Unknown #pragma, ignored.
-  #include <action.h
-  ^
 /feature/damage.c line 253: Warning: Unused local variable 'i'
   }
    ^
@@ -420,49 +407,29 @@ Initializations complete.
   }
    ^
 /inherit/char/char.c line 4: Warning: Unknown #pragma, ignored.
-  #include <action.h
-  ^
 /inherit/char/char.c line 4: Warning: Unknown #pragma, ignored.
-  #include <action.h
-  ^
 /inherit/char/char.c line 4: Warning: Unknown #pragma, ignored.
-  #include <action.h
-  ^
 /inherit/char/char.c line 4: Warning: Unknown #pragma, ignored.
-  #include <action.h
-  ^
 /inherit/char/char.c line 4: Warning: Unknown #pragma, ignored.
-  #include <action.h
-  ^
 /feature/more.c line 29: Warning: Unused local variable 'j'
   }
    ^
 /inherit/char/char.c line 4: Warning: Unknown #pragma, ignored.
-  #include <action.h
-  ^
 /inherit/char/char.c line 4: Warning: Unknown #pragma, ignored.
-  #include <action.h
-  ^
 /feature/name.c line 147: Warning: Unused local variable 'str1'
   }
    ^
 /inherit/char/char.c line 4: Warning: Unknown #pragma, ignored.
-  #include <action.h
-  ^
 /inherit/char/char.c line 4: Warning: Unknown #pragma, ignored.
-  #include <action.h
-  ^
 /inherit/char/char.c line 4: Warning: Unknown #pragma, ignored.
-  #include <action.h
-  ^
 /adm/daemons/chard.c line 184: Warning: Unknown \ escape.
-  tell_object(p""+"[31m" "\n\你已非风清扬的弟子了，好自为之吧！\n\n" NOR)
+  tell_object(p""+"[31m" "\n\你已非风清扬的弟子了，好自为之吧！\n\n" NOR);
                                  ^
 /feature/equip.c line 107: Warning: Unused local variable 'type'
   }
    ^
 /kungfu/skill/force.c line 8: Warning: Number of arguments disagrees with previous definition.
-  int valid_learn() { return 1;
+  int valid_learn() { return 1; }
                    ^
 /kungfu/skill/duanshi-shenfa.c line 177: Warning: Unused local variable 'ap'
   }
@@ -481,38 +448,24 @@ Initializations complete.
    ^
 /include/armor.h line 9: Warning: redefinition of #define ARMOR
 
-  #define SURCOAT		"/inherit/armor/surcoat
+  #define SURCOAT		"/inherit/armor/surcoat"
   ^
 /include/armor.h line 9: Warning: redefinition of #define ARMOR
 
-  #define SURCOAT		"/inherit/armor/surcoat
+  #define SURCOAT		"/inherit/armor/surcoat"
   ^
 /include/armor.h line 9: Warning: redefinition of #define ARMOR
 
-  #define SURCOAT		"/inherit/armor/surcoat
+  #define SURCOAT		"/inherit/armor/surcoat"
   ^
 /adm/daemons/regband.c line 88: Warning: Unused local variable 'i'
   }
    ^
 /inherit/room/room.c line 7: Warning: Unknown #pragma, ignored.
-  #include <dbase.h
-  ^
 /inherit/room/room.c line 257: Warning: Unused local variable 'item_desc'
   }
    ^
-/inherit/char/npc.c line 185: Warning: Unused local variable 'weapon'
-  }
-   ^
-/include/armor.h line 9: Warning: redefinition of #define ARMOR
-
-  #define SURCOAT		"/inherit/armor/surcoat
-  ^
 /cmds/std/look.c line 197: Warning: Unused local variable 'limb_status'
   }
    ^
-/cmds/usr/quit.c line 110: Warning: Unused local variable 'stage'
-  }
-   ^
-/cmds/std/drop.c line 87: Warning: Unused local variable 'str'
-  }
-   ^
+******** FATAL ERROR: SIGINT: Process interrupted
