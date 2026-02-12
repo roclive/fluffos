@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>我的 FluffOS Web 客户端</title>
+    <style>
+        body { background-color: #1e1e1e; color: #c0c0c0; font-family: 'Consolas', 'Courier New', monospace; margin: 0; padding: 0; display: flex; flex-direction: column; height: 100vh; }
+        #output { flex: 1; overflow-y: auto; padding: 10px; white-space: pre-wrap; line-height: 1.4; }
+        #input-area { display: flex; padding: 10px; background-color: #2d2d2d; }
+        #cmd-input { flex: 1; padding: 10px; background: #000; color: #0f0; border: 1px solid #444; font-family: inherit; font-size: 16px; outline: none; }
+        #connect-btn { padding: 10px 20px; background: #444; color: #fff; border: none; cursor: pointer; margin-left: 10px; }
+        #connect-btn:hover { background: #666; }
+        
+        /* 简单的 ANSI 颜色映射 */
+        .ansi-31 { color: #ff5555; } /* Red */
+        .ansi-32 { color: #55ff55; } /* Green */
+        .ansi-33 { color: #ffff55; } /* Yellow */
+        .ansi-34 { color: #5555ff; } /* Blue */
+        .ansi-35 { color: #ff55ff; } /* Magenta */
+        .ansi-36 { color: #55ffff; } /* Cyan */
+        .ansi-37 { color: #ffffff; } /* White */
+        .ansi-1  { font-weight: bold; }
+    </style>
+</head>
+<body>
+
+<div id="output">欢迎使用 Web MUD Client。<br>请点击下方“连接”按钮...<br></div>
+<div id="input-area">
+    <input type="text" id="cmd-input" placeholder="在此输入指令 (例如: look)" autofocus>
+    <button id="connect-btn" onclick="toggleConnection()">连接</button>
+</div>
+
+<script>
+    var ws;
+    var connected = false;
+    // ⚠️ 如果你的端口不是 8080，请在这里修改
+    var wsUri = "ws://127.0.0.1:8080";
+    // ⚠️ FluffOS WebSocket 子协议：ascii / telnet / binary
+    // 必须指定子协议，否则服务端不会创建 MUD 会话！
+    var wsProtocol = "ascii";
+
+    var output = document.getElementById("output");
+    var input = document.getElementById("cmd-input");
+    var btn = document.getElementById("connect-btn");
+
+    function writeToScreen(message) {
+        // 简单的 ANSI 颜色处理
+        var escaped = message.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+        var openSpans = 0;
+        var html = escaped.replace(/\x1B\[([0-9;]*)m/g, function(match, p1) {
+            if (p1 === "" || p1 === "0") {
+                var close = "</span>".repeat(openSpans);
+                openSpans = 0;
+                return close;
+            }
+            var classes = p1.split(';').map(function(c) { return 'ansi-' + c; }).join(' ');
+            openSpans++;
+            return '<span class="' + classes + '">';
+        });
+        if (openSpans > 0) {
+            html += "</span>".repeat(openSpans);
+        }
+
+        var div = document.createElement("div");
+        // 如果没有 ANSI span 标签，用 textContent 安全插入
+        if (html.indexOf('<span') === -1) {
+            div.textContent = message;
+        } else {
+            div.innerHTML = html;
+        }
+        output.appendChild(div);
+        output.scrollTop = output.scrollHeight;
+    }
+
+    function toggleConnection() {
+        if (connected) {
+            ws.close();
+        } else {
+            // 关键：必须传入子协议 "ascii"，FluffOS 才会创建 MUD 用户会话
+            ws = new WebSocket(wsUri, wsProtocol);
+            // FluffOS 即使在 ascii 模式下也用二进制帧发送数据，
+            // 设置 binaryType 为 arraybuffer 方便解码
+            ws.binaryType = "arraybuffer";
+
+            ws.onopen = function(evt) {
+                writeToScreen("==> 已连接到服务器！");
+                connected = true;
+                btn.textContent = "断开";
+                input.focus();
+            };
+
+            ws.onclose = function(evt) {
+                writeToScreen("==> 连接已断开。");
+                connected = false;
+                btn.textContent = "连接";
+            };
+
+            ws.onmessage = function(evt) {
+                var text;
+                if (evt.data instanceof ArrayBuffer) {
+                    // 二进制帧 -> 用 TextDecoder 解码为 UTF-8 文本
+                    text = new TextDecoder("utf-8").decode(evt.data);
+                } else {
+                    text = evt.data;
+                }
+                writeToScreen(text);
+            };
+
+            ws.onerror = function(evt) {
+                writeToScreen("ERROR: 连接出错，请检查服务器是否运行。");
+            };
+        }
+    }
+
+    // 监听回车键发送指令
+    input.addEventListener("keydown", function(event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            if (ws && ws.readyState === WebSocket.OPEN) {
+                var msg = input.value + "\n";
+                ws.send(msg);
+                input.value = "";
+            } else {
+                writeToScreen("请先连接服务器。");
+            }
+        }
+    });
+</script>
+</body>
+</html>
