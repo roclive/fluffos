@@ -1,0 +1,1202 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>🤖 AI-Agent + LLM - MUD 智能探索</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body { 
+            background-color: #0d1117; 
+            color: #c9d1d9; 
+            font-family: 'JetBrains Mono', 'Consolas', monospace; 
+            height: 100vh;
+            display: flex;
+            overflow: hidden;
+        }
+        
+        /* ========== 左侧：控制面板 ========== */
+        #control-panel {
+            width: 400px;
+            background: #161b22;
+            border-right: 1px solid #30363d;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        
+        #panel-header {
+            background: #21262d;
+            padding: 15px;
+            border-bottom: 1px solid #30363d;
+        }
+        
+        #panel-header h1 {
+            font-size: 16px;
+            color: #58a6ff;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        #panel-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 15px;
+        }
+        
+        .section {
+            background: #0d1117;
+            border: 1px solid #30363d;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            overflow: hidden;
+        }
+        
+        .section-header {
+            background: #21262d;
+            padding: 10px 12px;
+            font-size: 12px;
+            font-weight: bold;
+            color: #8b949e;
+            border-bottom: 1px solid #30363d;
+        }
+        
+        .section-content {
+            padding: 12px;
+        }
+        
+        /* LLM 配置 */
+        .llm-config-row {
+            margin-bottom: 10px;
+        }
+        
+        .llm-config-row label {
+            display: block;
+            font-size: 11px;
+            color: #8b949e;
+            margin-bottom: 4px;
+        }
+        
+        .llm-config-row input,
+        .llm-config-row select,
+        .llm-config-row textarea {
+            width: 100%;
+            background: #21262d;
+            border: 1px solid #30363d;
+            color: #c9d1d9;
+            padding: 8px;
+            border-radius: 4px;
+            font-family: inherit;
+            font-size: 12px;
+        }
+        
+        .llm-config-row input:focus,
+        .llm-config-row select:focus,
+        .llm-config-row textarea:focus {
+            outline: none;
+            border-color: #58a6ff;
+        }
+        
+        .llm-config-row textarea {
+            resize: vertical;
+            min-height: 60px;
+        }
+        
+        /* 按钮 */
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: bold;
+            transition: all 0.2s;
+        }
+        
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .btn-primary {
+            background: #1f6feb;
+            color: white;
+        }
+        
+        .btn-primary:hover:not(:disabled) {
+            background: #388bfd;
+        }
+        
+        .btn-success {
+            background: #238636;
+            color: white;
+        }
+        
+        .btn-success:hover:not(:disabled) {
+            background: #2ea043;
+        }
+        
+        .btn-danger {
+            background: #da3633;
+            color: white;
+        }
+        
+        /* 状态指示 */
+        .status-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+        
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #da3633;
+        }
+        
+        .status-dot.connected { background: #3fb950; }
+        .status-dot.thinking { 
+            background: #58a6ff; 
+            animation: pulse 1s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+        
+        /* 智能日志 */
+        #llm-log {
+            max-height: 250px;
+            overflow-y: auto;
+            font-size: 11px;
+            line-height: 1.5;
+        }
+        
+        .log-entry {
+            padding: 6px 8px;
+            border-bottom: 1px solid #21262d;
+            display: flex;
+            gap: 8px;
+        }
+        
+        .log-entry:last-child {
+            border-bottom: none;
+        }
+        
+        .log-time {
+            color: #484f58;
+            font-size: 10px;
+            white-space: nowrap;
+        }
+        
+        .log-type {
+            font-size: 10px;
+            padding: 1px 4px;
+            border-radius: 3px;
+            white-space: nowrap;
+        }
+        
+        .log-type.system { 
+            background: #21262d; 
+            color: #8b949e;
+        }
+        
+        .log-type.perception { 
+            background: #d2992233; 
+            color: #d29922;
+        }
+        
+        .log-type.thought { 
+            background: #58a6ff33; 
+            color: #58a6ff;
+        }
+        
+        .log-type.action { 
+            background: #23863633; 
+            color: #3fb950;
+        }
+        
+        .log-type.llm { 
+            background: #a371f733; 
+            color: #a371f7;
+        }
+        
+        .log-content {
+            flex: 1;
+            color: #c9d1d9;
+        }
+        
+        /* ========== 右侧：MUD 输出 ========== */
+        #mud-panel {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: #000;
+        }
+        
+        #mud-toolbar {
+            background: #161b22;
+            padding: 10px 15px;
+            border-bottom: 1px solid #30363d;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        
+        .toolbar-input {
+            background: #0d1117;
+            border: 1px solid #30363d;
+            color: #c9d1d9;
+            padding: 6px 10px;
+            border-radius: 4px;
+            font-family: inherit;
+            font-size: 12px;
+        }
+        
+        .toolbar-input:focus {
+            outline: none;
+            border-color: #58a6ff;
+        }
+        
+        #mud-output {
+            flex: 1;
+            overflow-y: auto;
+            padding: 15px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        
+        #mud-input-area {
+            display: flex;
+            padding: 12px 15px;
+            background: #161b22;
+            border-top: 1px solid #30363d;
+            gap: 10px;
+        }
+        
+        #mud-input {
+            flex: 1;
+            background: #0d1117;
+            border: 1px solid #30363d;
+            color: #3fb950;
+            padding: 10px 12px;
+            border-radius: 4px;
+            font-family: inherit;
+            font-size: 14px;
+        }
+        
+        #mud-input:focus {
+            outline: none;
+            border-color: #238636;
+        }
+        
+        #mud-input.llm-mode {
+            border-color: #a371f7;
+            background: #a371f711;
+        }
+        
+        /* ANSI 颜色 */
+        .ansi-31 { color: #ff5555; }
+        .ansi-32 { color: #3fb950; }
+        .ansi-33 { color: #d29922; }
+        .ansi-34 { color: #58a6ff; }
+        .ansi-35 { color: #f778ba; }
+        .ansi-36 { color: #39c5cf; }
+        .ansi-37 { color: #ffffff; }
+        .ansi-1 { font-weight: bold; }
+        
+        .mud-line {
+            margin-bottom: 2px;
+        }
+        
+        /* 滚动条 */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #0d1117;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: #30363d;
+            border-radius: 3px;
+        }
+        
+        /* Token 统计 */
+        .token-stats {
+            display: flex;
+            gap: 15px;
+            font-size: 10px;
+            color: #8b949e;
+            padding-top: 8px;
+            border-top: 1px solid #30363d;
+            margin-top: 8px;
+        }
+        
+        .token-stat {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        
+        .token-value {
+            color: #58a6ff;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<!-- ========== 左侧：控制面板 ========== -->
+<div id="control-panel">
+    <div id="panel-header">
+        <h1>🤖 AI-Agent + LLM</h1>
+    </div>
+    
+    <div id="panel-content">
+        <!-- LLM 配置 -->
+        <div class="section">
+            <div class="section-header">
+                🔑 LLM API 配置
+            </div>
+            <div class="section-content">
+                <div class="llm-config-row">
+                    <label>API 类型</label>
+                    <select id="llm-provider">
+                        <option value="openai">OpenAI (GPT-4/GPT-3.5)</option>
+                        <option value="anthropic">Anthropic (Claude)</option>
+                        <option value="custom">自定义 API</option>
+                    </select>
+                </div>
+                
+                <div class="llm-config-row">
+                    <label>API Key</label>
+                    <input type="password" id="llm-apikey" placeholder="sk-... 或 your-api-key">
+                </div>
+                
+                <div class="llm-config-row">
+                    <label>模型</label>
+                    <select id="llm-model">
+                        <option value="gpt-4">GPT-4</option>
+                        <option value="gpt-3.5-turbo">GPT-3.5 Turbo</option>
+                        <option value="claude-3-opus-20240229">Claude 3 Opus</option>
+                        <option value="claude-3-sonnet-20240229">Claude 3 Sonnet</option>
+                        <option value="claude-3-haiku-20240307">Claude 3 Haiku</option>
+                    </select>
+                </div>
+                
+                <div class="llm-config-row">
+                    <label>API 端点 (可选)</label>
+                    <input type="text" id="llm-endpoint" placeholder="https://api.openai.com/v1/chat/completions">
+                </div>
+                
+                <div style="display: flex; gap: 8px; margin-top: 10px;">
+                    <button class="btn btn-primary" onclick="testLLM()" style="flex: 1;">
+                        🧪 测试连接
+                    </button>
+                    <button class="btn btn-success" onclick="saveLLMConfig()" style="flex: 1;">
+                        💾 保存
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- AI 角色设定 -->
+        <div class="section">
+            <div class="section-header">
+                🎭 AI 角色设定 (System Prompt)
+            </div>
+            <div class="section-content">
+                <div class="llm-config-row">
+                    <textarea id="system-prompt" placeholder="输入 System Prompt 来定义 AI 的行为方式...">你是金庸武侠世界 MUD 游戏中的一名侠客。你的任务是在游戏中生存、成长、探索世界。
+
+可用命令：
+- 移动: north, south, east, west, up, down (或 n, s, e, w, u, d)
+- 查看: look, hp, skills, inventory
+- 互动: fight [target], perform [skill], exert [skill]
+- 其他: say, chat, tell 等社交命令
+
+决策原则：
+1. 保持角色生存，血量低于30%时优先恢复
+2. 探索未知区域，记录地图
+3. 遇到敌人根据实力判断战斗或逃跑
+4. 使用 perform jingmo 等技能增强战斗力
+5. 与人类玩家友好互动
+
+请根据当前游戏状态，给出下一步最佳行动。</textarea>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 连接控制 -->
+        <div class="section">
+            <div class="section-header">
+                🎮 MUD 连接控制
+            </div>
+            <div class="section-content">
+                <div class="llm-config-row">
+                    <label>服务器</label>
+                    <input type="text" id="mud-host" value="127.0.0.1:8080">
+                </div>
+                
+                <div class="llm-config-row">
+                    <label>账号</label>
+                    <input type="text" id="mud-username" value="john">
+                </div>
+                
+                <div class="llm-config-row">
+                    <label>密码</label>
+                    <input type="password" id="mud-password">
+                </div>
+                
+                <div class="status-row" style="margin-top: 10px;">
+                    <div id="mud-status" class="status-dot"></div>
+                    <span id="mud-status-text">未连接</span>
+                </div>
+                
+                <div style="display: flex; gap: 8px; margin-top: 10px;">
+                    <button class="btn btn-primary" id="btn-mud-connect" onclick="toggleMUDConnection()" style="flex: 1;">
+                        🔌 连接
+                    </button>
+                    <button class="btn btn-success" id="btn-ai-start" onclick="toggleAI()" style="flex: 1;" disabled>
+                        ▶️ 启动 AI
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- AI 状态 -->
+        <div class="section">
+            <div class="section-header">
+                📊 AI 状态
+            </div>
+            <div class="section-content">
+                <div class="status-row">
+                    <div id="ai-status" class="status-dot"></div>
+                    <span id="ai-status-text">待机</span>
+                </div>
+                
+                <div style="font-size: 11px; color: #8b949e; margin-top: 8px;">
+                    <div>位置: <span id="ai-location" style="color: #58a6ff;">未知</span></div>
+                    <div style="margin-top: 4px;">血量: <span id="ai-hp" style="color: #3fb950;">--</span></div>
+                    <div style="margin-top: 4px;">内力: <span id="ai-neili" style="color: #58a6ff;">--</span></div>
+                </div>
+                
+                <div class="token-stats">
+                    <div class="token-stat">
+                        <span>输入:</span>
+                        <span class="token-value" id="tokens-in">0</span>
+                    </div>
+                    <div class="token-stat">
+                        <span>输出:</span>
+                        <span class="token-value" id="tokens-out">0</span>
+                    </div>
+                    <div class="token-stat">
+                        <span>API调用:</span>
+                        <span class="token-value" id="api-calls">0</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- LLM 决策日志 -->
+        <div class="section">
+            <div class="section-header">
+                💭 LLM 决策日志
+            </div>
+            <div class="section-content" style="padding: 0;">
+                <div id="llm-log">
+                    <div class="log-entry">
+                        <span class="log-time">--:--</span>
+                        <span class="log-type system">系统</span>
+                        <span class="log-content">等待配置 LLM API...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ========== 右侧：MUD 输出 ========== -->
+<div id="mud-panel">
+    <div id="mud-toolbar">
+        <input type="text" class="toolbar-input" value="LLM-Powered MUD AI Agent" readonly style="flex: 1; background: #21262d;">
+        <button class="btn btn-primary" onclick="clearLog()">🗑️ 清屏</button>
+    </div>
+    
+    <div id="mud-output">
+        <div style="color: #a371f7;">
+╔══════════════════════════════════════════════════════════════════╗
+║              🤖 LLM-Powered MUD AI Agent                         ║
+║              智能体 + 大语言模型                                  ║
+╚══════════════════════════════════════════════════════════════════╝
+        </div>
+        <div style="margin-top: 10px;">
+使用说明：
+
+1. 🔑 配置 LLM API
+   - 选择 API 提供商 (OpenAI / Anthropic)
+   - 输入 API Key
+   - 选择模型 (推荐 Claude 3 Sonnet)
+   - 点击"测试连接"验证
+
+2. 🎭 配置 AI 角色 (可选)
+   - 修改 System Prompt 定义 AI 行为
+   - 预设了金庸 MUD 游戏角色设定
+
+3. 🔌 连接 MUD 服务器
+   - 输入服务器地址、账号、密码
+   - 点击"连接"
+
+4. ▶️ 启动 AI
+   - AI 会自主观察游戏状态
+   - 每回合调用 LLM 做决策
+   - 执行命令并观察结果
+   - 循环往复
+
+特点：
+• 每次决策都调用 LLM，真正的智能
+• AI 会解释自己的思考过程
+• 支持上下文记忆
+• 自动 token 统计
+
+⚠️ 注意：频繁调用 API 会产生费用，请合理设置思考间隔。
+        </div>
+    </div>
+    
+    <div id="mud-input-area">
+        <input type="text" id="mud-input" placeholder="输入命令...">
+    </div>
+</div>
+
+<script>
+// ==================== LLM AI Agent ====================
+
+class LLMAgent {
+    constructor() {
+        // MUD 连接
+        this.ws = null;
+        this.connected = false;
+        this.authenticated = false;
+        
+        // AI 状态
+        this.running = false;
+        this.thinking = false;
+        
+        // 游戏状态
+        this.gameState = {
+            hp: 0, maxHp: 0,
+            neili: 0, maxNeili: 0,
+            jingli: 0, maxJingli: 0,
+            exp: 0,
+            location: '未知',
+            exits: [],
+            inventory: [],
+            inCombat: false,
+            lastOutput: '',
+            outputHistory: []
+        };
+        
+        // LLM 配置
+        this.llmConfig = {
+            provider: 'openai',
+            apiKey: '',
+            model: 'gpt-3.5-turbo',
+            endpoint: '',
+            systemPrompt: ''
+        };
+        
+        // 统计
+        this.stats = {
+            tokensIn: 0,
+            tokensOut: 0,
+            apiCalls: 0
+        };
+        
+        // 上下文记忆
+        this.context = [];
+        this.maxContext = 10;
+        
+        // 决策间隔
+        this.decisionInterval = 5000; // 5秒
+        this.timer = null;
+    }
+    
+    // ========== LLM API 调用 ==========
+    
+    async callLLM(prompt, temperature = 0.7) {
+        const provider = document.getElementById('llm-provider').value;
+        const apiKey = document.getElementById('llm-apikey').value;
+        const model = document.getElementById('llm-model').value;
+        const endpoint = document.getElementById('llm-endpoint').value;
+        const systemPrompt = document.getElementById('system-prompt').value;
+        
+        if (!apiKey) {
+            throw new Error('未配置 API Key');
+        }
+        
+        this.log('正在调用 LLM...', 'llm');
+        this.setThinking(true);
+        
+        try {
+            let response;
+            
+            if (provider === 'openai' || provider === 'custom') {
+                response = await this.callOpenAI(apiKey, model, endpoint, systemPrompt, prompt, temperature);
+            } else if (provider === 'anthropic') {
+                response = await this.callAnthropic(apiKey, model, systemPrompt, prompt, temperature);
+            }
+            
+            this.stats.apiCalls++;
+            updateStats();
+            this.setThinking(false);
+            
+            return response;
+        } catch (error) {
+            this.setThinking(false);
+            throw error;
+        }
+    }
+    
+    async callOpenAI(apiKey, model, endpoint, systemPrompt, prompt, temperature) {
+        const url = endpoint || 'https://api.openai.com/v1/chat/completions';
+        
+        const messages = [
+            { role: 'system', content: systemPrompt },
+            ...this.context,
+            { role: 'user', content: prompt }
+        ];
+        
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${apiKey}`
+            },
+            body: JSON.stringify({
+                model: model,
+                messages: messages,
+                temperature: temperature,
+                max_tokens: 150
+            })
+        });
+        
+        if (!response.ok) {
+            const error = await response.text();
+            throw new Error(`API Error: ${error}`);
+        }
+        
+        const data = await response.json();
+        
+        // 更新 token 统计
+        this.stats.tokensIn += data.usage?.prompt_tokens || 0;
+        this.stats.tokensOut += data.usage?.completion_tokens || 0;
+        
+        return {
+            content: data.choices[0].message.content,
+            usage: data.usage
+        };
+    }
+    
+    async callAnthropic(apiKey, model, systemPrompt, prompt, temperature) {
+        const url = 'https://api.anthropic.com/v1/messages';
+        
+        const messages = [
+            ...this.context,
+            { role: 'user', content: prompt }
+        ];
+        
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'x-api-key': apiKey,
+                'anthropic-version': '2023-06-01'
+            },
+            body: JSON.stringify({
+                model: model,
+                max_tokens: 150,
+                temperature: temperature,
+                system: systemPrompt,
+                messages: messages
+            })
+        });
+        
+        if (!response.ok) {
+            const error = await response.text();
+            throw new Error(`API Error: ${error}`);
+        }
+        
+        const data = await response.json();
+        
+        // 更新 token 统计 (Anthropic 格式不同)
+        this.stats.tokensIn += data.usage?.input_tokens || 0;
+        this.stats.tokensOut += data.usage?.output_tokens || 0;
+        
+        return {
+            content: data.content[0].text,
+            usage: data.usage
+        };
+    }
+    
+    // ========== MUD 连接 ==========
+    
+    connect(host, username, password) {
+        return new Promise((resolve, reject) => {
+            const wsUri = `ws://${host}`;
+            
+            this.log(`连接 MUD: ${wsUri}`, 'system');
+            
+            this.ws = new WebSocket(wsUri, "ascii");
+            this.ws.binaryType = "arraybuffer";
+            
+            this.ws.onopen = () => {
+                this.log("✅ WebSocket 连接成功", 'system');
+                this.connected = true;
+                updateMUDStatus(true);
+                
+                // 自动登录
+                setTimeout(() => this.send(username), 500);
+                if (password) {
+                    setTimeout(() => this.send(password), 1500);
+                }
+                
+                setTimeout(() => resolve(), 2000);
+            };
+            
+            this.ws.onclose = () => {
+                this.log("❌ 连接断开", 'system');
+                this.stop();
+                this.connected = false;
+                this.authenticated = false;
+                updateMUDStatus(false);
+                updateAIStatus('offline');
+            };
+            
+            this.ws.onmessage = (evt) => {
+                let text;
+                if (evt.data instanceof ArrayBuffer) {
+                    text = new TextDecoder("utf-8").decode(evt.data);
+                } else {
+                    text = evt.data;
+                }
+                
+                this.processGameOutput(text);
+                writeToMUD(text);
+            };
+            
+            this.ws.onerror = (err) => {
+                this.log("⚠️ 连接错误", 'system');
+                reject(err);
+            };
+        });
+    }
+    
+    send(cmd) {
+        if (this.ws && this.ws.readyState === WebSocket.OPEN) {
+            this.ws.send(cmd + "\n");
+            return true;
+        }
+        return false;
+    }
+    
+    // ========== 游戏状态处理 ==========
+    
+    processGameOutput(text) {
+        // 保存到历史
+        this.gameState.outputHistory.push(text);
+        if (this.gameState.outputHistory.length > 20) {
+            this.gameState.outputHistory.shift();
+        }
+        
+        this.gameState.lastOutput = text;
+        
+        // 解析状态
+        this.parseStatus(text);
+        
+        // 检测登录成功
+        if (!this.authenticated && 
+            (text.includes("欢迎") || text.includes("你好") || text.includes("今日是"))) {
+            this.authenticated = true;
+            this.log("🎉 登录成功！可以启动 AI", 'system');
+            updateAIStatus('ready');
+            document.getElementById('btn-ai-start').disabled = false;
+        }
+        
+        // 添加到上下文
+        if (this.running && text.length > 10) {
+            this.addToContext('assistant', `游戏输出: ${text.substring(0, 500)}`);
+        }
+    }
+    
+    parseStatus(text) {
+        const hpMatch = text.match(/(?:精|气血).*?(\d+)\s*\/\s*(\d+)/i);
+        if (hpMatch) {
+            this.gameState.hp = parseInt(hpMatch[1]);
+            this.gameState.maxHp = parseInt(hpMatch[2]);
+            document.getElementById('ai-hp').textContent = `${this.gameState.hp}/${this.gameState.maxHp}`;
+        }
+        
+        const neiliMatch = text.match(/(?:内力).*?(\d+)\s*\/\s*(\d+)/i);
+        if (neiliMatch) {
+            this.gameState.neili = parseInt(neiliMatch[1]);
+            this.gameState.maxNeili = parseInt(neiliMatch[2]);
+            document.getElementById('ai-neili').textContent = `${this.gameState.neili}/${this.gameState.maxNeili}`;
+        }
+        
+        const roomMatch = text.match(/^\s*([^\n]+?)\s*[-－]/);
+        if (roomMatch && text.length < 500) {
+            const roomName = roomMatch[1].trim();
+            if (roomName.length > 2 && roomName.length < 40) {
+                this.gameState.location = roomName;
+                document.getElementById('ai-location').textContent = roomName;
+            }
+        }
+    }
+    
+    addToContext(role, content) {
+        this.context.push({ role, content });
+        if (this.context.length > this.maxContext) {
+            this.context.shift();
+        }
+    }
+    
+    // ========== AI 决策循环 ==========
+    
+    async start() {
+        if (!this.connected || !this.authenticated) {
+            this.log("❌ 请先连接 MUD", 'system');
+            return;
+        }
+        
+        this.running = true;
+        updateAIStatus('running');
+        document.getElementById('mud-input').classList.add('llm-mode');
+        
+        this.log("🚀 AI 启动！开始 LLM 驱动探索...", 'system');
+        
+        // 初始观察
+        this.send("look");
+        await this.sleep(1000);
+        this.send("hp");
+        await this.sleep(1000);
+        
+        // 开始决策循环
+        this.decisionLoop();
+    }
+    
+    stop() {
+        this.running = false;
+        if (this.timer) {
+            clearTimeout(this.timer);
+        }
+        document.getElementById('mud-input').classList.remove('llm-mode');
+        updateAIStatus('ready');
+        this.log("⏹️ AI 已停止", 'system');
+    }
+    
+    async decisionLoop() {
+        while (this.running && this.connected) {
+            try {
+                await this.makeDecision();
+            } catch (error) {
+                this.log(`决策错误: ${error.message}`, 'system');
+            }
+            
+            await this.sleep(this.decisionInterval);
+        }
+    }
+    
+    async makeDecision() {
+        // 构建提示词
+        const prompt = this.buildPrompt();
+        
+        this.log("思考中...", 'thought');
+        
+        try {
+            // 调用 LLM
+            const response = await this.callLLM(prompt);
+            const decision = response.content.trim();
+            
+            this.log(`LLM: ${decision}`, 'llm');
+            
+            // 解析决策
+            const action = this.parseDecision(decision);
+            
+            if (action) {
+                this.log(`执行: ${action}`, 'action');
+                this.send(action);
+                this.addToContext('assistant', `我决定执行: ${action}`);
+            }
+        } catch (error) {
+            this.log(`API 错误: ${error.message}`, 'system');
+        }
+    }
+    
+    buildPrompt() {
+        const state = this.gameState;
+        const hpPercent = state.maxHp > 0 ? (state.hp / state.maxHp * 100).toFixed(1) : 0;
+        
+        return `当前游戏状态：
+- 位置: ${state.location}
+- 血量: ${state.hp}/${state.maxHp} (${hpPercent}%)
+- 内力: ${state.neili}/${state.maxNeili}
+- 最近输出: ${state.lastOutput.substring(0, 300)}
+
+请给出下一步行动，只返回命令本身，不要解释。
+例如: north, look, fight xiaoer, perform jingmo`;
+    }
+    
+    parseDecision(decision) {
+        // 清理决策文本，提取命令
+        const lines = decision.split('\n');
+        for (const line of lines) {
+            const trimmed = line.trim();
+            // 跳过空行和解释
+            if (!trimmed || trimmed.startsWith('//') || trimmed.length > 50) continue;
+            
+            // 提取命令（通常是第一行非空内容）
+            const cmd = trimmed.toLowerCase();
+            
+            // 验证是合法命令
+            const validCmds = ['north', 'south', 'east', 'west', 'up', 'down', 
+                             'n', 's', 'e', 'w', 'u', 'd',
+                             'look', 'l', 'hp', 'skills', 'i', 'inventory',
+                             'fight', 'perform', 'exert', 'say', 'chat'];
+            
+            if (validCmds.some(vc => cmd.includes(vc))) {
+                return trimmed;
+            }
+        }
+        
+        return 'look'; // 默认命令
+    }
+    
+    // ========== 辅助方法 ==========
+    
+    sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+    
+    log(message, type = 'system') {
+        const logDiv = document.getElementById('llm-log');
+        const entry = document.createElement('div');
+        entry.className = 'log-entry';
+        entry.innerHTML = `
+            <span class="log-time">${new Date().toLocaleTimeString()}</span>
+            <span class="log-type ${type}">${type.toUpperCase()}</span>
+            <span class="log-content">${message}</span>
+        `;
+        logDiv.insertBefore(entry, logDiv.firstChild);
+        
+        while (logDiv.children.length > 50) {
+            logDiv.removeChild(logDiv.lastChild);
+        }
+    }
+    
+    setThinking(thinking) {
+        this.thinking = thinking;
+        const dot = document.getElementById('ai-status');
+        if (thinking) {
+            dot.classList.add('thinking');
+        } else {
+            dot.classList.remove('thinking');
+        }
+    }
+}
+
+// ==================== UI 控制 ====================
+
+const agent = new LLMAgent();
+
+// 测试 LLM 连接
+async function testLLM() {
+    agent.log("🧪 测试 LLM 连接...", 'system');
+    
+    try {
+        const response = await agent.callLLM(
+            "Hello, this is a test. Please respond with 'OK'.",
+            0.1
+        );
+        
+        agent.log(`✅ 连接成功！响应: ${response.content.substring(0, 50)}`, 'system');
+        alert("LLM 连接测试成功！");
+    } catch (error) {
+        agent.log(`❌ 连接失败: ${error.message}`, 'system');
+        alert(`连接失败: ${error.message}`);
+    }
+}
+
+// 保存配置
+function saveLLMConfig() {
+    const config = {
+        provider: document.getElementById('llm-provider').value,
+        apiKey: document.getElementById('llm-apikey').value,
+        model: document.getElementById('llm-model').value,
+        endpoint: document.getElementById('llm-endpoint').value,
+        systemPrompt: document.getElementById('system-prompt').value
+    };
+    
+    localStorage.setItem('llm-config', JSON.stringify(config));
+    agent.log("💾 配置已保存", 'system');
+    alert("配置已保存到浏览器本地存储");
+}
+
+// 加载配置
+function loadConfig() {
+    const saved = localStorage.getItem('llm-config');
+    if (saved) {
+        const config = JSON.parse(saved);
+        document.getElementById('llm-provider').value = config.provider || 'openai';
+        document.getElementById('llm-apikey').value = config.apiKey || '';
+        document.getElementById('llm-model').value = config.model || 'gpt-3.5-turbo';
+        document.getElementById('llm-endpoint').value = config.endpoint || '';
+        document.getElementById('system-prompt').value = config.systemPrompt || document.getElementById('system-prompt').value;
+        agent.log("📂 已加载保存的配置", 'system');
+    }
+}
+
+// MUD 连接
+async function toggleMUDConnection() {
+    if (agent.connected) {
+        agent.ws.close();
+    } else {
+        const host = document.getElementById('mud-host').value;
+        const username = document.getElementById('mud-username').value;
+        const password = document.getElementById('mud-password').value;
+        
+        if (!host || !username) {
+            alert("请输入服务器地址和账号");
+            return;
+        }
+        
+        const btn = document.getElementById('btn-mud-connect');
+        btn.disabled = true;
+        btn.textContent = "连接中...";
+        
+        try {
+            await agent.connect(host, username, password);
+        } catch (error) {
+            alert(`连接失败: ${error.message}`);
+        } finally {
+            btn.disabled = false;
+            btn.textContent = agent.connected ? "🔌 断开" : "🔌 连接";
+        }
+    }
+}
+
+// AI 启动/停止
+function toggleAI() {
+    if (agent.running) {
+        agent.stop();
+        document.getElementById('btn-ai-start').textContent = "▶️ 启动 AI";
+        document.getElementById('btn-ai-start').className = "btn btn-success";
+    } else {
+        agent.start();
+        document.getElementById('btn-ai-start').textContent = "⏹️ 停止 AI";
+        document.getElementById('btn-ai-start').className = "btn btn-danger";
+    }
+}
+
+// 更新状态 UI
+function updateMUDStatus(connected) {
+    const dot = document.getElementById('mud-status');
+    const text = document.getElementById('mud-status-text');
+    const btn = document.getElementById('btn-mud-connect');
+    
+    if (connected) {
+        dot.classList.add('connected');
+        text.textContent = "已连接";
+        btn.textContent = "🔌 断开";
+    } else {
+        dot.classList.remove('connected');
+        text.textContent = "未连接";
+        btn.textContent = "🔌 连接";
+        document.getElementById('btn-ai-start').disabled = true;
+    }
+}
+
+function updateAIStatus(status) {
+    const dot = document.getElementById('ai-status');
+    const text = document.getElementById('ai-status-text');
+    
+    dot.className = 'status-dot';
+    
+    switch(status) {
+        case 'running':
+            dot.classList.add('thinking');
+            text.textContent = "运行中";
+            break;
+        case 'ready':
+            dot.classList.add('connected');
+            text.textContent = "就绪";
+            break;
+        case 'offline':
+        default:
+            text.textContent = "待机";
+            break;
+    }
+}
+
+function updateStats() {
+    document.getElementById('tokens-in').textContent = agent.stats.tokensIn.toLocaleString();
+    document.getElementById('tokens-out').textContent = agent.stats.tokensOut.toLocaleString();
+    document.getElementById('api-calls').textContent = agent.stats.apiCalls.toLocaleString();
+}
+
+// MUD 输出
+function writeToMUD(text) {
+    const output = document.getElementById('mud-output');
+    
+    let escaped = text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    let openSpans = 0;
+    let html = escaped.replace(/\x1B\[([0-9;]*)m/g, function(match, p1) {
+        if (p1 === "" || p1 === "0") {
+            const close = "</span>".repeat(openSpans);
+            openSpans = 0;
+            return close;
+        }
+        const classes = p1.split(';').map(c => 'ansi-' + c).join(' ');
+        openSpans++;
+        return '<span class="' + classes + '">';
+    });
+    if (openSpans > 0) {
+        html += "</span>".repeat(openSpans);
+    }
+    
+    const div = document.createElement('div');
+    div.className = 'mud-line';
+    div.innerHTML = html || text;
+    output.appendChild(div);
+    output.scrollTop = output.scrollHeight;
+}
+
+function clearLog() {
+    document.getElementById('mud-output').innerHTML = '';
+}
+
+// 输入监听
+const input = document.getElementById('mud-input');
+input.addEventListener('keydown', function(event) {
+    if (event.key === 'Enter') {
+        event.preventDefault();
+        const msg = input.value.trim();
+        if (msg) {
+            agent.send(msg);
+            input.value = '';
+        }
+    }
+});
+
+// 加载配置
+window.onload = loadConfig;
+</script>
+
+</body>
+</html>

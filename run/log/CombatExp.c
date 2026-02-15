@@ -5,3 +5,5 @@
 ��ѩ(snow) got 1000000 combat_exp in 1811 seconds: Mon Jan 01 18:15:11 2001
 洛�(roclive) got 20000 combat_exp in 1226 seconds: Wed Feb 11 17:59:09 2026
 洛克李(roclive) got 500000 combat_exp in 1238 seconds: Wed Feb 11 19:12:16 2026
+匈奴(john) got 5000 combat_exp in 900 seconds: Sat Feb 14 15:37:00 2026
+匈奴(john) got -8 combat_exp in -5539 seconds: Sat Feb 14 17:20:19 2026

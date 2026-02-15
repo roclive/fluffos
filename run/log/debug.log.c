@@ -248,3 +248,12 @@ roclive: 0 in
 roclive: 0 in 
 roclive: perform qiankun in /d/zhongnan/puguansi
 roclive: 0 in 
+roclive: call john->move("/d/city/yangzhou") in /d/emei/majiu1
+roclive: call john->move("/d/lingjiu/damen") in /d/emei/majiu1
+roclive: call john->move("/d/lingjiu/dating") in /d/emei/majiu1
+roclive: call john->set_skill("dajingang-quan", 375) in /d/emei/majiu1
+roclive: call john->set_skill("dajin-gangquan", 375) in /d/emei/majiu1
+roclive: call john->move("/d/shaolin/damen") in /d/emei/majiu1
+john: e in /d/city/nandajie3
+john: perform jingmo in /d/city/dangpu
+john: goto /d/shaolin/mishi in /d/shaolin/wuchang3

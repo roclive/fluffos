@@ -290,3 +290,127 @@ meir�Ǹ���̬(xxx) call meir�Ǹ���̬(xxx)->set_skill(literate,100
 洛克李(roclive) call 洛克李(roclive)->set("max_jing", 5000) on Thu Feb 12 22:54:49 2026
 洛克李(roclive) call 洛克李(roclive)->set("eff_jing", 5000) on Thu Feb 12 22:54:58 2026
 洛克李(roclive) call 洛克李(roclive)->set("jing", 5000) on Thu Feb 12 22:55:12 2026
+洛克李(roclive) call 洛克李(roclive)->set("balance", 1000) on Fri Feb 13 22:39:03 2026
+洛克李(roclive) call 洛克李(roclive)->set("max_qi", 5000) on Fri Feb 13 22:52:08 2026
+洛克李(roclive) call 洛克李(roclive)->set("qi", 5000) on Fri Feb 13 22:52:26 2026
+洛克李(roclive) call 洛克李(roclive)->set("eff_qi", 5000) on Fri Feb 13 22:52:50 2026
+洛克李(roclive) call 洛克李(roclive)->set("qi", 5000) on Fri Feb 13 22:52:53 2026
+洛克李(roclive) call 匈奴(john)->set_skill("force", 50) on Sat Feb 14 15:17:04 2026
+洛克李(roclive) call 洛克李(roclive)->set_skill("literate", 50) on Sat Feb 14 15:17:27 2026
+洛克李(roclive) call 洛克李(roclive)->set_skill("parry", 50) on Sat Feb 14 15:18:09 2026
+洛克李(roclive) call 洛克李(roclive)->set_skill("dodge", 50) on Sat Feb 14 15:18:15 2026
+洛克李(roclive) call 匈奴(john)->set_skill("force", 50) on Sat Feb 14 15:18:37 2026
+洛克李(roclive) call 匈奴(john)->set_skill("force", 50) on Sat Feb 14 15:19:30 2026
+洛克李(roclive) call 洛克李(roclive)->set_skill("literate", 200) on Sat Feb 14 15:20:40 2026
+洛克李(roclive) call 洛克李(roclive)->set_skill("dodge", 200) on Sat Feb 14 15:20:57 2026
+洛克李(roclive) call 洛克李(roclive)->set_skill("parry", 200) on Sat Feb 14 15:21:07 2026
+洛克李(roclive) call 匈奴(john)->add("combat_exp", 5000) on Sat Feb 14 15:22:21 2026
+洛克李(roclive) call 洛克李(roclive)->set("max_qi", 5000) on Sat Feb 14 15:24:42 2026
+洛克李(roclive) call 洛克李(roclive)->set("max_qi", 5000) on Sat Feb 14 15:24:51 2026
+洛克李(roclive) call 洛克李(roclive)->set("eff_qi", 5000) on Sat Feb 14 15:25:08 2026
+洛克李(roclive) call 匈奴(john)->move("/d/city/yangzhou") on Sat Feb 14 15:30:26 2026
+洛克李(roclive) call 匈奴(john)->move("/d/city/zuixianlou") on Sat Feb 14 15:30:59 2026
+洛克李(roclive) call 匈奴(john)->move("/d/lingjiu/damen") on Sat Feb 14 15:31:55 2026
+洛克李(roclive) call 匈奴(john)->move("/d/lingjiu/dating") on Sat Feb 14 15:32:23 2026
+洛克李(roclive) call 匈奴(john)->move("/d/shaolin/wuchang3") on Sat Feb 14 15:33:06 2026
+洛克李(roclive) call 匈奴(john)->set("family/family_name", "少林派") on Sat Feb 14 15:37:01 2026
+洛克李(roclive) call 匈奴(john)->set("family/generation", 39) on Sat Feb 14 15:37:10 2026
+洛克李(roclive) call 匈奴(john)->set("family/generation", 40) on Sat Feb 14 15:37:46 2026
+洛克李(roclive) call 匈奴(john)->set("hunyuan-yiqi", 59) on Sat Feb 14 15:41:09 2026
+洛克李(roclive) call 匈奴(john)->set("buddhism", 50) on Sat Feb 14 15:43:15 2026
+洛克李(roclive) call 匈奴(john)->set("food", 300) on Sat Feb 14 15:43:52 2026
+洛克李(roclive) call 匈奴(john)->set("drink", 300) on Sat Feb 14 15:44:01 2026
+洛克李(roclive) call 匈奴(john)->set("shui", 39) on Sat Feb 14 15:44:16 2026
+洛克李(roclive) call 匈奴(john)->set("jing", 175) on Sat Feb 14 15:44:41 2026
+洛克李(roclive) call 匈奴(john)->set("jing", 175) on Sat Feb 14 15:45:15 2026
+洛克李(roclive) call 匈奴(john)->set("potential", 102) on Sat Feb 14 15:45:43 2026
+洛克李(roclive) call 匈奴(john)->set("jing", 175) on Sat Feb 14 15:46:04 2026
+洛克李(roclive) call 匈奴(john)->set("jing", 175) on Sat Feb 14 15:46:17 2026
+洛克李(roclive) call 匈奴(john)->set("jing", 175) on Sat Feb 14 15:46:59 2026
+洛克李(roclive) call 匈奴(john)->set("jing", 175) on Sat Feb 14 15:47:11 2026
+洛克李(roclive) call 匈奴(john)->set("jing", 175) on Sat Feb 14 15:47:22 2026
+洛克李(roclive) call 匈奴(john)->set("jing", 175) on Sat Feb 14 15:47:58 2026
+洛克李(roclive) call 匈奴(john)->set("jing", 175) on Sat Feb 14 15:48:09 2026
+洛克李(roclive) call 匈奴(john)->set("potential", 175) on Sat Feb 14 15:48:23 2026
+洛克李(roclive) call 匈奴(john)->set("jing", 275) on Sat Feb 14 15:48:37 2026
+洛克李(roclive) call 匈奴(john)->set("jing", 3075) on Sat Feb 14 15:49:02 2026
+洛克李(roclive) call 匈奴(john)->set("max_jing", 5175) on Sat Feb 14 15:49:35 2026
+洛克李(roclive) call 匈奴(john)->set("eff_jing", 175) on Sat Feb 14 15:49:44 2026
+洛克李(roclive) call 匈奴(john)->set("eff_jing", 5175) on Sat Feb 14 15:49:58 2026
+洛克李(roclive) call 匈奴(john)->set("jing", 5175) on Sat Feb 14 15:50:03 2026
+洛克李(roclive) call 匈奴(john)->set("max_potential", 5175) on Sat Feb 14 15:51:22 2026
+洛克李(roclive) call 匈奴(john)->set("eff_potential", 5175) on Sat Feb 14 15:51:36 2026
+洛克李(roclive) call 匈奴(john)->set("potential", 5175) on Sat Feb 14 15:51:47 2026
+洛克李(roclive) call 匈奴(john)->set("buddhism", 175) on Sat Feb 14 15:53:20 2026
+洛克李(roclive) call 匈奴(john)->set("buddhism", 175) on Sat Feb 14 15:55:33 2026
+洛克李(roclive) call 匈奴(john)->set("jing", 5175) on Sat Feb 14 15:56:04 2026
+洛克李(roclive) call 匈奴(john)->set_skill("buddhism", 175) on Sat Feb 14 15:56:55 2026
+洛克李(roclive) call 匈奴(john)->set_skill("hunyuan-yiqi", 175) on Sat Feb 14 15:57:21 2026
+洛克李(roclive) call 匈奴(john)->set_skill("dodge", 175) on Sat Feb 14 15:57:44 2026
+洛克李(roclive) call 匈奴(john)->set_skill("hand", 175) on Sat Feb 14 15:57:48 2026
+洛克李(roclive) call 匈奴(john)->set_skill("parry", 175) on Sat Feb 14 15:57:52 2026
+洛克李(roclive) call 匈奴(john)->set_skill("strike", 175) on Sat Feb 14 15:57:59 2026
+洛克李(roclive) call 匈奴(john)->set_skill("shaolin-shenfa", 175) on Sat Feb 14 15:58:14 2026
+洛克李(roclive) call 匈奴(john)->set_skill("fengyun-shou", 175) on Sat Feb 14 15:58:54 2026
+洛克李(roclive) call 匈奴(john)->set_skill("luohan-quan", 175) on Sat Feb 14 15:59:00 2026
+洛克李(roclive) call 匈奴(john)->set_skill("force", 175) on Sat Feb 14 15:59:22 2026
+洛克李(roclive) call 匈奴(john)->set_skill("cuff", 175) on Sat Feb 14 15:59:26 2026
+洛克李(roclive) call 匈奴(john)->set_skill("literate", 175) on Sat Feb 14 15:59:31 2026
+洛克李(roclive) call 匈奴(john)->set("max_neili", 5175) on Sat Feb 14 16:02:39 2026
+洛克李(roclive) call 匈奴(john)->set("eff_neili", 5175) on Sat Feb 14 16:02:58 2026
+洛克李(roclive) call 匈奴(john)->set("neili", 5175) on Sat Feb 14 16:03:07 2026
+洛克李(roclive) call 匈奴(john)->set_skill("shaolin-shenfa", 375) on Sat Feb 14 16:03:42 2026
+洛克李(roclive) call 匈奴(john)->set_skill("banruo-zhang", 375) on Sat Feb 14 16:03:53 2026
+洛克李(roclive) call 匈奴(john)->set_skill("dajingang-quan", 375) on Sat Feb 14 16:04:24 2026
+洛克李(roclive) call 匈奴(john)->set_skill("dajin-gangquan", 375) on Sat Feb 14 16:04:39 2026
+洛克李(roclive) call 匈奴(john)->set_skill("buddhism", 375) on Sat Feb 14 16:05:28 2026
+洛克李(roclive) call 匈奴(john)->set_skill("sword", 375) on Sat Feb 14 16:06:40 2026
+洛克李(roclive) call 匈奴(john)->set("exp", 151375) on Sat Feb 14 16:11:29 2026
+洛克李(roclive) call 匈奴(john)->set("combat-exp", 375) on Sat Feb 14 16:12:03 2026
+洛克李(roclive) call 匈奴(john)->set("combat-exp", 151375) on Sat Feb 14 16:12:12 2026
+洛克李(roclive) call 匈奴(john)->set("max_jingli", 5137) on Sat Feb 14 16:12:34 2026
+洛克李(roclive) call 匈奴(john)->set("eff_jingli", 5137) on Sat Feb 14 16:12:41 2026
+洛克李(roclive) call 匈奴(john)->set("jingli", 5137) on Sat Feb 14 16:12:46 2026
+洛克李(roclive) call 匈奴(john)->set("food", 5137) on Sat Feb 14 16:13:05 2026
+洛克李(roclive) call 匈奴(john)->set("eff_food", 5137) on Sat Feb 14 16:13:31 2026
+洛克李(roclive) call 匈奴(john)->set("max_food", 5137) on Sat Feb 14 16:13:55 2026
+洛克李(roclive) call 匈奴(john)->set("eff_food", 5137) on Sat Feb 14 16:14:05 2026
+洛克李(roclive) call 匈奴(john)->set("max_qi", 5137) on Sat Feb 14 16:14:42 2026
+洛克李(roclive) call 匈奴(john)->set("eff_qi", 5137) on Sat Feb 14 16:14:46 2026
+洛克李(roclive) call 匈奴(john)->set("qi", 5137) on Sat Feb 14 16:14:50 2026
+洛克李(roclive) call 匈奴(john)->set("neili", 5137) on Sat Feb 14 16:15:54 2026
+洛克李(roclive) call 匈奴(john)->move("/d/city/zuixianlou") on Sat Feb 14 16:28:55 2026
+洛克李(roclive) call 匈奴(john)->set_skill("hunyuan-yiqi",300) on Sat Feb 14 16:29:56 2026
+洛克李(roclive) call 匈奴(john)->set_skill("luohan-quan",300) on Sat Feb 14 16:30:27 2026
+洛克李(roclive) call 匈奴(john)->set_skill("fengyun-shou",300) on Sat Feb 14 16:30:36 2026
+洛克李(roclive) call 匈奴(john)->set_skill("strike",300) on Sat Feb 14 16:30:56 2026
+洛克李(roclive) call 匈奴(john)->set_skill("force",300) on Sat Feb 14 16:31:06 2026
+洛克李(roclive) call 匈奴(john)->set("combat-exp",300000) on Sat Feb 14 16:31:54 2026
+洛克李(roclive) call 匈奴(john)->add("combat-exp",300000) on Sat Feb 14 16:32:57 2026
+洛克李(roclive) call 匈奴(john)->add("combat-exp",-300000) on Sat Feb 14 16:35:44 2026
+洛克李(roclive) call 匈奴(john)->add("combat-exp",-300000) on Sat Feb 14 16:35:52 2026
+洛克李(roclive) call 匈奴(john)->move("/d/shaolin/damen") on Sat Feb 14 16:38:00 2026
+洛克李(roclive) call 匈奴(john)->move("/d/shaolin/wuchang3") on Sat Feb 14 16:38:20 2026
+洛克李(roclive) call 匈奴(john)->set_skill("shaolin-shenfa",300) on Sat Feb 14 16:39:09 2026
+洛克李(roclive) call 匈奴(john)->delete("learned") on Sat Feb 14 16:46:32 2026
+洛克李(roclive) call 洛克李(roclive)->delete("learned/cuff") on Sat Feb 14 16:46:50 2026
+洛克李(roclive) call 洛克李(roclive)->set("combat_exp",5000) on Sat Feb 14 16:54:13 2026
+匈奴(john) call 匈奴(john)->set_skill("cuff",300) on Sat Feb 14 17:07:43 2026
+匈奴(john) call 匈奴(john)->set_skill("dodge",300) on Sat Feb 14 17:09:34 2026
+匈奴(john) call 匈奴(john)->set_skill("force",300) on Sat Feb 14 17:09:44 2026
+匈奴(john) call 匈奴(john)->set_skill("hand",300) on Sat Feb 14 17:09:50 2026
+匈奴(john) call 匈奴(john)->set_skill("parry",300) on Sat Feb 14 17:09:54 2026
+匈奴(john) call 匈奴(john)->set_skill("strike",300) on Sat Feb 14 17:09:58 2026
+匈奴(john) call 匈奴(john)->set_skill("sword",300) on Sat Feb 14 17:10:02 2026
+匈奴(john) call 匈奴(john)->set_skill("banruo-zhang",300) on Sat Feb 14 17:11:32 2026
+匈奴(john) call 匈奴(john)->set_skill("fengyun-shou",300) on Sat Feb 14 17:11:40 2026
+匈奴(john) call 匈奴(john)->set_skill("hunyuan-yiqi",300) on Sat Feb 14 17:11:51 2026
+匈奴(john) call 匈奴(john)->set_skill("luohan-quan",300) on Sat Feb 14 17:11:57 2026
+匈奴(john) call 匈奴(john)->set_skill("shaolin-shenfa",300) on Sat Feb 14 17:12:03 2026
+匈奴(john) call 匈奴(john)->set("neili",5000) on Sat Feb 14 17:14:32 2026
+匈奴(john) call 匈奴(john)->set("neili",5000) on Sat Feb 14 17:17:47 2026
+匈奴(john) call 匈奴(john)->set("combat_exp",500071) on Sat Feb 14 17:32:32 2026
+匈奴(john) call 匈奴(john)->set("combat_exp",500071) on Sat Feb 14 17:32:33 2026
+匈奴(john) call 匈奴(john)->set("combat_exp_last",500071) on Sat Feb 14 17:32:44 2026
+匈奴(john) call 匈奴(john)->set("eff_qi",15578) on Sat Feb 14 19:02:24 2026
+匈奴(john) call 匈奴(john)->set("max_qi",15578) on Sat Feb 14 19:02:33 2026
