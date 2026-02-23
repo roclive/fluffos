@@ -1,1 +1,1 @@
-/d/xiakedao/npc/longx#234 ("龙六") wasn't moved into /d/xiakedao/dadong as it should.
+/d/xiakedao/npc/longx#58 ("龙六") wasn't moved into /d/xiakedao/dadong as it should.

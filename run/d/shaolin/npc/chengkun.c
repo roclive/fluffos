@@ -69,7 +69,7 @@ string ask_me(object who)
 	object *ob;
 
 	if( query("revealed") ) {
-		if( is_killing(who->query("id")) ) 
+		if( is_killing(who) ) 
 			return "你既然知道了我的身分，今日休想活命！\n";
 		else {
 			kill_ob(who);

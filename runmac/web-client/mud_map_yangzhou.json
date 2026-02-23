@@ -1,0 +1,1297 @@
+{
+  "version": 1,
+  "exportDate": "2026-02-19T10:24:25.336Z",
+  "createdAt": "2026-02-19T10:02:18.975Z",
+  "updatedAt": "2026-02-19T10:24:22.941Z",
+  "roomCount": 126,
+  "rooms": {
+    "room_dongjiao3": {
+      "name": "草地",
+      "x": 4,
+      "y": 1,
+      "z": 0,
+      "exits": {
+        "n": "room_dongmen",
+        "s": "room_dongjiao4"
+      }
+    },
+    "room_nanjiao4": {
+      "name": "草地",
+      "x": -2,
+      "y": 4,
+      "z": 0,
+      "exits": {
+        "nw": "room_xijiao4",
+        "e": "room_nanjiao3",
+        "w": "room_swforest"
+      }
+    },
+    "room_qianzhuang": {
+      "name": "钱庄",
+      "x": 3,
+      "y": -1,
+      "z": 0,
+      "exits": {
+        "s": "room_dongdajie3"
+      }
+    },
+    "room_yamen": {
+      "name": "衙门",
+      "x": -2,
+      "y": 1,
+      "z": 0,
+      "exits": {
+        "n": "room_xidajie2",
+        "s": "room_ymzhengting"
+      }
+    },
+    "room_mipu": {
+      "name": "米铺",
+      "x": 2,
+      "y": 3,
+      "z": 0,
+      "exits": {
+        "n": "room_xiangnanjie"
+      }
+    },
+    "room_leitai": {
+      "name": "招亲擂台",
+      "x": 3,
+      "y": 2,
+      "z": 1,
+      "exits": {
+        "d": "room_kantai"
+      }
+    },
+    "room_jujinge": {
+      "name": "聚金阁",
+      "x": -1,
+      "y": 2,
+      "z": 0,
+      "exits": {
+        "e": "room_nandajie2"
+      }
+    },
+    "room_sp9room2": {
+      "name": "牌九室",
+      "x": 0,
+      "y": 0,
+      "z": 0,
+      "exits": {
+        "s": "room_duchang"
+      }
+    },
+    "room_lichun_e": {
+      "name": "春桃阁",
+      "x": 2,
+      "y": 3,
+      "z": 1,
+      "exits": {
+        "w": "room_lichun2"
+      }
+    },
+    "room_xiangnanjie": {
+      "name": "象南街",
+      "x": 2,
+      "y": 2,
+      "z": 0,
+      "exits": {
+        "w": "room_dongnanjie",
+        "s": "room_mipu"
+      }
+    },
+    "room_tianshan": {
+      "name": "天山",
+      "x": 0,
+      "y": 0,
+      "z": 0,
+      "exits": {
+        "e": null
+      }
+    },
+    "room_meigui": {
+      "name": "玫瑰宴厅",
+      "x": 3,
+      "y": -2,
+      "z": 1,
+      "exits": {
+        "w": "room_datang"
+      }
+    },
+    "room_nandajie2": {
+      "name": "南大街",
+      "x": 0,
+      "y": 2,
+      "z": 0,
+      "exits": {
+        "e": "room_dongnanjie",
+        "s": "room_nandajie3",
+        "w": "room_jujinge",
+        "n": "room_nandajie1"
+      }
+    },
+    "room_wproom": {
+      "name": "拱猪房",
+      "x": -2,
+      "y": 1,
+      "z": 1,
+      "exits": {
+        "e": "room_duchang2"
+      }
+    },
+    "room_zhengting": {
+      "name": "正厅",
+      "x": -3,
+      "y": 2,
+      "z": 0,
+      "exits": {
+        "n": "room_biaoju"
+      }
+    },
+    "room_bingyin": {
+      "name": "兵营",
+      "x": -2,
+      "y": -2,
+      "z": 0,
+      "exits": {
+        "w": "room_jail",
+        "s": "room_bingyindamen"
+      }
+    },
+    "room_dongdajie3": {
+      "name": "东大街",
+      "x": 3,
+      "y": 0,
+      "z": 0,
+      "exits": {
+        "e": "room_dongmen",
+        "w": "room_dongdajie2",
+        "n": "room_qianzhuang",
+        "s": "room_yuelao"
+      }
+    },
+    "room_houyuan": {
+      "name": "后院",
+      "x": -3,
+      "y": -3,
+      "z": 0,
+      "exits": {
+        "e": "room_dongxiang",
+        "s": "room_dayuan1",
+        "w": "room_xixiang"
+      }
+    },
+    "room_seforest": {
+      "name": "树林",
+      "x": 4,
+      "y": 3,
+      "z": 0,
+      "exits": {
+        "se": null,
+        "n": "room_dongjiao4",
+        "w": "room_nanjiao2"
+      }
+    },
+    "room_minwu1": {
+      "name": "民屋",
+      "x": 0,
+      "y": 0,
+      "z": 0,
+      "exits": {
+        "s": "room_xiangnanjie"
+      }
+    },
+    "room_lichun_s": {
+      "name": "秋菊斋",
+      "x": 1,
+      "y": 4,
+      "z": 1,
+      "exits": {
+        "n": "room_lichun2"
+      }
+    },
+    "room_beijiao3": {
+      "name": "草地",
+      "x": -1,
+      "y": -3,
+      "z": 0,
+      "exits": {
+        "e": "room_beimen",
+        "w": "room_beijiao4"
+      }
+    },
+    "room_lichun_w": {
+      "name": "夏荷居",
+      "x": 0,
+      "y": 3,
+      "z": 1,
+      "exits": {
+        "e": "room_lichun2"
+      }
+    },
+    "room_chaguan1": {
+      "name": "春来茶馆",
+      "x": 0,
+      "y": 0,
+      "z": 0,
+      "exits": {
+        "e": "room_nandajie3"
+      }
+    },
+    "room_mjroom1": {
+      "name": "红木亭",
+      "x": 1,
+      "y": 2,
+      "z": 1,
+      "exits": {
+        "n": "room_mjroom"
+      }
+    },
+    "room_xijiao3": {
+      "name": "草地",
+      "x": -4,
+      "y": 1,
+      "z": 0,
+      "exits": {
+        "n": "room_ximen",
+        "s": "room_xijiao4"
+      }
+    },
+    "room_sp9room": {
+      "name": "牌九室",
+      "x": -1,
+      "y": 0,
+      "z": 0,
+      "exits": {
+        "s": "room_duchang"
+      }
+    },
+    "room_beidajie2": {
+      "name": "北集市",
+      "x": 0,
+      "y": -2,
+      "z": 0,
+      "exits": {
+        "e": "room_zuixianlou",
+        "s": "room_beidajie1",
+        "w": "room_wumiao",
+        "n": "room_beimen"
+      }
+    },
+    "room_dongting": {
+      "name": "东厅",
+      "x": -1,
+      "y": 2,
+      "z": 0,
+      "exits": {
+        "w": "room_ymzhengting"
+      }
+    },
+    "room_qiyuan4": {
+      "name": "棋室",
+      "x": 0,
+      "y": -1,
+      "z": 0,
+      "exits": {
+        "w": "room_chaguan"
+      }
+    },
+    "room_nwforest": {
+      "name": "树林",
+      "x": -3,
+      "y": -3,
+      "z": 0,
+      "exits": {
+        "e": "room_beijiao4",
+        "s": "room_xijiao2",
+        "n": null
+      }
+    },
+    "room_ymzhengting": {
+      "name": "衙门正厅",
+      "x": -2,
+      "y": 2,
+      "z": 0,
+      "exits": {
+        "e": "room_dongting",
+        "w": "room_xiting",
+        "s": "room_neizhai",
+        "n": "room_yamen"
+      }
+    },
+    "room_xidajie3": {
+      "name": "西大街",
+      "x": -3,
+      "y": 0,
+      "z": 0,
+      "exits": {
+        "e": "room_xidajie2",
+        "s": "room_biaoju",
+        "w": "room_ximen",
+        "n": "room_caizhu"
+      }
+    },
+    "room_dongmen": {
+      "name": "东门",
+      "x": 4,
+      "y": 0,
+      "z": 0,
+      "exits": {
+        "e": null,
+        "n": null,
+        "w": "room_dongdajie3",
+        "s": "room_dongjiao3"
+      }
+    },
+    "room_sproom": {
+      "name": "集体拱猪房",
+      "x": -1,
+      "y": 2,
+      "z": 1,
+      "exits": {
+        "n": "room_duchang2"
+      }
+    },
+    "room_kedian3": {
+      "name": "客店二楼",
+      "x": -1,
+      "y": -1,
+      "z": 0,
+      "exits": {
+        "out": "room_kedian2"
+      }
+    },
+    "room_lichun2": {
+      "name": "丽春院",
+      "x": 1,
+      "y": 3,
+      "z": 1,
+      "exits": {
+        "e": "room_lichun_e",
+        "w": "room_lichun_w",
+        "s": "room_lichun_s",
+        "n": "room_lichun_n",
+        "d": "room_lichunyuan"
+      }
+    },
+    "room_mjroom": {
+      "name": "麻将堂",
+      "x": 1,
+      "y": 1,
+      "z": 1,
+      "exits": {
+        "s": "room_mjroom1",
+        "w": "room_mjroom2",
+        "n": "room_mjroom3",
+        "e": "room_mjroom4",
+        "d": "room_xiaobaozhai"
+      }
+    },
+    "room_dongjiao4": {
+      "name": "草地",
+      "x": 4,
+      "y": 2,
+      "z": 0,
+      "exits": {
+        "n": "room_dongjiao3",
+        "s": "room_seforest",
+        "sw": "room_nanjiao2"
+      }
+    },
+    "room_xiaotulu": {
+      "name": "小土路",
+      "x": 0,
+      "y": 0,
+      "z": 0,
+      "exits": {
+        "e": "room_minwu2",
+        "sw": "room_xiangnanjie"
+      }
+    },
+    "room_nanjiao3": {
+      "name": "草地",
+      "x": -1,
+      "y": 4,
+      "z": 0,
+      "exits": {
+        "w": "room_nanjiao4",
+        "e": "room_nanmen"
+      }
+    },
+    "room_shaolin": {
+      "name": "少林",
+      "x": 0,
+      "y": 0,
+      "z": 0,
+      "exits": {
+        "e": null
+      }
+    },
+    "room_tianbaoge": {
+      "name": "天宝阁",
+      "x": 1,
+      "y": -1,
+      "z": 0,
+      "exits": {
+        "w": "room_beidajie1"
+      }
+    },
+    "room_bingqiku": {
+      "name": "兵器库",
+      "x": 0,
+      "y": 0,
+      "z": 0,
+      "exits": {
+        "n": "room_bingyin"
+      }
+    },
+    "room_chaguan": {
+      "name": "春来茶馆",
+      "x": -1,
+      "y": -1,
+      "z": 0,
+      "exits": {
+        "s": "room_xidajie1",
+        "n": "room_qiyuan2",
+        "w": "room_qiyuan3",
+        "e": "room_qiyuan4"
+      }
+    },
+    "room_mudan": {
+      "name": "牡丹宴厅",
+      "x": 2,
+      "y": -1,
+      "z": 1,
+      "exits": {
+        "n": "room_datang"
+      }
+    },
+    "room_lichunyuan": {
+      "name": "丽春院",
+      "x": 1,
+      "y": 3,
+      "z": 0,
+      "exits": {
+        "w": "room_nandajie3",
+        "u": "room_lichun2"
+      }
+    },
+    "room_quanzhou": {
+      "name": "泉州港口",
+      "x": 0,
+      "y": 0,
+      "z": 0,
+      "exits": {
+        "w": null
+      }
+    },
+    "room_bingyindamen": {
+      "name": "兵营大门",
+      "x": -2,
+      "y": -1,
+      "z": 0,
+      "exits": {
+        "n": "room_bingyin",
+        "s": "room_xidajie2"
+      }
+    },
+    "room_xijiao4": {
+      "name": "草地",
+      "x": -4,
+      "y": 2,
+      "z": 0,
+      "exits": {
+        "n": "room_xijiao3",
+        "s": "room_swforest",
+        "se": "room_nanjiao4"
+      }
+    },
+    "room_kedian": {
+      "name": "客店",
+      "x": -1,
+      "y": -1,
+      "z": 0,
+      "exits": {
+        "e": "room_beidajie1",
+        "u": "room_kedian2",
+        "n": "room_majiu",
+        "s": "room_yizhan",
+        "w": "room_huadian",
+        "enter": null
+      }
+    },
+    "room_minwu2": {
+      "name": "民屋",
+      "x": 0,
+      "y": 0,
+      "z": 0,
+      "exits": {
+        "s": "room_xiaomiao",
+        "w": "room_xiaotulu"
+      }
+    },
+    "room_guangchang": {
+      "name": "中央广场",
+      "x": 0,
+      "y": 0,
+      "z": 0,
+      "exits": {
+        "e": "room_dongdajie1",
+        "s": "room_nandajie1",
+        "w": "room_xidajie1",
+        "n": "room_beidajie1",
+        "enter": null
+      }
+    },
+    "room_shuyuan": {
+      "name": "书院",
+      "x": 1,
+      "y": -1,
+      "z": 0,
+      "exits": {
+        "s": "room_dongdajie1",
+        "u": "room_cangshuge"
+      }
+    },
+    "room_jiuguan": {
+      "name": "高升酒馆",
+      "x": -1,
+      "y": 3,
+      "z": 0,
+      "exits": {
+        "e": "room_nandajie3",
+        "u": "room_jiuguan2"
+      }
+    },
+    "room_qiyuan3": {
+      "name": "棋室",
+      "x": -2,
+      "y": -1,
+      "z": 0,
+      "exits": {
+        "e": "room_chaguan"
+      }
+    },
+    "room_nandajie1": {
+      "name": "南集市",
+      "x": 0,
+      "y": 1,
+      "z": 0,
+      "exits": {
+        "e": "room_dangpu",
+        "s": "room_nandajie2",
+        "w": "room_duchang",
+        "n": "room_guangchang"
+      }
+    },
+    "room_shenlong": {
+      "name": "神龙教",
+      "x": 0,
+      "y": 0,
+      "z": 0,
+      "exits": {
+        "w": null
+      }
+    },
+    "room_majiu": {
+      "name": "马厩",
+      "x": -1,
+      "y": -2,
+      "z": 0,
+      "exits": {
+        "s": "room_kedian",
+        "se": "room_beidajie1"
+      }
+    },
+    "room_beidajie1": {
+      "name": "北集市",
+      "x": 0,
+      "y": -1,
+      "z": 0,
+      "exits": {
+        "w": "room_kedian",
+        "s": "room_guangchang",
+        "nw": "room_majiu",
+        "e": "room_tianbaoge",
+        "n": "room_beidajie2"
+      }
+    },
+    "room_yuelao": {
+      "name": "月老亭",
+      "x": 3,
+      "y": 1,
+      "z": 0,
+      "exits": {
+        "n": "room_dongdajie3",
+        "s": "room_kantai"
+      }
+    },
+    "room_eproom": {
+      "name": "拱猪房",
+      "x": 0,
+      "y": 1,
+      "z": 1,
+      "exits": {
+        "w": "room_duchang2"
+      }
+    },
+    "room_jail": {
+      "name": "监狱",
+      "x": -3,
+      "y": -2,
+      "z": 0,
+      "exits": {
+        "e": "room_bingyin"
+      }
+    },
+    "room_beijiao4": {
+      "name": "草地",
+      "x": -2,
+      "y": -3,
+      "z": 0,
+      "exits": {
+        "sw": "room_xijiao2",
+        "w": "room_nwforest",
+        "e": "room_beijiao3"
+      }
+    },
+    "room_mjroom2": {
+      "name": "黄菊苑",
+      "x": 0,
+      "y": 1,
+      "z": 1,
+      "exits": {
+        "e": "room_mjroom"
+      }
+    },
+    "room_furong": {
+      "name": "芙蓉宴厅",
+      "x": 2,
+      "y": -3,
+      "z": 1,
+      "exits": {
+        "s": "room_datang"
+      }
+    },
+    "room_dongxiang": {
+      "name": "闺房",
+      "x": -2,
+      "y": -3,
+      "z": 0,
+      "exits": {
+        "w": "room_houyuan",
+        "n": "room_huayuan"
+      }
+    },
+    "room_xiaobaozhai": {
+      "name": "小宝斋",
+      "x": 1,
+      "y": 1,
+      "z": 0,
+      "exits": {
+        "s": "room_dongnanjie",
+        "n": null,
+        "w": "room_nandajie2",
+        "u": "room_mjroom"
+      }
+    },
+    "room_zahuopu": {
+      "name": "杂货铺",
+      "x": 1,
+      "y": 1,
+      "z": 0,
+      "exits": {
+        "n": "room_dongdajie1"
+      }
+    },
+    "room_xidajie2": {
+      "name": "西大街",
+      "x": -2,
+      "y": 0,
+      "z": 0,
+      "exits": {
+        "e": "room_xidajie1",
+        "n": "room_bingyindamen",
+        "w": "room_xidajie3",
+        "s": "room_yamen"
+      }
+    },
+    "room_xiaomiao": {
+      "name": "小庙",
+      "x": 0,
+      "y": 0,
+      "z": 0,
+      "exits": {
+        "e": "room_dayuan",
+        "n": "room_minwu2",
+        "nw": "room_xiaotulu"
+      }
+    },
+    "room_dayuan1": {
+      "name": "翰林府院",
+      "x": -3,
+      "y": -2,
+      "z": 0,
+      "exits": {
+        "n": "room_houyuan",
+        "s": "room_caizhu"
+      }
+    },
+    "room_dongjiao1": {
+      "name": "草地",
+      "x": 3,
+      "y": -1,
+      "z": 0,
+      "exits": {
+        "n": "room_dongjiao2",
+        "s": null
+      }
+    },
+    "room_kedian2": {
+      "name": "客店二楼",
+      "x": -1,
+      "y": -1,
+      "z": 1,
+      "exits": {
+        "d": "room_kedian",
+        "enter": "room_kedian3"
+      }
+    },
+    "room_nanjiao2": {
+      "name": "草地",
+      "x": 2,
+      "y": 4,
+      "z": 0,
+      "exits": {
+        "w": "room_nanjiao1",
+        "e": "room_seforest",
+        "ne": "room_dongjiao4"
+      }
+    },
+    "room_beimen": {
+      "name": "北门",
+      "x": 0,
+      "y": -3,
+      "z": 0,
+      "exits": {
+        "s": "room_beidajie2",
+        "n": null,
+        "e": "room_beijiao1",
+        "w": "room_beijiao3"
+      }
+    },
+    "room_dangpu": {
+      "name": "当铺",
+      "x": 1,
+      "y": 1,
+      "z": 0,
+      "exits": {
+        "w": "room_nandajie1",
+        "s": null
+      }
+    },
+    "room_kantai": {
+      "name": "看台",
+      "x": 3,
+      "y": 2,
+      "z": 0,
+      "exits": {
+        "u": "room_leitai",
+        "n": "room_yuelao"
+      }
+    },
+    "room_seforest2": {
+      "name": "树林",
+      "x": 0,
+      "y": 0,
+      "z": 0,
+      "exits": {
+        "e": null,
+        "w": "room_seforest1",
+        "n": null
+      }
+    },
+    "room_cangshuge": {
+      "name": "白鹿藏书阁",
+      "x": 1,
+      "y": -1,
+      "z": 1,
+      "exits": {
+        "d": "room_shuyuan"
+      }
+    },
+    "room_beijiao1": {
+      "name": "草地",
+      "x": 1,
+      "y": -3,
+      "z": 0,
+      "exits": {
+        "e": "room_beijiao2",
+        "w": "room_beimen"
+      }
+    },
+    "room_neforest": {
+      "name": "树林",
+      "x": 3,
+      "y": -3,
+      "z": 0,
+      "exits": {
+        "w": "room_beijiao2",
+        "s": "room_dongjiao2"
+      }
+    },
+    "room_huayuan": {
+      "name": "花园",
+      "x": -2,
+      "y": -4,
+      "z": 0,
+      "exits": {
+        "s": "room_dongxiang"
+      }
+    },
+    "room_dongdajie1": {
+      "name": "东大街",
+      "x": 1,
+      "y": 0,
+      "z": 0,
+      "exits": {
+        "e": "room_dongdajie2",
+        "s": "room_zahuopu",
+        "w": "room_guangchang",
+        "n": "room_shuyuan"
+      }
+    },
+    "room_dayuan": {
+      "name": "大院子",
+      "x": 0,
+      "y": 0,
+      "z": 0,
+      "exits": {
+        "w": "room_xiaomiao"
+      }
+    },
+    "room_qiyuan2": {
+      "name": "棋室",
+      "x": -1,
+      "y": -2,
+      "z": 0,
+      "exits": {
+        "s": "room_chaguan"
+      }
+    },
+    "room_guopintan": {
+      "name": "果品摊",
+      "x": 1,
+      "y": 3,
+      "z": 0,
+      "exits": {
+        "n": "room_dongnanjie",
+        "w": "room_nandajie2"
+      }
+    },
+    "room_xixiang": {
+      "name": "丫鬟卧房",
+      "x": -4,
+      "y": -3,
+      "z": 0,
+      "exits": {
+        "e": "room_houyuan"
+      }
+    },
+    "room_nproom": {
+      "name": "集体拱猪房",
+      "x": -1,
+      "y": 0,
+      "z": 1,
+      "exits": {
+        "s": "room_duchang2"
+      }
+    },
+    "room_yizhan": {
+      "name": "驿站",
+      "x": -1,
+      "y": 0,
+      "z": 0,
+      "exits": {
+        "n": "room_kedian"
+      }
+    },
+    "room_swforest": {
+      "name": "树林",
+      "x": -3,
+      "y": 4,
+      "z": 0,
+      "exits": {
+        "e": "room_nanjiao4",
+        "n": "room_xijiao4"
+      }
+    },
+    "room_xijiao1": {
+      "name": "草地",
+      "x": -4,
+      "y": -1,
+      "z": 0,
+      "exits": {
+        "n": "room_xijiao2",
+        "s": "room_ximen"
+      }
+    },
+    "room_mjroom3": {
+      "name": "蓝天阁",
+      "x": 1,
+      "y": 0,
+      "z": 1,
+      "exits": {
+        "s": "room_mjroom"
+      }
+    },
+    "room_datang": {
+      "name": "醉仙楼大堂",
+      "x": 2,
+      "y": -2,
+      "z": 1,
+      "exits": {
+        "e": "room_meigui",
+        "n": "room_furong",
+        "s": "room_mudan",
+        "w": "room_zuixianlou2"
+      }
+    },
+    "room_dongjiao2": {
+      "name": "草地",
+      "x": 3,
+      "y": -2,
+      "z": 0,
+      "exits": {
+        "n": "room_neforest",
+        "s": "room_dongjiao1",
+        "nw": "room_beijiao2"
+      }
+    },
+    "room_nanmen": {
+      "name": "南门",
+      "x": 0,
+      "y": 4,
+      "z": 0,
+      "exits": {
+        "s": "room_wdroad1",
+        "n": "room_nandajie3",
+        "e": "room_nanjiao1",
+        "w": "room_nanjiao3"
+      }
+    },
+    "room_yaopu": {
+      "name": "药铺",
+      "x": 2,
+      "y": -1,
+      "z": 0,
+      "exits": {
+        "s": "room_dongdajie2"
+      }
+    },
+    "room_duchang2": {
+      "name": "赌场",
+      "x": -1,
+      "y": 1,
+      "z": 1,
+      "exits": {
+        "e": "room_eproom",
+        "w": "room_wproom",
+        "s": "room_sproom",
+        "n": "room_nproom",
+        "d": "room_duchang",
+        "u": null
+      }
+    },
+    "room_xidajie1": {
+      "name": "西大街",
+      "x": -1,
+      "y": 0,
+      "z": 0,
+      "exits": {
+        "e": "room_guangchang",
+        "s": null,
+        "w": "room_xidajie2",
+        "n": "room_chaguan"
+      }
+    },
+    "room_ximen": {
+      "name": "西门",
+      "x": -4,
+      "y": 0,
+      "z": 0,
+      "exits": {
+        "e": "room_xidajie3",
+        "w": null,
+        "n": "room_xijiao1",
+        "s": "room_xijiao3"
+      }
+    },
+    "room_dongnanjie": {
+      "name": "东南街",
+      "x": 1,
+      "y": 2,
+      "z": 0,
+      "exits": {
+        "e": "room_xiangnanjie",
+        "w": "room_nandajie2",
+        "n": "room_xiaobaozhai",
+        "s": "room_guopintan"
+      }
+    },
+    "room_xiting": {
+      "name": "西厅",
+      "x": -3,
+      "y": 2,
+      "z": 0,
+      "exits": {
+        "e": "room_ymzhengting"
+      }
+    },
+    "room_seforest1": {
+      "name": "树林",
+      "x": 0,
+      "y": 0,
+      "z": 0,
+      "exits": {
+        "se": null,
+        "w": "room_seforest"
+      }
+    },
+    "room_ft_room1": {
+      "name": "内院",
+      "x": 0,
+      "y": 0,
+      "z": 0,
+      "exits": {
+        "out": "room_minwu1",
+        "n": "room_ft_datang"
+      }
+    },
+    "room_lichun_n": {
+      "name": "冬梅苑",
+      "x": 1,
+      "y": 2,
+      "z": 1,
+      "exits": {
+        "s": "room_lichun2"
+      }
+    },
+    "room_nanjiao1": {
+      "name": "草地",
+      "x": 1,
+      "y": 4,
+      "z": 0,
+      "exits": {
+        "e": "room_nanjiao2",
+        "w": "room_nanmen"
+      }
+    },
+    "room_neizhai": {
+      "name": "内宅",
+      "x": -2,
+      "y": 3,
+      "z": 0,
+      "exits": {
+        "n": "room_ymzhengting"
+      }
+    },
+    "room_ft_datang": {
+      "name": "大堂",
+      "x": 0,
+      "y": 0,
+      "z": 0,
+      "exits": {
+        "out": "room_ft_room1"
+      }
+    },
+    "room_nandajie3": {
+      "name": "南大街",
+      "x": 0,
+      "y": 3,
+      "z": 0,
+      "exits": {
+        "e": "room_lichunyuan",
+        "s": "room_nanmen",
+        "w": "room_jiuguan",
+        "n": "room_nandajie2"
+      }
+    },
+    "room_caizhu": {
+      "name": "翰林府门",
+      "x": -3,
+      "y": -1,
+      "z": 0,
+      "exits": {
+        "s": "room_xidajie3",
+        "n": "room_dayuan1"
+      }
+    },
+    "room_jiuguan2": {
+      "name": "酒馆二楼",
+      "x": -1,
+      "y": 3,
+      "z": 1,
+      "exits": {
+        "d": "room_jiuguan"
+      }
+    },
+    "room_qiyuan1": {
+      "name": "象棋棋苑",
+      "x": -2,
+      "y": 1,
+      "z": 0,
+      "exits": {
+        "e": "room_duchang",
+        "n": "room_qiyuan2",
+        "s": "room_qiyuan3",
+        "w": "room_qiyuan4"
+      }
+    },
+    "room_zuixianlou": {
+      "name": "醉仙楼",
+      "x": 1,
+      "y": -2,
+      "z": 0,
+      "exits": {
+        "w": "room_beidajie2",
+        "u": "room_zuixianlou2"
+      }
+    },
+    "room_beijiao2": {
+      "name": "草地",
+      "x": 2,
+      "y": -3,
+      "z": 0,
+      "exits": {
+        "e": "room_neforest",
+        "w": "room_beijiao1",
+        "se": "room_dongjiao2"
+      }
+    },
+    "room_zuixianlou2": {
+      "name": "醉仙楼二楼",
+      "x": 1,
+      "y": -2,
+      "z": 1,
+      "exits": {
+        "d": "room_zuixianlou",
+        "e": "room_datang"
+      }
+    },
+    "room_datiepu": {
+      "name": "打铁铺",
+      "x": 2,
+      "y": 1,
+      "z": 0,
+      "exits": {
+        "n": "room_dongdajie2"
+      }
+    },
+    "room_mjroom4": {
+      "name": "绿竹馆",
+      "x": 2,
+      "y": 1,
+      "z": 1,
+      "exits": {
+        "w": "room_mjroom"
+      }
+    },
+    "room_dongdajie2": {
+      "name": "东大街",
+      "x": 2,
+      "y": 0,
+      "z": 0,
+      "exits": {
+        "e": "room_dongdajie3",
+        "s": "room_datiepu",
+        "w": "room_dongdajie1",
+        "n": "room_yaopu"
+      }
+    },
+    "room_wdroad1": {
+      "name": "青石大道",
+      "x": 0,
+      "y": 5,
+      "z": 0,
+      "exits": {
+        "s": null,
+        "n": "room_nanmen"
+      }
+    },
+    "room_xijiao2": {
+      "name": "草地",
+      "x": -4,
+      "y": -2,
+      "z": 0,
+      "exits": {
+        "n": "room_nwforest",
+        "s": "room_xijiao1",
+        "ne": "room_beijiao4"
+      }
+    },
+    "room_biaoju": {
+      "name": "福威镖局",
+      "x": -3,
+      "y": 1,
+      "z": 0,
+      "exits": {
+        "s": "room_zhengting",
+        "n": "room_xidajie3"
+      }
+    },
+    "room_huadian": {
+      "name": "鲜花店",
+      "x": -2,
+      "y": -1,
+      "z": 0,
+      "exits": {
+        "e": "room_kedian"
+      }
+    },
+    "room_duchang": {
+      "name": "赌场",
+      "x": -1,
+      "y": 1,
+      "z": 0,
+      "exits": {
+        "w": "room_qiyuan1",
+        "u": "room_duchang2",
+        "e": "room_nandajie1",
+        "n": "room_sp9room"
+      }
+    },
+    "room_damo": {
+      "name": "大漠",
+      "x": 0,
+      "y": 0,
+      "z": 0,
+      "exits": {
+        "e": null
+      }
+    },
+    "room_wumiao": {
+      "name": "武庙",
+      "x": -1,
+      "y": -2,
+      "z": 0,
+      "exits": {
+        "e": "room_beidajie2",
+        "nw": null,
+        "w": null,
+        "n": null
+      }
+    },
+    "room_xinsu": {
+      "name": "星宿",
+      "x": 0,
+      "y": 0,
+      "z": 0,
+      "exits": {
+        "e": null
+      }
+    }
+  },
+  "currentRoom": "room_guangchang",
+  "nextId": 127
+}

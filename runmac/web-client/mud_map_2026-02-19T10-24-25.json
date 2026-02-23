@@ -1,0 +1,87 @@
+{
+  "version": 1,
+  "exportDate": "2026-02-19T10:24:25.336Z",
+  "createdAt": "2026-02-19T10:02:18.975Z",
+  "updatedAt": "2026-02-19T10:24:22.941Z",
+  "roomCount": 7,
+  "rooms": {
+    "room_1": {
+      "name": "最後乐园",
+      "x": 0,
+      "y": 0,
+      "z": 0,
+      "exits": {
+        "d": "room_2"
+      }
+    },
+    "room_2": {
+      "name": "醉仙楼",
+      "x": 0,
+      "y": 0,
+      "z": -1,
+      "exits": {
+        "u": "room_1",
+        "w": "room_3"
+      }
+    },
+    "room_3": {
+      "name": "北集市",
+      "x": -1,
+      "y": 0,
+      "z": -1,
+      "exits": {
+        "e": "room_2",
+        "n": null,
+        "s": null,
+        "w": null,
+        "d": "room_4"
+      }
+    },
+    "room_4": {
+      "name": "醉仙楼",
+      "x": -1,
+      "y": 0,
+      "z": -2,
+      "exits": {
+        "u": "room_3",
+        "w": "room_5"
+      }
+    },
+    "room_5": {
+      "name": "北集市",
+      "x": -2,
+      "y": 0,
+      "z": -2,
+      "exits": {
+        "e": "room_4",
+        "n": "room_6",
+        "s": null,
+        "w": null
+      }
+    },
+    "room_6": {
+      "name": "北门",
+      "x": -2,
+      "y": -1,
+      "z": -2,
+      "exits": {
+        "s": "room_5",
+        "n": "room_7",
+        "e": null,
+        "w": null
+      }
+    },
+    "room_7": {
+      "name": "青石大道",
+      "x": -2,
+      "y": -2,
+      "z": -2,
+      "exits": {
+        "s": "room_6",
+        "n": null
+      }
+    }
+  },
+  "currentRoom": "room_7",
+  "nextId": 8
+}

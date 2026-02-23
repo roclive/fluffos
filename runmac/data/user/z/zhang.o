@@ -1,0 +1,4 @@
+#/clone/user/user.c
+dbase (["qi":200,"jiajin":1,"per":30,"eff_jingli":300,"shen":0,"str":25,"title":"普通百姓","kar":15,"startroom":"/clone/misc/void","shen_type":0,"max_jingli":400,"behavior_exp":0,"con":20,"language":"GB","water":333,"death_count":0,"eff_qi":200,"max_qi":200,"death_times":0,"registered":"yes","int":20,"month":1,"quest_exp":140,"race":"人类","mud_age":168,"dex":18,"name":"大鹏","jingli":404,"channels":({"chat","rumor","gchat",}),"potential":98,"eff_jing":175,"food":333,"xkd":(["set":1,]),"pighead":0,"id":"zhang","default_actions":,"actions":,"jing":175,"block":1,"gender":"男性","combat_exp":0,"combat_exp_last":0,"max_jing":175,"mud_age_last":168,"neili":0,"birthday":1771496840,"max_neili":400,"balance":0,"age":14,"max_potential":102,])
+default_ob "/adm/daemons/race/human.c"
+autoload ({})

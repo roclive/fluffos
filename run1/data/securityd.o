@@ -1,0 +1,10 @@
+#/adm/daemons/securityd.c
+wiz_status (["raven":"(admin)",])
+wiz_sites (["raven":".*",])
+wiz_levels ({"(player)","(immortal)","(apprentice)","(virtuoso)","(caretaker)","(creator)","(designer)","(wizard)","(arch)","(admin)",})
+trusted_read ([])
+exclude_read ([])
+trusted_write (["tmp":({"(admin)",}),])
+exclude_write ([])
+authorized_cmds (["cmds/imm":({"(admin)","(arch)","(wiz)","(imm)",}),"cmds/wiz":({"(admin)","(arch)","(wiz)",}),"cmds/arch":({"(admin)","(arch)",}),"cmds/adm":({"(admin)",}),])
+exclude_cmds ([])

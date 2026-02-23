@@ -247,3 +247,5 @@ roclive: west in /d/dali/dalicheng1
 roclive: 0 in 
 roclive: 0 in 
 roclive: perform qiankun in /d/zhongnan/puguansi
+roclive: u in /d/city/zuixianlou
+roclive: n in /d/shaolin/yidao2

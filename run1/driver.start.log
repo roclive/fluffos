@@ -1,0 +1,654 @@
+Your locale 'c' is not UTF8 compliant, you will likely run into issues.
+========================================================================
+Full Command Line: ../build/bin/driver config.cfg 
+Boot Time: Wed Feb 11 18:18:01 2026
+Version: fluffos 20240714-4a59909c-ee813760 (Mac OS X)
+jemalloc Version: 5.3.0-0-g54eaed1d8b56b1aa528be3bdd1877e59c56fa90c
+ICU Version: 78.2
+libdw or libbfd is not found, you will only get very limited crash stacktrace.
+Core Dump: No, Max FD: 65535.
+========================================================================
+Final Debug Level: 0
+Processing config file: config.cfg
+*Warning: Missing line in config file:
+	debug log file 
+*Warning: obsolete line in config file, please delete:
+	binary directory 
+New Debug log location: "log/debug.log".
+Execution root: .
+Initializing internal stuff ....
+Event backend in use: kqueue
+WARNING: Platform doesn't support eval limit!
+==== Runtime Config Table ====
+time to clean up : 600
+time to reset : 900
+time to swap : 300
+evaluator stack size : 65536
+inherit chain size : 30
+maximum evaluation cost : 30000000
+maximum local variables : 64
+maximum call depth : 150
+maximum array size : 15000
+maximum buffer size : 1048576
+maximum mapping size : 150000
+maximum string length : 1048576
+maximum bits in a bitfield : 12000
+maximum byte transfer : 262144
+maximum read file size : 262144
+hash table size : 65536
+object table size : 4096
+living hash table size : 256
+gametick msec : 1000
+heartbeat interval msec : 1000
+sane explode string : 1
+reversible explode string : 0
+sane sorting : 1
+warn tab : 0
+wombles : 0
+call other type check : 0
+call other warn : 0
+mudlib error handler : 1
+no resets : 0
+lazy resets : 0
+randomized resets : 1
+no ansi : 1
+strip before process input : 1
+this_player in call_out : 1
+trace : 1
+trace code : 0
+interactive catch tell : 0
+receive snoop : 1
+snoop shadowed : 0
+reverse defer : 0
+has console : 1
+noninteractive stderr write : 0
+trap crashes : 1
+old type behavior : 0
+old range behavior : 0
+warn old range behavior : 1
+suppress argument warnings : 1
+enable_commands call init : 1
+sprintf add_justified ignore ANSI colors : 1
+call_out(0) nest level : 1000
+trace lpc execution context : 0
+trace lpc instructions : 0
+enable mxp : 0
+enable gmcp : 0
+enable zmp : 0
+enable mssp : 1
+enable msp : 1
+enable msdp : 0
+==============================
+==== LPC Predefines ====
+#define FLUFFOS 
+#define HAS_DEBUG_LEVEL 
+#define HAS_ED 
+#define HAS_PRINTF 
+#define MAX_FLOAT 179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368.000000
+#define MAX_INT 9223372036854775807
+#define MIN_FLOAT 0.000000
+#define MIN_INT -9223372036854775808
+#define MUDOS 
+#define MUD_NAME "ES2-UTF8"
+#define SIZEOFINT 8
+#define __ARCH__ "Mac OS X"
+#define __ARGUMENTS_IN_TRACEBACK__ 
+#define __ARRAY_STATS__ 
+#define __AUTO_SETEUID__ 
+#define __CACHE_STATS__ 
+#define __CALLOUT_HANDLES__ 
+#define __CFG_COMPILER_STACK_SIZE__ 600
+#define __CFG_EVALUATOR_STACK_SIZE__ 65536
+#define __CFG_MAX_CALL_DEPTH__ 150
+#define __CFG_MAX_GLOBAL_VARIABLES__ 65536
+#define __CLASS_STATS__ 
+#define __COMMAND_BUF_SIZE__ 2000
+#define __COMPILER__ "/usr/bin/c++"
+#define __CXXFLAGS__ "Broken"
+#define __DEBUG_MACRO__ 
+#define __DEFAULT_PRAGMAS__ PRAGMA_WARNINGS + PRAGMA_SAVE_TYPES + PRAGMA_ERROR_CONTEXT + PRAGMA_OPTIMIZE
+#define __DSLIB__ 
+#define __ED_INDENT_SPACES__ 4
+#define __ED_TAB_WIDTH__ 8
+#define __GET_CHAR_IS_BUFFERED__ 
+#define __HAS_CONSOLE__ 
+#define __HAVE_DIRENT_H__ 1
+#define __HAVE_JEMALLOC__ 1
+#define __HAVE_SIGNAL_H__ 1
+#define __HAVE_SYS_RESOURCE_H__ 1
+#define __HAVE_SYS_STAT_H__ 1
+#define __HAVE_SYS_TIME_H__ 1
+#define __HAVE_TIME_H__ 1
+#define __LARGEST_PRINTABLE_STRING__ 65535
+#define __LARGE_STRING_SIZE__ 1000
+#define __LOCALS_IN_TRACEBACK__ 
+#define __MAX_SAVE_SVALUE_DEPTH__ 100
+#define __MUDLIB_ERROR_HANDLER__ 
+#define __OLD_ED__ 
+#define __PACKAGES_PACKAGES_H__ 
+#define __PACKAGE_ASYNC__ 
+#define __PACKAGE_COMPRESS__ 
+#define __PACKAGE_CONTRIB__ 
+#define __PACKAGE_CORE__ 
+#define __PACKAGE_CRYPTO__ 
+#define __PACKAGE_DEVELOP__ 
+#define __PACKAGE_EXTERNAL__ 
+#define __PACKAGE_MATH__ 
+#define __PACKAGE_MATRIX__ 
+#define __PACKAGE_MUDLIB_STATS__ 
+#define __PACKAGE_OPS__ 
+#define __PACKAGE_PARSER__ 
+#define __PACKAGE_PCRE__ 
+#define __PACKAGE_SHA1__ 
+#define __PACKAGE_SOCKETS__ 
+#define __PACKAGE_TRIM__ 
+#define __PACKAGE_UIDS__ 
+#define __PARSE_DEBUG__ 
+#define __PORT__ 5555
+#define __PRIVS__ 
+#define __PROJECT_VERSION__ "fluffos 20240714-4a59909c-ee813760"
+#define __RANDOMIZED_RESETS__ 
+#define __RECEIVE_SNOOP__ 
+#define __REF_RESERVED_WORD__ 
+#define __RESTRICTED_ED__ 
+#define __SANE_EXPLODE_STRING__ 
+#define __SANE_SORTING__ 
+#define __SAVE_EXTENSION__ ".o"
+#define __SAVE_GZ_EXTENSION__ ".o.gz"
+#define __SENSIBLE_MODIFIERS__ 
+#define __SMALL_STRING_SIZE__ 100
+#define __STRING_STATS__ 
+#define __STRUCT_CLASS__ 
+#define __STRUCT_STRUCT__ 
+#define __SUPPRESS_ARGUMENT_WARNINGS__ 
+#define __THIS_PLAYER_IN_CALL_OUT__ 
+#define __TIME_WITH_SYS_TIME__ 1
+#define __TRACE__ 
+#define __TRAP_CRASHES__ 
+#define __USE_32BIT_ADDRESSES__ 
+#define __VERSION__ "fluffos 20240714-4a59909c-ee813760"
+#define __WARN_OLD_RANGE_BEHAVIOR__ 
+========================
+Loading simul_efun file : /adm/single/simul_efun
+/adm/simul_efun/path.c line 51: Warning: Unused local variable 't2'
+  }
+   ^
+/adm/simul_efun/path.c line 51: Warning: Unused local variable 't3'
+  }
+   ^
+/adm/simul_efun/path.c line 51: Warning: Unused local variable 't4'
+  }
+   ^
+/adm/simul_efun/mkmapping.c line 24: Warning: Unused local variable 'index'
+  }
+   ^
+/adm/simul_efun/mkmapping.c line 55: Warning: Unused local variable 'index'
+  }
+   ^
+Loading master file: /adm/single/master
+
+Loading preload files ...
+/adm/daemons/securityd...
+/feature/treemap.c line 2: Warning: Unknown #pragma, ignored.
+  // This file is part of the TMI mudlib distribution
+  ^
+
+执行时段错误：*Object cannot be loaded during compilation.
+
+程式：/adm/single/simul_efun.c 第 12 行
+物件: /adm/single/simul_efun
+呼叫来自：/adm/single/master.c 的 preload() 第 104 行，物件： /adm/single/master
+呼叫来自：/adm/single/master.c 的 CATCH() 第 104 行，物件： /adm/single/master
+呼叫来自：/adm/single/master.c 的 log_error() 第 124 行，物件： /adm/single/master
+呼叫来自：/adm/single/simul_efun.c 的 wizardp() 第 12 行，物件： /adm/single/simul_efun
+/adm/daemons/securityd.c line 126: Warning: Unused local variable 'uid'
+  }
+   ^
+
+执行时段错误：*Object cannot be loaded during compilation.
+
+程式：/adm/single/simul_efun.c 第 12 行
+物件: /adm/single/simul_efun
+呼叫来自：/adm/single/master.c 的 preload() 第 104 行，物件： /adm/single/master
+呼叫来自：/adm/single/master.c 的 CATCH() 第 104 行，物件： /adm/single/master
+呼叫来自：/adm/single/master.c 的 log_error() 第 124 行，物件： /adm/single/master
+呼叫来自：/adm/single/simul_efun.c 的 wizardp() 第 12 行，物件： /adm/single/simul_efun
+/adm/daemons/securityd.c line 212: Warning: Unused local variable 'wiz'
+  }
+   ^
+
+执行时段错误：*Object cannot be loaded during compilation.
+
+程式：/adm/single/simul_efun.c 第 12 行
+物件: /adm/single/simul_efun
+呼叫来自：/adm/single/master.c 的 preload() 第 104 行，物件： /adm/single/master
+呼叫来自：/adm/single/master.c 的 CATCH() 第 104 行，物件： /adm/single/master
+呼叫来自：/adm/single/master.c 的 log_error() 第 124 行，物件： /adm/single/master
+呼叫来自：/adm/single/simul_efun.c 的 wizardp() 第 12 行，物件： /adm/single/simul_efun
+/adm/daemons/securityd.c line 212: Warning: Unused local variable 'wizlist'
+  }
+   ^
+
+执行时段错误：*Object cannot be loaded during compilation.
+
+程式：/adm/single/simul_efun.c 第 12 行
+物件: /adm/single/simul_efun
+呼叫来自：/adm/single/master.c 的 preload() 第 104 行，物件： /adm/single/master
+呼叫来自：/adm/single/master.c 的 CATCH() 第 104 行，物件： /adm/single/master
+呼叫来自：/adm/single/master.c 的 log_error() 第 124 行，物件： /adm/single/master
+呼叫来自：/adm/single/simul_efun.c 的 wizardp() 第 12 行，物件： /adm/single/simul_efun
+/adm/daemons/securityd.c line 212: Warning: Unused local variable 'i'
+  }
+   ^
+
+执行时段错误：*Object cannot be loaded during compilation.
+
+程式：/adm/single/simul_efun.c 第 12 行
+物件: /adm/single/simul_efun
+呼叫来自：/adm/single/master.c 的 preload() 第 104 行，物件： /adm/single/master
+呼叫来自：/adm/single/master.c 的 CATCH() 第 104 行，物件： /adm/single/master
+呼叫来自：/adm/single/master.c 的 log_error() 第 124 行，物件： /adm/single/master
+呼叫来自：/adm/single/simul_efun.c 的 wizardp() 第 12 行，物件： /adm/single/simul_efun
+/adm/daemons/securityd.c line 250: Warning: Unused local variable 'uid'
+  }
+   ^
+
+执行时段错误：*Object cannot be loaded during compilation.
+
+程式：/adm/single/simul_efun.c 第 12 行
+物件: /adm/single/simul_efun
+呼叫来自：/adm/single/master.c 的 preload() 第 104 行，物件： /adm/single/master
+呼叫来自：/adm/single/master.c 的 CATCH() 第 104 行，物件： /adm/single/master
+呼叫来自：/adm/single/master.c 的 log_error() 第 124 行，物件： /adm/single/master
+呼叫来自：/adm/single/simul_efun.c 的 wizardp() 第 12 行，物件： /adm/single/simul_efun
+/adm/daemons/securityd.c line 314: Warning: Unused local variable 'uid'
+  }
+   ^
+
+执行时段错误：*Object cannot be loaded during compilation.
+
+程式：/adm/single/simul_efun.c 第 12 行
+物件: /adm/single/simul_efun
+呼叫来自：/adm/single/master.c 的 preload() 第 104 行，物件： /adm/single/master
+呼叫来自：/adm/single/master.c 的 CATCH() 第 104 行，物件： /adm/single/master
+呼叫来自：/adm/single/master.c 的 log_error() 第 124 行，物件： /adm/single/master
+呼叫来自：/adm/single/simul_efun.c 的 wizardp() 第 12 行，物件： /adm/single/simul_efun
+/adm/daemons/securityd.c line 377: Warning: Unused local variable 'uid'
+  }
+   ^
+
+执行时段错误：*Object cannot be loaded during compilation.
+
+程式：/adm/single/simul_efun.c 第 12 行
+物件: /adm/single/simul_efun
+呼叫来自：/adm/single/master.c 的 preload() 第 104 行，物件： /adm/single/master
+呼叫来自：/adm/single/master.c 的 CATCH() 第 104 行，物件： /adm/single/master
+呼叫来自：/adm/single/master.c 的 log_error() 第 124 行，物件： /adm/single/master
+呼叫来自：/adm/single/simul_efun.c 的 wizardp() 第 12 行，物件： /adm/single/simul_efun
+/adm/daemons/securityd.c line 408: Warning: Unused local variable 'uid'
+  }
+   ^
+
+执行时段错误：*Object cannot be loaded during compilation.
+
+程式：/adm/single/simul_efun.c 第 12 行
+物件: /adm/single/simul_efun
+呼叫来自：/adm/single/master.c 的 preload() 第 104 行，物件： /adm/single/master
+呼叫来自：/adm/single/master.c 的 CATCH() 第 104 行，物件： /adm/single/master
+呼叫来自：/adm/single/master.c 的 log_error() 第 124 行，物件： /adm/single/master
+呼叫来自：/adm/single/simul_efun.c 的 wizardp() 第 12 行，物件： /adm/single/simul_efun
+/adm/daemons/securityd.c line 439: Warning: Unused local variable 'uid'
+  }
+   ^
+
+执行时段错误：*Object cannot be loaded during compilation.
+
+程式：/adm/single/simul_efun.c 第 12 行
+物件: /adm/single/simul_efun
+呼叫来自：/adm/single/master.c 的 preload() 第 104 行，物件： /adm/single/master
+呼叫来自：/adm/single/master.c 的 CATCH() 第 104 行，物件： /adm/single/master
+呼叫来自：/adm/single/master.c 的 log_error() 第 124 行，物件： /adm/single/master
+呼叫来自：/adm/single/simul_efun.c 的 wizardp() 第 12 行，物件： /adm/single/simul_efun
+/adm/daemons/securityd.c line 470: Warning: Unused local variable 'uid'
+  }
+   ^
+
+执行时段错误：*Object cannot be loaded during compilation.
+
+程式：/adm/single/simul_efun.c 第 12 行
+物件: /adm/single/simul_efun
+呼叫来自：/adm/single/master.c 的 preload() 第 104 行，物件： /adm/single/master
+呼叫来自：/adm/single/master.c 的 CATCH() 第 104 行，物件： /adm/single/master
+呼叫来自：/adm/single/master.c 的 log_error() 第 124 行，物件： /adm/single/master
+呼叫来自：/adm/single/simul_efun.c 的 wizardp() 第 12 行，物件： /adm/single/simul_efun
+/adm/daemons/virtuald...
+/adm/daemons/logind...
+/adm/daemons/logind.c line 9: Warning: redefinition of #define MAX_USERS
+
+  inherit F_DBASE
+  ^
+/adm/daemons/logind.c line 114: Warning: Unused local variable 'ppl'
+  }
+   ^
+/adm/daemons/logind.c line 142: Warning: Unused local variable 'usr'
+  }
+   ^
+/adm/daemons/logind.c line 142: Warning: Unused local variable 'i'
+  }
+   ^
+/adm/daemons/logind.c line 142: Warning: Unused local variable 'wiz_cnt'
+  }
+   ^
+/adm/daemons/logind.c line 142: Warning: Unused local variable 'ppl_cnt'
+  }
+   ^
+/adm/daemons/logind.c line 142: Warning: Unused local variable 'login_cnt'
+  }
+   ^
+/adm/daemons/logind.c line 505: Warning: Unused local variable 'n'
+  }
+   ^
+/adm/daemons/logind.c line 530: Warning: Unused local variable 'money'
+  }
+   ^
+/adm/daemons/logind.c line 676: Warning: Unused local variable 'cloth'
+  }
+   ^
+/adm/daemons/logind.c line 676: Warning: Unused local variable 'room'
+  }
+   ^
+/adm/daemons/logind.c line 676: Warning: Unused local variable 'skill_status'
+  }
+   ^
+/adm/daemons/logind.c line 676: Warning: Unused local variable 'family'
+  }
+   ^
+/adm/daemons/logind.c line 676: Warning: Unused local variable 'clas'
+  }
+   ^
+/adm/daemons/logind.c line 676: Warning: Unused local variable 'sname'
+  }
+   ^
+/adm/daemons/logind.c line 676: Warning: Unused local variable 'select'
+  }
+   ^
+/adm/daemons/logind.c line 676: Warning: Unused local variable 'i'
+  }
+   ^
+/adm/daemons/logind.c line 676: Warning: Unused local variable 'level'
+  }
+   ^
+/adm/daemons/logind.c line 676: Warning: Unused local variable 'exper'
+  }
+   ^
+/adm/daemons/logind.c line 747: Warning: Unused local variable 'ob'
+  }
+   ^
+/adm/daemons/rankd...
+/adm/daemons/commandd...
+/adm/daemons/chinesed...
+/adm/daemons/emoted...
+/adm/daemons/emoted.c line 72: Warning: Unused local variable 'j'
+  }
+   ^
+/adm/daemons/aliasd...
+/adm/daemons/fingerd...
+/adm/daemons/fingerd.c line 77: Warning: Unused local variable 'fip'
+  }
+   ^
+/adm/daemons/channeld...
+/adm/daemons/channeld.c line 199: Warning: Non-void functions must return a value.
+  if(!stringp(arg)) return;
+		if( channels[verb]["omit_address"] ) localmsg = remove_addresses(arg, 1)
+                             ^
+/adm/daemons/channeld.c line 202: Warning: Non-void functions must return a value.
+  if(!stringp(localmsg)) return;
+		message( "channel:" + verb
+                                  ^
+/adm/daemons/natured...
+/adm/daemons/weapond...
+/adm/daemons/network/dns_master...
+/adm/daemons/network/dns_master.c line 435: Warning: Unused local variable 'new_mud'
+  }
+// deletes an entry for a mu
+   ^
+/adm/daemons/network/dns_master.c line 435: Warning: Unused local variable 'svc'
+  }
+// deletes an entry for a mu
+   ^
+/adm/daemons/network/dns_master.c line 565: Warning: Expression has no side effects, and the value is unused
+  return
+          ^
+/adm/daemons/network/dns_master.c line 623: Warning: Unused local variable 'm'
+  }
+   ^
+/adm/daemons/network/dns_master.c line 623: Warning: Unused local variable 'str'
+  }
+   ^
+/adm/daemons/network/dns_master.c line 746: Warning: Unused local variable 'euid'
+  }
+   ^
+/adm/daemons/network/dns_master.c line 790: Warning: Unused local variable 'temp'
+  }
+   ^
+/adm/daemons/network/dns_master.c line 860: Warning: Unused local variable 'static_db'
+  }
+   ^
+/adm/daemons/network/dns_master.c line 860: Warning: Unused local variable 'i'
+  }
+   ^
+/adm/daemons/network/dns_master.c line 860: Warning: Unused local variable 'strs'
+  }
+   ^
+/adm/daemons/ftpd...
+/include/net/ftpdconf.h line 90: Warning: redefinition of #define VALID_READ
+
+  #define RESTRICTED_READ  1              // ditto, but limited to public dir
+  ^
+/include/net/ftpdconf.h line 91: Warning: redefinition of #define RESTRICTED_READ
+
+  #define WRITE_LIMIT_READ 2              // access limited by write acces
+  ^
+/include/net/ftpdconf.h line 92: Warning: redefinition of #define WRITE_LIMIT_READ
+
+  /*#endif*
+  ^
+/include/net/ftpdconf.h line 105: Warning: redefinition of #define VALID_WRITE
+
+  #define RESTRICTED_WRITE 1              // ditto, but limited to public dir
+  ^
+/include/net/ftpdconf.h line 106: Warning: redefinition of #define RESTRICTED_WRITE
+
+  #define READ_ONLY        2              // no write access, at al
+  ^
+/include/net/ftpdconf.h line 107: Warning: redefinition of #define READ_ONLY
+
+  /*#endif*
+  ^
+/include/net/ftpdsupp.h line 67: Warning: Unused local variable 'file'
+  }
+   ^
+/adm/daemons/ftpd.c line 456: Warning: Unused local variable 's'
+  }
+   ^
+/adm/daemons/network/http...
+/inherit/save.c line 14: syntax error, unexpected L_BASIC_TYPE, expecting L_ASSIGN or ';' or '(' or ','
+  private static int persistent
+                    ^
+错误讯息被拦截: 
+执行时段错误：*Error in loading object '/inherit/save'
+
+程式：/adm/single/master.c 第 104 行
+物件: /adm/single/master
+呼叫来自：/adm/single/master.c 的 preload() 第 104 行，物件： /adm/single/master
+呼叫来自：/adm/single/master.c 的 CATCH() 第 104 行，物件： /adm/single/master
+Accepting telnet connections on 0.0.0.0:5555.
+Initializations complete.
+
+/adm/daemons/band.c line 70: Warning: Unused local variable 'i'
+  }
+   ^
+/inherit/char/char.c line 4: Warning: Unknown #pragma, ignored.
+  #include <action.h
+  ^
+/inherit/char/char.c line 4: Warning: Unknown #pragma, ignored.
+  #include <action.h
+  ^
+/feature/alias.c line 5: Warning: Unknown #pragma, ignored.
+  #include <ansi.h
+  ^
+/inherit/char/char.c line 4: Warning: Unknown #pragma, ignored.
+  #include <action.h
+  ^
+/inherit/char/char.c line 4: Warning: Unknown #pragma, ignored.
+  #include <action.h
+  ^
+/inherit/char/char.c line 4: Warning: Unknown #pragma, ignored.
+  #include <action.h
+  ^
+/inherit/char/char.c line 4: Warning: Unknown #pragma, ignored.
+  #include <action.h
+  ^
+/inherit/char/char.c line 4: Warning: Unknown #pragma, ignored.
+  #include <action.h
+  ^
+/inherit/char/char.c line 4: Warning: Unknown #pragma, ignored.
+  #include <action.h
+  ^
+/feature/damage.c line 253: Warning: Unused local variable 'i'
+  }
+   ^
+/feature/damage.c line 331: Warning: Unused local variable 'i'
+  }
+   ^
+/inherit/char/char.c line 4: Warning: Unknown #pragma, ignored.
+  #include <action.h
+  ^
+/inherit/char/char.c line 4: Warning: Unknown #pragma, ignored.
+  #include <action.h
+  ^
+/inherit/char/char.c line 4: Warning: Unknown #pragma, ignored.
+  #include <action.h
+  ^
+/inherit/char/char.c line 4: Warning: Unknown #pragma, ignored.
+  #include <action.h
+  ^
+/inherit/char/char.c line 4: Warning: Unknown #pragma, ignored.
+  #include <action.h
+  ^
+/feature/more.c line 29: Warning: Unused local variable 'j'
+  }
+   ^
+/inherit/char/char.c line 4: Warning: Unknown #pragma, ignored.
+  #include <action.h
+  ^
+/inherit/char/char.c line 4: Warning: Unknown #pragma, ignored.
+  #include <action.h
+  ^
+/feature/name.c line 147: Warning: Unused local variable 'str1'
+  }
+   ^
+/inherit/char/char.c line 4: Warning: Unknown #pragma, ignored.
+  #include <action.h
+  ^
+/inherit/char/char.c line 4: Warning: Unknown #pragma, ignored.
+  #include <action.h
+  ^
+/inherit/char/char.c line 4: Warning: Unknown #pragma, ignored.
+  #include <action.h
+  ^
+/adm/daemons/chard.c line 184: Warning: Unknown \ escape.
+  tell_object(p""+"[31m" "\n\你已非风清扬的弟子了，好自为之吧！\n\n" NOR)
+                                 ^
+/include/armor.h line 9: Warning: redefinition of #define ARMOR
+
+  #define SURCOAT		"/inherit/armor/surcoat
+  ^
+/include/armor.h line 9: Warning: redefinition of #define ARMOR
+
+  #define SURCOAT		"/inherit/armor/surcoat
+  ^
+/feature/equip.c line 107: Warning: Unused local variable 'type'
+  }
+   ^
+/include/armor.h line 9: Warning: redefinition of #define ARMOR
+
+  #define SURCOAT		"/inherit/armor/surcoat
+  ^
+/include/armor.h line 9: Warning: redefinition of #define ARMOR
+
+  #define SURCOAT		"/inherit/armor/surcoat
+  ^
+/adm/daemons/regband.c line 88: Warning: Unused local variable 'i'
+  }
+   ^
+/inherit/room/room.c line 7: Warning: Unknown #pragma, ignored.
+  #include <dbase.h
+  ^
+/inherit/room/room.c line 257: Warning: Unused local variable 'item_desc'
+  }
+   ^
+/inherit/char/npc.c line 185: Warning: Unused local variable 'weapon'
+  }
+   ^
+/kungfu/class/dali/zhuwanli.c line 142: Warning: Unused local variable 'fam'
+  }
+   ^
+/kungfu/class/dali/zhuwanli.c line 142: Warning: Unused local variable 'dldj'
+  }
+   ^
+/include/armor.h line 9: Warning: redefinition of #define ARMOR
+
+  #define SURCOAT		"/inherit/armor/surcoat
+  ^
+/include/armor.h line 9: Warning: redefinition of #define ARMOR
+
+  #define SURCOAT		"/inherit/armor/surcoat
+  ^
+/inherit/misc/bboard.c line 71: Warning: Unused local variable 'i'
+  }
+   ^
+/inherit/misc/bboard.c line 71: Warning: Unused local variable 'last_time_read'
+  }
+   ^
+/inherit/misc/bboard.c line 71: Warning: Unused local variable 'myid'
+  }
+   ^
+/inherit/misc/bboard.c line 93: Warning: Unused local variable 'myid'
+  }
+   ^
+/cmds/std/look.c line 197: Warning: Unused local variable 'limb_status'
+  }
+   ^
+/kungfu/skill/force.c line 8: Warning: Number of arguments disagrees with previous definition.
+  int valid_learn() { return 1;
+                   ^
+/cmds/skill/xue.c line 151: Warning: Unused local variable 'master'
+  }
+   ^
+/kungfu/skill/duanshi-shenfa.c line 177: Warning: Unused local variable 'ap'
+  }
+   ^
+/kungfu/skill/duanshi-shenfa.c line 177: Warning: Unused local variable 'dp'
+  }
+   ^
+/kungfu/skill/duanshi-shenfa.c line 177: Warning: Unused local variable 'diff1'
+  }
+   ^
+/kungfu/skill/duanshi-shenfa.c line 177: Warning: Unused local variable 'diff2'
+  }
+   ^
+/kungfu/skill/duanshi-shenfa.c line 177: Warning: Unused local variable 'weapon'
+  }
+   ^
+Stack trace (most recent call last):
+#6    Object "driver", at 0x1026d4683, in main + 11
+#5    Object "driver", at 0x1026e44ab, in driver_main + 2979
+#4    Object "driver", at 0x1026d961b, in backend(event_base*) + 935
+#3    Object "driver", at 0x102819b73, in event_base_loop + 859
+#2    Object "driver", at 0x102821ec3, in kq_dispatch + 775
+#1    Object "libsystem_platform.dylib", at 0x1925956a3, in _sigtramp + 55
+#0    Object "driver", at 0x1026e3797, in (anonymous namespace)::attempt_shutdown(int) + 135
+******** FATAL ERROR: SIGTERM: Process terminated
+FluffOS driver attempting to exit gracefully.
+crash() in master called successfully.  Aborting.

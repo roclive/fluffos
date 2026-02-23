@@ -1,0 +1,1358 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>🎮 FluffOS + 🤖 AI Agent</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body { 
+            background-color: #0d1117; 
+            color: #c9d1d9; 
+            font-family: 'JetBrains Mono', 'Consolas', 'Courier New', monospace; 
+            height: 100vh;
+            display: flex;
+            overflow: hidden;
+        }
+        
+        /* ========== 左侧：AI 控制面板 ========== */
+        #ai-panel {
+            width: 380px;
+            background: #161b22;
+            border-right: 1px solid #30363d;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        
+        #ai-header {
+            background: #21262d;
+            padding: 15px;
+            border-bottom: 1px solid #30363d;
+        }
+        
+        #ai-header h1 {
+            font-size: 16px;
+            color: #58a6ff;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        #ai-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 15px;
+        }
+        
+        .ai-section {
+            background: #0d1117;
+            border: 1px solid #30363d;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            overflow: hidden;
+        }
+        
+        .ai-section-header {
+            background: #21262d;
+            padding: 10px 12px;
+            font-size: 12px;
+            font-weight: bold;
+            color: #8b949e;
+            border-bottom: 1px solid #30363d;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .ai-section-content {
+            padding: 12px;
+        }
+        
+        /* AI 控制按钮 */
+        .ai-controls {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+        
+        .ai-btn {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: bold;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+        
+        .ai-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .ai-btn-start {
+            background: #238636;
+            color: white;
+        }
+        
+        .ai-btn-start:hover:not(:disabled) {
+            background: #2ea043;
+        }
+        
+        .ai-btn-stop {
+            background: #da3633;
+            color: white;
+        }
+        
+        .ai-btn-stop:hover:not(:disabled) {
+            background: #f85149;
+        }
+        
+        .ai-btn-pause {
+            background: #9e6a03;
+            color: white;
+        }
+        
+        /* 状态指示器 */
+        .status-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+        
+        .status-indicator {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #da3633;
+        }
+        
+        .status-indicator.online {
+            background: #3fb950;
+            box-shadow: 0 0 8px #3fb950;
+        }
+        
+        .status-indicator.running {
+            background: #58a6ff;
+            animation: pulse 1.5s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+        
+        .status-text {
+            font-size: 13px;
+            color: #8b949e;
+        }
+        
+        /* 角色状态 */
+        .stat-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+        
+        .stat-item {
+            background: #21262d;
+            padding: 8px 10px;
+            border-radius: 4px;
+            font-size: 11px;
+        }
+        
+        .stat-label {
+            color: #8b949e;
+            margin-bottom: 2px;
+        }
+        
+        .stat-value {
+            color: #58a6ff;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        
+        .stat-value.warning {
+            color: #f85149;
+        }
+        
+        .stat-value.success {
+            color: #3fb950;
+        }
+        
+        /* AI 思维日志 */
+        #ai-log {
+            height: 200px;
+            overflow-y: auto;
+            background: #0d1117;
+            border: 1px solid #30363d;
+            border-radius: 4px;
+            padding: 8px;
+            font-size: 11px;
+            line-height: 1.5;
+        }
+        
+        .log-entry {
+            margin-bottom: 6px;
+            padding-left: 16px;
+            position: relative;
+        }
+        
+        .log-entry::before {
+            position: absolute;
+            left: 0;
+        }
+        
+        .log-entry.perception {
+            color: #d29922;
+        }
+        
+        .log-entry.perception::before {
+            content: "👁";
+        }
+        
+        .log-entry.action {
+            color: #3fb950;
+        }
+        
+        .log-entry.action::before {
+            content: "▶";
+        }
+        
+        .log-entry.decision {
+            color: #58a6ff;
+        }
+        
+        .log-entry.decision::before {
+            content: "🧠";
+        }
+        
+        .log-entry.system {
+            color: #8b949e;
+        }
+        
+        .log-entry.system::before {
+            content: "ℹ";
+        }
+        
+        .log-time {
+            color: #484f58;
+            font-size: 10px;
+            margin-right: 4px;
+        }
+        
+        /* 已探索地图 */
+        #explored-list {
+            max-height: 150px;
+            overflow-y: auto;
+        }
+        
+        .explored-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 6px 8px;
+            border-bottom: 1px solid #21262d;
+            font-size: 11px;
+        }
+        
+        .explored-item:last-child {
+            border-bottom: none;
+        }
+        
+        .explored-item.current {
+            background: #23863633;
+            border-left: 3px solid #238636;
+        }
+        
+        .room-name {
+            color: #c9d1d9;
+        }
+        
+        .room-count {
+            color: #8b949e;
+            font-size: 10px;
+        }
+        
+        /* AI 配置 */
+        .config-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+            font-size: 12px;
+        }
+        
+        .config-label {
+            color: #8b949e;
+        }
+        
+        .config-value {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        input[type="range"] {
+            width: 100px;
+        }
+        
+        select {
+            background: #21262d;
+            border: 1px solid #30363d;
+            color: #c9d1d9;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+        
+        /* ========== 右侧：MUD 客户端 ========== */
+        #mud-panel {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: #000;
+        }
+        
+        #mud-toolbar {
+            background: #161b22;
+            padding: 10px 15px;
+            border-bottom: 1px solid #30363d;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        
+        .toolbar-group {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            padding-right: 15px;
+            border-right: 1px solid #30363d;
+        }
+        
+        .toolbar-group:last-child {
+            border-right: none;
+            flex: 1;
+            justify-content: flex-end;
+        }
+        
+        .toolbar-label {
+            font-size: 11px;
+            color: #8b949e;
+        }
+        
+        .toolbar-input {
+            background: #0d1117;
+            border: 1px solid #30363d;
+            color: #c9d1d9;
+            padding: 6px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-family: inherit;
+        }
+        
+        .toolbar-input:focus {
+            outline: none;
+            border-color: #58a6ff;
+        }
+        
+        .toolbar-btn {
+            background: #21262d;
+            border: 1px solid #30363d;
+            color: #c9d1d9;
+            padding: 6px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.2s;
+        }
+        
+        .toolbar-btn:hover {
+            background: #30363d;
+            border-color: #58a6ff;
+        }
+        
+        .toolbar-btn.primary {
+            background: #1f6feb;
+            border-color: #388bfd;
+        }
+        
+        .toolbar-btn.primary:hover {
+            background: #388bfd;
+        }
+        
+        #mud-output {
+            flex: 1;
+            overflow-y: auto;
+            padding: 15px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        
+        #mud-input-area {
+            display: flex;
+            padding: 12px 15px;
+            background: #161b22;
+            border-top: 1px solid #30363d;
+            gap: 10px;
+        }
+        
+        #mud-input {
+            flex: 1;
+            background: #0d1117;
+            border: 1px solid #30363d;
+            color: #3fb950;
+            padding: 10px 12px;
+            border-radius: 4px;
+            font-family: inherit;
+            font-size: 14px;
+        }
+        
+        #mud-input:focus {
+            outline: none;
+            border-color: #238636;
+        }
+        
+        #mud-input.ai-mode {
+            border-color: #58a6ff;
+            background: #1f6feb11;
+        }
+        
+        /* ANSI 颜色 */
+        .ansi-30 { color: #000; }
+        .ansi-31 { color: #ff5555; }
+        .ansi-32 { color: #3fb950; }
+        .ansi-33 { color: #d29922; }
+        .ansi-34 { color: #58a6ff; }
+        .ansi-35 { color: #f778ba; }
+        .ansi-36 { color: #39c5cf; }
+        .ansi-37 { color: #ffffff; }
+        .ansi-1 { font-weight: bold; }
+        
+        /* 输出区域的消息 */
+        .mud-line {
+            margin-bottom: 2px;
+        }
+        
+        /* 滚动条 */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #0d1117;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: #30363d;
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: #484f58;
+        }
+        
+        /* 命令提示 */
+        .command-hint {
+            position: absolute;
+            bottom: 60px;
+            right: 20px;
+            background: #21262d;
+            border: 1px solid #30363d;
+            padding: 10px;
+            border-radius: 6px;
+            font-size: 11px;
+            color: #8b949e;
+            display: none;
+        }
+        
+        .command-hint.visible {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+<!-- ========== 左侧：AI Agent 控制面板 ========== -->
+<div id="ai-panel">
+    <div id="ai-header">
+        <h1>🤖 AI Agent 控制台</h1>
+    </div>
+    
+    <div id="ai-content">
+        <!-- AI 控制 -->
+        <div class="ai-section">
+            <div class="ai-section-header">
+                🎮 AI 控制
+            </div>
+            <div class="ai-section-content">
+                <div class="status-row">
+                    <div id="status-indicator" class="status-indicator"></div>
+                    <span id="status-text" class="status-text">未连接</span>
+                </div>
+                
+                <div class="ai-controls">
+                    <button class="ai-btn ai-btn-start" id="btn-start" onclick="startAI()" disabled>
+                        ▶ 启动 AI
+                    </button>
+                    <button class="ai-btn ai-btn-stop" id="btn-stop" onclick="stopAI()" disabled>
+                        ⏹ 停止
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 角色状态 -->
+        <div class="ai-section">
+            <div class="ai-section-header">
+                📊 角色状态
+            </div>
+            <div class="ai-section-content">
+                <div class="stat-grid">
+                    <div class="stat-item">
+                        <div class="stat-label">气血</div>
+                        <div class="stat-value" id="stat-hp">--</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-label">内力</div>
+                        <div class="stat-value" id="stat-neili">--</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-label">精力</div>
+                        <div class="stat-value" id="stat-jingli">--</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-label">经验</div>
+                        <div class="stat-value" id="stat-exp">--</div>
+                    </div>
+                </div>
+                <div class="stat-item" style="margin-top: 8px;">
+                    <div class="stat-label">当前位置</div>
+                    <div class="stat-value" id="stat-location" style="font-size: 12px;">未知</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- AI 配置 -->
+        <div class="ai-section">
+            <div class="ai-section-header">
+                ⚙️ AI 配置
+            </div>
+            <div class="ai-section-content">
+                <div class="config-row">
+                    <span class="config-label">探索间隔</span>
+                    <div class="config-value">
+                        <input type="range" id="config-delay" min="1000" max="10000" value="3000" step="500">
+                        <span id="delay-value">3s</span>
+                    </div>
+                </div>
+                <div class="config-row">
+                    <span class="config-label">血量警戒</span>
+                    <div class="config-value">
+                        <input type="range" id="config-hp" min="10" max="80" value="30" step="5">
+                        <span id="hp-value">30%</span>
+                    </div>
+                </div>
+                <div class="config-row">
+                    <span class="config-label">探索模式</span>
+                    <select id="config-mode">
+                        <option value="explore">🔍 探索地图</option>
+                        <option value="combat">⚔️ 战斗训练</option>
+                        <option value="escape">🏃 躲避战斗</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        
+        <!-- AI 思维日志 -->
+        <div class="ai-section">
+            <div class="ai-section-header">
+                💭 AI 思维日志
+            </div>
+            <div class="ai-section-content" style="padding: 0;">
+                <div id="ai-log">
+                    <div class="log-entry system">
+                        <span class="log-time">[系统]</span>
+                        AI Agent 准备就绪
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 已探索地图 -->
+        <div class="ai-section">
+            <div class="ai-section-header">
+                🗺️ 已探索地图 (<span id="explored-count">0</span>)
+            </div>
+            <div class="ai-section-content" style="padding: 0;">
+                <div id="explored-list">
+                    <div style="padding: 10px; color: #666; text-align: center; font-size: 11px;">
+                        暂无数据
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 统计信息 -->
+        <div class="ai-section">
+            <div class="ai-section-header">
+                📈 统计
+            </div>
+            <div class="ai-section-content">
+                <div class="stat-grid">
+                    <div class="stat-item">
+                        <div class="stat-label">移动次数</div>
+                        <div class="stat-value" id="stat-moves">0</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-label">战斗次数</div>
+                        <div class="stat-value" id="stat-fights">0</div>
+                    </div>
+                </div>
+                <div style="margin-top: 8px; text-align: center; font-size: 11px; color: #8b949e;">
+                    运行时间: <span id="stat-time">00:00:00</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ========== 右侧：MUD 客户端 ========== -->
+<div id="mud-panel">
+    <div id="mud-toolbar">
+        <div class="toolbar-group">
+            <span class="toolbar-label">服务器</span>
+            <input type="text" class="toolbar-input" id="ws-host" value="127.0.0.1:8080" style="width: 140px;">
+        </div>
+        <div class="toolbar-group">
+            <span class="toolbar-label">账号</span>
+            <input type="text" class="toolbar-input" id="username" value="john" style="width: 100px;">
+        </div>
+        <div class="toolbar-group">
+            <span class="toolbar-label">密码</span>
+            <input type="password" class="toolbar-input" id="password" value="" style="width: 100px;">
+        </div>
+        <div class="toolbar-group" style="flex: 1;">
+            <button class="toolbar-btn primary" id="btn-connect" onclick="toggleConnection()">
+                🔌 连接
+            </button>
+        </div>
+    </div>
+    
+    <div id="mud-output">
+        <div class="mud-line" style="color: #58a6ff;">
+╔════════════════════════════════════════════════════════════════╗
+║              🤖 FluffOS MUD + AI Agent 控制台                  ║
+╚════════════════════════════════════════════════════════════════╝
+        </div>
+        <div class="mud-line">
+欢迎使用增强版 Web MUD 客户端！
+
+功能特点：
+• 🎮 人工模式：手动输入命令控制角色
+• 🤖 AI 模式：AI 自动探索、战斗、决策
+• 👁️ 实时观察：观看 AI 的思维过程和决策逻辑
+• 🗺️ 地图探索：自动记录已探索的房间
+
+使用说明：
+1. 在上方输入服务器地址、账号和密码
+2. 点击"连接"按钮建立 WebSocket 连接
+3. 等待登录完成后，点击"启动 AI"按钮
+4. AI 将使用普通方向命令 (north/south/east/west) 自动探索地图
+5. 您可以随时暂停 AI，切换到人工模式
+
+提示：
+• 绿色边框表示人工输入模式
+• 蓝色边框表示 AI 自动控制模式
+• AI 会根据血量、内力等状态自动决策
+        </div>
+    </div>
+    
+    <div id="mud-input-area">
+        <input type="text" id="mud-input" placeholder="输入命令 (回车发送) 或让 AI 自动控制..." autofocus>
+    </div>
+</div>
+
+<script>
+// ==================== AI Agent 核心 ====================
+
+class MUDAIAgent {
+    constructor() {
+        this.ws = null;
+        this.connected = false;
+        this.authenticated = false;
+        this.running = false;
+        this.paused = false;
+        this.mode = 'manual'; // 'manual' | 'ai'
+        
+        // 游戏状态
+        this.state = {
+            hp: 0, maxHp: 0,
+            neili: 0, maxNeili: 0,
+            jingli: 0, maxJingli: 0,
+            exp: 0,
+            location: '未知',
+            exits: [],
+            inCombat: false
+        };
+        
+        // 探索数据
+        this.exploration = {
+            rooms: new Map(),
+            moveCount: 0,
+            fightCount: 0,
+            path: []
+        };
+        
+        // 配置
+        this.config = {
+            delay: 3000,
+            minHpPercent: 30,
+            mode: 'explore'
+        };
+        
+        // 方向映射
+        this.directions = ['north', 'south', 'east', 'west', 'up', 'down', 'n', 's', 'e', 'w', 'u', 'd'];
+        this.opposite = {
+            'north': 'south', 'south': 'north',
+            'east': 'west', 'west': 'east',
+            'up': 'down', 'down': 'up',
+            'n': 's', 's': 'n',
+            'e': 'w', 'w': 'e',
+            'u': 'd', 'd': 'u'
+        };
+        
+        this.startTime = null;
+        this.timer = null;
+    }
+    
+    // 连接服务器
+    connect(host, username, password) {
+        const wsUri = `ws://${host}`;
+        
+        this.log(`正在连接 ${wsUri}...`, 'system');
+        
+        this.ws = new WebSocket(wsUri, "ascii");
+        this.ws.binaryType = "arraybuffer";
+        
+        this.ws.onopen = () => {
+            this.log("✅ WebSocket 连接成功", 'system');
+            this.connected = true;
+            updateConnectionUI(true);
+            
+            // 自动登录
+            this.login(username, password);
+            
+            // 如果已经认证，启用启动按钮
+            if (this.authenticated) {
+                document.getElementById('btn-start').disabled = false;
+            }
+        };
+        
+        this.ws.onclose = () => {
+            this.log("❌ 连接已断开", 'system');
+            this.stop();
+            this.connected = false;
+            this.authenticated = false;
+            updateConnectionUI(false);
+            updateAIStatus('offline');
+        };
+        
+        this.ws.onmessage = (evt) => {
+            let text;
+            if (evt.data instanceof ArrayBuffer) {
+                text = new TextDecoder("utf-8").decode(evt.data);
+            } else {
+                text = evt.data;
+            }
+            
+            this.processMessage(text);
+            writeToMUD(text);
+        };
+        
+        this.ws.onerror = (err) => {
+            this.log("⚠️ 连接错误: " + err, 'system');
+        };
+    }
+    
+    // 登录流程
+    login(username, password) {
+        this.username = username;
+        
+        setTimeout(() => {
+            this.send(username);
+            this.log(`发送账号: ${username}`, 'system');
+        }, 500);
+        
+        if (password) {
+            setTimeout(() => {
+                this.send(password);
+                this.log('发送密码...', 'system');
+            }, 1500);
+        }
+    }
+    
+    // 发送命令（核心操作接口）
+    send(cmd) {
+        if (this.ws && this.ws.readyState === WebSocket.OPEN) {
+            this.ws.send(cmd + "\n");
+            
+            // 如果是 AI 发送的命令，记录到日志
+            if (this.mode === 'ai' && this.running) {
+                this.log(`执行命令: ${cmd}`, 'action');
+            }
+            
+            return true;
+        }
+        return false;
+    }
+    
+    // 处理收到的消息
+    processMessage(text) {
+        // 检测登录成功
+        if (text.includes("欢迎") || text.includes("你好") || text.includes("今日是") || 
+            text.includes("连线已经成功")) {
+            if (!this.authenticated) {
+                this.authenticated = true;
+                this.log("🎉 登录成功！可以启动 AI 了", 'system');
+                updateAIStatus('ready');
+                document.getElementById('btn-start').disabled = false;
+                
+                // 获取初始状态
+                setTimeout(() => this.send("hp"), 1000);
+                setTimeout(() => this.send("look"), 1500);
+            }
+        }
+        
+        // 解析状态
+        this.parseStatus(text);
+        
+        // 解析房间
+        this.parseRoom(text);
+        
+        // 解析出口（关键！）
+        this.parseExits(text);
+        
+        // 检测战斗状态
+        if (text.includes("看起来") && (text.includes("想杀死你") || text.includes("想杀你"))) {
+            this.state.inCombat = true;
+            this.exploration.fightCount++;
+            this.log("⚔️ 进入战斗！", 'perception');
+            updateStats();
+        }
+        
+        if (text.includes("你死了") || text.includes("尸体") || text.includes("尸体消失")) {
+            this.state.inCombat = false;
+        }
+    }
+    
+    // 解析状态
+    parseStatus(text) {
+        // 气血
+        const hpMatch = text.match(/(?:精|气血|HP|hp).*?(\d+)\s*\/\s*(\d+)/i);
+        if (hpMatch) {
+            this.state.hp = parseInt(hpMatch[1]);
+            this.state.maxHp = parseInt(hpMatch[2]);
+        }
+        
+        // 内力
+        const neiliMatch = text.match(/(?:内力|neili|force).*?(\d+)\s*\/\s*(\d+)/i);
+        if (neiliMatch) {
+            this.state.neili = parseInt(neiliMatch[1]);
+            this.state.maxNeili = parseInt(neiliMatch[2]);
+        }
+        
+        // 精力
+        const jingliMatch = text.match(/(?:精力|jingli|energy).*?(\d+)\s*\/\s*(\d+)/i);
+        if (jingliMatch) {
+            this.state.jingli = parseInt(jingliMatch[1]);
+            this.state.maxJingli = parseInt(jingliMatch[2]);
+        }
+        
+        // 经验
+        const expMatch = text.match(/(?:经验|exp|combat_exp).*?(\d+)/i);
+        if (expMatch) {
+            this.state.exp = parseInt(expMatch[1]);
+        }
+        
+        updateStats();
+    }
+    
+    // 解析房间
+    parseRoom(text) {
+        // 房间名称
+        const roomMatch = text.match(/^\s*([^\n]+?)\s*[-－]/);
+        if (roomMatch && text.length < 500) {
+            const roomName = roomMatch[1].trim();
+            if (roomName && roomName.length > 2 && roomName.length < 40) {
+                this.state.location = roomName;
+                
+                // 记录房间
+                if (!this.exploration.rooms.has(roomName)) {
+                    this.exploration.rooms.set(roomName, {
+                        name: roomName,
+                        firstSeen: Date.now(),
+                        visitCount: 0
+                    });
+                    this.log(`发现新地点: ${roomName}`, 'perception');
+                    updateExploredMap();
+                }
+                
+                const room = this.exploration.rooms.get(roomName);
+                room.visitCount++;
+                room.lastVisited = Date.now();
+                
+                updateStats();
+            }
+        }
+    }
+    
+    // 解析出口
+    parseExits(text) {
+        const exits = [];
+        
+        // 检测明确的出口描述（如"这里唯一的出口是 down"）
+        const exitMatch = text.match(/出口是?\s*([a-z]+)/i);
+        if (exitMatch) {
+            exits.push(exitMatch[1].toLowerCase());
+        }
+        
+        // 检测方向词（中英文）
+        if (text.includes("north") || text.includes("北边") || text.includes("北面") || text.includes("向北")) exits.push("north");
+        if (text.includes("south") || text.includes("南边") || text.includes("南面") || text.includes("向南")) exits.push("south");
+        if (text.includes("east") || text.includes("东边") || text.includes("东面") || text.includes("向东")) exits.push("east");
+        if (text.includes("west") || text.includes("西边") || text.includes("西面") || text.includes("向西")) exits.push("west");
+        if (text.includes("up") || text.includes("向上") || text.includes("上面") || text.includes("楼梯上")) exits.push("up");
+        if (text.includes("down") || text.includes("向下") || text.includes("下面") || text.includes("楼梯下") || text.includes("出口是 down")) exits.push("down");
+        
+        // 检测缩写
+        if (text.match(/\bn\b/) || text.includes(" n ")) exits.push("north");
+        if (text.match(/\bs\b/) || text.includes(" s ")) exits.push("south");
+        if (text.match(/\be\b/) || text.includes(" e ")) exits.push("east");
+        if (text.match(/\bw\b/) || text.includes(" w ")) exits.push("west");
+        if (text.match(/\bu\b/) || text.includes(" u ")) exits.push("up");
+        if (text.match(/\bd\b/) || text.includes(" d ")) exits.push("down");
+        
+        // 去重
+        const uniqueExits = [...new Set(exits)];
+        
+        if (uniqueExits.length > 0) {
+            this.state.exits = uniqueExits;
+            this.log(`发现出口: ${uniqueExits.join(", ")}`, 'perception');
+        }
+    }
+    
+    // 启动 AI
+    start() {
+        if (!this.connected || !this.authenticated) {
+            this.log("❌ 请先连接并登录", 'system');
+            return;
+        }
+        
+        this.running = true;
+        this.mode = 'ai';
+        this.startTime = Date.now();
+        
+        this.log("🚀 AI Agent 启动！开始自主探索...", 'system');
+        updateAIStatus('running');
+        updateInputMode('ai');
+        
+        // 先查看当前环境
+        this.send("look");
+        await this.sleep(1000);
+        this.send("hp");
+        await this.sleep(1000);
+        
+        // 开始决策循环
+        this.decisionLoop();
+    }
+    
+    // 停止 AI
+    stop() {
+        this.running = false;
+        this.mode = 'manual';
+        
+        if (this.timer) {
+            clearTimeout(this.timer);
+        }
+        
+        this.log("⏹️ AI 已停止，切换到人工模式", 'system');
+        updateAIStatus(this.connected ? 'ready' : 'offline');
+        updateInputMode('manual');
+    }
+    
+    // 决策循环
+    async decisionLoop() {
+        while (this.running && this.connected) {
+            await this.makeDecision();
+            await this.sleep(this.config.delay);
+        }
+    }
+    
+    // 单次决策
+    async makeDecision() {
+        // 检查血量
+        const hpPercent = (this.state.hp / this.state.maxHp) * 100;
+        if (hpPercent < this.config.minHpPercent) {
+            this.log(`⚠️ 血量过低 (${hpPercent.toFixed(0)}%)，优先恢复`, 'decision');
+            this.send("exert recover");
+            await this.sleep(2000);
+            return;
+        }
+        
+        // 根据模式决策
+        switch (this.config.mode) {
+            case 'combat':
+                await this.combatDecision();
+                break;
+            case 'escape':
+                await this.escapeDecision();
+                break;
+            case 'explore':
+            default:
+                await this.exploreDecision();
+                break;
+        }
+    }
+    
+    // 探索决策
+    async exploreDecision() {
+        const exits = this.state.exits;
+        
+        if (!exits || exits.length === 0) {
+            this.log("未检测到出口，查看环境...", 'decision');
+            this.send("look");
+            await this.sleep(1000);
+            return;
+        }
+        
+        // 选择方向（优先选择未探索过的方向）
+        let chosenDir = null;
+        const currentRoom = this.state.location;
+        
+        // 简单的随机选择（避免来回走动）
+        const availableDirs = exits.filter(dir => {
+            // 避免立即返回上一个房间
+            if (this.exploration.path.length > 0) {
+                const lastMove = this.exploration.path[this.exploration.path.length - 1];
+                const opposite = this.opposite[dir.toLowerCase()];
+                if (opposite && lastMove.dir === opposite) {
+                    return false;  // 不要立即返回
+                }
+            }
+            return true;
+        });
+        
+        if (availableDirs.length > 0) {
+            chosenDir = availableDirs[Math.floor(Math.random() * availableDirs.length)];
+        } else {
+            // 如果都不可用（死胡同），选择第一个方向
+            chosenDir = exits[0];
+        }
+        
+        if (chosenDir) {
+            const prevRoom = currentRoom;
+            
+            this.log(`决策: 向 ${chosenDir} 移动 (可用方向: ${exits.join(", ")})`, 'decision');
+            
+            // 执行移动命令
+            this.send(chosenDir.toLowerCase());
+            
+            // 记录移动
+            this.exploration.moveCount++;
+            this.exploration.path.push({
+                from: prevRoom,
+                dir: chosenDir,
+                time: Date.now()
+            });
+            
+            updateStats();
+            
+            // 移动后等待并查看新环境
+            await this.sleep(1500);
+            this.send("look");
+        }
+    }
+    
+    // 战斗决策
+    async combatDecision() {
+        if (this.state.inCombat) {
+            this.log("战斗中，使用技能", 'decision');
+            this.send("perform jingmo");
+        } else {
+            // 寻找敌人
+            this.send("look");
+            await this.sleep(1000);
+        }
+    }
+    
+    // 逃跑决策
+    async escapeDecision() {
+        if (this.state.inCombat) {
+            const exits = this.state.exits;
+            if (exits.length > 0) {
+                const escapeDir = exits[Math.floor(Math.random() * exits.length)];
+                this.log(`逃跑: 向 ${escapeDir}`, 'decision');
+                this.send(escapeDir);
+            }
+        } else {
+            await this.exploreDecision();
+        }
+    }
+    
+    // 辅助函数
+    sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+    
+    log(message, type = 'info') {
+        const logDiv = document.getElementById("ai-log");
+        const entry = document.createElement("div");
+        entry.className = `log-entry ${type}`;
+        entry.innerHTML = `
+            <span class="log-time">${new Date().toLocaleTimeString()}</span>
+            ${message}
+        `;
+        logDiv.insertBefore(entry, logDiv.firstChild);
+        
+        while (logDiv.children.length > 100) {
+            logDiv.removeChild(logDiv.lastChild);
+        }
+    }
+}
+
+// ==================== UI 控制 ====================
+
+const agent = new MUDAIAgent();
+
+// 连接/断开
+function toggleConnection() {
+    if (agent.connected) {
+        agent.ws.close();
+    } else {
+        const host = document.getElementById("ws-host").value;
+        const username = document.getElementById("username").value;
+        const password = document.getElementById("password").value;
+        
+        if (!host || !username) {
+            alert("请输入服务器地址和账号");
+            return;
+        }
+        
+        agent.connect(host, username, password);
+    }
+}
+
+// 启动 AI
+function startAI() {
+    agent.start();
+    document.getElementById("btn-start").disabled = true;
+    document.getElementById("btn-stop").disabled = false;
+}
+
+// 停止 AI
+function stopAI() {
+    agent.stop();
+    document.getElementById("btn-start").disabled = false;
+    document.getElementById("btn-stop").disabled = true;
+}
+
+// 更新连接 UI
+function updateConnectionUI(connected) {
+    const btn = document.getElementById("btn-connect");
+    btn.textContent = connected ? "🔌 断开" : "🔌 连接";
+    btn.className = connected ? "toolbar-btn" : "toolbar-btn primary";
+}
+
+// 更新 AI 状态
+function updateAIStatus(status) {
+    const light = document.getElementById("status-indicator");
+    const text = document.getElementById("status-text");
+    const startBtn = document.getElementById("btn-start");
+    
+    light.className = "status-indicator " + status;
+    
+    switch(status) {
+        case "running":
+            text.textContent = "AI 运行中";
+            startBtn.disabled = true;
+            break;
+        case "ready":
+            text.textContent = "就绪（可启动）";
+            light.className = "status-indicator online";
+            startBtn.disabled = false;
+            break;
+        case "offline":
+        default:
+            text.textContent = "未连接";
+            startBtn.disabled = true;
+            break;
+    }
+}
+
+// 更新输入框模式
+function updateInputMode(mode) {
+    const input = document.getElementById("mud-input");
+    if (mode === 'ai') {
+        input.classList.add('ai-mode');
+        input.placeholder = "🤖 AI 自动控制中... (点击停止可恢复手动)";
+    } else {
+        input.classList.remove('ai-mode');
+        input.placeholder = "输入命令 (回车发送)...";
+    }
+}
+
+// 更新统计
+function updateStats() {
+    // 状态值
+    const hpEl = document.getElementById("stat-hp");
+    const neiliEl = document.getElementById("stat-neili");
+    const jingliEl = document.getElementById("stat-jingli");
+    const expEl = document.getElementById("stat-exp");
+    const locationEl = document.getElementById("stat-location");
+    
+    if (agent.state.maxHp > 0) {
+        hpEl.textContent = `${agent.state.hp}/${agent.state.maxHp}`;
+        hpEl.className = agent.state.hp / agent.state.maxHp < 0.3 ? 'stat-value warning' : 'stat-value';
+    }
+    
+    if (agent.state.maxNeili > 0) {
+        neiliEl.textContent = `${agent.state.neili}/${agent.state.maxNeili}`;
+    }
+    
+    if (agent.state.maxJingli > 0) {
+        jingliEl.textContent = `${agent.state.jingli}/${agent.state.maxJingli}`;
+    }
+    
+    if (agent.state.exp > 0) {
+        expEl.textContent = agent.state.exp.toLocaleString();
+    }
+    
+    locationEl.textContent = agent.state.location;
+    
+    // 统计数据
+    document.getElementById("stat-moves").textContent = agent.exploration.moveCount;
+    document.getElementById("stat-fights").textContent = agent.exploration.fightCount;
+    document.getElementById("explored-count").textContent = agent.exploration.rooms.size;
+}
+
+// 更新已探索地图
+function updateExploredMap() {
+    const listDiv = document.getElementById("explored-list");
+    listDiv.innerHTML = "";
+    
+    if (agent.exploration.rooms.size === 0) {
+        listDiv.innerHTML = '<div style="padding: 10px; color: #666; text-align: center; font-size: 11px;">暂无数据</div>';
+        return;
+    }
+    
+    agent.exploration.rooms.forEach((room, name) => {
+        const item = document.createElement("div");
+        item.className = "explored-item";
+        if (name === agent.state.location) {
+            item.classList.add("current");
+        }
+        
+        item.innerHTML = `
+            <span class="room-name">${name}</span>
+            <span class="room-count">${room.visitCount}次</span>
+        `;
+        
+        listDiv.appendChild(item);
+    });
+}
+
+// 写入 MUD 输出
+function writeToMUD(message) {
+    const output = document.getElementById("mud-output");
+    
+    // ANSI 颜色解析
+    let escaped = message.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    let openSpans = 0;
+    let html = escaped.replace(/\x1B\[([0-9;]*)m/g, function(match, p1) {
+        if (p1 === "" || p1 === "0") {
+            const close = "</span>".repeat(openSpans);
+            openSpans = 0;
+            return close;
+        }
+        const classes = p1.split(';').map(c => 'ansi-' + c).join(' ');
+        openSpans++;
+        return '<span class="' + classes + '">';
+    });
+    if (openSpans > 0) {
+        html += "</span>".repeat(openSpans);
+    }
+    
+    const div = document.createElement("div");
+    div.className = "mud-line";
+    if (html.indexOf('<span') === -1) {
+        div.textContent = message;
+    } else {
+        div.innerHTML = html;
+    }
+    
+    output.appendChild(div);
+    output.scrollTop = output.scrollHeight;
+}
+
+// 监听输入
+const input = document.getElementById("mud-input");
+input.addEventListener("keydown", function(event) {
+    if (event.key === "Enter") {
+        event.preventDefault();
+        const msg = input.value.trim();
+        if (msg) {
+            // 如果 AI 在运行，先停止
+            if (agent.running) {
+                agent.log("👤 人工接管，AI 暂停", 'system');
+                agent.paused = true;
+            }
+            
+            agent.send(msg);
+            input.value = "";
+        }
+    }
+});
+
+// 配置滑块事件
+document.getElementById("config-delay").addEventListener("input", function(e) {
+    agent.config.delay = parseInt(e.target.value);
+    document.getElementById("delay-value").textContent = (agent.config.delay / 1000) + "s";
+});
+
+document.getElementById("config-hp").addEventListener("input", function(e) {
+    agent.config.minHpPercent = parseInt(e.target.value);
+    document.getElementById("hp-value").textContent = agent.config.minHpPercent + "%";
+});
+
+document.getElementById("config-mode").addEventListener("change", function(e) {
+    agent.config.mode = e.target.value;
+    agent.log(`切换模式: ${e.target.options[e.target.selectedIndex].text}`, 'system');
+});
+
+// 定时更新时间
+setInterval(() => {
+    if (agent.running && agent.startTime) {
+        const elapsed = Math.floor((Date.now() - agent.startTime) / 1000);
+        const hours = Math.floor(elapsed / 3600).toString().padStart(2, "0");
+        const mins = Math.floor((elapsed % 3600) / 60).toString().padStart(2, "0");
+        const secs = (elapsed % 60).toString().padStart(2, "0");
+        document.getElementById("stat-time").textContent = `${hours}:${mins}:${secs}`;
+    }
+}, 1000);
+
+// 初始化
+agent.log("系统初始化完成", 'system');
+agent.log("请配置连接信息后点击连接", 'system');
+</script>
+
+</body>
+</html>

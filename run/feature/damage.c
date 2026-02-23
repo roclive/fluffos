@@ -33,6 +33,29 @@ varargs int receive_damage(string type, int damage, mixed who)
 
 	set_heart_beat(1);
 
+	// === MUD HP & Enemy HP TAG ===
+	if (interactive(this_object())) {
+		tell_object(this_object(), sprintf(
+			"\n<!--MUD_HP:{\"qi\":%d,\"max_qi\":%d,\"jing\":%d,\"max_jing\":%d,\"neili\":%d,\"max_neili\":%d}-->\n",
+			this_object()->query("qi"),
+			this_object()->query("max_qi"),
+			this_object()->query("jing"),
+			this_object()->query("max_jing"),
+			this_object()->query("neili"),
+			this_object()->query("max_neili")
+		));
+	}
+	
+	// Send enemy HP to attacker if applicable
+	if (objectp(who) && interactive(who)) {
+		tell_object(who, sprintf(
+			"\n<!--MUD_ENEMY_HP:{\"qi\":%d,\"max_qi\":%d}-->\n",
+			this_object()->query("qi"),
+			this_object()->query("max_qi")
+		));
+	}
+	// === MUD HP & Enemy HP TAG END ===
+
 	return damage;
 }
 
