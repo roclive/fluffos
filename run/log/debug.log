@@ -821,3 +821,271 @@ int ask_leave(
 /d/xiakedao/npc/mux.c line 173: Warning: Unused local variable 'pass'
   }
    ^
+/cmds/usr/quit.c line 110: Warning: Unused local variable 'stage'
+  }
+   ^
+/cmds/std/drop.c line 87: Warning: Unused local variable 'str'
+  }
+   ^
+/inherit/room/room.c line 7: Warning: Unknown #pragma, ignored.
+  #include <dbase.h
+  ^
+/inherit/room/room.c line 257: Warning: Unused local variable 'item_desc'
+  }
+   ^
+/inherit/char/npc.c line 185: Warning: Unused local variable 'weapon'
+  }
+   ^
+/cmds/std/look.c line 197: Warning: Unused local variable 'limb_status'
+  }
+   ^
+/d/xiakedao/no_pk_room.c line 55: Warning: Unused local variable 'killer'
+  }
+   ^
+/d/xiakedao/npc/yufu.c line 93: Warning: Unused local variable 'room'
+  }
+int ask_leave(
+   ^
+/d/xiakedao/chuan.c line 58: Warning: Unused local variable 'money'
+  }
+   ^
+/d/xiakedao/chuan.c line 58: Warning: Unused local variable 'inv'
+  }
+   ^
+/d/xiakedao/chuan.c line 58: Warning: Unused local variable 'i'
+  }
+   ^
+/d/xiakedao/npc/mux.c line 173: Warning: Unused local variable 'pass'
+  }
+   ^
+/inherit/room/room.c line 7: Warning: Unknown #pragma, ignored.
+  #include <dbase.h
+  ^
+/inherit/room/room.c line 257: Warning: Unused local variable 'item_desc'
+  }
+   ^
+/d/xiakedao/no_pk_room.c line 55: Warning: Unused local variable 'killer'
+  }
+   ^
+/inherit/char/npc.c line 185: Warning: Unused local variable 'weapon'
+  }
+   ^
+/d/xiakedao/npc/yufu.c line 93: Warning: Unused local variable 'room'
+  }
+int ask_leave(
+   ^
+/d/xiakedao/chuan.c line 58: Warning: Unused local variable 'money'
+  }
+   ^
+/d/xiakedao/chuan.c line 58: Warning: Unused local variable 'inv'
+  }
+   ^
+/d/xiakedao/chuan.c line 58: Warning: Unused local variable 'i'
+  }
+   ^
+/cmds/usr/inventory.c line 33: Warning: Unused local variable 'i'
+  }
+   ^
+/cmds/std/ask.c line 134: Warning: Unused local variable 'inquiry'
+  }
+   ^
+/cmds/std/get.c line 122: Warning: Unused local variable 'enemy'
+  }
+   ^
+/d/xiakedao/npc/dahan.c line 152: Warning: Unused local variable 'sheyao'
+  }
+int ask_leave(
+   ^
+/include/armor.h line 9: Warning: redefinition of #define ARMOR
+
+  #define SURCOAT		"/inherit/armor/surcoat
+  ^
+/include/armor.h line 9: Warning: redefinition of #define ARMOR
+
+  #define SURCOAT		"/inherit/armor/surcoat
+  ^
+/include/armor.h line 9: Warning: redefinition of #define ARMOR
+
+  #define SURCOAT		"/inherit/armor/surcoat
+  ^
+/include/armor.h line 9: Warning: redefinition of #define ARMOR
+
+  #define SURCOAT		"/inherit/armor/surcoat
+  ^
+/d/xiakedao/npc/sipu.c line 114: Warning: Unused local variable 'i'
+  }
+int ask_daozhu(
+   ^
+/inherit/misc/bboard.c line 71: Warning: Unused local variable 'i'
+  }
+   ^
+/inherit/misc/bboard.c line 71: Warning: Unused local variable 'last_time_read'
+  }
+   ^
+/inherit/misc/bboard.c line 71: Warning: Unused local variable 'myid'
+  }
+   ^
+/inherit/misc/bboard.c line 93: Warning: Unused local variable 'myid'
+  }
+   ^
+/d/xiakedao/shatan3.c line 34: Warning: Unused local variable 'money'
+  }
+   ^
+/d/xiakedao/shatan3.c line 34: Warning: Unused local variable 'ling1'
+  }
+   ^
+/d/xiakedao/shatan3.c line 34: Warning: Unused local variable 'ling2'
+  }
+   ^
+
+执行时段错误：*Illegal to move or destruct an object (/d/xiakedao/yongdao3) defining actions from a verb function(north) in object(/d/xiakedao/npc/longx#169) which returns zero.
+
+程式：/d/xiakedao/npc/longx.c 第 179 行
+物件: /d/xiakedao/npc/longx#169 ("龙二")
+呼叫来自：/d/xiakedao/npc/longx.c 的 move_next() 第 179 行，物件： /d/xiakedao/npc/longx#169 ("龙二")
+/cmds/usr/score.c line 145: Warning: Unused local variable 'str'
+  }
+   ^
+/adm/daemons/combatd.c line 333: Warning: Unused local variable 'status'
+  }
+   ^
+/adm/daemons/combatd.c line 845: Warning: Unused local variable 'ob'
+  }
+   ^
+/include/armor.h line 9: Warning: redefinition of #define ARMOR
+
+  #define SURCOAT		"/inherit/armor/surcoat
+  ^
+/d/xiakedao/npc/monkey.c line 90: Warning: Unused local variable 'fam'
+  }
+   ^
+/feature/liquid.c line 29: Warning: Unknown \ escape.
+  str = "里面装了少许\的" + query("liquid/name") + "。\n"
+                                ^
+/d/xiakedao/obj/chunjuan.c line 21: Warning: short() inherited from both /feature/food.c and /feature/name.c (via /inherit/item/item.c); using the definition in /feature/food.c.
+/d/xiakedao/obj/jianbing.c line 21: Warning: short() inherited from both /feature/food.c and /feature/name.c (via /inherit/item/item.c); using the definition in /feature/food.c.
+/d/xiakedao/obj/zhenggao.c line 21: Warning: short() inherited from both /feature/food.c and /feature/name.c (via /inherit/item/item.c); using the definition in /feature/food.c.
+/cmds/skill/learn.c line 151: Warning: Unused local variable 'master'
+  }
+   ^
+/kungfu/skill/force.c line 8: Warning: Number of arguments disagrees with previous definition.
+  int valid_learn() { return 1;
+                   ^
+/cmds/skill/practice.c line 69: Warning: Expression has no side effects, and the value is unused
+  for(times; times > 0; times--)
+                                 ^
+/cmds/skill/practice.c line 81: Warning: Unused local variable 'qi'
+  }
+   ^
+/cmds/skill/enable.c line 128: Warning: Unused local variable 'types'
+  }
+int help(object me
+   ^
+/include/armor.h line 9: Warning: redefinition of #define ARMOR
+
+  #define SURCOAT		"/inherit/armor/surcoat
+  ^
+/include/armor.h line 9: Warning: redefinition of #define ARMOR
+
+  #define SURCOAT		"/inherit/armor/surcoat
+  ^
+/inherit/room/room.c line 7: Warning: Unknown #pragma, ignored.
+  #include <dbase.h
+  ^
+/inherit/room/room.c line 7: Warning: Unknown #pragma, ignored.
+  #include <dbase.h
+  ^
+/inherit/room/room.c line 257: Warning: Unused local variable 'item_desc'
+  }
+   ^
+/d/xiakedao/no_pk_room.c line 55: Warning: Unused local variable 'killer'
+  }
+   ^
+/inherit/char/npc.c line 185: Warning: Unused local variable 'weapon'
+  }
+   ^
+/cmds/std/kill.c line 88: Warning: Unused local variable 'killer'
+  }
+int help(object me
+   ^
+/cmds/std/unwield.c line 34: Warning: Unused local variable 'inv'
+  }
+   ^
+/cmds/std/unwield.c line 34: Warning: Unused local variable 'i'
+  }
+   ^
+/include/armor.h line 9: Warning: redefinition of #define ARMOR
+
+  #define SURCOAT		"/inherit/armor/surcoat
+  ^
+/include/armor.h line 9: Warning: redefinition of #define ARMOR
+
+  #define SURCOAT		"/inherit/armor/surcoat
+  ^
+/include/armor.h line 9: Warning: redefinition of #define ARMOR
+
+  #define SURCOAT		"/inherit/armor/surcoat
+  ^
+/include/armor.h line 9: Warning: redefinition of #define ARMOR
+
+  #define SURCOAT		"/inherit/armor/surcoat
+  ^
+/cmds/skill/apprentice.c line 103: Warning: Unused local variable 'skills'
+  }
+   ^
+/cmds/skill/apprentice.c line 103: Warning: Unused local variable 'i'
+  }
+   ^
+/cmds/skill/apprentice.c line 103: Warning: Unused local variable 'skname'
+  }
+   ^
+/include/armor.h line 9: Warning: redefinition of #define ARMOR
+
+  #define SURCOAT		"/inherit/armor/surcoat
+  ^
+/include/armor.h line 9: Warning: redefinition of #define ARMOR
+
+  #define SURCOAT		"/inherit/armor/surcoat
+  ^
+/include/armor.h line 9: Warning: redefinition of #define ARMOR
+
+  #define SURCOAT		"/inherit/armor/surcoat
+  ^
+/d/xiakedao/npc/sipu.c line 114: Warning: Unused local variable 'i'
+  }
+int ask_daozhu(
+   ^
+/inherit/misc/bboard.c line 71: Warning: Unused local variable 'i'
+  }
+   ^
+/inherit/misc/bboard.c line 71: Warning: Unused local variable 'last_time_read'
+  }
+   ^
+/inherit/misc/bboard.c line 71: Warning: Unused local variable 'myid'
+  }
+   ^
+/inherit/misc/bboard.c line 93: Warning: Unused local variable 'myid'
+  }
+   ^
+/inherit/room/room.c line 7: Warning: Unknown #pragma, ignored.
+  #include <dbase.h
+  ^
+/inherit/room/room.c line 7: Warning: Unknown #pragma, ignored.
+  #include <dbase.h
+  ^
+/inherit/room/room.c line 257: Warning: Unused local variable 'item_desc'
+  }
+   ^
+/d/xiakedao/no_pk_room.c line 55: Warning: Unused local variable 'killer'
+  }
+   ^
+/inherit/char/npc.c line 185: Warning: Unused local variable 'weapon'
+  }
+   ^
+/d/xiakedao/npc/yufu.c line 93: Warning: Unused local variable 'room'
+  }
+int ask_leave(
+   ^
+/cmds/usr/inventory.c line 33: Warning: Unused local variable 'i'
+  }
+   ^

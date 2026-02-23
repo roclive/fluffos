@@ -1,0 +1,1505 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MUD Web Client - 三栏增强版</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #0a0e14;
+            color: #c5c8c6;
+            font-family: 'Courier New', monospace;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        #app {
+            display: flex;
+            height: 100vh;
+        }
+
+        /* 左栏: MUD 终端 */
+        #panel-terminal {
+            flex: 7;
+            display: flex;
+            flex-direction: column;
+            border-right: 1px solid #1a2030;
+            min-width: 0;
+        }
+
+        #terminal-output {
+            flex: 1;
+            overflow-y: auto;
+            padding: 8px;
+            white-space: pre-wrap;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+        #terminal-input-area {
+            padding: 8px;
+            border-top: 1px solid #1a2030;
+            display: flex;
+            background: #0d1117;
+            gap: 6px;
+            align-items: center;
+        }
+
+        .input-label {
+            font-size: 11px;
+            color: #8b949e;
+            white-space: nowrap;
+        }
+
+        .input-field {
+            padding: 8px;
+            background: #161b22;
+            color: #e6e6e6;
+            border: 1px solid #30363d;
+            font-family: inherit;
+            font-size: 12px;
+            border-radius: 4px;
+            outline: none;
+        }
+
+        .input-field:focus {
+            border-color: #58a6ff;
+        }
+
+        #cmd-input {
+            flex: 1;
+            padding: 10px;
+            background: transparent;
+            color: #e6e6e6;
+            border: none;
+            font-family: inherit;
+            font-size: 14px;
+            outline: none;
+        }
+
+        #connect-btn {
+            padding: 10px 20px;
+            background: #238636;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 13px;
+            font-weight: bold;
+            transition: background 0.2s;
+        }
+
+        #connect-btn:hover {
+            background: #2ea043;
+        }
+
+        #connect-btn.connected {
+            background: #da3633;
+        }
+
+        #connect-btn.connected:hover {
+            background: #f85149;
+        }
+
+        /* 右栏 */
+        #panel-right {
+            flex: 3;
+            display: flex;
+            flex-direction: column;
+            background: #0d1117;
+            min-width: 280px;
+            max-width: 420px;
+        }
+
+        /* 右上: 状态面板 */
+        #panel-status {
+            padding: 12px;
+            border-bottom: 1px solid #1a2030;
+            background: #161b22;
+        }
+
+        #hb-section {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+
+        .label {
+            font-size: 11px;
+            color: #8b949e;
+        }
+
+        #hb-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #30363d;
+            display: inline-block;
+            transition: all 0.15s;
+        }
+
+        #hb-indicator.pulse {
+            background: #2ea043;
+            box-shadow: 0 0 10px #2ea043, 0 0 20px rgba(46, 160, 67, 0.3);
+        }
+
+        #hb-countdown {
+            font-size: 12px;
+            color: #58a6ff;
+            min-width: 40px;
+            font-variant-numeric: tabular-nums;
+        }
+
+        #hb-bar-container {
+            flex: 1;
+            height: 4px;
+            background: #21262d;
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        #hb-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #2ea043, #56d364);
+            border-radius: 2px;
+            width: 100%;
+            transition: width 0.1s linear;
+        }
+
+        .hp-bar-group {
+            margin: 6px 0;
+        }
+
+        .hp-label {
+            font-size: 11px;
+            color: #8b949e;
+            margin-bottom: 2px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .bar-container {
+            position: relative;
+            height: 18px;
+            background: #161b22;
+            border-radius: 3px;
+            overflow: hidden;
+            border: 1px solid #21262d;
+        }
+
+        .bar {
+            height: 100%;
+            transition: width 0.4s ease;
+            border-radius: 2px;
+        }
+
+        .bar-hp {
+            background: linear-gradient(90deg, #2ea043, #56d364);
+        }
+
+        .bar-jing {
+            background: linear-gradient(90deg, #1f6feb, #58a6ff);
+        }
+
+        .bar-neili {
+            background: linear-gradient(90deg, #8957e5, #bc8cff);
+        }
+
+        .bar-enemy {
+            background: linear-gradient(90deg, #da3633, #f85149);
+        }
+
+        .bar-text {
+            position: absolute;
+            right: 6px;
+            top: 0;
+            line-height: 18px;
+            font-size: 11px;
+            color: #fff;
+            text-shadow: 0 0 3px #000, 0 0 5px #000;
+        }
+
+        #enemy-section {
+            margin-top: 12px;
+            padding-top: 10px;
+            border-top: 1px dashed #30363d;
+            display: none;
+        }
+
+        #enemy-section.visible {
+            display: block;
+        }
+
+        /* 右下: 地图 */
+        #panel-map {
+            flex: 1;
+            position: relative;
+            background: #0d1117;
+            border-top: 1px solid #1a2030;
+        }
+
+        #map-toolbar {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 10px;
+            background: #161b22;
+            border-bottom: 1px solid #1a2030;
+            font-size: 11px;
+            flex-wrap: wrap;
+        }
+
+        #map-toolbar .label {
+            color: #58a6ff;
+            font-weight: bold;
+        }
+
+        .map-btn {
+            padding: 3px 8px;
+            background: #21262d;
+            border: 1px solid #30363d;
+            color: #8b949e;
+            cursor: pointer;
+            border-radius: 3px;
+            font-size: 10px;
+            transition: all 0.2s;
+        }
+
+        .map-btn:hover {
+            background: #30363d;
+            color: #c9d1d9;
+            border-color: #58a6ff;
+        }
+
+        #map-room-name {
+            color: #3fb950;
+            font-size: 11px;
+            margin-left: auto;
+            max-width: 120px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        #map-canvas-wrap {
+            position: absolute;
+            top: 36px;
+            left: 0;
+            right: 0;
+            bottom: 0;
+        }
+
+        #map-canvas {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        /* ANSI 颜色映射 */
+        .ansi-30 {
+            color: #30363d;
+        }
+
+        .ansi-31 {
+            color: #ff5555;
+        }
+
+        .ansi-32 {
+            color: #55ff55;
+        }
+
+        .ansi-33 {
+            color: #ffff55;
+        }
+
+        .ansi-34 {
+            color: #5555ff;
+        }
+
+        .ansi-35 {
+            color: #ff55ff;
+        }
+
+        .ansi-36 {
+            color: #55ffff;
+        }
+
+        .ansi-37 {
+            color: #ffffff;
+        }
+
+        .ansi-1 {
+            font-weight: bold;
+        }
+
+        /* 连接栏 */
+        #conn-bar {
+            display: flex;
+            gap: 6px;
+            padding: 6px 8px;
+            align-items: center;
+            background: #161b22;
+            border-bottom: 1px solid #1a2030;
+            flex-wrap: wrap;
+        }
+
+        /* Toast / notification */
+        #toast {
+            position: fixed;
+            bottom: 60px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #21262d;
+            color: #58a6ff;
+            padding: 8px 20px;
+            border-radius: 6px;
+            border: 1px solid #30363d;
+            font-size: 12px;
+            display: none;
+            z-index: 999;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+        }
+
+        #toast.show {
+            display: block;
+            animation: fadeInOut 2s ease-in-out;
+        }
+
+        @keyframes fadeInOut {
+            0% {
+                opacity: 0;
+                transform: translateX(-50%) translateY(10px);
+            }
+
+            15% {
+                opacity: 1;
+                transform: translateX(-50%) translateY(0);
+            }
+
+            85% {
+                opacity: 1;
+                transform: translateX(-50%) translateY(0);
+            }
+
+            100% {
+                opacity: 0;
+                transform: translateX(-50%) translateY(-10px);
+            }
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0d1117;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #30363d;
+            border-radius: 3px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #484f58;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <!-- 左栏: MUD 终端 -->
+        <div id="panel-terminal">
+            <div id="conn-bar">
+                <span class="input-label">服务器</span>
+                <input type="text" class="input-field" id="ws-host" value="127.0.0.1:8081" style="width:130px">
+                <span class="input-label">账号</span>
+                <input type="text" class="input-field" id="username" value="john" style="width:80px">
+                <span class="input-label">密码</span>
+                <input type="password" class="input-field" id="password" value="" style="width:80px">
+                <button id="connect-btn" onclick="toggleConnection()">连接监测</button>
+                <button id="auto-btn" onclick="toggleAutoExplore()"
+                    style="padding:10px 14px;background:#1f6feb;color:#fff;border:none;cursor:pointer;border-radius:4px;font-size:12px;font-weight:bold;">自动探索</button>
+            </div>
+            <div id="terminal-output"></div>
+            <div id="terminal-input-area">
+                <input type="text" id="cmd-input" placeholder="输入指令 (例如: look)" autofocus>
+            </div>
+        </div>
+        <!-- 右栏 -->
+        <div id="panel-right">
+            <!-- 右上: 状态面板 -->
+            <div id="panel-status">
+                <div id="hb-section">
+                    <span class="label">❤ 心跳</span>
+                    <span id="hb-indicator"></span>
+                    <div id="hb-bar-container">
+                        <div id="hb-bar"></div>
+                    </div>
+                    <span id="hb-countdown">--</span>
+                </div>
+                <div class="hp-bar-group">
+                    <div class="hp-label"><span>气血 (HP)</span><span id="label-qi"></span></div>
+                    <div class="bar-container">
+                        <div id="bar-qi" class="bar bar-hp" style="width: 0%"></div>
+                        <span id="text-qi" class="bar-text">0/0</span>
+                    </div>
+                </div>
+                <div class="hp-bar-group">
+                    <div class="hp-label"><span>精力 (Jing)</span><span id="label-jing"></span></div>
+                    <div class="bar-container">
+                        <div id="bar-jing" class="bar bar-jing" style="width: 0%"></div>
+                        <span id="text-jing" class="bar-text">0/0</span>
+                    </div>
+                </div>
+                <div class="hp-bar-group">
+                    <div class="hp-label"><span>内力 (Neili)</span><span id="label-neili"></span></div>
+                    <div class="bar-container">
+                        <div id="bar-neili" class="bar bar-neili" style="width: 0%"></div>
+                        <span id="text-neili" class="bar-text">0/0</span>
+                    </div>
+                </div>
+                <div id="enemy-section">
+                    <div class="hp-label"><span>⚔️ 敌方气血</span></div>
+                    <div class="bar-container">
+                        <div id="bar-enemy-qi" class="bar bar-enemy" style="width: 0%"></div>
+                        <span id="text-enemy-qi" class="bar-text">0/0</span>
+                    </div>
+                </div>
+            </div>
+            <!-- 右下: 地图 -->
+            <div id="panel-map">
+                <div id="map-toolbar">
+                    <span class="label">🗺 地图</span>
+                    <span id="map-room-count" style="color:#8b949e">(0)</span>
+                    <button class="map-btn" onclick="exportMap()" title="导出地图记忆到JSON文件">💾 导出</button>
+                    <button class="map-btn" onclick="importMap()" title="导入地图记忆JSON文件">📂 导入</button>
+                    <button class="map-btn" onclick="clearMap()" title="清空地图">🗑</button>
+                    <span id="map-room-name"></span>
+                </div>
+                <div id="map-canvas-wrap">
+                    <canvas id="map-canvas"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="toast"></div>
+    <input type="file" id="map-file-input" accept=".json" style="display:none" onchange="handleMapFileSelect(event)">
+
+    <script>
+        // ==================== 全局变量 ====================
+        var ws = null;
+        var connected = false;
+        var wsProtocol = "ascii";
+
+        var output = document.getElementById("terminal-output");
+        var cmdInput = document.getElementById("cmd-input");
+        var btn = document.getElementById("connect-btn");
+
+        // Heartbeat
+        var hbAnimFrame = null;
+        var hbLastTime = 0;
+        var hbInterval = 1.0; // 默认1秒(FluffOS默认heartbeat interval 1000ms)，会从实际心跳中自动校准
+
+        // Map
+        var mapData = {
+            rooms: {},
+            currentRoom: null,
+            nextId: 1,
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString()
+        };
+        var pendingMove = null;
+        var canvas, ctx;
+
+        var DIR_OFFSET = {
+            "north": { dx: 0, dy: -1 }, "south": { dx: 0, dy: 1 },
+            "east": { dx: 1, dy: 0 }, "west": { dx: -1, dy: 0 },
+            "northeast": { dx: 1, dy: -1 }, "northwest": { dx: -1, dy: -1 },
+            "southeast": { dx: 1, dy: 1 }, "southwest": { dx: -1, dy: 1 },
+            "up": { dx: 0, dy: 0, dz: 1 }, "down": { dx: 0, dy: 0, dz: -1 },
+            "n": { dx: 0, dy: -1 }, "s": { dx: 0, dy: 1 },
+            "e": { dx: 1, dy: 0 }, "w": { dx: -1, dy: 0 },
+            "ne": { dx: 1, dy: -1 }, "nw": { dx: -1, dy: -1 },
+            "se": { dx: 1, dy: 1 }, "sw": { dx: -1, dy: 1 },
+            "u": { dx: 0, dy: 0, dz: 1 }, "d": { dx: 0, dy: 0, dz: -1 },
+            "enter": { dx: 0, dy: 0, dz: -1 },
+            "out": { dx: 0, dy: 0, dz: 1 }
+        };
+
+        var OPPOSITE = {
+            "north": "south", "south": "north",
+            "east": "west", "west": "east",
+            "northeast": "southwest", "southwest": "northeast",
+            "northwest": "southeast", "southeast": "northwest",
+            "up": "down", "down": "up",
+            "n": "s", "s": "n",
+            "e": "w", "w": "e",
+            "ne": "sw", "sw": "ne",
+            "nw": "se", "se": "nw",
+            "u": "d", "d": "u",
+            "enter": "out", "out": "enter"
+        };
+
+        // 统一方向名 → 缩写
+        var DIR_NORMALIZE = {
+            "north": "n", "south": "s", "east": "e", "west": "w",
+            "northeast": "ne", "northwest": "nw", "southeast": "se", "southwest": "sw",
+            "up": "u", "down": "d",
+            "n": "n", "s": "s", "e": "e", "w": "w",
+            "ne": "ne", "nw": "nw", "se": "se", "sw": "sw",
+            "u": "u", "d": "d",
+            "enter": "enter", "out": "out"
+        };
+
+        // 保存最近一次收到的清洁文本(用于房间检测)
+        var lastCleanText = "";
+
+        // Auto explore
+        var autoExplore = {
+            enabled: false,
+            timer: null,
+            intervalMs: 700,
+            queue: ["n", "e", "s", "w", "ne", "nw", "se", "sw", "u", "d"],
+            index: 0,
+            awaitMoveResult: false,
+            lastMoveCmd: null,
+            failPatterns: [
+                "这里没有任何明显的出路",
+                "你不能往那边走",
+                "什么",
+                "你走不了",
+                "No exit",
+                "You can't go that way"
+            ]
+        };
+
+        // ==================== 初始化 ====================
+        function init() {
+            canvas = document.getElementById("map-canvas");
+            ctx = canvas.getContext("2d");
+            resizeCanvas();
+            window.addEventListener("resize", resizeCanvas);
+
+            loadMapFromStorage();
+            renderMap();
+            updateMapUI();
+            cmdInput.focus();
+        }
+
+        function resizeCanvas() {
+            var wrap = document.getElementById("map-canvas-wrap");
+            if (!wrap) return;
+            var rect = wrap.getBoundingClientRect();
+            canvas.width = rect.width * (window.devicePixelRatio || 1);
+            canvas.height = rect.height * (window.devicePixelRatio || 1);
+            canvas.style.width = rect.width + "px";
+            canvas.style.height = rect.height + "px";
+            ctx.setTransform(window.devicePixelRatio || 1, 0, 0, window.devicePixelRatio || 1, 0, 0);
+            renderMap();
+        }
+
+        // ==================== 连接 ====================
+        function toggleConnection() {
+            if (connected) {
+                if (ws) ws.close();
+            } else {
+                var host = document.getElementById("ws-host").value.trim();
+                var wsUri = "ws://" + host;
+                try {
+                    ws = new WebSocket(wsUri, wsProtocol);
+                    ws.binaryType = "arraybuffer";
+
+                    ws.onopen = function () {
+                        writeToScreen("==> 已连接到服务器！");
+                        connected = true;
+                        btn.textContent = "断开";
+                        btn.classList.add("connected");
+                        cmdInput.focus();
+
+                        // Do not auto-send username or password. The Agent will do it.
+                    };
+
+                    ws.onclose = function () {
+                        writeToScreen("==> 连接已断开。");
+                        connected = false;
+                        btn.textContent = "连接";
+                        btn.classList.remove("connected");
+                        stopHeartbeat();
+                        ws = null;
+                    };
+
+                    ws.onmessage = function (evt) {
+                        var text;
+                        if (evt.data instanceof ArrayBuffer) {
+                            text = new TextDecoder("utf-8").decode(evt.data);
+                        } else {
+                            text = evt.data;
+                        }
+                        processMessage(text);
+                    };
+
+                    ws.onerror = function () {
+                        writeToScreen("ERROR: 连接出错，请检查服务器是否运行。");
+                    };
+                } catch (e) {
+                    writeToScreen("ERROR: 建立连接失败: " + e);
+                }
+            }
+        }
+
+        function doSendRaw(str) {
+            if (ws && ws.readyState === WebSocket.OPEN) {
+                ws.send(str);
+            }
+        }
+
+        function sendCommand(cmd) {
+            if (!cmd) return;
+
+            // 回显
+            var div = document.createElement("div");
+            div.innerHTML = '<span style="color: #6e7681">> '
+                + cmd.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+                + '</span>';
+            output.appendChild(div);
+            output.scrollTop = output.scrollHeight;
+
+            if (ws && ws.readyState === WebSocket.OPEN) {
+                var dir = cmd.trim().toLowerCase();
+                // 规范化方向
+                var normalized = DIR_NORMALIZE[dir];
+                if (normalized && DIR_OFFSET[normalized]) {
+                    pendingMove = dir;
+                }
+                ws.send(cmd + "\n");
+            } else {
+                writeToScreen("请先连接服务器。");
+            }
+
+            cmdInput.value = "";
+            cmdInput.focus();
+        }
+
+        // ==================== 消息处理 ====================
+        function processMessage(text) {
+            var originalText = text;
+            // 提取心跳标记
+            if (text.indexOf("<!--MUD_HB-->") !== -1) {
+                text = text.replace(/<!--MUD_HB-->/g, "");
+                onHeartbeat();
+            }
+
+            // 提取 HP 数据 (战斗中受伤更新)
+            var hpMatch = text.match(/<!--MUD_HP:(\{.*?\})-->/);
+            if (hpMatch) {
+                try {
+                    var hp = JSON.parse(hpMatch[1]);
+                    updateHPBar("player", hp);
+                } catch (e) { }
+                text = text.replace(/<!--MUD_HP:\{.*?\}-->/g, "");
+            }
+
+            // 提取状态数据 (心跳定期更新)
+            var statusMatch = text.match(/<!--MUD_STATUS:(\{.*?\})-->/);
+            if (statusMatch) {
+                try {
+                    var st = JSON.parse(statusMatch[1]);
+                    updateHPBar("player", st);
+                } catch (e) { }
+                text = text.replace(/<!--MUD_STATUS:\{.*?\}-->/g, "");
+            }
+
+            // 提取敌方 HP
+            var enemyMatch = text.match(/<!--MUD_ENEMY_HP:(\{.*?\})-->/);
+            if (enemyMatch) {
+                try {
+                    var ehp = JSON.parse(enemyMatch[1]);
+                    updateHPBar("enemy", ehp);
+                } catch (e) { }
+                text = text.replace(/<!--MUD_ENEMY_HP:\{.*?\}-->/g, "");
+            }
+
+            // 清除其他可能的空白标记行
+            text = text.replace(/^\s*\n/gm, "");
+
+            if (text.trim()) {
+                appendToTerminal(text);
+                // 用清洗过ANSI码的纯文本做房间识别
+                var cleanText = stripAnsi(text);
+                lastCleanText = cleanText;
+                detectAndUpdateRoom(cleanText);
+                onAutoExploreMessage(cleanText, originalText);
+            }
+        }
+
+        // ==================== 心跳 ====================
+        function onHeartbeat() {
+            var now = performance.now();
+            // 自动校准实际心跳间隔
+            if (hbLastTime > 0) {
+                var delta = (now - hbLastTime) / 1000;
+                if (delta > 0.5 && delta < 10) {
+                    hbInterval = delta;
+                }
+            }
+            hbLastTime = now;
+
+            // 闪烁指示灯
+            var indicator = document.getElementById("hb-indicator");
+            indicator.classList.add("pulse");
+            setTimeout(function () { indicator.classList.remove("pulse"); }, 500);
+
+            // 启动倒计时动画
+            startHeartbeatCountdown();
+        }
+
+        function startHeartbeatCountdown() {
+            if (hbAnimFrame) cancelAnimationFrame(hbAnimFrame);
+            var startTime = performance.now();
+            var countdownEl = document.getElementById("hb-countdown");
+            var barEl = document.getElementById("hb-bar");
+
+            function tick() {
+                var elapsed = (performance.now() - startTime) / 1000;
+                var remaining = Math.max(0, hbInterval - elapsed);
+                var pct = Math.max(0, Math.min(100, (remaining / hbInterval) * 100));
+                countdownEl.textContent = remaining.toFixed(1) + "s";
+                barEl.style.width = pct + "%";
+                if (remaining > 0) {
+                    hbAnimFrame = requestAnimationFrame(tick);
+                }
+            }
+            hbAnimFrame = requestAnimationFrame(tick);
+        }
+
+        function stopHeartbeat() {
+            if (hbAnimFrame) {
+                cancelAnimationFrame(hbAnimFrame);
+                hbAnimFrame = null;
+            }
+            hbLastTime = 0;
+            document.getElementById("hb-countdown").textContent = "--";
+            document.getElementById("hb-bar").style.width = "100%";
+        }
+
+        // ==================== HP ====================
+        function updateHPBar(target, data) {
+            var enemySection = document.getElementById("enemy-section");
+
+            if (target === "player") {
+                setBar("qi", data.qi, data.max_qi);
+                setBar("jing", data.jing, data.max_jing);
+                setBar("neili", data.neili, data.max_neili);
+            } else if (target === "enemy") {
+                enemySection.classList.add("visible");
+                setBar("enemy-qi", data.qi, data.max_qi);
+            }
+        }
+
+        function setBar(name, current, max) {
+            var bar = document.getElementById("bar-" + name);
+            var text = document.getElementById("text-" + name);
+            if (!bar || !text) return;
+            current = current || 0;
+            max = max || 0;
+            var pct = max > 0 ? Math.max(0, Math.min(100, (current / max) * 100)) : 0;
+            bar.style.width = pct + "%";
+            text.textContent = current + "/" + max;
+
+            // 颜色变化：低于30%时变红
+            if (name === "qi" && pct < 30 && pct > 0) {
+                bar.style.background = "linear-gradient(90deg, #da3633, #f85149)";
+            } else if (name === "qi") {
+                bar.style.background = "";
+            }
+        }
+
+        // ==================== 终端渲染 ====================
+        function stripAnsi(text) {
+            return text.replace(/\x1B\[[0-9;]*m/g, "");
+        }
+
+        function appendToTerminal(text) {
+            var escaped = text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+            var openSpans = 0;
+            var html = escaped.replace(/\x1B\[([0-9;]*)m/g, function (match, p1) {
+                if (p1 === "" || p1 === "0") {
+                    var close = "</span>".repeat(openSpans);
+                    openSpans = 0;
+                    return close;
+                }
+                var classes = p1.split(";").map(function (c) { return "ansi-" + c; }).join(" ");
+                openSpans++;
+                return '<span class="' + classes + '">';
+            });
+            if (openSpans > 0) {
+                html += "</span>".repeat(openSpans);
+            }
+
+            var div = document.createElement("div");
+            div.innerHTML = html;
+            output.appendChild(div);
+
+            // 限制终端输出行数，避免内存溢出
+            while (output.childNodes.length > 2000) {
+                output.removeChild(output.firstChild);
+            }
+            output.scrollTop = output.scrollHeight;
+        }
+
+        function writeToScreen(message) {
+            appendToTerminal(message + "\n");
+        }
+
+        cmdInput.addEventListener("keydown", function (event) {
+            if (event.key === "Enter") {
+                event.preventDefault();
+                var cmd = cmdInput.value;
+                if (cmd) {
+                    sendCommand(cmd);
+                }
+            }
+        });
+
+        // ==================== 房间检测与地图 ====================
+        function detectAndUpdateRoom(text) {
+            // 这个MUD的look.c输出格式:
+            // 房间名 - <可选wizard路径>
+            //     <long描述>
+            //     这里明显的出口是 north、south 和 east。
+            //  或 这里唯一的出口是 north。
+            //  或 这里没有任何明显的出路。
+
+            // 匹配房间名: 行首的中文/字母(不含空格) 后可选有 " - " 和路径
+            // 使用多行模式, 房间名可以是中文
+            var roomNameRegex = /^[ \t]*([\u4e00-\u9fff\w]+(?:[\u4e00-\u9fff\w ]*[\u4e00-\u9fff\w])?)[ \t]*[-－][ \t]*(.*)$/m;
+            var roomMatch = text.match(roomNameRegex);
+
+            if (!roomMatch) return;
+
+            var roomName = roomMatch[1].trim();
+            // 如果房间名太长，不太可能是房间名
+            if (roomName.length > 20 || roomName.length < 1) return;
+
+            // 常见误匹配过滤
+            var ignorePatterns = ["你的", "但是", "只见", "只听", "结果", "忽然", "突然", "一声"];
+            for (var ig = 0; ig < ignorePatterns.length; ig++) {
+                if (roomName.indexOf(ignorePatterns[ig]) !== -1) return;
+            }
+
+            // 提取出口
+            var exits = {};
+            // "这里明显的出口是 north、south、east 和 west。"
+            var exitRegex1 = /这里明显的出口是\s*(.+?)。/;
+            // "这里唯一的出口是 north。"
+            var exitRegex2 = /这里唯一的出口是\s*(.+?)。/;
+
+            var em = text.match(exitRegex1) || text.match(exitRegex2);
+            if (em) {
+                // 出口之间用 "、" 或 " 和 " 分隔, 并且有BOLD标记所以干脆用全局分割
+                var exitStr = em[1].replace(/和/g, "、").replace(/,/g, "、");
+                var exitDirs = exitStr.split(/[、\s]+/);
+                for (var i = 0; i < exitDirs.length; i++) {
+                    var d = exitDirs[i].trim().toLowerCase();
+                    if (d && DIR_OFFSET[d]) {
+                        exits[d] = null;
+                    }
+                }
+            }
+
+            // 更新地图
+            updateMapWithRoom(roomName, exits);
+        }
+
+        function updateMapWithRoom(roomName, exits) {
+            if (pendingMove && mapData.currentRoom) {
+                // 玩家通过方向移动到了新房间
+                var currentRoom = mapData.rooms[mapData.currentRoom];
+                var dir = pendingMove;
+                var normalizedDir = DIR_NORMALIZE[dir] || dir;
+                var offset = DIR_OFFSET[dir] || DIR_OFFSET[normalizedDir];
+
+                if (!offset) {
+                    pendingMove = null;
+                    return;
+                }
+
+                var newX = currentRoom.x + (offset.dx || 0);
+                var newY = currentRoom.y + (offset.dy || 0);
+                var newZ = (currentRoom.z || 0) + (offset.dz || 0);
+
+                // 查找是否已有同位置的房间
+                var newRoomId = null;
+                for (var rid in mapData.rooms) {
+                    var r = mapData.rooms[rid];
+                    if (r.x === newX && r.y === newY && (r.z || 0) === newZ) {
+                        newRoomId = rid;
+                        // 更新名字(可能之前名字不准)
+                        r.name = roomName;
+                        break;
+                    }
+                }
+
+                // 查找是否已有同名房间但位置不同(冲突检测)
+                if (!newRoomId) {
+                    for (var rid2 in mapData.rooms) {
+                        if (mapData.rooms[rid2].name === roomName) {
+                            // 如果同名但坐标不同，可能是同名不同房间，不合并
+                            break;
+                        }
+                    }
+                }
+
+                if (!newRoomId) {
+                    newRoomId = "room_" + mapData.nextId++;
+                    mapData.rooms[newRoomId] = {
+                        name: roomName,
+                        x: newX,
+                        y: newY,
+                        z: newZ,
+                        exits: {}
+                    };
+                }
+
+                // 建立双向连接
+                currentRoom.exits[normalizedDir] = newRoomId;
+                var oppDir = OPPOSITE[normalizedDir] || OPPOSITE[dir];
+                if (oppDir) {
+                    mapData.rooms[newRoomId].exits[DIR_NORMALIZE[oppDir] || oppDir] = mapData.currentRoom;
+                }
+
+                // 更新出口信息
+                for (var ed in exits) {
+                    var nd = DIR_NORMALIZE[ed] || ed;
+                    if (!(nd in mapData.rooms[newRoomId].exits)) {
+                        mapData.rooms[newRoomId].exits[nd] = null;
+                    }
+                }
+
+                mapData.currentRoom = newRoomId;
+                pendingMove = null;
+                mapData.updatedAt = new Date().toISOString();
+                saveMapToStorage();
+            } else if (!mapData.currentRoom) {
+                // 首次进入房间(刚登录)
+                // 检查是否可以恢复到之前的位置
+                var foundExisting = findRoomByName(roomName);
+                if (foundExisting) {
+                    mapData.currentRoom = foundExisting;
+                    showToast("地图恢复: 回到 \"" + roomName + "\"");
+                } else {
+                    // 地图中找不到这个房间名, 创建新记忆
+                    if (Object.keys(mapData.rooms).length > 0) {
+                        showToast("起始地点 \"" + roomName + "\" 不在地图记忆中，创建新记忆文件");
+                        // 保存旧地图作为备份
+                        backupOldMap();
+                        // 重置地图
+                        mapData.rooms = {};
+                        mapData.nextId = 1;
+                        mapData.createdAt = new Date().toISOString();
+                    }
+                    mapData.currentRoom = "room_" + mapData.nextId++;
+                    mapData.rooms[mapData.currentRoom] = {
+                        name: roomName,
+                        x: 0,
+                        y: 0,
+                        z: 0,
+                        exits: {}
+                    };
+                    // 记录出口
+                    for (var ed2 in exits) {
+                        var nd2 = DIR_NORMALIZE[ed2] || ed2;
+                        mapData.rooms[mapData.currentRoom].exits[nd2] = null;
+                    }
+                    mapData.updatedAt = new Date().toISOString();
+                    saveMapToStorage();
+                }
+            } else {
+                // 没有pendingMove，但是有currentRoom (可能是look命令)
+                // 更新当前房间的出口
+                var cr = mapData.rooms[mapData.currentRoom];
+                if (cr && cr.name === roomName) {
+                    for (var ed3 in exits) {
+                        var nd3 = DIR_NORMALIZE[ed3] || ed3;
+                        if (!(nd3 in cr.exits)) {
+                            cr.exits[nd3] = null;
+                        }
+                    }
+                    saveMapToStorage();
+                }
+            }
+
+            renderMap();
+            updateMapUI();
+        }
+
+        function findRoomByName(name) {
+            for (var id in mapData.rooms) {
+                if (mapData.rooms[id].name === name) {
+                    return id;
+                }
+            }
+            return null;
+        }
+
+        function backupOldMap() {
+            try {
+                var backupKey = "mudMapBackup_" + new Date().toISOString().replace(/[:.]/g, "-");
+                localStorage.setItem(backupKey, JSON.stringify(mapData));
+            } catch (e) { }
+        }
+
+        // ==================== 地图渲染 ====================
+        function renderMap() {
+            if (!ctx || !canvas) return;
+            var W = canvas.width / (window.devicePixelRatio || 1);
+            var H = canvas.height / (window.devicePixelRatio || 1);
+            var CELL = 40;
+            var ROOM_SIZE = 14;
+
+            ctx.clearRect(0, 0, W, H);
+
+            var current = mapData.rooms[mapData.currentRoom];
+            if (!current) {
+                ctx.fillStyle = "#30363d";
+                ctx.font = "12px monospace";
+                ctx.textAlign = "center";
+                ctx.fillText("等待地图数据...", W / 2, H / 2);
+                return;
+            }
+
+            var centerX = W / 2;
+            var centerY = H / 2;
+            var currentZ = current.z || 0;
+
+            // 先画连线
+            for (var id in mapData.rooms) {
+                var room = mapData.rooms[id];
+                if ((room.z || 0) !== currentZ) continue;
+
+                var rx = centerX + (room.x - current.x) * CELL;
+                var ry = centerY + (room.y - current.y) * CELL;
+
+                if (rx < -50 || rx > W + 50 || ry < -50 || ry > H + 50) continue;
+
+                for (var dir in room.exits) {
+                    var targetId = room.exits[dir];
+                    if (!targetId || !mapData.rooms[targetId]) continue;
+                    var target = mapData.rooms[targetId];
+                    if ((target.z || 0) !== currentZ) continue;
+
+                    var tx = centerX + (target.x - current.x) * CELL;
+                    var ty = centerY + (target.y - current.y) * CELL;
+
+                    ctx.strokeStyle = "#2a3544";
+                    ctx.lineWidth = 1;
+                    ctx.beginPath();
+                    ctx.moveTo(rx, ry);
+                    ctx.lineTo(tx, ty);
+                    ctx.stroke();
+                }
+
+                // 画未探索的出口方向指示(虚线)
+                for (var udir in room.exits) {
+                    if (room.exits[udir] !== null) continue;
+                    var uoff = DIR_OFFSET[udir];
+                    if (!uoff || uoff.dz) continue;
+                    var ux = rx + uoff.dx * CELL * 0.4;
+                    var uy = ry + uoff.dy * CELL * 0.4;
+                    ctx.strokeStyle = "#1a2530";
+                    ctx.lineWidth = 1;
+                    ctx.setLineDash([2, 3]);
+                    ctx.beginPath();
+                    ctx.moveTo(rx, ry);
+                    ctx.lineTo(ux, uy);
+                    ctx.stroke();
+                    ctx.setLineDash([]);
+                }
+            }
+
+            // 再画房间方块
+            for (var id2 in mapData.rooms) {
+                var room2 = mapData.rooms[id2];
+                if ((room2.z || 0) !== currentZ) continue;
+
+                var rx2 = centerX + (room2.x - current.x) * CELL;
+                var ry2 = centerY + (room2.y - current.y) * CELL;
+
+                if (rx2 < -50 || rx2 > W + 50 || ry2 < -50 || ry2 > H + 50) continue;
+
+                var isCurrent = (id2 === mapData.currentRoom);
+
+                // 房间方块
+                if (isCurrent) {
+                    ctx.fillStyle = "#238636";
+                    ctx.shadowColor = "#2ea043";
+                    ctx.shadowBlur = 8;
+                } else {
+                    ctx.fillStyle = "#3a506b";
+                    ctx.shadowBlur = 0;
+                }
+                ctx.fillRect(rx2 - ROOM_SIZE / 2, ry2 - ROOM_SIZE / 2, ROOM_SIZE, ROOM_SIZE);
+                ctx.shadowBlur = 0;
+
+                // 如果有上下楼标记
+                if (room2.exits && (room2.exits["u"] || room2.exits["d"])) {
+                    ctx.fillStyle = "#bc8cff";
+                    ctx.font = "8px monospace";
+                    ctx.textAlign = "center";
+                    var arrows = "";
+                    if (room2.exits["u"]) arrows += "↑";
+                    if (room2.exits["d"]) arrows += "↓";
+                    ctx.fillText(arrows, rx2, ry2 - ROOM_SIZE / 2 - 2);
+                }
+
+                // 房间名
+                ctx.fillStyle = isCurrent ? "#56d364" : "#8b949e";
+                ctx.font = (isCurrent ? "bold " : "") + "9px monospace";
+                ctx.textAlign = "center";
+                var displayName = room2.name;
+                if (displayName.length > 6) displayName = displayName.substring(0, 5) + "…";
+                ctx.fillText(displayName, rx2, ry2 + ROOM_SIZE / 2 + 10);
+            }
+
+            // 当前位置红点
+            ctx.fillStyle = "#f85149";
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, 3, 0, Math.PI * 2);
+            ctx.fill();
+        }
+
+        function updateMapUI() {
+            var count = Object.keys(mapData.rooms).length;
+            document.getElementById("map-room-count").textContent = "(" + count + ")";
+            var current = mapData.rooms[mapData.currentRoom];
+            document.getElementById("map-room-name").textContent = current ? current.name : "";
+        }
+
+        // ==================== 地图存储 ====================
+        function saveMapToStorage() {
+            try {
+                localStorage.setItem("mudMapData", JSON.stringify(mapData));
+            } catch (e) { }
+        }
+
+        function loadMapFromStorage() {
+            try {
+                var saved = localStorage.getItem("mudMapData");
+                if (saved) {
+                    var data = JSON.parse(saved);
+                    mapData.rooms = data.rooms || {};
+                    mapData.nextId = data.nextId || 1;
+                    mapData.createdAt = data.createdAt || new Date().toISOString();
+                    mapData.updatedAt = data.updatedAt || new Date().toISOString();
+
+                    // === 起始位置校验 ===
+                    // 确认存档的 currentRoom 确实存在于 rooms 中
+                    var savedRoom = data.currentRoom;
+                    if (savedRoom && mapData.rooms[savedRoom]) {
+                        mapData.currentRoom = savedRoom;
+                    } else if (savedRoom) {
+                        // 存档位置ID不在rooms里（数据损坏或rooms被清空）
+                        // 尝试用名字匹配（兼容旧数据）
+                        console.warn("[地图] 存档位置 " + savedRoom + " 不存在于rooms中，尝试名字匹配");
+                        mapData.currentRoom = null; // 等待登录后重新定位
+                    } else {
+                        mapData.currentRoom = null;
+                    }
+                }
+            } catch (e) {
+                console.error("[地图] 加载失败:", e);
+            }
+        }
+
+        // ==================== 地图导入导出 ====================
+        function exportMap() {
+            var exportData = {
+                version: 1,
+                exportDate: new Date().toISOString(),
+                createdAt: mapData.createdAt,
+                updatedAt: mapData.updatedAt,
+                roomCount: Object.keys(mapData.rooms).length,
+                rooms: mapData.rooms,
+                currentRoom: mapData.currentRoom,
+                nextId: mapData.nextId
+            };
+            var json = JSON.stringify(exportData, null, 2);
+            var blob = new Blob([json], { type: "application/json" });
+            var a = document.createElement("a");
+            a.href = URL.createObjectURL(blob);
+            var dateStr = new Date().toISOString().replace(/[:.]/g, "-").substring(0, 19);
+            a.download = "mud_map_" + dateStr + ".json";
+            a.click();
+            URL.revokeObjectURL(a.href);
+            showToast("地图已导出 (" + exportData.roomCount + " 个房间)");
+        }
+
+        function importMap() {
+            document.getElementById("map-file-input").click();
+        }
+
+        function handleMapFileSelect(event) {
+            var file = event.target.files[0];
+            if (!file) return;
+
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                try {
+                    var data = JSON.parse(e.target.result);
+                    if (data.rooms) {
+                        mapData.rooms = data.rooms;
+                        mapData.nextId = data.nextId || 1;
+                        mapData.createdAt = data.createdAt || data.exportDate || new Date().toISOString();
+                        mapData.updatedAt = new Date().toISOString();
+
+                        // === 起始位置校验 ===
+                        var importedCurrentRoom = data.currentRoom;
+                        var currentRoomName = null;
+
+                        // 如果当前已经在某个房间(已连接)，尝试匹配
+                        if (mapData.currentRoom && mapData.rooms[mapData.currentRoom]) {
+                            // 已有当前位置(说明玩家在线)，不覆盖
+                            currentRoomName = mapData.rooms[mapData.currentRoom].name;
+                        }
+
+                        if (currentRoomName) {
+                            // 在导入的地图中查找匹配的房间名
+                            var matchedRoom = findRoomByNameInData(data.rooms, currentRoomName);
+                            if (matchedRoom) {
+                                mapData.currentRoom = matchedRoom;
+                                showToast("地图导入成功 (" + Object.keys(data.rooms).length + " 个房间) - 定位到: " + currentRoomName);
+                            } else {
+                                // 当前位置在导入地图中不存在
+                                mapData.currentRoom = importedCurrentRoom;
+                                showToast("⚠ 导入成功但当前位置 \"" + currentRoomName + "\" 不在地图中，使用地图存档位置");
+                            }
+                        } else {
+                            // 未连接或无当前位置，直接使用导入地图的位置
+                            mapData.currentRoom = importedCurrentRoom;
+                            // 校验导入的currentRoom是否存在于rooms中
+                            if (importedCurrentRoom && !data.rooms[importedCurrentRoom]) {
+                                showToast("⚠ 地图导入成功但存档位置无效，需重新定位");
+                                mapData.currentRoom = null;
+                            } else {
+                                showToast("地图导入成功 (" + Object.keys(data.rooms).length + " 个房间, 创建: " + (data.createdAt || "未知") + ")");
+                            }
+                        }
+
+                        saveMapToStorage();
+                        renderMap();
+                        updateMapUI();
+                    } else {
+                        showToast("无效的地图文件");
+                    }
+                } catch (err) {
+                    showToast("导入失败: " + err.message);
+                }
+            };
+            reader.readAsText(file);
+            // 清除选择，以便重复选择同一个文件
+            event.target.value = "";
+        }
+
+        // 在指定rooms数据中通过名字查找房间ID
+        function findRoomByNameInData(rooms, name) {
+            for (var id in rooms) {
+                if (rooms[id].name === name) {
+                    return id;
+                }
+            }
+            return null;
+        }
+
+        function clearMap() {
+            if (!confirm("确定要清空地图数据吗？\n（当前地图有 " + Object.keys(mapData.rooms).length + " 个房间）")) return;
+            backupOldMap();
+            mapData.rooms = {};
+            mapData.currentRoom = null;
+            mapData.nextId = 1;
+            mapData.createdAt = new Date().toISOString();
+            mapData.updatedAt = new Date().toISOString();
+            saveMapToStorage();
+            renderMap();
+            updateMapUI();
+            showToast("地图已清空 (旧数据已备份到 localStorage)");
+        }
+
+        // ==================== 自动探索 ====================
+        function toggleAutoExplore() {
+            if (autoExplore.enabled) {
+                stopAutoExplore("已停止自动探索");
+            } else {
+                startAutoExplore();
+            }
+        }
+
+        function startAutoExplore() {
+            if (!connected || !ws || ws.readyState !== WebSocket.OPEN) {
+                showToast("请先连接服务器");
+                return;
+            }
+            autoExplore.enabled = true;
+            autoExplore.awaitMoveResult = false;
+            autoExplore.lastMoveCmd = null;
+            autoExplore.index = 0;
+            updateAutoBtn();
+            showToast("自动探索已启动");
+            scheduleNextAutoStep(300);
+        }
+
+        function stopAutoExplore(msg) {
+            autoExplore.enabled = false;
+            autoExplore.awaitMoveResult = false;
+            autoExplore.lastMoveCmd = null;
+            if (autoExplore.timer) {
+                clearTimeout(autoExplore.timer);
+                autoExplore.timer = null;
+            }
+            updateAutoBtn();
+            if (msg) showToast(msg);
+        }
+
+        function updateAutoBtn() {
+            var b = document.getElementById("auto-btn");
+            if (!b) return;
+            if (autoExplore.enabled) {
+                b.textContent = "停止探索";
+                b.style.background = "#da3633";
+            } else {
+                b.textContent = "自动探索";
+                b.style.background = "#1f6feb";
+            }
+        }
+
+        function scheduleNextAutoStep(delay) {
+            if (!autoExplore.enabled) return;
+            if (autoExplore.timer) clearTimeout(autoExplore.timer);
+            autoExplore.timer = setTimeout(runAutoStep, delay || autoExplore.intervalMs);
+        }
+
+        function runAutoStep() {
+            if (!autoExplore.enabled) return;
+            if (!connected || !ws || ws.readyState !== WebSocket.OPEN) {
+                stopAutoExplore("连接断开，已停止探索");
+                return;
+            }
+            if (autoExplore.awaitMoveResult) {
+                scheduleNextAutoStep(autoExplore.intervalMs);
+                return;
+            }
+
+            var cmd = autoExplore.queue[autoExplore.index % autoExplore.queue.length];
+            autoExplore.index++;
+            autoExplore.lastMoveCmd = cmd;
+            autoExplore.awaitMoveResult = true;
+            sendCommand(cmd);
+
+            // 补一个look，帮助地图识别和出口刷新
+            setTimeout(function () {
+                if (autoExplore.enabled && connected && ws && ws.readyState === WebSocket.OPEN) {
+                    sendCommand("look");
+                }
+            }, 180);
+
+            scheduleNextAutoStep(autoExplore.intervalMs);
+        }
+
+        function onAutoExploreMessage(cleanText) {
+            if (!autoExplore.enabled || !autoExplore.awaitMoveResult) return;
+
+            var lower = (cleanText || "").toLowerCase();
+            var failed = false;
+            for (var i = 0; i < autoExplore.failPatterns.length; i++) {
+                if (lower.indexOf(autoExplore.failPatterns[i].toLowerCase()) !== -1) {
+                    failed = true;
+                    break;
+                }
+            }
+
+            // 无论成功失败，都解除等待，继续尝试下一个方向
+            autoExplore.awaitMoveResult = false;
+
+            // 如果失败，加快切换节奏
+            if (failed) {
+                scheduleNextAutoStep(250);
+            }
+        }
+
+        // ==================== 地图校验 ====================
+        function validateMap() {
+            var issues = [];
+            var roomIds = Object.keys(mapData.rooms);
+
+            for (var i = 0; i < roomIds.length; i++) {
+                var rid = roomIds[i];
+                var room = mapData.rooms[rid];
+
+                // 检查出口引用的房间是否存在
+                for (var dir in room.exits) {
+                    var tid = room.exits[dir];
+                    if (tid !== null && !mapData.rooms[tid]) {
+                        issues.push("房间 \"" + room.name + "\" 的出口 " + dir + " 指向不存在的房间 " + tid);
+                        room.exits[dir] = null; // 自动修复
+                    }
+                }
+
+                // 检查坐标冲突
+                for (var j = i + 1; j < roomIds.length; j++) {
+                    var other = mapData.rooms[roomIds[j]];
+                    if (room.x === other.x && room.y === other.y && (room.z || 0) === (other.z || 0)) {
+                        issues.push("坐标冲突: \"" + room.name + "\" 和 \"" + other.name +
+                            "\" 都在 (" + room.x + "," + room.y + ")");
+                    }
+                }
+            }
+
+            if (issues.length > 0) {
+                console.warn("地图校验发现 " + issues.length + " 个问题:");
+                for (var k = 0; k < issues.length; k++) {
+                    console.warn("  " + issues[k]);
+                }
+                saveMapToStorage();
+                showToast("地图校验: 修复了 " + issues.length + " 个问题");
+            }
+
+            return issues;
+        }
+
+        // ==================== Toast ====================
+        function showToast(msg) {
+            var toast = document.getElementById("toast");
+            toast.textContent = msg;
+            toast.classList.remove("show");
+            // 触发 reflow
+            void toast.offsetWidth;
+            toast.classList.add("show");
+            setTimeout(function () { toast.classList.remove("show"); }, 2200);
+        }
+
+        // ==================== 工具 ====================
+        function getOppositeDir(dir) {
+            return OPPOSITE[dir] || dir;
+        }
+
+        // ==================== 启动 ====================
+        window.onload = function () {
+            init();
+            // 加载后校验地图
+            validateMap();
+        };
+    </script>
+</body>
+
+</html>

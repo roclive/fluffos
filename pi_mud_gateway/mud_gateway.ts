@@ -4,6 +4,7 @@
  */
 
 import net from 'node:net';
+import { WebSocketServer } from 'ws';
 import {
     createAgentSession,
     SessionManager,
@@ -14,6 +15,7 @@ import {
 // MUD Configuration
 const MUD_HOST = '127.0.0.1';
 const MUD_PORT = 5555; // External port for telnet
+const WS_PORT = 8081;   // Port for the web client to connect and observe
 
 // State and event queue
 const eventQueue: any[] = [];
@@ -25,6 +27,17 @@ const currentState = {
     combat: false,
     lastUpdate: Date.now()
 };
+
+// Set up WebSocket Monitor Server
+const wss = new WebSocketServer({ port: WS_PORT });
+console.log(`[Gateway] Monitor WebSocket Server running on ws://127.0.0.1:${WS_PORT}`);
+function broadcastMonitor(msg: string) {
+    for (const client of wss.clients) {
+        if (client.readyState === 1) { // OPEN
+            client.send(msg);
+        }
+    }
+}
 
 // 1. Connect to MUD TCP
 const mud = new net.Socket();
@@ -47,6 +60,9 @@ mud.on('data', (data) => {
     // Attempt basic structural parsing. FluffOS might send custom telnet/webclient sequences.
     // For standard TCP, we just receive plain text (utf-8).
     const raw = data.toString('utf-8');
+
+    // Broadcast to monitor clients
+    broadcastMonitor(raw);
 
     const lines = raw.split('\n');
     for (const line of lines) {
@@ -84,6 +100,10 @@ const sendCommandTool: Tool = {
             return { content: [{ type: "text", text: "Failed. Not connected to MUD." }], details: {} };
         }
         console.log(`[Pi -> MUD]: ${params.cmd}`);
+
+        // Broadcast the agent's command to the monitor with a distinct color (cyan)
+        broadcastMonitor(`\x1b[36m> [Agent] ${params.cmd}\x1b[0m\n`);
+
         mud.write(params.cmd + '\n');
         return { content: [{ type: "text", text: `Command sent: ${params.cmd}` }], details: {} };
     }
@@ -146,6 +166,10 @@ Core rules:
 2. Use send_command(cmd) to interact. Common cmds: 'look', 'score', 'inventory', 'help'.
 3. Don't spam commands without waiting for events.
 4. If you get disconnected, ask wait_event() what happened.
+5. If you see a login prompt, YOU MUST login using one of these accounts:
+   - Account 1: user "scout" / password "kvcdi"
+   - Account 2: user "roclive" / password "test1234"
+   DO NOT try to register a new character.
 
 Execute tools repeatedly. Think strategically.`,
         appendSystemPromptOverride: () => [],
@@ -184,7 +208,7 @@ Execute tools repeatedly. Think strategically.`,
         while (true) {
             console.log(`\n\n========== [Gateway] Turn ${turn} ==========`);
             let promptText = turn === 1
-                ? "Game started. Connection is ready. Use 'wait_event' to see your surroundings, then plan your next action and use 'send_command'."
+                ? "Game started. Connection is ready. Use 'wait_event' to see your surroundings. If it is a login prompt, use the predefined accounts (like 'scout' or 'roclive') to log in by using 'send_command'."
                 : "Evaluate your situation. Use 'wait_event' to check what happened, use 'send_command' to act, or just think about your next step.";
 
             await session.prompt(promptText);
@@ -199,6 +223,7 @@ Execute tools repeatedly. Think strategically.`,
 
     // Cleanup
     mud.destroy();
+    wss.close();
     process.exit(0);
 }
 

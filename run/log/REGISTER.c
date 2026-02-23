@@ -3,3 +3,5 @@
 [Mon Feb 23 09:40:57 2026] john registered as roclive@gmail.com from localhost.
 [Mon Feb 23 18:58:43 2026] wanderer registered as wanderer@example.com from localhost.
 [Mon Feb 23 19:01:26 2026] scoutai registered as scoutai@example.com from localhost.
+[Mon Feb 23 21:18:35 2026] agent registered as agent@example.com from localhost.
+[Mon Feb 23 21:22:39 2026] scout registered as scout@example.com from localhost.
