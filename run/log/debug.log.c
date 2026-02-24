@@ -251,3 +251,6 @@ roclive: n in /d/shaolin/yidao2
 scout: enter in /d/xiakedao/dadong
 roclive: enter dong in /d/city/guangchang
 scout: north in /d/shaolin/yidao2
+scout: up in /d/city/zuixianlou
+scout: north in /d/city/datang
+scout: south in /d/city/datang

@@ -21,9 +21,6 @@ const WS_PORT = 8081;   // Port for the web client to connect and observe
 const eventQueue: any[] = [];
 const currentState = {
     connected: false,
-    hp: null,
-    max_hp: null,
-    room: null,
     combat: false,
     lastUpdate: Date.now()
 };
@@ -82,25 +79,16 @@ mud.on('error', (err) => {
 });
 
 mud.on('data', (data) => {
-    // Attempt basic structural parsing. FluffOS might send custom telnet/webclient sequences.
-    // For standard TCP, we just receive plain text (utf-8).
     const raw = data.toString('utf-8');
-
-    // Broadcast to monitor clients
     broadcastMonitor(raw);
 
     const lines = raw.split('\n');
     for (const line of lines) {
         const text = line.trim();
         if (!text) continue;
-
-        // Push raw structural/text event to queue
         eventQueue.push({ type: 'text', content: text, timestamp: Date.now() });
-
-        // Very basic heuristic state update
         if (text.includes("HP:")) currentState.combat = true;
     }
-
     currentState.lastUpdate = Date.now();
 });
 
@@ -111,79 +99,59 @@ mud.on('close', () => {
     currentState.connected = false;
     setTimeout(() => {
         if (!currentState.connected) {
-            connectMud().catch(() => { });
+            connectMud().catch(() => {});
         }
     }, 5000);
 });
 
 // 2. Define minimum tools for Pi
-const sendCommandTool: Tool = {
-    name: "send_command",
-    description: "Send a command to the MUD server (e.g., 'look', 'l', 'go east', 'get sword', 'kill bandit'). Use this to navigate or fight.",
+const actionTool: Tool = {
+    name: "action",
+    description: "Send a command to the MUD and automatically wait to return the real-time server response. If cmd is empty, it acts as a pure wait/look. Use this as your primary way to interact and see what happens.",
     parameters: {
         type: "object",
         properties: {
-            cmd: { type: "string", description: "The command string to send" }
-        },
-        required: ["cmd"]
+            cmd: { type: "string", description: "The command to send (e.g., 'look', 'n', 'get sword', 'scout'). Leave empty to just wait and observe." }
+        }
     },
     execute: async (toolCallId: string, params: any) => {
+        console.log(`\n[Agent Tool] action(${JSON.stringify(params)})`);
         if (!currentState.connected) {
             return { content: [{ type: "text", text: "Failed. Not connected to MUD." }], details: {} };
         }
-        console.log(`[Pi -> MUD]: ${params.cmd}`);
-
-        // Broadcast the agent's command to the monitor with a distinct color (cyan)
-        broadcastMonitor(`\x1b[36m> [Agent] ${params.cmd}\x1b[0m\n`);
-
-        mud.write(params.cmd + '\n');
-        return { content: [{ type: "text", text: `Command sent: ${params.cmd}` }], details: {} };
-    }
-};
-
-const waitEventTool: Tool = {
-    name: "wait_event",
-    description: "Wait for real-time events from the MUD server (e.g., room descriptions, character quotes, combat text). Essential to read what happened after sending a command.",
-    parameters: {
-        type: "object",
-        properties: {
-            timeoutMs: { type: "number", description: "Milliseconds to wait for more events (default 1000)" }
+        
+        if (params.cmd) {
+            console.log(`[Pi -> MUD]: ${params.cmd}`);
+            broadcastMonitor(`\x1b[36m> [Agent] ${params.cmd}\x1b[0m\n`);
+            mud.write(params.cmd + '\n');
         }
-    },
-    execute: async (toolCallId: string, params: any) => {
-        console.log(`\n[Agent Tool] wait_event(${JSON.stringify(params)})`);
-        const timeout = params.timeoutMs || 1000;
-        await new Promise(r => setTimeout(r, timeout));
+
+        // Wait slightly longer to let server respond (MUDs are text based and respond quickly, 500-1000ms is enough)
+        await new Promise(r => setTimeout(r, 600));
+        
         const events = [...eventQueue];
         eventQueue.length = 0; // drain the queue
 
         let resultEvents = events;
-        let msg = "Events retrieved.";
-        if (events.length > 50) {
-            msg = "Too many events. Returned latest 50.";
-            resultEvents = events.slice(-50);
+        let msg = "Action completed. Server output retrieved.";
+        if (events.length > 80) {
+            msg = "Action completed. Output truncated to latest 80 lines.";
+            resultEvents = events.slice(-80);
         }
-        return {
-            content: [{ type: "text", text: JSON.stringify({ msg, events: resultEvents }) }],
-            details: {}
+        
+        if (resultEvents.length === 0) {
+            return { content: [{ type: "text", text: "No immediate response from server. It might be quiet or taking time." }], details: {} };
+        }
+        
+        const textResp = resultEvents.map(e => e.content).join("\n");
+        return { 
+            content: [{ type: "text", text: textResp }], 
+            details: {} 
         };
     }
 };
 
-const getStateTool: Tool = {
-    name: "get_state",
-    description: "Get the current structured state (health, connection status, etc.).",
-    parameters: { type: "object", properties: {}, required: [] },
-    execute: async (toolCallId: string) => {
-        console.log(`\n[Agent Tool] get_state()`);
-        return {
-            content: [{ type: "text", text: JSON.stringify(currentState) }],
-            details: currentState
-        };
-    }
-};
-
-const mudTools = [sendCommandTool, waitEventTool, getStateTool];
+const mudTools = [actionTool];
 
 // 3. Create Pi Session (Long-running loop)
 async function startSession() {
@@ -194,16 +162,15 @@ async function startSession() {
         systemPromptOverride: () => `You are a fully autonomous agent playing a MUD game. 
 Your goal is to survive, explore, and report interesting findings.
 Core rules:
-1. ALWAYS use wait_event() first to read the game state safely.
-2. Use send_command(cmd) to interact. Common cmds: 'look', 'score', 'inventory', 'help'.
-3. Don't spam commands without waiting for events.
-4. If you get disconnected, ask wait_event() what happened.
-5. If you see a login prompt, YOU MUST login using one of these accounts:
+1. Use the 'action' tool to interact. It sends your command and hands you back the game's text response.
+2. Fast iteration: use 'action' up to 3 times per prompt if you need a sequence (like 'look', then 'north', then 'look').
+3. If you see a Chinese login prompt or ask for an account:
    - Account 1: user "scout" / password "kvcdi"
    - Account 2: user "roclive" / password "test1234"
-   DO NOT try to register a new character.
+4. DO NOT spam empty responses. If you have nothing to do, just use action({}) to wait.
+5. Follow the User's Strategy strictly if one is provided in the prompt.
 
-Execute tools repeatedly. Think strategically.`,
+Execute tools directly and think quickly.`,
         appendSystemPromptOverride: () => [],
     });
     await loader.reload();
@@ -211,45 +178,41 @@ Execute tools repeatedly. Think strategically.`,
     const { session } = await createAgentSession({
         resourceLoader: loader,
         sessionManager: SessionManager.inMemory(),
-        customTools: mudTools // Register custom mud tools
+        customTools: mudTools
     });
 
-    // Display reasoning when it streams from Pi
     session.subscribe((event) => {
         if (event.type === "message_update") {
             const asm = event.assistantMessageEvent;
             if (asm.type === "text_delta") {
                 process.stdout.write(asm.delta);
-            } else if (asm.type === "tool_call") {
-                // If you want even more verbose output, you can log every tool choice here natively.
-                // console.log(`\n[Pi wants to use tool: ${asm.toolCall.name}]`);
             }
         }
     });
 
     console.log("[Gateway] Loop Started. Waiting for initial events...");
     await new Promise(r => setTimeout(r, 2000));
-
-    // Clear initial MOTD/welcome noise
     console.log(`[Gateway] Skipped ${eventQueue.length} initial messages.`);
     eventQueue.length = 0;
 
-    // Trigger the Agent
     try {
         let turn = 1;
         while (true) {
-            // Ensure agent is totally idle before next prompt
             while (session.isStreaming) {
-                await new Promise(r => setTimeout(r, 1000));
+                await new Promise(r => setTimeout(r, 500));
             }
 
             console.log(`\n\n========== [Gateway] Turn ${turn} ==========`);
-            let promptText = turn === 1
-                ? "Game started. Connection is ready. Use 'wait_event' to see your surroundings. If it is a login prompt, use the predefined accounts (like 'scout' or 'roclive') to log in by using 'send_command'."
-                : "Evaluate your situation. Use 'wait_event' to check what happened, use 'send_command' to act, or just think about your next step.";
+            
+            let promptText = "";
+            if (turn === 1) {
+                promptText = "Game started. Connection is ready. Use 'action' to look around or login.";
+            } else {
+                promptText = "Turn complete. Use 'action' to make your next move or wait. Remember to follow any active strategy.";
+            }
 
             if (activeStrategy) {
-                promptText += `\n\nIMPORTANT: Follow this active strategy/goal provided by the user: ${activeStrategy}`;
+                promptText += `\n\nCURRENT STRATEGY: ${activeStrategy}`;
             }
 
             try {
@@ -257,23 +220,17 @@ Execute tools repeatedly. Think strategically.`,
                 turn++;
             } catch (err: any) {
                 if (err.message && err.message.includes('already processing')) {
-                    console.log("[Gateway] Agent is busy, will try again later.");
+                    // ignore
                 } else {
                     console.error("\n[Gateway] Unexpected prompt error:", err);
                 }
             }
 
-            // Wait a bit before cycling to next turn
-            await new Promise(r => setTimeout(r, 3000));
+            await new Promise(r => setTimeout(r, 1000));
         }
     } catch (e) {
         console.error("\n[Gateway] Agent error:", e);
     }
-
-    // Cleanup
-    mud.destroy();
-    wss.close();
-    process.exit(0);
 }
 
 startSession().catch(err => {
