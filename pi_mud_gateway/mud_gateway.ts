@@ -28,6 +28,8 @@ const currentState = {
     lastUpdate: Date.now()
 };
 
+let activeStrategy: string = "";
+
 // Set up WebSocket Monitor Server
 const wss = new WebSocketServer({ port: WS_PORT });
 console.log(`[Gateway] Monitor WebSocket Server running on ws://127.0.0.1:${WS_PORT}`);
@@ -39,21 +41,44 @@ function broadcastMonitor(msg: string) {
     }
 }
 
+wss.on('connection', (ws) => {
+    console.log('[Gateway] Monitor client connected.');
+    ws.on('message', (message) => {
+        const msg = message.toString();
+        if (msg.startsWith('strategy:')) {
+            activeStrategy = msg.substring(9).trim();
+            console.log(`[Gateway] New active strategy received: ${activeStrategy}`);
+            broadcastMonitor(`\x1b[35m[System] New strategy set by user: ${activeStrategy}\x1b[0m\n`);
+        } else if (msg.startsWith('action:')) {
+            // Player sends an action manually from the web client
+            const act = msg.substring(7);
+            if (currentState.connected) {
+                console.log(`[Human -> MUD]: ${act}`);
+                broadcastMonitor(`\x1b[32m> [Human] ${act}\x1b[0m\n`);
+                mud.write(act + '\n');
+            } else {
+                ws.send('\x1b[31m[System] Error: MUD is not connected.\x1b[0m\n');
+            }
+        }
+    });
+});
+
 // 1. Connect to MUD TCP
 const mud = new net.Socket();
 
-const connectPromise = new Promise<void>((resolve, reject) => {
-    console.log(`[Gateway] Connecting to MUD at ${MUD_HOST}:${MUD_PORT}...`);
-    mud.connect(MUD_PORT, MUD_HOST, () => {
-        console.log(`[Gateway] Connected to MUD.`);
-        currentState.connected = true;
-        resolve();
+function connectMud(): Promise<void> {
+    return new Promise((resolve) => {
+        console.log(`[Gateway] Connecting to MUD at ${MUD_HOST}:${MUD_PORT}...`);
+        mud.connect(MUD_PORT, MUD_HOST, () => {
+            console.log(`[Gateway] Connected to MUD.`);
+            currentState.connected = true;
+            resolve();
+        });
     });
+}
 
-    mud.on('error', (err) => {
-        console.error(`[Gateway] MUD Connection Error:`, err.message);
-        reject(err);
-    });
+mud.on('error', (err) => {
+    console.error(`[Gateway] MUD Connection Error:`, err.message);
 });
 
 mud.on('data', (data) => {
@@ -80,8 +105,15 @@ mud.on('data', (data) => {
 });
 
 mud.on('close', () => {
-    console.log('[Gateway] MUD connection closed.');
+    if (currentState.connected) {
+        console.log('[Gateway] MUD connection closed. Will attempt reconnect in 5 seconds...');
+    }
     currentState.connected = false;
+    setTimeout(() => {
+        if (!currentState.connected) {
+            connectMud().catch(() => { });
+        }
+    }, 5000);
 });
 
 // 2. Define minimum tools for Pi
@@ -155,7 +187,7 @@ const mudTools = [sendCommandTool, waitEventTool, getStateTool];
 
 // 3. Create Pi Session (Long-running loop)
 async function startSession() {
-    await connectPromise;
+    await connectMud();
     console.log("[Gateway] Initializing Agent Session...");
 
     const loader = new DefaultResourceLoader({
@@ -206,16 +238,33 @@ Execute tools repeatedly. Think strategically.`,
     try {
         let turn = 1;
         while (true) {
+            // Ensure agent is totally idle before next prompt
+            while (session.isStreaming) {
+                await new Promise(r => setTimeout(r, 1000));
+            }
+
             console.log(`\n\n========== [Gateway] Turn ${turn} ==========`);
             let promptText = turn === 1
                 ? "Game started. Connection is ready. Use 'wait_event' to see your surroundings. If it is a login prompt, use the predefined accounts (like 'scout' or 'roclive') to log in by using 'send_command'."
                 : "Evaluate your situation. Use 'wait_event' to check what happened, use 'send_command' to act, or just think about your next step.";
 
-            await session.prompt(promptText);
-            turn++;
+            if (activeStrategy) {
+                promptText += `\n\nIMPORTANT: Follow this active strategy/goal provided by the user: ${activeStrategy}`;
+            }
 
-            // Wait slightly before next prompt to prevent runaway loops if agent replies instantly
-            await new Promise(r => setTimeout(r, 2000));
+            try {
+                await session.prompt(promptText, { streamingBehavior: 'followUp' });
+                turn++;
+            } catch (err: any) {
+                if (err.message && err.message.includes('already processing')) {
+                    console.log("[Gateway] Agent is busy, will try again later.");
+                } else {
+                    console.error("\n[Gateway] Unexpected prompt error:", err);
+                }
+            }
+
+            // Wait a bit before cycling to next turn
+            await new Promise(r => setTimeout(r, 3000));
         }
     } catch (e) {
         console.error("\n[Gateway] Agent error:", e);

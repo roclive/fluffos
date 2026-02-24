@@ -248,3 +248,6 @@ roclive: 0 in
 roclive: 0 in 
 roclive: perform qiankun in /d/zhongnan/puguansi
 roclive: n in /d/shaolin/yidao2
+scout: enter in /d/xiakedao/dadong
+roclive: enter dong in /d/city/guangchang
+scout: north in /d/shaolin/yidao2

@@ -477,6 +477,15 @@
                     </div>
                 </div>
             </div>
+            <!-- 中间: 策略面板 -->
+            <div id="panel-strategy" style="padding: 12px; border-bottom: 1px solid #1a2030; background: #0d1117;">
+                <div class="label" style="margin-bottom: 8px; color: #58a6ff; font-weight: bold;">🎯 Agent 策略下发</div>
+                <textarea id="strategy-input" class="input-field"
+                    style="width: 100%; height: 60px; resize: none; margin-bottom: 8px; background: #161b22; color: #e6e6e6; border: 1px solid #30363d; border-radius: 4px; padding: 6px; font-family: inherit; font-size: 12px;"
+                    placeholder="例如：多练功，经验值优先，force超过50..."></textarea>
+                <button onclick="sendStrategy()"
+                    style="width: 100%; padding: 8px; background: #1f6feb; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; transition: background 0.2s;">下发新策略</button>
+            </div>
             <!-- 右下: 地图 -->
             <div id="panel-map">
                 <div id="map-toolbar">
@@ -665,12 +674,25 @@
             }
         }
 
+        function sendStrategy() {
+            var input = document.getElementById("strategy-input");
+            var strategy = input.value.trim();
+            if (!strategy) return;
+
+            if (ws && ws.readyState === WebSocket.OPEN) {
+                ws.send("strategy:" + strategy);
+                showToast("策略已下发: " + (strategy.length > 20 ? strategy.substring(0, 20) + "..." : strategy));
+            } else {
+                showToast("请先连接监测服务器");
+            }
+        }
+
         function sendCommand(cmd) {
             if (!cmd) return;
 
-            // 回显
+            // 回显 (绿色代表自己手敲的)
             var div = document.createElement("div");
-            div.innerHTML = '<span style="color: #6e7681">> '
+            div.innerHTML = '<span style="color: #3fb950">> [Human] '
                 + cmd.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
                 + '</span>';
             output.appendChild(div);
@@ -683,7 +705,7 @@
                 if (normalized && DIR_OFFSET[normalized]) {
                     pendingMove = dir;
                 }
-                ws.send(cmd + "\n");
+                ws.send("action:" + cmd);
             } else {
                 writeToScreen("请先连接服务器。");
             }
