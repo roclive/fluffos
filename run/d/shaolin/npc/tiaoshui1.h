@@ -29,7 +29,7 @@ string ask_tiaoshui()
 	command("say 你来的正好，这几天厨房里正缺水呢，你去山下挑些水吧! \n");
 	command("say 先去找烧饭僧要上挑水的工具吧。\n");
 	me->set("shaolin/job_asked",1);
-	time = 30 + random(10);
+	time = 2000 + random(600);
 	me->apply_condition( "tiaoshui", time );
 	return "早去早回，厨房里还等着用水呢。";
 
@@ -59,4 +59,3 @@ string ask_abandon()
 	ob->apply_condition("ts_pending", busy );
 	return "下去好好反思一下吧。";
 }
-

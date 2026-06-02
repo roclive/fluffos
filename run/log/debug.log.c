@@ -254,3 +254,8 @@ scout: north in /d/shaolin/yidao2
 scout: up in /d/city/zuixianlou
 scout: north in /d/city/datang
 scout: south in /d/city/datang
+scout: north in /d/shaolin/yidao2
+scout: go north in /d/shaolin/yidao2
+scout: go up in /d/city/zuixianlou
+scout: north in /d/shaolin/yidao2
+scout: n in /d/shaolin/yidao2

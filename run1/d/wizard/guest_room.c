@@ -20,8 +20,6 @@ LONG
 	set("no_fight", "1");
         set("no_steal", 1);
         set("no_sleep_room", "1");
-	create_door("southeast", "竹门", "northwest", DOOR_CLOSED);
-
 	set("cost", 0);
 	setup();
 	call_other("/clone/board/towiz_b", "???");
@@ -66,4 +64,3 @@ int do_study(string arg)
         tell_object(me, "作客还想读书，别这么认真好不好？\n");
         return 1;
 }
-

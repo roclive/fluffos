@@ -1,2 +1,2 @@
 #/clone/user/login.c
-dbase (["body":"/clone/user/user","registered":"yes","password":"$6$rL1JwmPl/wscoN6/$IoxrPAQheeQc27sAolJUatPlOQEI67mV3vBas.sveAh80vjdqaW1KnzwAf3Hv3K0HJlGLv0N5LCWV8Rf5DoIo.","name":"大鹏","language":"GB","id":"zhang","email":"roclive@gmail.com",])
+dbase (["registered":"yes","body":"/clone/user/user","password":"$6$rL1JwmPl/wscoN6/$IoxrPAQheeQc27sAolJUatPlOQEI67mV3vBas.sveAh80vjdqaW1KnzwAf3Hv3K0HJlGLv0N5LCWV8Rf5DoIo.","name":"大鹏","language":"GB","id":"zhang","email":"roclive@gmail.com",])

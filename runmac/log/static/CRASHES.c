@@ -29,3 +29,4 @@ ES2-UTF8 crashed on: Wed Feb 11 23:31:02 2026, error: SIGINT: Process interrupte
 ES2-UTF8 crashed on: Wed Feb 11 23:32:49 2026, error: SIGINT: Process interrupted
 ES2-UTF8 crashed on: Wed Feb 11 23:38:04 2026, error: SIGINT: Process interrupted
 ES2-UTF8 crashed on: Thu Feb 19 19:23:28 2026, error: SIGINT: Process interrupted
+ES2-UTF8 crashed on: Tue Jun  2 00:55:25 2026, error: SIGINT: Process interrupted

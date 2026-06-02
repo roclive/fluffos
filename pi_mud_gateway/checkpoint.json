@@ -1,0 +1,15 @@
+{
+  "agent_id": "pi-mud-agent-v2.5",
+  "phase": "OBSERVE",
+  "turn": 330,
+  "world": {
+    "hp": 200,
+    "combat": true
+  },
+  "scheduler": {
+    "pending_actions": []
+  },
+  "memory_summary": "{\n  \"location\": \"醉仙楼（-MUD_HB-->)，当前在楼下区域，出口有 west 和 up\",\n  \"player_status\": \"战斗中，HP 200/200，当前无忙状态；状态显示精力175/175，内力400/400\",\n  \"recent_actions\": [\n    \"抵达醉仙楼并阅读场景描述\",\n    \"识别出当前地点为楼下，知道可从 west 或 up 离开\",\n    \"看到店小二（Xiao er）在场\",\n    \"接收到并记录了角色状态信息（qi/jing/neili）\"\n  ],\n  \"known_npcs\": [\n    \"店小二（Xiao er）：在场，态度未明\"\n  ],\n  \"active_quests\": [],\n  \"notes\": [\n    \"当前处于 combat=true，但没有忙状态\",\n    \"地点名称字段显示异常为 \\\"<!\\\"，应以场景文本“醉仙楼”为准\",\n    \"楼上是雅座，可能值得上楼探索\"\n  ]\n}",
+  "last_tick": 5142,
+  "updated_at": 1780371259563
+}

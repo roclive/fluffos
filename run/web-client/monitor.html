@@ -680,7 +680,7 @@
             if (!strategy) return;
 
             if (ws && ws.readyState === WebSocket.OPEN) {
-                ws.send("strategy:" + strategy);
+                ws.send(JSON.stringify({ type: "prompt", prompt: strategy }));
                 showToast("策略已下发: " + (strategy.length > 20 ? strategy.substring(0, 20) + "..." : strategy));
             } else {
                 showToast("请先连接监测服务器");
@@ -705,7 +705,7 @@
                 if (normalized && DIR_OFFSET[normalized]) {
                     pendingMove = dir;
                 }
-                ws.send("action:" + cmd);
+                ws.send(JSON.stringify({ type: "cmd", cmd: cmd }));
             } else {
                 writeToScreen("请先连接服务器。");
             }
@@ -717,6 +717,18 @@
         // ==================== 消息处理 ====================
         function processMessage(text) {
             var originalText = text;
+
+            // 尝试解析 JSON 消息（来自 mud_gateway.ts）
+            try {
+                var jsonMsg = JSON.parse(text);
+                if (jsonMsg && jsonMsg.type) {
+                    handleJsonMessage(jsonMsg);
+                    return;
+                }
+            } catch (e) {
+                // 不是 JSON，继续按原始 MUD 文本处理
+            }
+
             // 提取心跳标记
             if (text.indexOf("<!--MUD_HB-->") !== -1) {
                 text = text.replace(/<!--MUD_HB-->/g, "");
@@ -764,6 +776,103 @@
                 detectAndUpdateRoom(cleanText);
                 onAutoExploreMessage(cleanText, originalText);
             }
+        }
+
+        // ==================== JSON 消息处理（来自 mud_gateway.ts）====================
+        function handleJsonMessage(msg) {
+            switch (msg.type) {
+                case 'hello':
+                    console.log('[Monitor] Connected to gateway v' + msg.version);
+                    break;
+
+                case 'mud_data':
+                    // MUD 原始文本数据，复用普通客户端的过滤逻辑处理心跳/状态标记
+                    if (msg.data) {
+                        processMessage(msg.data);
+                    }
+                    break;
+
+                case 'state':
+                    // Agent 状态快照
+                    if (msg.data) {
+                        updateAgentState(msg.data);
+                    }
+                    break;
+
+                case 'log':
+                    // 日志消息
+                    if (msg.data) {
+                        appendLog(msg.data);
+                    }
+                    break;
+
+                default:
+                    console.log('[Monitor] Unknown message type:', msg.type);
+            }
+        }
+
+        // 更新 Agent 状态显示
+        function updateAgentState(data) {
+            // 更新连接状态
+            if (data.connected !== undefined) {
+                // 可以更新 UI 显示连接状态
+            }
+
+            if (data.fastExplore && typeof data.fastExplore.enabled === "boolean") {
+                autoExplore.enabled = data.fastExplore.enabled;
+                updateAutoBtn();
+            }
+
+            // 更新世界状态
+            if (data.world) {
+                var w = data.world;
+
+                // 更新玩家 HP
+                if (w.player) {
+                    var hp = w.player.hp;
+                    var hpMax = w.player.hp_max;
+                    if (hp !== undefined && hpMax !== undefined) {
+                        setBar('qi', hp, hpMax);
+                    }
+
+                    // 更新内力
+                    if (w.player.neili !== undefined) {
+                        setBar('neili', w.player.neili, w.player.neili_max || 400);
+                    }
+
+                    // 战斗状态
+                    if (w.player.combat) {
+                        // 可以显示战斗指示器
+                    }
+                }
+
+                // 更新位置信息
+                if (w.location) {
+                    var roomName = w.location.name || '';
+                    var area = w.location.area || '';
+                    if (roomName) {
+                        document.getElementById('map-room-name').textContent = roomName;
+                    }
+
+                    // 更新出口（用于地图）
+                    if (w.location.exits && w.location.exits.length > 0) {
+                        // 出口信息可用于自动地图
+                    }
+                }
+            }
+
+            // 触发心跳动画
+            onHeartbeat();
+        }
+
+        // 添加日志消息到终端
+        function appendLog(msg) {
+            var div = document.createElement("div");
+            div.innerHTML = '<span style="color: #8b949e; font-size: 11px;">[' + new Date().toLocaleTimeString() + '] '
+                + msg.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+                + '</span>';
+            output.appendChild(div);
+            output.scrollTop = output.scrollHeight;
         }
 
         // ==================== 心跳 ====================
@@ -1377,8 +1486,8 @@
             autoExplore.lastMoveCmd = null;
             autoExplore.index = 0;
             updateAutoBtn();
-            showToast("自动探索已启动");
-            scheduleNextAutoStep(300);
+            ws.send(JSON.stringify({ type: "fast_explore", enabled: true, intervalMs: 150 }));
+            showToast("快速探索已启动 (150ms)");
         }
 
         function stopAutoExplore(msg) {
@@ -1388,6 +1497,9 @@
             if (autoExplore.timer) {
                 clearTimeout(autoExplore.timer);
                 autoExplore.timer = null;
+            }
+            if (connected && ws && ws.readyState === WebSocket.OPEN) {
+                ws.send(JSON.stringify({ type: "fast_explore", enabled: false }));
             }
             updateAutoBtn();
             if (msg) showToast(msg);
