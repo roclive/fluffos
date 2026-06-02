@@ -1,0 +1,5457 @@
+{
+ "master_count": 191,
+ "masters": [
+  {
+   "name": "丁不三",
+   "npc_id": "/kungfu/class/misc/dingb3",
+   "aliases": [
+    "ding busan",
+    "ding",
+    "busan"
+   ],
+   "sect": "misc",
+   "teaches": [
+    "ding-dodge",
+    "dingjia-qinnashou",
+    "dodge",
+    "force",
+    "hand",
+    "literate",
+    "parry",
+    "taixuan-gong"
+   ],
+   "combat_exp": 500000,
+   "room_id": "/d/city/jiuguan2",
+   "room_short": null,
+   "area": "city"
+  },
+  {
+   "name": "丁当",
+   "npc_id": "/kungfu/class/misc/dingdang",
+   "aliases": [
+    "ding dang",
+    "ding"
+   ],
+   "sect": "misc",
+   "teaches": [
+    "ding-dodge",
+    "dingjia-qinnashou",
+    "dodge",
+    "force",
+    "hand",
+    "literate",
+    "parry",
+    "taixuan-gong"
+   ],
+   "combat_exp": 70000,
+   "room_id": "/d/forest/clbajiaoting",
+   "room_short": "八角亭",
+   "area": "forest"
+  },
+  {
+   "name": "善勇",
+   "npc_id": "/kungfu/class/xuedao/shanyong",
+   "aliases": [
+    "shanyong",
+    "shan",
+    "yong"
+   ],
+   "sect": "xuedao",
+   "teaches": [
+    "blade",
+    "dodge",
+    "force",
+    "lamaism",
+    "longxiang-banruo",
+    "parry",
+    "xue-dao",
+    "xueshitiao"
+   ],
+   "combat_exp": 60000,
+   "room_id": "/d/xueshan/shixia",
+   "room_short": "石峡谷",
+   "area": "qilian-shan"
+  },
+  {
+   "name": "宝象",
+   "npc_id": "/kungfu/class/xuedao/baoxiang",
+   "aliases": [
+    "bao xiang",
+    "bao",
+    "xiang"
+   ],
+   "sect": "xuedao",
+   "teaches": [
+    "blade",
+    "cuff",
+    "dodge",
+    "force",
+    "lamaism",
+    "longxiang-banruo",
+    "parry",
+    "xue-dao",
+    "xueshitiao",
+    "yujiamu-quan"
+   ],
+   "combat_exp": 90000,
+   "room_id": "/d/xueshan/cave1",
+   "room_short": "洞口",
+   "area": "qilian-shan"
+  },
+  {
+   "name": "胜谛",
+   "npc_id": "/kungfu/class/xuedao/shengdi",
+   "aliases": [
+    "shengdi",
+    "sheng",
+    "di"
+   ],
+   "sect": "xuedao",
+   "teaches": [
+    "blade",
+    "cuff",
+    "dodge",
+    "force",
+    "lamaism",
+    "longxiang-banruo",
+    "parry",
+    "xue-dao",
+    "xueshitiao",
+    "yujiamu-quan"
+   ],
+   "combat_exp": 300000,
+   "room_id": "/d/xueshan/shangu1",
+   "room_short": "大雪山山谷",
+   "area": "qilian-shan"
+  },
+  {
+   "name": "血刀老祖",
+   "npc_id": "/kungfu/class/xuedao/laozu",
+   "aliases": [
+    "xuedao laozu",
+    "xuedao",
+    "laozu"
+   ],
+   "sect": "xuedao",
+   "teaches": [
+    "blade",
+    "cuff",
+    "dodge",
+    "force",
+    "lamaism",
+    "longxiang-banruo",
+    "parry",
+    "shenkongxing",
+    "xue-dao",
+    "xueshitiao",
+    "yujiamu-quan"
+   ],
+   "combat_exp": 3000000,
+   "room_id": "/d/xueshan/cave2",
+   "room_short": "洞口",
+   "area": "xueshan"
+  },
+  {
+   "name": "许雪亭",
+   "npc_id": "/kungfu/class/shenlong/xu",
+   "aliases": [
+    "xu xueting",
+    "qinglong shi",
+    "shi",
+    "xu"
+   ],
+   "sect": "shenlong",
+   "teaches": [
+    "club",
+    "dodge",
+    "dulong-dafa",
+    "finger",
+    "force",
+    "huagu-mianzhang",
+    "lingshe-shenfa",
+    "parry",
+    "strike",
+    "weituo-gun"
+   ],
+   "combat_exp": 460000,
+   "room_id": "/d/beijing/gaoliangdi",
+   "room_short": "高粱地",
+   "area": "shenlong"
+  },
+  {
+   "name": "苏荃",
+   "npc_id": "/kungfu/class/shenlong/su",
+   "aliases": [
+    "su quan",
+    "su",
+    "furen"
+   ],
+   "sect": "shenlong",
+   "teaches": [
+    "dodge",
+    "dulong-dafa",
+    "force",
+    "huagu-mianzhang",
+    "jueming-tui",
+    "kick",
+    "lingshe-shenfa",
+    "literate",
+    "medicine",
+    "meiren-sanzhao",
+    "parry",
+    "strike",
+    "sword"
+   ],
+   "combat_exp": 50000,
+   "room_id": "/d/city/xiaobaozhai",
+   "room_short": "小宝斋",
+   "area": "city"
+  },
+  {
+   "name": "方怡",
+   "npc_id": "/kungfu/class/shenlong/fang",
+   "aliases": [
+    "fang yi",
+    "fang"
+   ],
+   "sect": "shenlong",
+   "teaches": [
+    "dodge",
+    "dulong-dafa",
+    "force",
+    "jueming-tui",
+    "kick",
+    "lingshe-shenfa",
+    "literate",
+    "parry",
+    "strike",
+    "sword"
+   ],
+   "combat_exp": 50000,
+   "room_id": "/d/shenlong/changlang",
+   "room_short": "长廊",
+   "area": "shenlong"
+  },
+  {
+   "name": "洪安通",
+   "npc_id": "/kungfu/class/shenlong/hong",
+   "aliases": [
+    "hong antong",
+    "hong",
+    "jiaozhu"
+   ],
+   "sect": "shenlong",
+   "teaches": [
+    "digging",
+    "dodge",
+    "dulong-dafa",
+    "finger",
+    "force",
+    "huagu-mianzhang",
+    "jueming-tui",
+    "kick",
+    "lingshe-shenfa",
+    "literate",
+    "magic",
+    "medicine",
+    "parry",
+    "strike",
+    "yingxiong-sanzhao"
+   ],
+   "combat_exp": 3500000,
+   "room_id": "/d/beijing/gaoliangdi",
+   "room_short": "高粱地",
+   "area": "shenlong"
+  },
+  {
+   "name": "邓炳春",
+   "npc_id": "/kungfu/class/shenlong/dengbing",
+   "aliases": [
+    "deng bingchun",
+    "deng"
+   ],
+   "sect": "shenlong",
+   "teaches": [
+    "blade",
+    "dodge",
+    "dulong-dafa",
+    "force",
+    "huagu-mianzhang",
+    "lingshe-shenfa",
+    "magic",
+    "parry",
+    "shenlong-magic",
+    "strike"
+   ],
+   "combat_exp": 50000,
+   "room_id": "/d/shenlong/tingkou",
+   "room_short": "大厅口",
+   "area": "shenlong"
+  },
+  {
+   "name": "瘦头陀",
+   "npc_id": "/kungfu/class/shenlong/shou",
+   "aliases": [
+    "shou toutuo",
+    "shou",
+    "toutuo"
+   ],
+   "sect": "shenlong",
+   "teaches": [
+    "dodge",
+    "dulong-dafa",
+    "force",
+    "hook",
+    "huagu-mianzhang",
+    "lingshe-shenfa",
+    "parry",
+    "ruyi-gou",
+    "strike"
+   ],
+   "combat_exp": 300000,
+   "room_id": "/d/city/duchang",
+   "room_short": "赌场",
+   "area": "city"
+  },
+  {
+   "name": "沐剑屏",
+   "npc_id": "/kungfu/class/shenlong/mujianp",
+   "aliases": [
+    "mu jianping",
+    "mu"
+   ],
+   "sect": "shenlong",
+   "teaches": [
+    "cuff",
+    "dodge",
+    "force",
+    "jueming-tui",
+    "kick",
+    "literate",
+    "parry",
+    "strike",
+    "sword",
+    "tiyunzong"
+   ],
+   "combat_exp": 20000,
+   "room_id": null,
+   "room_short": null,
+   "area": null
+  },
+  {
+   "name": "陆高轩",
+   "npc_id": "/kungfu/class/shenlong/lu",
+   "aliases": [
+    "lu gaoxuan",
+    "lu"
+   ],
+   "sect": "shenlong",
+   "teaches": [
+    "digging",
+    "dodge",
+    "dulong-dafa",
+    "force",
+    "huagu-mianzhang",
+    "lingshe-shenfa",
+    "literate",
+    "magic",
+    "medicine",
+    "parry",
+    "shenlong-magic",
+    "strike",
+    "sword"
+   ],
+   "combat_exp": 160000,
+   "room_id": "/d/shenlong/yaofang",
+   "room_short": "药房",
+   "area": "shenlong"
+  },
+  {
+   "name": "王语嫣",
+   "npc_id": "/kungfu/class/murong/yuyan",
+   "aliases": [
+    "wang yuyan",
+    "wang",
+    "yuyan"
+   ],
+   "sect": "murong",
+   "teaches": [
+    "cuff",
+    "dodge",
+    "force",
+    "parry"
+   ],
+   "combat_exp": 50000,
+   "room_id": null,
+   "room_short": null,
+   "area": null
+  },
+  {
+   "name": "邓百川",
+   "npc_id": "/kungfu/class/murong/baichuan",
+   "aliases": [
+    "deng baichuan",
+    "deng",
+    "baichuan"
+   ],
+   "sect": "murong",
+   "teaches": [
+    "canhe-zhi",
+    "dodge",
+    "douzhuan-xingyi",
+    "finger",
+    "force",
+    "literate",
+    "murong-shenfa",
+    "parry"
+   ],
+   "combat_exp": 3000000,
+   "room_id": null,
+   "room_short": null,
+   "area": null
+  },
+  {
+   "name": "静空师太",
+   "npc_id": "/kungfu/class/emei/jingkong",
+   "aliases": [
+    "jingkong shitai",
+    "jingkong",
+    "shitai"
+   ],
+   "sect": "emei",
+   "teaches": [
+    "blade",
+    "dodge",
+    "finger",
+    "force",
+    "jinding-zhang",
+    "linji-zhuang",
+    "literate",
+    "mahayana",
+    "parry",
+    "persuading",
+    "strike",
+    "sword",
+    "tiangang-zhi",
+    "yanxing-dao",
+    "zhutian-bu"
+   ],
+   "combat_exp": 600000,
+   "room_id": "/d/emei/wannian1",
+   "room_short": "万年庵砖殿",
+   "area": "emei"
+  },
+  {
+   "name": "周芷若",
+   "npc_id": "/kungfu/class/emei/zhou",
+   "aliases": [
+    "zhou zhiruo",
+    "zhou"
+   ],
+   "sect": "emei",
+   "teaches": [
+    "blade",
+    "claw",
+    "cuixin-zhang",
+    "dodge",
+    "emei-jian",
+    "feiyu-bian",
+    "finger",
+    "force",
+    "jinding-zhang",
+    "jiuyin-zhao",
+    "linji-zhuang",
+    "literate",
+    "mahayana",
+    "parry",
+    "persuading",
+    "strike",
+    "sword",
+    "throwing",
+    "tiangang-zhi",
+    "whip",
+    "zhutian-bu"
+   ],
+   "combat_exp": 3600000,
+   "room_id": "/d/emei/jiulao_out",
+   "room_short": "小山坡",
+   "area": "emei"
+  },
+  {
+   "name": "苏梦清",
+   "npc_id": "/kungfu/class/emei/su",
+   "aliases": [
+    "su mengqing",
+    "su",
+    "mengqing"
+   ],
+   "sect": "emei",
+   "teaches": [
+    "blade",
+    "dodge",
+    "emei-jian",
+    "finger",
+    "force",
+    "jinding-zhang",
+    "linji-zhuang",
+    "parry",
+    "persuading",
+    "strike",
+    "sword",
+    "throwing",
+    "tiangang-zhi",
+    "zhutian-bu"
+   ],
+   "combat_exp": 100000,
+   "room_id": "/d/emei/lianhua",
+   "room_short": "莲花石",
+   "area": "emei"
+  },
+  {
+   "name": "纪晓芙",
+   "npc_id": "/kungfu/class/emei/ji",
+   "aliases": [
+    "ji xiaofu",
+    "ji",
+    "xiaofu"
+   ],
+   "sect": "emei",
+   "teaches": [
+    "beauty",
+    "blade",
+    "dodge",
+    "emei-jian",
+    "finger",
+    "force",
+    "jinding-zhang",
+    "linji-zhuang",
+    "parry",
+    "persuading",
+    "strike",
+    "sword",
+    "throwing",
+    "tiangang-zhi",
+    "yanxing-dao",
+    "zhutian-bu"
+   ],
+   "combat_exp": 950000,
+   "room_id": "/d/city/guangchang",
+   "room_short": "中央广场",
+   "area": "city"
+  },
+  {
+   "name": "丁敏君",
+   "npc_id": "/kungfu/class/emei/ding",
+   "aliases": [
+    "ding minjun",
+    "ding",
+    "minjun"
+   ],
+   "sect": "emei",
+   "teaches": [
+    "blade",
+    "dodge",
+    "emei-jian",
+    "force",
+    "hand",
+    "jinding-zhang",
+    "jiushou-jiushi",
+    "linji-zhuang",
+    "literate",
+    "mahayana",
+    "parry",
+    "persuading",
+    "strike",
+    "sword",
+    "throwing",
+    "yanxing-dao",
+    "zhutian-bu"
+   ],
+   "combat_exp": 300000,
+   "room_id": null,
+   "room_short": null,
+   "area": null
+  },
+  {
+   "name": "方碧琳",
+   "npc_id": "/kungfu/class/emei/fang",
+   "aliases": [
+    "fang bilin",
+    "fang",
+    "bilin"
+   ],
+   "sect": "emei",
+   "teaches": [
+    "blade",
+    "dodge",
+    "finger",
+    "force",
+    "jinding-zhang",
+    "linji-zhuang",
+    "parry",
+    "persuading",
+    "strike",
+    "tiangang-zhi",
+    "yanxing-dao",
+    "zhutian-bu"
+   ],
+   "combat_exp": 150000,
+   "room_id": "/d/emei/yunu",
+   "room_short": "玉女峰",
+   "area": "emei"
+  },
+  {
+   "name": "静慧师太",
+   "npc_id": "/kungfu/class/emei/jinghui",
+   "aliases": [
+    "jinghui shitai",
+    "jinghui",
+    "shitai"
+   ],
+   "sect": "emei",
+   "teaches": [
+    "dodge",
+    "emei-jian",
+    "finger",
+    "force",
+    "jinding-zhang",
+    "linji-zhuang",
+    "literate",
+    "mahayana",
+    "parry",
+    "persuading",
+    "strike",
+    "sword",
+    "tiangang-zhi",
+    "zhutian-bu"
+   ],
+   "combat_exp": 600000,
+   "room_id": "/d/emei/qianfo1",
+   "room_short": "千佛庵大殿",
+   "area": "emei"
+  },
+  {
+   "name": "静照师太",
+   "npc_id": "/kungfu/class/emei/jingzhao",
+   "aliases": [
+    "jingzhao shitai",
+    "jingzhao",
+    "shitai"
+   ],
+   "sect": "emei",
+   "teaches": [
+    "dodge",
+    "emei-jian",
+    "finger",
+    "force",
+    "jinding-zhang",
+    "linji-zhuang",
+    "literate",
+    "mahayana",
+    "parry",
+    "persuading",
+    "strike",
+    "sword",
+    "tiangang-zhi",
+    "zhutian-bu"
+   ],
+   "combat_exp": 500000,
+   "room_id": "/d/emei/fushou1",
+   "room_short": "灵文阁",
+   "area": "emei"
+  },
+  {
+   "name": "李明霞",
+   "npc_id": "/kungfu/class/emei/li",
+   "aliases": [
+    "li mingxia",
+    "li"
+   ],
+   "sect": "emei",
+   "teaches": [
+    "dodge",
+    "emei-jian",
+    "finger",
+    "force",
+    "jinding-zhang",
+    "linji-zhuang",
+    "parry",
+    "persuading",
+    "strike",
+    "sword",
+    "throwing",
+    "tiangang-zhi",
+    "zhutian-bu"
+   ],
+   "combat_exp": 400000,
+   "room_id": "/d/emei/huayanding",
+   "room_short": "华严顶",
+   "area": "emei"
+  },
+  {
+   "name": "灭绝师太",
+   "npc_id": "/kungfu/class/emei/miejue",
+   "aliases": [
+    "miejue shitai",
+    "miejue",
+    "shitai"
+   ],
+   "sect": "emei",
+   "teaches": [
+    "blade",
+    "claw",
+    "dodge",
+    "emei-jian",
+    "finger",
+    "force",
+    "jinding-zhang",
+    "linji-zhuang",
+    "literate",
+    "mahayana",
+    "parry",
+    "persuading",
+    "strike",
+    "sword",
+    "throwing",
+    "tiangang-zhi",
+    "yanxing-dao",
+    "zhutian-bu"
+   ],
+   "combat_exp": 3000000,
+   "room_id": "/d/emei/hz_back",
+   "room_short": " 华藏庵后殿",
+   "area": "emei"
+  },
+  {
+   "name": "静玄师太",
+   "npc_id": "/kungfu/class/emei/jingxuan",
+   "aliases": [
+    "jingxuan shitai",
+    "jingxuan",
+    "shitai"
+   ],
+   "sect": "emei",
+   "teaches": [
+    "blade",
+    "dodge",
+    "emei-jian",
+    "finger",
+    "force",
+    "jinding-zhang",
+    "linji-zhuang",
+    "literate",
+    "mahayana",
+    "parry",
+    "persuading",
+    "strike",
+    "sword",
+    "tiangang-zhi",
+    "yanxing-dao",
+    "zhutian-bu"
+   ],
+   "combat_exp": 700000,
+   "room_id": "/d/emei/woyun",
+   "room_short": "卧云庵",
+   "area": "emei"
+  },
+  {
+   "name": "贝锦仪",
+   "npc_id": "/kungfu/class/emei/bei",
+   "aliases": [
+    "bei jinyi",
+    "bei",
+    "jinyi"
+   ],
+   "sect": "emei",
+   "teaches": [
+    "dodge",
+    "emei-jian",
+    "finger",
+    "force",
+    "jinding-zhang",
+    "linji-zhuang",
+    "parry",
+    "persuading",
+    "strike",
+    "sword",
+    "throwing",
+    "tiangang-zhi",
+    "zhutian-bu"
+   ],
+   "combat_exp": 300000,
+   "room_id": "/d/emei/duguang1",
+   "room_short": "睹光台",
+   "area": "emei"
+  },
+  {
+   "name": "静真师太",
+   "npc_id": "/kungfu/class/emei/jingzhen",
+   "aliases": [
+    "jingzhen shitai",
+    "jingzhen",
+    "shitai"
+   ],
+   "sect": "emei",
+   "teaches": [
+    "blade",
+    "dodge",
+    "finger",
+    "force",
+    "jinding-zhang",
+    "linji-zhuang",
+    "literate",
+    "mahayana",
+    "parry",
+    "persuading",
+    "strike",
+    "tiangang-zhi",
+    "yanxing-dao",
+    "zhutian-bu"
+   ],
+   "combat_exp": 250000,
+   "room_id": "/d/emei/fushou",
+   "room_short": "福寿庵",
+   "area": "emei"
+  },
+  {
+   "name": "赵灵珠",
+   "npc_id": "/kungfu/class/emei/zhao",
+   "aliases": [
+    "zhao lingzhu",
+    "zhao",
+    "lingzhu"
+   ],
+   "sect": "emei",
+   "teaches": [
+    "blade",
+    "dodge",
+    "finger",
+    "force",
+    "jinding-zhang",
+    "linji-zhuang",
+    "parry",
+    "persuading",
+    "strike",
+    "throwing",
+    "tiangang-zhi",
+    "yanxing-dao",
+    "zhutian-bu"
+   ],
+   "combat_exp": 200000,
+   "room_id": "/d/emei/lianhua",
+   "room_short": "莲花石",
+   "area": "emei"
+  },
+  {
+   "name": "静迦师太",
+   "npc_id": "/kungfu/class/emei/jingjia",
+   "aliases": [
+    "jingjia shitai",
+    "jingjia",
+    "shitai"
+   ],
+   "sect": "emei",
+   "teaches": [
+    "blade",
+    "dodge",
+    "finger",
+    "force",
+    "jinding-zhang",
+    "linji-zhuang",
+    "literate",
+    "mahayana",
+    "parry",
+    "persuading",
+    "strike",
+    "throwing",
+    "tiangang-zhi",
+    "yanxing-dao",
+    "zhutian-bu"
+   ],
+   "combat_exp": 300000,
+   "room_id": "/d/emei/wanxing",
+   "room_short": "万行庵",
+   "area": "emei"
+  },
+  {
+   "name": "静虚师太",
+   "npc_id": "/kungfu/class/emei/jingxu",
+   "aliases": [
+    "jingxu shitai",
+    "jingxu",
+    "shitai"
+   ],
+   "sect": "emei",
+   "teaches": [
+    "blade",
+    "dodge",
+    "emei-jian",
+    "finger",
+    "force",
+    "jinding-zhang",
+    "linji-zhuang",
+    "literate",
+    "mahayana",
+    "parry",
+    "persuading",
+    "strike",
+    "sword",
+    "tiangang-zhi",
+    "zhutian-bu"
+   ],
+   "combat_exp": 650000,
+   "room_id": "/d/emei/hz_guangchang",
+   "room_short": "华藏庵广场",
+   "area": "emei"
+  },
+  {
+   "name": "程瑶迦",
+   "npc_id": "/kungfu/class/quanzhen/cheng",
+   "aliases": [
+    "cheng yaojia",
+    "cheng"
+   ],
+   "sect": "quanzhen",
+   "teaches": [
+    "chunyang-quan",
+    "cuff",
+    "dodge",
+    "force",
+    "jinyangong",
+    "literate",
+    "parry",
+    "quanzhen-jian",
+    "sanhua-juding",
+    "strike",
+    "sword",
+    "taoism",
+    "xiantian-gong"
+   ],
+   "combat_exp": 80000,
+   "room_id": "/d/zhongnan/jinshi",
+   "room_short": "静室",
+   "area": "zhongnan"
+  },
+  {
+   "name": "马钰",
+   "npc_id": "/kungfu/class/quanzhen/ma",
+   "aliases": [
+    "ma yu",
+    "ma"
+   ],
+   "sect": "quanzhen",
+   "teaches": [
+    "beidou-zhenfa",
+    "chunyang-quan",
+    "cuff",
+    "dodge",
+    "duanyun-bian",
+    "force",
+    "jinyangong",
+    "literate",
+    "parry",
+    "quanzhen-jian",
+    "sanhua-juding",
+    "strike",
+    "sword",
+    "taoism",
+    "whip",
+    "xiantian-gong"
+   ],
+   "combat_exp": 800000,
+   "room_id": "/d/zhongnan/haodian",
+   "room_short": null,
+   "area": "zhongnan"
+  },
+  {
+   "name": "姬清虚",
+   "npc_id": "/kungfu/class/quanzhen/ji",
+   "aliases": [
+    "ji qingxu",
+    "ji"
+   ],
+   "sect": "quanzhen",
+   "teaches": [
+    "chunyang-quan",
+    "cuff",
+    "dodge",
+    "force",
+    "jinyangong",
+    "literate",
+    "parry",
+    "quanzhen-jian",
+    "sanhua-juding",
+    "strike",
+    "sword",
+    "taoism",
+    "xiantian-gong"
+   ],
+   "combat_exp": 40000,
+   "room_id": null,
+   "room_short": null,
+   "area": null
+  },
+  {
+   "name": "孙不二",
+   "npc_id": "/kungfu/class/quanzhen/sun",
+   "aliases": [
+    "sun buer",
+    "sun"
+   ],
+   "sect": "quanzhen",
+   "teaches": [
+    "beidou-zhenfa",
+    "chunyang-quan",
+    "cuff",
+    "dodge",
+    "force",
+    "jinyangong",
+    "literate",
+    "parry",
+    "quanzhen-jian",
+    "sanhua-juding",
+    "strike",
+    "sword",
+    "taoism",
+    "xiantian-gong"
+   ],
+   "combat_exp": 600000,
+   "room_id": "/d/zhongnan/yangxin",
+   "room_short": null,
+   "area": "zhongnan"
+  },
+  {
+   "name": "李志常",
+   "npc_id": "/kungfu/class/quanzhen/li",
+   "aliases": [
+    "li zhichang",
+    "li"
+   ],
+   "sect": "quanzhen",
+   "teaches": [
+    "beidou-zhenfa",
+    "chunyang-quan",
+    "cuff",
+    "dodge",
+    "force",
+    "jinyangong",
+    "literate",
+    "parry",
+    "quanzhen-jian",
+    "sanhua-juding",
+    "strike",
+    "sword",
+    "taoism",
+    "xiantian-gong"
+   ],
+   "combat_exp": 300000,
+   "room_id": "/d/zhongnan/jingge",
+   "room_short": null,
+   "area": "zhongnan"
+  },
+  {
+   "name": "尹志平",
+   "npc_id": "/kungfu/class/quanzhen/yin",
+   "aliases": [
+    "yin zhiping",
+    "yin"
+   ],
+   "sect": "quanzhen",
+   "teaches": [
+    "beidou-zhenfa",
+    "chunyang-quan",
+    "cuff",
+    "dodge",
+    "force",
+    "jinyangong",
+    "literate",
+    "parry",
+    "quanzhen-jian",
+    "sanhua-juding",
+    "strike",
+    "sword",
+    "taoism",
+    "xiantian-gong"
+   ],
+   "combat_exp": 350000,
+   "room_id": "/d/zhongnan/gate1",
+   "room_short": "接引殿",
+   "area": "zhongnan"
+  },
+  {
+   "name": "皮清玄",
+   "npc_id": "/kungfu/class/quanzhen/pi",
+   "aliases": [
+    "pi qingxuan",
+    "pi"
+   ],
+   "sect": "quanzhen",
+   "teaches": [
+    "chunyang-quan",
+    "cuff",
+    "dodge",
+    "force",
+    "jinyangong",
+    "literate",
+    "parry",
+    "quanzhen-jian",
+    "sanhua-juding",
+    "strike",
+    "sword",
+    "taoism",
+    "xiantian-gong"
+   ],
+   "combat_exp": 40000,
+   "room_id": "/d/zhongnan/gate",
+   "room_short": null,
+   "area": "shaolin"
+  },
+  {
+   "name": "赵志敬",
+   "npc_id": "/kungfu/class/quanzhen/zhao",
+   "aliases": [
+    "zhao zhijing",
+    "zhao"
+   ],
+   "sect": "quanzhen",
+   "teaches": [
+    "beidou-zhenfa",
+    "chunyang-quan",
+    "cuff",
+    "dodge",
+    "force",
+    "jinyangong",
+    "literate",
+    "parry",
+    "quanzhen-jian",
+    "sanhua-juding",
+    "strike",
+    "sword",
+    "taoism",
+    "xiantian-gong"
+   ],
+   "combat_exp": 400000,
+   "room_id": "/d/zhongnan/dajiaochang",
+   "room_short": null,
+   "area": "zhongnan"
+  },
+  {
+   "name": "王处一",
+   "npc_id": "/kungfu/class/quanzhen/wang",
+   "aliases": [
+    "wang chuyi",
+    "wang"
+   ],
+   "sect": "quanzhen",
+   "teaches": [
+    "beidou-zhenfa",
+    "chunyang-quan",
+    "cuff",
+    "dodge",
+    "force",
+    "jinyangong",
+    "literate",
+    "parry",
+    "quanzhen-jian",
+    "sanhua-juding",
+    "strike",
+    "sword",
+    "taoism",
+    "xiantian-gong"
+   ],
+   "combat_exp": 900000,
+   "room_id": "/d/zhongnan/sanqing",
+   "room_short": null,
+   "area": "zhongnan"
+  },
+  {
+   "name": "王重阳",
+   "npc_id": "/kungfu/class/quanzhen/wang-cy",
+   "aliases": [
+    "wang chongyang",
+    "wang"
+   ],
+   "sect": "quanzhen",
+   "teaches": [
+    "chunyang-quan",
+    "cuff",
+    "dodge",
+    "force",
+    "jinyangong",
+    "literate",
+    "parry",
+    "quanzhen-jian",
+    "sanhua-juding",
+    "strike",
+    "sword",
+    "taoism",
+    "xiantian-gong"
+   ],
+   "combat_exp": 6400000,
+   "room_id": null,
+   "room_short": null,
+   "area": null
+  },
+  {
+   "name": "郝大通",
+   "npc_id": "/kungfu/class/quanzhen/hao",
+   "aliases": [
+    "hao datong",
+    "hao"
+   ],
+   "sect": "quanzhen",
+   "teaches": [
+    "chunyang-quan",
+    "cuff",
+    "dodge",
+    "force",
+    "jinyangong",
+    "literate",
+    "parry",
+    "quanzhen-jian",
+    "sanhua-juding",
+    "strike",
+    "sword",
+    "taoism",
+    "xiantian-gong"
+   ],
+   "combat_exp": 700000,
+   "room_id": "/d/zhongnan/disan",
+   "room_short": null,
+   "area": "zhongnan"
+  },
+  {
+   "name": "刘处玄",
+   "npc_id": "/kungfu/class/quanzhen/liu",
+   "aliases": [
+    "liu chuxuan",
+    "liu"
+   ],
+   "sect": "quanzhen",
+   "teaches": [
+    "beidou-zhenfa",
+    "chunyang-quan",
+    "cuff",
+    "dodge",
+    "force",
+    "jinyangong",
+    "literate",
+    "parry",
+    "quanzhen-jian",
+    "sanhua-juding",
+    "strike",
+    "sword",
+    "taoism",
+    "xiantian-gong"
+   ],
+   "combat_exp": 700000,
+   "room_id": "/d/zhongnan/chanshen",
+   "room_short": null,
+   "area": "zhongnan"
+  },
+  {
+   "name": "谭处端",
+   "npc_id": "/kungfu/class/quanzhen/tan",
+   "aliases": [
+    "tan chuduan",
+    "tan"
+   ],
+   "sect": "quanzhen",
+   "teaches": [
+    "beidou-zhenfa",
+    "chunyang-quan",
+    "cuff",
+    "dodge",
+    "force",
+    "jinyangong",
+    "literate",
+    "parry",
+    "quanzhen-jian",
+    "sanhua-juding",
+    "strike",
+    "sword",
+    "taoism",
+    "xiantian-gong"
+   ],
+   "combat_exp": 750000,
+   "room_id": "/d/zhongnan/jingge2",
+   "room_short": null,
+   "area": "zhongnan"
+  },
+  {
+   "name": "兰剑",
+   "npc_id": "/kungfu/class/lingjiu/lanjian",
+   "aliases": [
+    "lan jian",
+    "lan"
+   ],
+   "sect": "lingjiu",
+   "teaches": [
+    "bahuang-gong",
+    "dodge",
+    "force",
+    "hand",
+    "literate",
+    "liuyang-zhang",
+    "music",
+    "parry",
+    "strike",
+    "sword",
+    "tianyu-qijian",
+    "yueying-wubu",
+    "zhemei-shou"
+   ],
+   "combat_exp": 1000000,
+   "room_id": null,
+   "room_short": null,
+   "area": null
+  },
+  {
+   "name": "天山童姥",
+   "npc_id": "/kungfu/class/lingjiu/tonglao",
+   "aliases": [
+    "tong lao",
+    "tong",
+    "lao"
+   ],
+   "sect": "lingjiu",
+   "teaches": [
+    "bahuang-gong",
+    "blade",
+    "dodge",
+    "force",
+    "hand",
+    "literate",
+    "liuyang-zhang",
+    "music",
+    "parry",
+    "ruyi-dao",
+    "strike",
+    "sword",
+    "tianyu-qijian",
+    "yueying-wubu",
+    "zhemei-shou"
+   ],
+   "combat_exp": 3200000,
+   "room_id": null,
+   "room_short": null,
+   "area": null
+  },
+  {
+   "name": "梅剑",
+   "npc_id": "/kungfu/class/lingjiu/meijian",
+   "aliases": [
+    "mei jian",
+    "mei"
+   ],
+   "sect": "lingjiu",
+   "teaches": [
+    "bahuang-gong",
+    "dodge",
+    "force",
+    "hand",
+    "literate",
+    "liuyang-zhang",
+    "music",
+    "parry",
+    "strike",
+    "sword",
+    "tianyu-qijian",
+    "yueying-wubu",
+    "zhemei-shou"
+   ],
+   "combat_exp": 1000000,
+   "room_id": null,
+   "room_short": null,
+   "area": null
+  },
+  {
+   "name": "石嫂",
+   "npc_id": "/kungfu/class/lingjiu/tbzhu",
+   "aliases": [
+    "shi sao",
+    "shi",
+    "sao"
+   ],
+   "sect": "lingjiu",
+   "teaches": [
+    "bahuang-gong",
+    "dodge",
+    "force",
+    "hand",
+    "literate",
+    "liuyang-zhang",
+    "music",
+    "parry",
+    "strike",
+    "sword",
+    "tianyu-qijian",
+    "yueying-wubu",
+    "zhemei-shou"
+   ],
+   "combat_exp": 500000,
+   "room_id": null,
+   "room_short": null,
+   "area": null
+  },
+  {
+   "name": "菊剑",
+   "npc_id": "/kungfu/class/lingjiu/jujian",
+   "aliases": [
+    "ju jian",
+    "ju"
+   ],
+   "sect": "lingjiu",
+   "teaches": [
+    "bahuang-gong",
+    "dodge",
+    "force",
+    "hand",
+    "literate",
+    "liuyang-zhang",
+    "music",
+    "parry",
+    "strike",
+    "sword",
+    "tianyu-qijian",
+    "yueying-wubu",
+    "zhemei-shou"
+   ],
+   "combat_exp": 1000000,
+   "room_id": null,
+   "room_short": null,
+   "area": null
+  },
+  {
+   "name": "虚竹",
+   "npc_id": "/kungfu/class/lingjiu/xuzhu",
+   "aliases": [
+    "xu zhu",
+    "xu",
+    "zhu"
+   ],
+   "sect": "lingjiu",
+   "teaches": [
+    "bahuang-gong",
+    "blade",
+    "dodge",
+    "force",
+    "hand",
+    "literate",
+    "liuyang-zhang",
+    "music",
+    "parry",
+    "ruyi-dao",
+    "strike",
+    "sword",
+    "tianyu-qijian",
+    "yueying-wubu",
+    "zhemei-shou"
+   ],
+   "combat_exp": 2500000,
+   "room_id": null,
+   "room_short": null,
+   "area": null
+  },
+  {
+   "name": "程青霜",
+   "npc_id": "/kungfu/class/lingjiu/tbjun",
+   "aliases": [
+    "cheng qingshuang",
+    "cheng"
+   ],
+   "sect": "lingjiu",
+   "teaches": [
+    "bahuang-gong",
+    "dodge",
+    "force",
+    "hand",
+    "literate",
+    "liuyang-zhang",
+    "music",
+    "parry",
+    "strike",
+    "sword",
+    "tianyu-qijian",
+    "yueying-wubu",
+    "zhemei-shou"
+   ],
+   "combat_exp": 300000,
+   "room_id": null,
+   "room_short": null,
+   "area": null
+  },
+  {
+   "name": "竹剑",
+   "npc_id": "/kungfu/class/lingjiu/zhujian",
+   "aliases": [
+    "zhu jian",
+    "zhu"
+   ],
+   "sect": "lingjiu",
+   "teaches": [
+    "bahuang-gong",
+    "dodge",
+    "force",
+    "hand",
+    "literate",
+    "liuyang-zhang",
+    "music",
+    "parry",
+    "strike",
+    "sword",
+    "tianyu-qijian",
+    "yueying-wubu",
+    "zhemei-shou"
+   ],
+   "combat_exp": 1000000,
+   "room_id": null,
+   "room_short": null,
+   "area": null
+  },
+  {
+   "name": "林朝英",
+   "npc_id": "/kungfu/class/gumu/lin",
+   "aliases": [
+    "lin chaoying",
+    "lin"
+   ],
+   "sect": "gumu",
+   "teaches": [
+    "cuff",
+    "dodge",
+    "force",
+    "gumu-shenfa",
+    "literate",
+    "meinu-quan",
+    "parry",
+    "quanzhen-jian",
+    "strike",
+    "sword",
+    "throwing",
+    "tianluo-diwang",
+    "yunu-jianfa",
+    "yunu-jue",
+    "yunu-xinjing"
+   ],
+   "combat_exp": 3600000,
+   "room_id": null,
+   "room_short": null,
+   "area": null
+  },
+  {
+   "name": "李莫愁",
+   "npc_id": "/kungfu/class/gumu/limochou",
+   "aliases": [
+    "li mochou",
+    "li",
+    "mochou"
+   ],
+   "sect": "gumu",
+   "teaches": [
+    "chilian-shenzhang",
+    "cuff",
+    "dodge",
+    "force",
+    "gumu-shenfa",
+    "jueqing-bian",
+    "meinu-quan",
+    "strike",
+    "throwing",
+    "whip",
+    "wudu-xinfa"
+   ],
+   "combat_exp": 2000000,
+   "room_id": "/d/jiaxing/nanhu",
+   "room_short": "嘉兴南湖",
+   "area": "quanzhou"
+  },
+  {
+   "name": "小龙女",
+   "npc_id": "/kungfu/class/gumu/longnu",
+   "aliases": [
+    "xiao longnu",
+    "long",
+    "longnu"
+   ],
+   "sect": "gumu",
+   "teaches": [
+    "cuff",
+    "dodge",
+    "force",
+    "gumu-shenfa",
+    "literate",
+    "meinu-quan",
+    "parry",
+    "quanzhen-jian",
+    "strike",
+    "sword",
+    "throwing",
+    "tianluo-diwang",
+    "whip",
+    "yinsuo-jinling",
+    "yunu-jianfa",
+    "yunu-jue",
+    "yunu-xinjing"
+   ],
+   "combat_exp": 1600000,
+   "room_id": "/d/zhongnan/houtang",
+   "room_short": "後堂",
+   "area": "zhongnan"
+  },
+  {
+   "name": "杨过",
+   "npc_id": "/kungfu/class/gumu/yangguo",
+   "aliases": [
+    "yang guo",
+    "yang"
+   ],
+   "sect": "gumu",
+   "teaches": [
+    "dodge",
+    "force",
+    "gumu-shenfa",
+    "literate",
+    "parry",
+    "strike",
+    "xiaohun-zhang",
+    "yunu-jue",
+    "yunu-xinjing"
+   ],
+   "combat_exp": 3500000,
+   "room_id": null,
+   "room_short": null,
+   "area": null
+  },
+  {
+   "name": "马光佐",
+   "npc_id": "/kungfu/class/baituo/ma",
+   "aliases": [
+    "ma guangzuo",
+    "ma",
+    "guangzuo"
+   ],
+   "sect": "baituo",
+   "teaches": [
+    "chanchubu",
+    "cuff",
+    "dodge",
+    "force",
+    "hamagong",
+    "lingshe-quan",
+    "parry",
+    "poison",
+    "strike",
+    "training"
+   ],
+   "combat_exp": 80000,
+   "room_id": "/d/baituo/btroad",
+   "room_short": "小路",
+   "area": "xingxiuhai"
+  },
+  {
+   "name": "欧阳锋",
+   "npc_id": "/kungfu/class/baituo/feng",
+   "aliases": [
+    "ouyang feng",
+    "ouyang",
+    "feng"
+   ],
+   "sect": "baituo",
+   "teaches": [
+    "chanchubu",
+    "cuff",
+    "dodge",
+    "force",
+    "hamagong",
+    "lingshe-quan",
+    "lingshe-zhang",
+    "parry",
+    "poison",
+    "shentuo-zhang",
+    "staff",
+    "strike",
+    "training"
+   ],
+   "combat_exp": 3600000,
+   "room_id": "/d/baituo/lingshege",
+   "room_short": "灵蛇阁",
+   "area": "baituo"
+  },
+  {
+   "name": "钱眼开",
+   "npc_id": "/kungfu/class/baituo/qian",
+   "aliases": [
+    "qian yankai",
+    "qian",
+    "yankai"
+   ],
+   "sect": "baituo",
+   "teaches": [
+    "chanchubu",
+    "cuff",
+    "dodge",
+    "force",
+    "hamagong",
+    "lingshe-quan",
+    "parry",
+    "poison",
+    "strike",
+    "training"
+   ],
+   "combat_exp": 100000,
+   "room_id": null,
+   "room_short": null,
+   "area": null
+  },
+  {
+   "name": "尹克西",
+   "npc_id": "/kungfu/class/baituo/yin",
+   "aliases": [
+    "yin kexi",
+    "yin",
+    "kexi"
+   ],
+   "sect": "baituo",
+   "teaches": [
+    "chanchubu",
+    "cuff",
+    "dodge",
+    "force",
+    "hamagong",
+    "lingshe-quan",
+    "parry",
+    "poison",
+    "strike",
+    "training"
+   ],
+   "combat_exp": 100000,
+   "room_id": "/d/xingxiu/btgate",
+   "room_short": "白驼山山门",
+   "area": "xingxiuhai"
+  },
+  {
+   "name": "欧阳克",
+   "npc_id": "/kungfu/class/baituo/ke",
+   "aliases": [
+    "ouyang ke",
+    "ouyang",
+    "ke"
+   ],
+   "sect": "baituo",
+   "teaches": [
+    "chanchubu",
+    "cuff",
+    "dodge",
+    "force",
+    "hamagong",
+    "lingshe-quan",
+    "lingshe-zhang",
+    "parry",
+    "poison",
+    "shentuo-zhang",
+    "staff",
+    "strike",
+    "training"
+   ],
+   "combat_exp": 900000,
+   "room_id": "/d/baituo/bthill",
+   "room_short": "小山丘",
+   "area": "baituo"
+  },
+  {
+   "name": "陆乘风",
+   "npc_id": "/kungfu/class/taohua/lu",
+   "aliases": [
+    "lu chengfeng",
+    "lu"
+   ],
+   "sect": "taohua",
+   "teaches": [
+    "bitao-xuangong",
+    "canglang-bian",
+    "dodge",
+    "force",
+    "hand",
+    "lanhua-fuxue",
+    "literate",
+    "luoying-shenfa",
+    "luoying-shenjian",
+    "parry",
+    "qimen-dunjia",
+    "strike",
+    "whip"
+   ],
+   "combat_exp": 200000,
+   "room_id": null,
+   "room_short": null,
+   "area": null
+  },
+  {
+   "name": "昌齐大喇嘛",
+   "npc_id": "/kungfu/class/xueshan/gongcang",
+   "aliases": [
+    "changqi lama",
+    "changqi",
+    "lama"
+   ],
+   "sect": "xueshan",
+   "teaches": [
+    "cuff",
+    "dodge",
+    "force",
+    "jingang-chu",
+    "lamaism",
+    "longxiang-banruo",
+    "necromancy",
+    "parry",
+    "shenkongxing",
+    "staff",
+    "yujiamu-quan"
+   ],
+   "combat_exp": 50000,
+   "room_id": "/d/xueshan/guangchang",
+   "room_short": "大广场",
+   "area": "qilian-shan"
+  },
+  {
+   "name": "张松溪",
+   "npc_id": "/kungfu/class/wudang/xi",
+   "aliases": [
+    "zhang songxi",
+    "zhang"
+   ],
+   "sect": "wudang",
+   "teaches": [
+    "cuff",
+    "dodge",
+    "force",
+    "literate",
+    "mian-zhang",
+    "parry",
+    "strike",
+    "sword",
+    "taiji-gong",
+    "taiji-jian",
+    "taiji-quan",
+    "taiji-shengong",
+    "taoism",
+    "tiyunzong"
+   ],
+   "combat_exp": 900000,
+   "room_id": "/d/wudang/hd_zoulang",
+   "room_short": "后殿走廊",
+   "area": "wudang"
+  },
+  {
+   "name": "俞莲舟",
+   "npc_id": "/kungfu/class/wudang/yu",
+   "aliases": [
+    "yu lianzhou",
+    "yu"
+   ],
+   "sect": "wudang",
+   "teaches": [
+    "cuff",
+    "dodge",
+    "force",
+    "literate",
+    "parry",
+    "sword",
+    "taiji-jian",
+    "taiji-quan",
+    "taiji-shengong",
+    "taoism",
+    "tiyunzong"
+   ],
+   "combat_exp": 800000,
+   "room_id": null,
+   "room_short": null,
+   "area": null
+  },
+  {
+   "name": "谷虚道长",
+   "npc_id": "/kungfu/class/wudang/guxu",
+   "aliases": [
+    "guxu daozhang",
+    "guxu"
+   ],
+   "sect": "wudang",
+   "teaches": [
+    "cuff",
+    "dodge",
+    "force",
+    "literate",
+    "mian-zhang",
+    "parry",
+    "strike",
+    "sword",
+    "taiji-jian",
+    "taiji-quan",
+    "taiji-shengong",
+    "taoism",
+    "tiyunzong"
+   ],
+   "combat_exp": 250000,
+   "room_id": "/d/wudang/sanqingdian",
+   "room_short": "三清殿",
+   "area": "wudang"
+  },
+  {
+   "name": "莫声谷",
+   "npc_id": "/kungfu/class/wudang/mo",
+   "aliases": [
+    "mo shenggu",
+    "mo",
+    "shenggu"
+   ],
+   "sect": "wudang",
+   "teaches": [
+    "cuff",
+    "dodge",
+    "force",
+    "literate",
+    "mian-zhang",
+    "parry",
+    "strike",
+    "sword",
+    "taiji-jian",
+    "taiji-shengong",
+    "taoism",
+    "throwing",
+    "tiyunzong"
+   ],
+   "combat_exp": 700000,
+   "room_id": "/d/wudang/nanyanfeng",
+   "room_short": "南岩峰",
+   "area": "wudang"
+  },
+  {
+   "name": "凌虚道长",
+   "npc_id": "/kungfu/class/wudang/zhixiang",
+   "aliases": [
+    "lingxu daozhang",
+    "lingxu",
+    "zhixiang daozhang",
+    "zhixiang",
+    "daozhang"
+   ],
+   "sect": "wudang",
+   "teaches": [
+    "dodge",
+    "force",
+    "literate",
+    "mian-zhang",
+    "parry",
+    "strike",
+    "sword",
+    "taiji-shengong",
+    "taoism",
+    "tiyunzong"
+   ],
+   "combat_exp": 60000,
+   "room_id": "/d/wudang/yuzhen",
+   "room_short": "遇真宫",
+   "area": "wudang"
+  },
+  {
+   "name": "张三丰",
+   "npc_id": "/kungfu/class/wudang/zhang",
+   "aliases": [
+    "zhang sanfeng",
+    "zhang"
+   ],
+   "sect": "wudang",
+   "teaches": [
+    "cuff",
+    "dodge",
+    "force",
+    "literate",
+    "mian-zhang",
+    "parry",
+    "strike",
+    "sword",
+    "taiji-jian",
+    "taiji-quan",
+    "taiji-shengong",
+    "taoism",
+    "tiyunzong"
+   ],
+   "combat_exp": 6400000,
+   "room_id": "/d/wudang/xiaoyuan",
+   "room_short": "后山小院",
+   "area": "wudang"
+  },
+  {
+   "name": "灵虚道长",
+   "npc_id": "/kungfu/class/wudang/zhike",
+   "aliases": [
+    "lingxu daozhang",
+    "lingxu",
+    "zhike daozhang",
+    "zhike",
+    "daozhang"
+   ],
+   "sect": "wudang",
+   "teaches": [
+    "cuff",
+    "dodge",
+    "force",
+    "literate",
+    "mian-zhang",
+    "parry",
+    "strike",
+    "sword",
+    "taiji-jian",
+    "taiji-shengong",
+    "taoism",
+    "tiyunzong"
+   ],
+   "combat_exp": 80000,
+   "room_id": "/d/wudang/xuanwumen",
+   "room_short": "玄武门",
+   "area": "wudang"
+  },
+  {
+   "name": "殷梨亭",
+   "npc_id": "/kungfu/class/wudang/yin",
+   "aliases": [
+    "yin liting",
+    "yin"
+   ],
+   "sect": "wudang",
+   "teaches": [
+    "chang-quan",
+    "cuff",
+    "dodge",
+    "force",
+    "literate",
+    "mian-zhang",
+    "parry",
+    "strike",
+    "sword",
+    "taiji-gong",
+    "taiji-jian",
+    "taiji-quan",
+    "taiji-shengong",
+    "taoism",
+    "throwing",
+    "tiyunzong",
+    "wudang-jian"
+   ],
+   "combat_exp": 800000,
+   "room_id": "/d/wudang/pine_forest8",
+   "room_short": "松林",
+   "area": "wudang"
+  },
+  {
+   "name": "制香道长",
+   "npc_id": "/kungfu/class/wudang/zhix",
+   "aliases": [
+    "zhixiang daozhang",
+    "zhixiang",
+    "daozhang"
+   ],
+   "sect": "wudang",
+   "teaches": [
+    "cuff",
+    "dodge",
+    "force",
+    "literate",
+    "parry",
+    "sword",
+    "taiji-jian",
+    "taiji-quan",
+    "taiji-shengong",
+    "taoism",
+    "tiyunzong"
+   ],
+   "combat_exp": 30000,
+   "room_id": null,
+   "room_short": null,
+   "area": null
+  },
+  {
+   "name": "宋远桥",
+   "npc_id": "/kungfu/class/wudang/song",
+   "aliases": [
+    "song yuanqiao",
+    "song"
+   ],
+   "sect": "wudang",
+   "teaches": [
+    "cuff",
+    "dodge",
+    "force",
+    "literate",
+    "mian-zhang",
+    "parry",
+    "strike",
+    "sword",
+    "taiji-gong",
+    "taiji-jian",
+    "taiji-quan",
+    "taiji-shengong",
+    "taoism",
+    "tiyunzong"
+   ],
+   "combat_exp": 1100000,
+   "room_id": "/d/wudang/sanqingdian",
+   "room_short": "三清殿",
+   "area": "wudang"
+  },
+  {
+   "name": "张三丰",
+   "npc_id": "/kungfu/class/wudang/wd_npc",
+   "aliases": [
+    "zhang sanfeng",
+    "zhang"
+   ],
+   "sect": "wudang",
+   "teaches": [
+    "cuff",
+    "dodge",
+    "force",
+    "literate",
+    "parry",
+    "sword",
+    "taiji-jian",
+    "taiji-quan",
+    "taiji-shengong",
+    "taoism",
+    "tiyunzong"
+   ],
+   "combat_exp": 6400000,
+   "room_id": null,
+   "room_short": null,
+   "area": null
+  },
+  {
+   "name": "俞岱岩",
+   "npc_id": "/kungfu/class/wudang/yudaiyan",
+   "aliases": [
+    "yu daiyan",
+    "yu"
+   ],
+   "sect": "wudang",
+   "teaches": [
+    "dodge",
+    "force",
+    "literate",
+    "mian-zhang",
+    "parry",
+    "strike",
+    "sword",
+    "taiji-jian",
+    "taiji-shengong",
+    "taoism",
+    "tiyun-zong"
+   ],
+   "combat_exp": 1050000,
+   "room_id": "/d/wudang/danyaofang",
+   "room_short": "丹药房",
+   "area": "wudang"
+  },
+  {
+   "name": "慧虚尊者",
+   "npc_id": "/kungfu/class/shaolin/hui-xu",
+   "aliases": [
+    "huixu zunzhe",
+    "huixu",
+    "zunzhe"
+   ],
+   "sect": "shaolin",
+   "teaches": [
+    "buddhism",
+    "club",
+    "cuff",
+    "dodge",
+    "force",
+    "hunyuan-yiqi",
+    "literate",
+    "luohan-quan",
+    "parry",
+    "shaolin-shenfa",
+    "weituo-gun"
+   ],
+   "combat_exp": 170000,
+   "room_id": "/d/shaolin/hsyuan4",
+   "room_short": "和尚院四部",
+   "area": "shaolin"
+  },
+  {
+   "name": "澄净",
+   "npc_id": "/kungfu/class/shaolin/cheng-jing",
+   "aliases": [
+    "chengjing luohan",
+    "chengjing",
+    "jingjing",
+    "luohan"
+   ],
+   "sect": "shaolin",
+   "teaches": [
+    "banruo-zhang",
+    "buddhism",
+    "claw",
+    "club",
+    "cuff",
+    "dodge",
+    "finger",
+    "force",
+    "hand",
+    "hunyuan-yiqi",
+    "jingang-quan",
+    "literate",
+    "longzhua-gong",
+    "luohan-quan",
+    "nianhua-zhi",
+    "parry",
+    "qianye-shou",
+    "sanhua-zhang",
+    "shaolin-shenfa",
+    "strike",
+    "weituo-gun"
+   ],
+   "combat_exp": 500000,
+   "room_id": "/d/shaolin/luohan4",
+   "room_short": "罗汉四堂",
+   "area": "shaolin"
+  },
+  {
+   "name": "渡难",
+   "npc_id": "/kungfu/class/shaolin/du-nan",
+   "aliases": [
+    "du nan",
+    "nan"
+   ],
+   "sect": "shaolin",
+   "teaches": [
+    "buddhism",
+    "cuff",
+    "dodge",
+    "force",
+    "hunyuan-yiqi",
+    "jingang-quan",
+    "parry",
+    "riyue-bian",
+    "shaolin-shenfa",
+    "whip"
+   ],
+   "combat_exp": 1500000,
+   "room_id": "/d/shaolin/fumoquan",
+   "room_short": "金刚伏魔圈",
+   "area": "shaolin"
+  },
+  {
+   "name": "澄尚",
+   "npc_id": "/kungfu/class/shaolin/cheng-shang",
+   "aliases": [
+    "chengshang luohan",
+    "chengshang",
+    "guangli",
+    "luohan"
+   ],
+   "sect": "shaolin",
+   "teaches": [
+    "buddhism",
+    "club",
+    "cuff",
+    "damo-jian",
+    "dodge",
+    "force",
+    "hand",
+    "hunyuan-yiqi",
+    "literate",
+    "luohan-quan",
+    "parry",
+    "qianye-shou",
+    "sanhua-zhang",
+    "shaolin-shenfa",
+    "strike",
+    "sword",
+    "weituo-gun"
+   ],
+   "combat_exp": 450000,
+   "room_id": "/d/shaolin/banruo9",
+   "room_short": "般若九堂",
+   "area": "shaolin"
+  },
+  {
+   "name": "慧洁尊者",
+   "npc_id": "/kungfu/class/shaolin/hui-jie",
+   "aliases": [
+    "huijie zunzhe",
+    "huijie",
+    "zunzhe"
+   ],
+   "sect": "shaolin",
+   "teaches": [
+    "blade",
+    "buddhism",
+    "cibei-dao",
+    "cuff",
+    "dodge",
+    "force",
+    "hunyuan-yiqi",
+    "literate",
+    "luohan-quan",
+    "parry",
+    "shaolin-shenfa"
+   ],
+   "combat_exp": 180000,
+   "room_id": "/d/shaolin/hsyuan6",
+   "room_short": "和尚院六部",
+   "area": "shaolin"
+  },
+  {
+   "name": "澄心",
+   "npc_id": "/kungfu/class/shaolin/cheng-xin",
+   "aliases": [
+    "chengxin luohan",
+    "chengxin",
+    "fuhu",
+    "luohan"
+   ],
+   "sect": "shaolin",
+   "teaches": [
+    "buddhism",
+    "cuff",
+    "dodge",
+    "fengyun-shou",
+    "force",
+    "hand",
+    "hunyuan-yiqi",
+    "literate",
+    "luohan-quan",
+    "parry",
+    "qianye-shou",
+    "sanhua-zhang",
+    "shaolin-shenfa",
+    "strike"
+   ],
+   "combat_exp": 350000,
+   "room_id": "/d/shaolin/banruo1",
+   "room_short": "般若一堂",
+   "area": "shaolin"
+  },
+  {
+   "name": "清法比丘",
+   "npc_id": "/kungfu/class/shaolin/qing-fa",
+   "aliases": [
+    "qingfa biqiu",
+    "qingfa",
+    "biqiu"
+   ],
+   "sect": "shaolin",
+   "teaches": [
+    "buddhism",
+    "club",
+    "cuff",
+    "dodge",
+    "force",
+    "hunyuan-yiqi",
+    "jingang-quan",
+    "literate",
+    "luohan-quan",
+    "parry",
+    "shaolin-shenfa",
+    "weituo-gun"
+   ],
+   "combat_exp": 40000,
+   "room_id": "/d/shaolin/guangchang1",
+   "room_short": "广场",
+   "area": "shaolin"
+  },
+  {
+   "name": "澄坚",
+   "npc_id": "/kungfu/class/shaolin/cheng-jian",
+   "aliases": [
+    "chengjian luohan",
+    "chengjian",
+    "zhantan",
+    "luohan"
+   ],
+   "sect": "shaolin",
+   "teaches": [
+    "buddhism",
+    "cuff",
+    "dodge",
+    "fengyun-shou",
+    "finger",
+    "force",
+    "hand",
+    "hunyuan-yiqi",
+    "jingang-quan",
+    "literate",
+    "luohan-quan",
+    "nianhua-zhi",
+    "parry",
+    "qianye-shou",
+    "sanhua-zhang",
+    "shaolin-shenfa",
+    "strike"
+   ],
+   "combat_exp": 450000,
+   "room_id": "/d/shaolin/luohan5",
+   "room_short": "罗汉五堂",
+   "area": "shaolin"
+  },
+  {
+   "name": "清无比丘",
+   "npc_id": "/kungfu/class/shaolin/qing-wu",
+   "aliases": [
+    "qingwu biqiu",
+    "qingwu",
+    "biqiu"
+   ],
+   "sect": "shaolin",
+   "teaches": [
+    "blade",
+    "buddhism",
+    "cibei-dao",
+    "cuff",
+    "dodge",
+    "force",
+    "hunyuan-yiqi",
+    "literate",
+    "luohan-quan",
+    "parry",
+    "shaolin-shenfa"
+   ],
+   "combat_exp": 20000,
+   "room_id": "/d/shaolin/guangchang1e",
+   "room_short": "广场",
+   "area": "shaolin"
+  },
+  {
+   "name": "慧真尊者",
+   "npc_id": "/kungfu/class/shaolin/hui-zhen",
+   "aliases": [
+    "huizhen zunzhe",
+    "huizhen",
+    "zunzhe"
+   ],
+   "sect": "shaolin",
+   "teaches": [
+    "buddhism",
+    "club",
+    "cuff",
+    "damo-jian",
+    "dodge",
+    "force",
+    "hand",
+    "hunyuan-yiqi",
+    "literate",
+    "luohan-quan",
+    "parry",
+    "qianye-shou",
+    "sanhua-zhang",
+    "shaolin-shenfa",
+    "strike",
+    "sword",
+    "weituo-gun"
+   ],
+   "combat_exp": 400000,
+   "room_id": "/d/shaolin/cjlou1",
+   "room_short": "藏经阁二楼",
+   "area": "shaolin"
+  },
+  {
+   "name": "慧合尊者",
+   "npc_id": "/kungfu/class/shaolin/hui-he",
+   "aliases": [
+    "huihe zunzhe",
+    "huihe",
+    "zunzhe"
+   ],
+   "sect": "shaolin",
+   "teaches": [
+    "buddhism",
+    "cuff",
+    "dodge",
+    "force",
+    "hunyuan-yiqi",
+    "literate",
+    "luohan-quan",
+    "parry",
+    "shaolin-shenfa"
+   ],
+   "combat_exp": 200000,
+   "room_id": "/d/shaolin/hsyuan1",
+   "room_short": "和尚院一部",
+   "area": "shaolin"
+  },
+  {
+   "name": "慧如尊者",
+   "npc_id": "/kungfu/class/shaolin/hui-ru",
+   "aliases": [
+    "huiru zunzhe",
+    "huiru",
+    "zunzhe"
+   ],
+   "sect": "shaolin",
+   "teaches": [
+    "blade",
+    "buddhism",
+    "cibei-dao",
+    "cuff",
+    "dodge",
+    "force",
+    "hunyuan-yiqi",
+    "literate",
+    "luohan-quan",
+    "parry",
+    "shaolin-shenfa"
+   ],
+   "combat_exp": 150000,
+   "room_id": "/d/shaolin/houdian",
+   "room_short": "后殿",
+   "area": "shaolin"
+  },
+  {
+   "name": "玄悲大师",
+   "npc_id": "/kungfu/class/shaolin/xuan-bei",
+   "aliases": [
+    "xuanbei dashi",
+    "xuanbei",
+    "dashi"
+   ],
+   "sect": "shaolin",
+   "teaches": [
+    "buddhism",
+    "claw",
+    "club",
+    "cuff",
+    "dodge",
+    "force",
+    "hand",
+    "hunyuan-yiqi",
+    "literate",
+    "luohan-quan",
+    "parry",
+    "qianye-shou",
+    "sanhua-zhang",
+    "shaolin-shenfa",
+    "strike",
+    "weituo-gun",
+    "yingzhua-gong"
+   ],
+   "combat_exp": 1200000,
+   "room_id": "/d/shaolin/dmyuan2",
+   "room_short": "达摩院二楼",
+   "area": "shaolin"
+  },
+  {
+   "name": "澄知",
+   "npc_id": "/kungfu/class/shaolin/cheng-zhi",
+   "aliases": [
+    "chengzhi luohan",
+    "chengzhi",
+    "qingjing",
+    "luohan"
+   ],
+   "sect": "shaolin",
+   "teaches": [
+    "buddhism",
+    "cuff",
+    "dodge",
+    "fengyun-shou",
+    "force",
+    "hand",
+    "hunyuan-yiqi",
+    "jingang-quan",
+    "literate",
+    "luohan-quan",
+    "parry",
+    "qianye-shou",
+    "sanhua-zhang",
+    "shaolin-shenfa",
+    "strike"
+   ],
+   "combat_exp": 400000,
+   "room_id": "/d/shaolin/luohan2",
+   "room_short": "罗汉二堂",
+   "area": "shaolin"
+  },
+  {
+   "name": "澄灵",
+   "npc_id": "/kungfu/class/shaolin/cheng-ling",
+   "aliases": [
+    "chengling luohan",
+    "chengling",
+    "riyue",
+    "luohan"
+   ],
+   "sect": "shaolin",
+   "teaches": [
+    "buddhism",
+    "club",
+    "cuff",
+    "dodge",
+    "force",
+    "hand",
+    "hunyuan-yiqi",
+    "literate",
+    "luohan-quan",
+    "parry",
+    "qianye-shou",
+    "sanhua-zhang",
+    "shaolin-shenfa",
+    "strike",
+    "weituo-gun",
+    "zui-gun"
+   ],
+   "combat_exp": 300000,
+   "room_id": "/d/shaolin/banruo7",
+   "room_short": "般若七堂",
+   "area": "shaolin"
+  },
+  {
+   "name": "玄苦大师",
+   "npc_id": "/kungfu/class/shaolin/xuan-ku",
+   "aliases": [
+    "xuanku dashi",
+    "xuanku",
+    "dashi"
+   ],
+   "sect": "shaolin",
+   "teaches": [
+    "blade",
+    "buddhism",
+    "club",
+    "cuff",
+    "dodge",
+    "force",
+    "hand",
+    "hunyuan-yiqi",
+    "literate",
+    "luohan-quan",
+    "parry",
+    "qianye-shou",
+    "sanhua-zhang",
+    "shaolin-shenfa",
+    "strike",
+    "weituo-gun",
+    "xiuluo-dao"
+   ],
+   "combat_exp": 1000000,
+   "room_id": "/d/shaolin/luohan5",
+   "room_short": "罗汉五堂",
+   "area": "shaolin"
+  },
+  {
+   "name": "道成禅师",
+   "npc_id": "/kungfu/class/shaolin/dao-cheng",
+   "aliases": [
+    "daocheng chanshi",
+    "daocheng",
+    "chanshi"
+   ],
+   "sect": "shaolin",
+   "teaches": [
+    "buddhism",
+    "cuff",
+    "dodge",
+    "fengyun-shou",
+    "force",
+    "hand",
+    "hunyuan-yiqi",
+    "literate",
+    "luohan-quan",
+    "parry",
+    "shaolin-shenfa"
+   ],
+   "combat_exp": 50000,
+   "room_id": "/d/shaolin/wuchang3",
+   "room_short": "练武场",
+   "area": "shaolin"
+  },
+  {
+   "name": "渡劫",
+   "npc_id": "/kungfu/class/shaolin/du-jie",
+   "aliases": [
+    "du jie",
+    "jie"
+   ],
+   "sect": "shaolin",
+   "teaches": [
+    "buddhism",
+    "cuff",
+    "dodge",
+    "force",
+    "hunyuan-yiqi",
+    "jingang-quan",
+    "parry",
+    "riyue-bian",
+    "shaolin-shenfa",
+    "whip"
+   ],
+   "combat_exp": 1500000,
+   "room_id": "/d/shaolin/fumoquan",
+   "room_short": "金刚伏魔圈",
+   "area": "shaolin"
+  },
+  {
+   "name": "澄行",
+   "npc_id": "/kungfu/class/shaolin/cheng-xing",
+   "aliases": [
+    "chengxing luohan",
+    "chengxing",
+    "xianshan",
+    "luohan"
+   ],
+   "sect": "shaolin",
+   "teaches": [
+    "blade",
+    "buddhism",
+    "cibei-dao",
+    "cuff",
+    "dodge",
+    "force",
+    "hand",
+    "hunyuan-yiqi",
+    "literate",
+    "luohan-quan",
+    "parry",
+    "qianye-shou",
+    "sanhua-zhang",
+    "shaolin-shenfa",
+    "strike"
+   ],
+   "combat_exp": 400000,
+   "room_id": "/d/shaolin/luohan6",
+   "room_short": "罗汉六堂",
+   "area": "shaolin"
+  },
+  {
+   "name": "澄明",
+   "npc_id": "/kungfu/class/shaolin/cheng-ming",
+   "aliases": [
+    "chengming luohan",
+    "chengming",
+    "guizhen",
+    "luohan"
+   ],
+   "sect": "shaolin",
+   "teaches": [
+    "banruo-zhang",
+    "buddhism",
+    "club",
+    "cuff",
+    "dodge",
+    "force",
+    "hand",
+    "hunyuan-yiqi",
+    "literate",
+    "luohan-quan",
+    "parry",
+    "qianye-shou",
+    "sanhua-zhang",
+    "shaolin-shenfa",
+    "strike",
+    "weituo-gun"
+   ],
+   "combat_exp": 400000,
+   "room_id": "/d/shaolin/luohan3",
+   "room_short": "罗汉三堂",
+   "area": "shaolin"
+  },
+  {
+   "name": "达摩",
+   "npc_id": "/kungfu/class/shaolin/da-mo",
+   "aliases": [
+    "damo",
+    "damo zushi",
+    "zushi"
+   ],
+   "sect": "shaolin",
+   "teaches": [
+    "banruo-zhang",
+    "blade",
+    "buddhism",
+    "cibei-dao",
+    "claw",
+    "club",
+    "cuff",
+    "damo-jian",
+    "dodge",
+    "fengyun-shou",
+    "finger",
+    "force",
+    "fumo-jian",
+    "hand",
+    "hunyuan-yiqi",
+    "jingang-quan",
+    "literate",
+    "longzhua-gong",
+    "luohan-quan",
+    "nianhua-zhi",
+    "parry",
+    "pudu-zhang",
+    "qianye-shou",
+    "riyue-bian",
+    "sanhua-zhang",
+    "shaolin-shenfa",
+    "staff",
+    "strike",
+    "sword",
+    "weituo-gun",
+    "wuchang-zhang",
+    "xiuluo-dao",
+    "yingzhua-gong",
+    "yiwei-dujiang",
+    "yizhi-chan",
+    "zui-gun"
+   ],
+   "combat_exp": 2000000,
+   "room_id": null,
+   "room_short": null,
+   "area": null
+  },
+  {
+   "name": "觉心",
+   "npc_id": "/kungfu/class/shaolin/jue-xin",
+   "aliases": [
+    "juexin dashi",
+    "juexin",
+    "saodi seng"
+   ],
+   "sect": "shaolin",
+   "teaches": [
+    "banruo-zhang",
+    "blade",
+    "buddhism",
+    "cibei-dao",
+    "claw",
+    "club",
+    "cuff",
+    "damo-jian",
+    "dodge",
+    "fengyun-shou",
+    "finger",
+    "force",
+    "fumo-jian",
+    "hand",
+    "hunyuan-yiqi",
+    "jingang-quan",
+    "literate",
+    "longzhua-gong",
+    "luohan-quan",
+    "nianhua-zhi",
+    "parry",
+    "pudu-zhang",
+    "qianye-shou",
+    "riyue-bian",
+    "sanhua-zhang",
+    "shaolin-shenfa",
+    "staff",
+    "strike",
+    "sword",
+    "weituo-gun",
+    "whip",
+    "wuchang-zhang",
+    "xiuluo-dao",
+    "yingzhua-gong",
+    "yiwei-dujiang",
+    "yizhi-chan",
+    "zui-gun"
+   ],
+   "combat_exp": 4000000,
+   "room_id": null,
+   "room_short": null,
+   "area": null
+  },
+  {
+   "name": "行者",
+   "npc_id": "/kungfu/class/shaolin/xingzhe",
+   "aliases": [
+    "xingzhe",
+    "walker"
+   ],
+   "sect": "shaolin",
+   "teaches": [
+    "blade",
+    "cibei-dao",
+    "dodge",
+    "force",
+    "hunyuan-yiqi",
+    "parry",
+    "shaolin-shenfa",
+    "unarmed"
+   ],
+   "combat_exp": 20000,
+   "room_id": "/d/city/beidajie2",
+   "room_short": "北集市",
+   "area": "city"
+  },
+  {
+   "name": "澄信",
+   "npc_id": "/kungfu/class/shaolin/cheng-xin2",
+   "aliases": [
+    "chengxin luohan",
+    "chengxin",
+    "zhuangyan",
+    "luohan"
+   ],
+   "sect": "shaolin",
+   "teaches": [
+    "blade",
+    "buddhism",
+    "club",
+    "cuff",
+    "dodge",
+    "force",
+    "hand",
+    "hunyuan-yiqi",
+    "literate",
+    "luohan-quan",
+    "parry",
+    "qianye-shou",
+    "sanhua-zhang",
+    "shaolin-shenfa",
+    "strike",
+    "weituo-gun",
+    "xiuluo-dao"
+   ],
+   "combat_exp": 500000,
+   "room_id": "/d/shaolin/banruo6",
+   "room_short": "般若六堂",
+   "area": "shaolin"
+  },
+  {
+   "name": "澄意",
+   "npc_id": "/kungfu/class/shaolin/cheng-yi",
+   "aliases": [
+    "chengyi luohan",
+    "chengyi",
+    "jieying",
+    "luohan"
+   ],
+   "sect": "shaolin",
+   "teaches": [
+    "buddhism",
+    "cuff",
+    "dodge",
+    "force",
+    "hunyuan-yiqi",
+    "literate",
+    "luohan-quan",
+    "parry",
+    "shaolin-shenfa"
+   ],
+   "combat_exp": 350000,
+   "room_id": "/d/shaolin/banruo2",
+   "room_short": "般若二堂",
+   "area": "shaolin"
+  },
+  {
+   "name": "渡厄",
+   "npc_id": "/kungfu/class/shaolin/du-e",
+   "aliases": [
+    "du e",
+    "e"
+   ],
+   "sect": "shaolin",
+   "teaches": [
+    "buddhism",
+    "cuff",
+    "dodge",
+    "force",
+    "hunyuan-yiqi",
+    "jingang-quan",
+    "parry",
+    "riyue-bian",
+    "shaolin-shenfa",
+    "whip"
+   ],
+   "combat_exp": 1500000,
+   "room_id": "/d/shaolin/fumoquan",
+   "room_short": "金刚伏魔圈",
+   "area": "shaolin"
+  },
+  {
+   "name": "慧修尊者",
+   "npc_id": "/kungfu/class/shaolin/hui-xiu",
+   "aliases": [
+    "huixiu zunzhe",
+    "huixiu",
+    "zunzhe"
+   ],
+   "sect": "shaolin",
+   "teaches": [
+    "buddhism",
+    "cuff",
+    "dodge",
+    "force",
+    "hunyuan-yiqi",
+    "literate",
+    "luohan-quan",
+    "parry",
+    "pudu-zhang",
+    "shaolin-shenfa",
+    "staff"
+   ],
+   "combat_exp": 180000,
+   "room_id": "/d/shaolin/hsyuan2",
+   "room_short": "和尚院二部",
+   "area": "shaolin"
+  },
+  {
+   "name": "澄识",
+   "npc_id": "/kungfu/class/shaolin/cheng-shi",
+   "aliases": [
+    "chengshi luohan",
+    "chengshi",
+    "gongde",
+    "luohan"
+   ],
+   "sect": "shaolin",
+   "teaches": [
+    "buddhism",
+    "claw",
+    "club",
+    "cuff",
+    "dodge",
+    "force",
+    "hand",
+    "hunyuan-yiqi",
+    "literate",
+    "luohan-quan",
+    "parry",
+    "qianye-shou",
+    "sanhua-zhang",
+    "shaolin-shenfa",
+    "strike",
+    "weituo-gun",
+    "yingzhua-gong"
+   ],
+   "combat_exp": 500000,
+   "room_id": "/d/shaolin/banruo4",
+   "room_short": "般若四堂",
+   "area": "shaolin"
+  },
+  {
+   "name": "澄志",
+   "npc_id": "/kungfu/class/shaolin/cheng-zhi2",
+   "aliases": [
+    "chengzhi luohan",
+    "chengzhi",
+    "guangming",
+    "luohan"
+   ],
+   "sect": "shaolin",
+   "teaches": [
+    "banruo-zhang",
+    "buddhism",
+    "club",
+    "cuff",
+    "dodge",
+    "finger",
+    "force",
+    "hand",
+    "hunyuan-yiqi",
+    "jingang-quan",
+    "literate",
+    "luohan-quan",
+    "nianhua-zhi",
+    "parry",
+    "qianye-shou",
+    "sanhua-zhang",
+    "shaolin-shenfa",
+    "strike",
+    "weituo-gun",
+    "yizhi-chan"
+   ],
+   "combat_exp": 500000,
+   "room_id": "/d/shaolin/banruo5",
+   "room_short": "般若五堂",
+   "area": "shaolin"
+  },
+  {
+   "name": "澄和",
+   "npc_id": "/kungfu/class/shaolin/cheng-he",
+   "aliases": [
+    "chenghe luohan",
+    "chenghe",
+    "jinshen",
+    "luohan"
+   ],
+   "sect": "shaolin",
+   "teaches": [
+    "buddhism",
+    "club",
+    "cuff",
+    "dodge",
+    "force",
+    "fumo-jian",
+    "hand",
+    "hunyuan-yiqi",
+    "literate",
+    "luohan-quan",
+    "parry",
+    "qianye-shou",
+    "sanhua-zhang",
+    "shaolin-shenfa",
+    "strike",
+    "sword",
+    "weituo-gun"
+   ],
+   "combat_exp": 450000,
+   "room_id": "/d/shaolin/luohan9",
+   "room_short": "罗汉九堂",
+   "area": "shaolin"
+  },
+  {
+   "name": "澄欲",
+   "npc_id": "/kungfu/class/shaolin/cheng-yu",
+   "aliases": [
+    "chengyu luohan",
+    "chengyu",
+    "xumi",
+    "luohan"
+   ],
+   "sect": "shaolin",
+   "teaches": [
+    "buddhism",
+    "cuff",
+    "dodge",
+    "force",
+    "hand",
+    "hunyuan-yiqi",
+    "literate",
+    "luohan-quan",
+    "parry",
+    "pudu-zhang",
+    "qianye-shou",
+    "sanhua-zhang",
+    "shaolin-shenfa",
+    "staff",
+    "strike",
+    "wuchang-zhang"
+   ],
+   "combat_exp": 450000,
+   "room_id": "/d/shaolin/banruo8",
+   "room_short": "般若八堂",
+   "area": "shaolin"
+  },
+  {
+   "name": "慧空尊者",
+   "npc_id": "/kungfu/class/shaolin/hui-kong",
+   "aliases": [
+    "huikong zunzhe",
+    "huikong",
+    "zunzhe"
+   ],
+   "sect": "shaolin",
+   "teaches": [
+    "buddhism",
+    "cuff",
+    "dodge",
+    "force",
+    "hunyuan-yiqi",
+    "literate",
+    "luohan-quan",
+    "parry",
+    "pudu-zhang",
+    "shaolin-shenfa",
+    "staff"
+   ],
+   "combat_exp": 150000,
+   "room_id": "/d/shaolin/guangchang4",
+   "room_short": "精进场",
+   "area": "shaolin"
+  },
+  {
+   "name": "道觉禅师",
+   "npc_id": "/kungfu/class/shaolin/dao-jue",
+   "aliases": [
+    "daojue chanshi",
+    "daojue",
+    "chanshi"
+   ],
+   "sect": "shaolin",
+   "teaches": [
+    "buddhism",
+    "cuff",
+    "dodge",
+    "fengyun-shou",
+    "force",
+    "hand",
+    "hunyuan-yiqi",
+    "literate",
+    "luohan-quan",
+    "parry",
+    "shaolin-shenfa"
+   ],
+   "combat_exp": 80000,
+   "room_id": "/d/shaolin/wuchang",
+   "room_short": "练武场",
+   "area": "shaolin"
+  },
+  {
+   "name": "慧名尊者",
+   "npc_id": "/kungfu/class/shaolin/hui-ming",
+   "aliases": [
+    "huiming zunzhe",
+    "huiming",
+    "zunzhe"
+   ],
+   "sect": "shaolin",
+   "teaches": [
+    "buddhism",
+    "cuff",
+    "dodge",
+    "fengyun-shou",
+    "force",
+    "hand",
+    "hunyuan-yiqi",
+    "literate",
+    "luohan-quan",
+    "parry",
+    "shaolin-shenfa"
+   ],
+   "combat_exp": 250000,
+   "room_id": "/d/shaolin/hsyuan5",
+   "room_short": "和尚院五部",
+   "area": "shaolin"
+  },
+  {
+   "name": "澄思",
+   "npc_id": "/kungfu/class/shaolin/cheng-si",
+   "aliases": [
+    "chengsi luohan",
+    "chengsi",
+    "jingang",
+    "luohan"
+   ],
+   "sect": "shaolin",
+   "teaches": [
+    "buddhism",
+    "club",
+    "cuff",
+    "dodge",
+    "force",
+    "hunyuan-yiqi",
+    "literate",
+    "luohan-quan",
+    "parry",
+    "sanhua-zhang",
+    "shaolin-shenfa",
+    "strike",
+    "weituo-gun"
+   ],
+   "combat_exp": 400000,
+   "room_id": "/d/shaolin/banruo3",
+   "room_short": "般若三堂",
+   "area": "shaolin"
+  },
+  {
+   "name": "慧色尊者",
+   "npc_id": "/kungfu/class/shaolin/hui-se",
+   "aliases": [
+    "huise zunzhe",
+    "huise",
+    "zunzhe"
+   ],
+   "sect": "shaolin",
+   "teaches": [
+    "buddhism",
+    "club",
+    "cuff",
+    "dodge",
+    "force",
+    "hunyuan-yiqi",
+    "literate",
+    "luohan-quan",
+    "parry",
+    "sanhua-zhang",
+    "shaolin-shenfa",
+    "strike",
+    "weituo-gun"
+   ],
+   "combat_exp": 200000,
+   "room_id": "/d/shaolin/hsyuan3",
+   "room_short": "和尚院三部",
+   "area": "shaolin"
+  },
+  {
+   "name": "澄观",
+   "npc_id": "/kungfu/class/shaolin/cheng-guan",
+   "aliases": [
+    "chengguan luohan",
+    "chengguan",
+    "xianglong",
+    "luohan"
+   ],
+   "sect": "shaolin",
+   "teaches": [
+    "buddhism",
+    "cuff",
+    "dodge",
+    "fengyun-shou",
+    "force",
+    "hand",
+    "hunyuan-yiqi",
+    "literate",
+    "luohan-quan",
+    "parry",
+    "shaolin-shenfa"
+   ],
+   "combat_exp": 600000,
+   "room_id": "/d/shaolin/luohan1",
+   "room_short": "罗汉一堂",
+   "area": "shaolin"
+  },
+  {
+   "name": "清为比丘",
+   "npc_id": "/kungfu/class/shaolin/qing-wei",
+   "aliases": [
+    "qingwei biqiu",
+    "qingwei",
+    "biqiu"
+   ],
+   "sect": "shaolin",
+   "teaches": [
+    "buddhism",
+    "cuff",
+    "dodge",
+    "force",
+    "hunyuan-yiqi",
+    "literate",
+    "luohan-quan",
+    "parry",
+    "pudu-zhang",
+    "shaolin-shenfa",
+    "staff"
+   ],
+   "combat_exp": 25000,
+   "room_id": "/d/shaolin/guangchang1w",
+   "room_short": "广场",
+   "area": "shaolin"
+  },
+  {
+   "name": "道品禅师",
+   "npc_id": "/kungfu/class/shaolin/dao-pin",
+   "aliases": [
+    "daopin chanshi",
+    "daopin",
+    "chanshi"
+   ],
+   "sect": "shaolin",
+   "teaches": [
+    "blade",
+    "buddhism",
+    "cibei-dao",
+    "cuff",
+    "dodge",
+    "force",
+    "hunyuan-yiqi",
+    "literate",
+    "luohan-quan",
+    "parry",
+    "shaolin-shenfa"
+   ],
+   "combat_exp": 90000,
+   "room_id": "/d/shaolin/zoulang3",
+   "room_short": "走廊",
+   "area": "shaolin"
+  },
+  {
+   "name": "玄慈大师",
+   "npc_id": "/kungfu/class/shaolin/xuan-ci",
+   "aliases": [
+    "xuanci dashi",
+    "xuanci",
+    "dashi"
+   ],
+   "sect": "shaolin",
+   "teaches": [
+    "buddhism",
+    "claw",
+    "club",
+    "cuff",
+    "dodge",
+    "finger",
+    "force",
+    "hand",
+    "hunyuan-yiqi",
+    "jingang-quan",
+    "literate",
+    "luohan-quan",
+    "nianhua-zhi",
+    "parry",
+    "qianye-shou",
+    "sanhua-zhang",
+    "shaolin-shenfa",
+    "strike",
+    "weituo-gun"
+   ],
+   "combat_exp": 900000,
+   "room_id": "/d/shaolin/fzlou2",
+   "room_short": "方丈室",
+   "area": "shaolin"
+  },
+  {
+   "name": "澄寂",
+   "npc_id": "/kungfu/class/shaolin/cheng-ji",
+   "aliases": [
+    "chengji luohan",
+    "chengji",
+    "zhihui",
+    "luohan"
+   ],
+   "sect": "shaolin",
+   "teaches": [
+    "buddhism",
+    "club",
+    "cuff",
+    "dodge",
+    "force",
+    "hand",
+    "hunyuan-yiqi",
+    "literate",
+    "luohan-quan",
+    "parry",
+    "qianye-shou",
+    "sanhua-zhang",
+    "shaolin-shenfa",
+    "strike",
+    "weituo-gun"
+   ],
+   "combat_exp": 550000,
+   "room_id": "/d/shaolin/luohan7",
+   "room_short": "罗汉七堂",
+   "area": "shaolin"
+  },
+  {
+   "name": "澄灭",
+   "npc_id": "/kungfu/class/shaolin/cheng-mie",
+   "aliases": [
+    "chengmie luohan",
+    "chengmie",
+    "miaoyin",
+    "luohan"
+   ],
+   "sect": "shaolin",
+   "teaches": [
+    "buddhism",
+    "cuff",
+    "dodge",
+    "force",
+    "hand",
+    "hunyuan-yiqi",
+    "literate",
+    "luohan-quan",
+    "parry",
+    "pudu-zhang",
+    "qianye-shou",
+    "sanhua-zhang",
+    "shaolin-shenfa",
+    "staff",
+    "strike"
+   ],
+   "combat_exp": 350000,
+   "room_id": "/d/shaolin/luohan8",
+   "room_short": "罗汉八堂",
+   "area": "shaolin"
+  },
+  {
+   "name": "玄难大师",
+   "npc_id": "/kungfu/class/shaolin/xuan-nan",
+   "aliases": [
+    "xuannan dashi",
+    "xuannan",
+    "dashi"
+   ],
+   "sect": "shaolin",
+   "teaches": [
+    "buddhism",
+    "cuff",
+    "dodge",
+    "force",
+    "hand",
+    "hunyuan-yiqi",
+    "literate",
+    "luohan-quan",
+    "parry",
+    "pudu-zhang",
+    "qianye-shou",
+    "sanhua-zhang",
+    "shaolin-shenfa",
+    "staff",
+    "strike",
+    "wuchang-zhang"
+   ],
+   "combat_exp": 1000000,
+   "room_id": "/d/shaolin/banruo5",
+   "room_short": "般若五堂",
+   "area": "shaolin"
+  },
+  {
+   "name": "丁春秋",
+   "npc_id": "/kungfu/class/xingxiu/ding",
+   "aliases": [
+    "ding chunqiu",
+    "ding"
+   ],
+   "sect": "xingxiu",
+   "teaches": [
+    "chousui-zhang",
+    "claw",
+    "dodge",
+    "feixing-shu",
+    "force",
+    "huagong-dafa",
+    "parry",
+    "poison",
+    "sanyin-zhua",
+    "staff",
+    "strike",
+    "sword",
+    "tianshan-zhang",
+    "zhaixinggong"
+   ],
+   "combat_exp": 3500000,
+   "room_id": "/d/xingxiu/riyuedong",
+   "room_short": "日月洞",
+   "area": "xingxiu"
+  },
+  {
+   "name": "阿紫",
+   "npc_id": "/kungfu/class/xingxiu/azi",
+   "aliases": [
+    "azi"
+   ],
+   "sect": "xingxiu",
+   "teaches": [
+    "chousui-zhang",
+    "claw",
+    "dodge",
+    "feixing-shu",
+    "force",
+    "huagong-dafa",
+    "literate",
+    "parry",
+    "poison",
+    "sanyin-zhua",
+    "staff",
+    "strike",
+    "zhaixinggong"
+   ],
+   "combat_exp": 50000,
+   "room_id": "/d/xingxiu/tianroad3",
+   "room_short": "天山山路",
+   "area": "xingxiuhai"
+  },
+  {
+   "name": "出尘子",
+   "npc_id": "/kungfu/class/xingxiu/chuchen",
+   "aliases": [
+    "chuchen zi",
+    "chuchen"
+   ],
+   "sect": "xingxiu",
+   "teaches": [
+    "chousui-zhang",
+    "dodge",
+    "force",
+    "huagong-dafa",
+    "literate",
+    "parry",
+    "staff",
+    "strike",
+    "tianshan-zhang",
+    "zhaixinggong"
+   ],
+   "combat_exp": 100000,
+   "room_id": "/d/xingxiu/xxroad5",
+   "room_short": "小路",
+   "area": "xingxiuhai"
+  },
+  {
+   "name": "天狼子",
+   "npc_id": "/kungfu/class/xingxiu/tianlang",
+   "aliases": [
+    "tianlang zi",
+    "tianlang"
+   ],
+   "sect": "xingxiu",
+   "teaches": [
+    "chousui-zhang",
+    "dodge",
+    "force",
+    "huagong-dafa",
+    "literate",
+    "parry",
+    "poison",
+    "staff",
+    "strike",
+    "tianshan-zhang",
+    "zhaixinggong"
+   ],
+   "combat_exp": 100000,
+   "room_id": "/d/xingxiu/xxh1",
+   "room_short": "星宿海",
+   "area": "xingxiuhai"
+  },
+  {
+   "name": "摘星子",
+   "npc_id": "/kungfu/class/xingxiu/zhaixing",
+   "aliases": [
+    "zhaixing zi",
+    "zhaixing"
+   ],
+   "sect": "xingxiu",
+   "teaches": [
+    "chousui-zhang",
+    "claw",
+    "dodge",
+    "feixing-shu",
+    "force",
+    "huagong-dafa",
+    "literate",
+    "parry",
+    "poison",
+    "sanyin-zhua",
+    "staff",
+    "strike",
+    "tianshan-zhang",
+    "zhaixinggong"
+   ],
+   "combat_exp": 500000,
+   "room_id": "/d/xingxiu/cave",
+   "room_short": "山洞",
+   "area": "xingxiu"
+  },
+  {
+   "name": "狮吼子",
+   "npc_id": "/kungfu/class/xingxiu/shihou",
+   "aliases": [
+    "shihou zi",
+    "shihou"
+   ],
+   "sect": "xingxiu",
+   "teaches": [
+    "chousui-zhang",
+    "dodge",
+    "force",
+    "huagong-dafa",
+    "parry",
+    "poison",
+    "staff",
+    "strike",
+    "tianshan-zhang",
+    "zhaixinggong"
+   ],
+   "combat_exp": 200000,
+   "room_id": "/d/xingxiu/tianroad2",
+   "room_short": "银山道",
+   "area": "xingxiuhai"
+  },
+  {
+   "name": "岳不群",
+   "npc_id": "/kungfu/class/huashan/buqun2",
+   "aliases": [
+    "yue buqun",
+    "yue",
+    "buqun"
+   ],
+   "sect": "huashan",
+   "teaches": [
+    "cuff",
+    "dodge",
+    "force",
+    "huashan-jianfa",
+    "huashan-shenfa",
+    "hunyuan-zhang",
+    "parry",
+    "pishi-poyu",
+    "pixie-jian",
+    "strike",
+    "sword",
+    "zhengqi-jue",
+    "zixia-gong",
+    "ziyin-yin"
+   ],
+   "combat_exp": 950000,
+   "room_id": null,
+   "room_short": null,
+   "area": null
+  },
+  {
+   "name": "矮老者",
+   "npc_id": "/kungfu/class/huashan/ailao",
+   "aliases": [
+    "ai lao",
+    "ai",
+    "lao"
+   ],
+   "sect": "huashan",
+   "teaches": [
+    "blade",
+    "cuff",
+    "dodge",
+    "force",
+    "huashan-jianfa",
+    "huashan-shenfa",
+    "hunyuan-zhang",
+    "liangyi-dao",
+    "parry",
+    "pishi-poyu",
+    "strike",
+    "sword",
+    "zhengqi-jue",
+    "zixia-gong",
+    "ziyin-yin"
+   ],
+   "combat_exp": 3500000,
+   "room_id": "/d/huashan/xiaozhu",
+   "room_short": "华山小筑",
+   "area": "huashan"
+  },
+  {
+   "name": "风清扬",
+   "npc_id": "/kungfu/class/huashan/feng",
+   "aliases": [
+    "feng qingyang",
+    "feng",
+    "qingyang"
+   ],
+   "sect": "huashan",
+   "teaches": [
+    "cuff",
+    "dodge",
+    "dugu-jiujian",
+    "force",
+    "huashan-shenfa",
+    "hunyuan-zhang",
+    "literate",
+    "parry",
+    "pishi-poyu",
+    "strike",
+    "sword",
+    "zhengqi-jue",
+    "zixia-gong",
+    "ziyin-yin"
+   ],
+   "combat_exp": 3600000,
+   "room_id": null,
+   "room_short": null,
+   "area": null
+  },
+  {
+   "name": "岳不群",
+   "npc_id": "/kungfu/class/huashan/buqun",
+   "aliases": [
+    "yue buqun",
+    "yue",
+    "buqun"
+   ],
+   "sect": "huashan",
+   "teaches": [
+    "cuff",
+    "dodge",
+    "force",
+    "huashan-jianfa",
+    "huashan-shenfa",
+    "hunyuan-zhang",
+    "literate",
+    "parry",
+    "pishi-poyu",
+    "strike",
+    "sword",
+    "zhengqi-jue",
+    "zixia-gong",
+    "ziyin-yin"
+   ],
+   "combat_exp": 950000,
+   "room_id": "/d/huashan/test",
+   "room_short": "客厅",
+   "area": "huashan"
+  },
+  {
+   "name": "风清扬",
+   "npc_id": "/kungfu/class/huashan/xfeng",
+   "aliases": [
+    "feng qingyang",
+    "feng",
+    "qingyang"
+   ],
+   "sect": "huashan",
+   "teaches": [
+    "cuff",
+    "dodge",
+    "dugu-jiujian",
+    "force",
+    "huashan-shenfa",
+    "hunyuan-zhang",
+    "literate",
+    "parry",
+    "pishi-poyu",
+    "strike",
+    "sword",
+    "zhengqi-jue",
+    "zixia-gong",
+    "ziyin-yin"
+   ],
+   "combat_exp": 1800000,
+   "room_id": null,
+   "room_short": null,
+   "area": null
+  },
+  {
+   "name": "高老者",
+   "npc_id": "/kungfu/class/huashan/gaolao",
+   "aliases": [
+    "gao lao",
+    "gao",
+    "lao"
+   ],
+   "sect": "huashan",
+   "teaches": [
+    "blade",
+    "cuff",
+    "dodge",
+    "force",
+    "huashan-jianfa",
+    "huashan-shenfa",
+    "hunyuan-zhang",
+    "liangyi-dao",
+    "parry",
+    "pishi-poyu",
+    "strike",
+    "sword",
+    "zhengqi-jue",
+    "zixia-gong",
+    "ziyin-yin"
+   ],
+   "combat_exp": 3200000,
+   "room_id": "/d/huashan/xiaozhu",
+   "room_short": "华山小筑",
+   "area": "huashan"
+  },
+  {
+   "name": "宁中则",
+   "npc_id": "/kungfu/class/huashan/zhongze",
+   "aliases": [
+    "ning zhongze",
+    "ning",
+    "zhongze"
+   ],
+   "sect": "huashan",
+   "teaches": [
+    "cuff",
+    "dodge",
+    "force",
+    "huashan-jianfa",
+    "huashan-shenfa",
+    "hunyuan-zhang",
+    "literate",
+    "parry",
+    "pishi-poyu",
+    "strike",
+    "sword",
+    "zhengqi-jue",
+    "zixia-gong",
+    "ziyin-yin"
+   ],
+   "combat_exp": 900000,
+   "room_id": "/d/huashan/pianting2",
+   "room_short": "偏厅",
+   "area": "huashan"
+  },
+  {
+   "name": "本参",
+   "npc_id": "/kungfu/class/dali/bencan",
+   "aliases": [
+    "bencan dashi",
+    "dashi",
+    "bencan",
+    "ben can"
+   ],
+   "sect": "dali",
+   "teaches": [
+    "buddhism",
+    "cuff",
+    "dodge",
+    "duanshi-shenfa",
+    "finger",
+    "force",
+    "kurong-changong",
+    "literate",
+    "liumai-shenjian",
+    "parry",
+    "qingyan-zhang",
+    "strike",
+    "yiyang-zhi"
+   ],
+   "combat_exp": 1300000,
+   "room_id": "/d/dali/tianls11",
+   "room_short": "牟尼堂",
+   "area": "dali"
+  },
+  {
+   "name": "朱丹臣",
+   "npc_id": "/kungfu/class/dali/chudanchen",
+   "aliases": [
+    "zhu danchen",
+    "zhu"
+   ],
+   "sect": "dali",
+   "teaches": [
+    "buddhism",
+    "cuff",
+    "dodge",
+    "duanjia-jian",
+    "duanshi-shenfa",
+    "force",
+    "kurong-changong",
+    "parry",
+    "qingyan-zhang",
+    "strike",
+    "sword"
+   ],
+   "combat_exp": 300000,
+   "room_id": null,
+   "room_short": null,
+   "area": null
+  },
+  {
+   "name": "本尘",
+   "npc_id": "/kungfu/class/dali/benchen",
+   "aliases": [
+    "benchen dashi",
+    "dashi",
+    "benchen",
+    "ben chen"
+   ],
+   "sect": "dali",
+   "teaches": [
+    "buddhism",
+    "cuff",
+    "dodge",
+    "duanshi-shenfa",
+    "finger",
+    "force",
+    "kurong-changong",
+    "literate",
+    "liumai-shenjian",
+    "parry",
+    "qingyan-zhang",
+    "strike",
+    "yiyang-zhi"
+   ],
+   "combat_exp": 1300000,
+   "room_id": "/d/dali/tianls11",
+   "room_short": "牟尼堂",
+   "area": "dali"
+  },
+  {
+   "name": "枯荣大师",
+   "npc_id": "/kungfu/class/dali/kurong",
+   "aliases": [
+    "kurong dashi",
+    "dashi",
+    "kurong",
+    "ku rong"
+   ],
+   "sect": "dali",
+   "teaches": [
+    "buddhism",
+    "cuff",
+    "dodge",
+    "duanshi-shenfa",
+    "finger",
+    "force",
+    "kurong-changong",
+    "literate",
+    "liumai-shenjian",
+    "parry",
+    "qingyan-zhang",
+    "strike",
+    "yiyang-zhi"
+   ],
+   "combat_exp": 1800000,
+   "room_id": "/d/dali/tianls11",
+   "room_short": "牟尼堂",
+   "area": "dali"
+  },
+  {
+   "name": "本观",
+   "npc_id": "/kungfu/class/dali/benguan",
+   "aliases": [
+    "benguan dashi",
+    "dashi",
+    "benguan",
+    "ben guan"
+   ],
+   "sect": "dali",
+   "teaches": [
+    "buddhism",
+    "cuff",
+    "dodge",
+    "duanshi-shenfa",
+    "finger",
+    "force",
+    "kurong-changong",
+    "literate",
+    "liumai-shenjian",
+    "parry",
+    "qingyan-zhang",
+    "strike",
+    "yiyang-zhi"
+   ],
+   "combat_exp": 1300000,
+   "room_id": "/d/dali/tianls11",
+   "room_short": "牟尼堂",
+   "area": "dali"
+  },
+  {
+   "name": "段正淳",
+   "npc_id": "/kungfu/class/dali/zhengchun",
+   "aliases": [
+    "duan zhengchun",
+    "zhengchun",
+    "duan"
+   ],
+   "sect": "dali",
+   "teaches": [
+    "buddhism",
+    "cuff",
+    "dodge",
+    "duanjia-jian",
+    "duanshi-shenfa",
+    "finger",
+    "force",
+    "jinyu-quan",
+    "kurong-changong",
+    "parry",
+    "qingyan-zhang",
+    "strike",
+    "sword",
+    "yiyang-zhi"
+   ],
+   "combat_exp": 700000,
+   "room_id": "/d/dali/wangfu8",
+   "room_short": "书房",
+   "area": "dali"
+  },
+  {
+   "name": "褚万里",
+   "npc_id": "/kungfu/class/dali/zhuwanli",
+   "aliases": [
+    "zhu wanli",
+    "zhu"
+   ],
+   "sect": "dali",
+   "teaches": [
+    "buddhism",
+    "cuff",
+    "dodge",
+    "duanjia-jian",
+    "duanshi-shenfa",
+    "force",
+    "jinyu-quan",
+    "kurong-changong",
+    "parry",
+    "staff"
+   ],
+   "combat_exp": 120000,
+   "room_id": "/d/dali/wangfu1",
+   "room_short": null,
+   "area": "dali"
+  },
+  {
+   "name": "朱丹臣",
+   "npc_id": "/kungfu/class/dali/zhudanchen",
+   "aliases": [
+    "zhu danchen",
+    "zhu"
+   ],
+   "sect": "dali",
+   "teaches": [
+    "buddhism",
+    "cuff",
+    "dodge",
+    "duanjia-jian",
+    "duanshi-shenfa",
+    "force",
+    "kurong-changong",
+    "parry",
+    "qingyan-zhang",
+    "strike",
+    "sword"
+   ],
+   "combat_exp": 150000,
+   "room_id": "/d/dali/wangfu11",
+   "room_short": "厢房",
+   "area": "dali"
+  },
+  {
+   "name": "本相",
+   "npc_id": "/kungfu/class/dali/benxiang",
+   "aliases": [
+    "benxiang dashi",
+    "dashi",
+    "benxiang",
+    "ben xiang"
+   ],
+   "sect": "dali",
+   "teaches": [
+    "buddhism",
+    "cuff",
+    "dodge",
+    "duanshi-shenfa",
+    "finger",
+    "force",
+    "kurong-changong",
+    "literate",
+    "liumai-shenjian",
+    "parry",
+    "qingyan-zhang",
+    "strike",
+    "yiyang-zhi"
+   ],
+   "combat_exp": 1300000,
+   "room_id": "/d/dali/tianls11",
+   "room_short": "牟尼堂",
+   "area": "dali"
+  },
+  {
+   "name": "本因",
+   "npc_id": "/kungfu/class/dali/benyin",
+   "aliases": [
+    "benyin dashi",
+    "dashi",
+    "benyin",
+    "ben yin"
+   ],
+   "sect": "dali",
+   "teaches": [
+    "buddhism",
+    "cuff",
+    "dodge",
+    "duanshi-shenfa",
+    "finger",
+    "force",
+    "kurong-changong",
+    "literate",
+    "liumai-shenjian",
+    "parry",
+    "qingyan-zhang",
+    "strike",
+    "yiyang-zhi"
+   ],
+   "combat_exp": 1300000,
+   "room_id": "/d/dali/tianls11",
+   "room_short": "牟尼堂",
+   "area": "dali"
+  },
+  {
+   "name": "刀白凤",
+   "npc_id": "/kungfu/class/dali/daobaifeng",
+   "aliases": [
+    "dao baifeng",
+    "dao"
+   ],
+   "sect": "dali",
+   "teaches": [
+    "buddhism",
+    "dodge",
+    "duanjia-jian",
+    "duanshi-shenfa",
+    "feifeng-bian",
+    "force",
+    "kurong-changong",
+    "parry",
+    "qingyan-zhang",
+    "strike",
+    "sword",
+    "whip"
+   ],
+   "combat_exp": 300000,
+   "room_id": "/d/dali/yuxuguan",
+   "room_short": "玉虚观",
+   "area": "dali"
+  },
+  {
+   "name": "古笃诚",
+   "npc_id": "/kungfu/class/dali/guducheng",
+   "aliases": [
+    "gu ducheng",
+    "gu"
+   ],
+   "sect": "dali",
+   "teaches": [
+    "axe",
+    "buddhism",
+    "cuff",
+    "dodge",
+    "duanshi-shenfa",
+    "force",
+    "jinyu-quan",
+    "kurong-changong",
+    "parry"
+   ],
+   "combat_exp": 150000,
+   "room_id": "/d/dali/dinganfu6",
+   "room_short": "库房",
+   "area": "dali"
+  },
+  {
+   "name": "高升泰",
+   "npc_id": "/kungfu/class/dali/gaoshengtai",
+   "aliases": [
+    "gao shengtai",
+    "gao"
+   ],
+   "sect": "dali",
+   "teaches": [
+    "buddhism",
+    "cuff",
+    "dodge",
+    "duanjia-jian",
+    "duanshi-shenfa",
+    "finger",
+    "force",
+    "jinyu-quan",
+    "kurong-changong",
+    "parry",
+    "sword"
+   ],
+   "combat_exp": 500000,
+   "room_id": null,
+   "room_short": null,
+   "area": null
+  },
+  {
+   "name": "傅思归",
+   "npc_id": "/kungfu/class/dali/fusigui",
+   "aliases": [
+    "fu sigui",
+    "fu"
+   ],
+   "sect": "dali",
+   "teaches": [
+    "buddhism",
+    "club",
+    "cuff",
+    "dodge",
+    "duanshi-shenfa",
+    "force",
+    "jinyu-quan",
+    "kurong-changong",
+    "parry"
+   ],
+   "combat_exp": 150000,
+   "room_id": null,
+   "room_short": null,
+   "area": null
+  },
+  {
+   "name": "何不净",
+   "npc_id": "/kungfu/class/gaibang/he-bujing",
+   "aliases": [
+    "he bujing",
+    "he",
+    "bujing"
+   ],
+   "sect": "gaibang",
+   "teaches": [
+    "begging",
+    "dodge",
+    "force",
+    "huntian-qigong",
+    "parry",
+    "stealing",
+    "strike",
+    "xianglong-zhang",
+    "xiaoyaoyou"
+   ],
+   "combat_exp": 240000,
+   "room_id": "/d/gaibang/undersl",
+   "room_short": "屋角边",
+   "area": "gaibang"
+  },
+  {
+   "name": "黎生",
+   "npc_id": "/kungfu/class/gaibang/li-sheng",
+   "aliases": [
+    "li sheng",
+    "li",
+    "sheng"
+   ],
+   "sect": "gaibang",
+   "teaches": [
+    "begging",
+    "blade",
+    "digging",
+    "dodge",
+    "force",
+    "hand",
+    "huntian-qigong",
+    "liuhe-dao",
+    "parry",
+    "shexing-diaoshou",
+    "strike",
+    "xianglong-zhang",
+    "xiaoyaoyou"
+   ],
+   "combat_exp": 350000,
+   "room_id": "/d/gaibang/underwd",
+   "room_short": "土匪窝边",
+   "area": "gaibang"
+  },
+  {
+   "name": "洪七公",
+   "npc_id": "/kungfu/class/gaibang/hong",
+   "aliases": [
+    "hong qigong",
+    "hong",
+    "qigong"
+   ],
+   "sect": "gaibang",
+   "teaches": [
+    "begging",
+    "checking",
+    "dagou-bang",
+    "digging",
+    "dodge",
+    "force",
+    "hand",
+    "huntian-qigong",
+    "parry",
+    "shexing-diaoshou",
+    "stick",
+    "strike",
+    "training",
+    "xianglong-zhang",
+    "xiaoyaoyou"
+   ],
+   "combat_exp": 3600000,
+   "room_id": "/d/gaibang/gbxiaowu",
+   "room_short": "林间小屋",
+   "area": "gaibang"
+  },
+  {
+   "name": "左全",
+   "npc_id": "/kungfu/class/gaibang/zuo-quan",
+   "aliases": [
+    "zuo quan",
+    "zuo",
+    "quan"
+   ],
+   "sect": "gaibang",
+   "teaches": [
+    "begging",
+    "checking",
+    "digging",
+    "dodge",
+    "force",
+    "hand",
+    "huntian-qigong",
+    "parry",
+    "shexing-diaoshou",
+    "xiaoyaoyou"
+   ],
+   "combat_exp": 250000,
+   "room_id": "/d/gaibang/inhole",
+   "room_short": "树洞内部",
+   "area": "gaibang"
+  },
+  {
+   "name": "空空儿",
+   "npc_id": "/kungfu/class/gaibang/kongkong",
+   "aliases": [
+    "kong kong",
+    "beggar",
+    "qi gai",
+    "kong"
+   ],
+   "sect": "gaibang",
+   "teaches": [
+    "begging",
+    "checking",
+    "dodge",
+    "force",
+    "hand",
+    "huntian-qigong",
+    "parry",
+    "shexing-diaoshou",
+    "stealing",
+    "sword",
+    "xiaoyaoyou"
+   ],
+   "combat_exp": 50000,
+   "room_id": "/d/city/lichunyuan",
+   "room_short": null,
+   "area": "city"
+  },
+  {
+   "name": "彭有敬",
+   "npc_id": "/kungfu/class/gaibang/peng",
+   "aliases": [
+    "peng youjing",
+    "peng",
+    "youjing"
+   ],
+   "sect": "gaibang",
+   "teaches": [
+    "digging",
+    "dodge",
+    "force",
+    "hand",
+    "huntian-qigong",
+    "parry",
+    "shexing-diaoshou",
+    "stick",
+    "xiaoyaoyou"
+   ],
+   "combat_exp": 300000,
+   "room_id": "/d/gaibang/pomiao",
+   "room_short": "土地庙",
+   "area": "gaibang"
+  },
+  {
+   "name": "简长老",
+   "npc_id": "/kungfu/class/gaibang/jian",
+   "aliases": [
+    "jian zhanglao",
+    "jian",
+    "zhanglao"
+   ],
+   "sect": "gaibang",
+   "teaches": [
+    "dodge",
+    "fengmo-zhang",
+    "force",
+    "huntian-qigong",
+    "parry",
+    "staff",
+    "strike",
+    "xianglong-zhang",
+    "xiaoyaoyou"
+   ],
+   "combat_exp": 750000,
+   "room_id": "/d/gaibang/zhulin1",
+   "room_short": "竹林小道",
+   "area": "gaibang"
+  },
+  {
+   "name": "梁长老",
+   "npc_id": "/kungfu/class/gaibang/liang",
+   "aliases": [
+    "liang zhanglao",
+    "liang",
+    "zhanglao"
+   ],
+   "sect": "gaibang",
+   "teaches": [
+    "begging",
+    "blade",
+    "checking",
+    "dodge",
+    "force",
+    "hand",
+    "huntian-qigong",
+    "liuhe-dao",
+    "parry",
+    "shexing-diaoshou",
+    "strike",
+    "xianglong-zhang",
+    "xiaoyaoyou"
+   ],
+   "combat_exp": 700000,
+   "room_id": "/d/gaibang/undertre",
+   "room_short": "树洞下",
+   "area": "gaibang"
+  },
+  {
+   "name": "鲁有脚",
+   "npc_id": "/kungfu/class/gaibang/lu",
+   "aliases": [
+    "lu youjiao",
+    "lu",
+    "youjiao"
+   ],
+   "sect": "gaibang",
+   "teaches": [
+    "begging",
+    "dagou-bang",
+    "dodge",
+    "force",
+    "huntian-qigong",
+    "parry",
+    "stick",
+    "strike",
+    "training",
+    "xianglong-zhang",
+    "xiaoyaoyou"
+   ],
+   "combat_exp": 750000,
+   "room_id": "/d/gaibang/pomiao",
+   "room_short": "土地庙",
+   "area": "gaibang"
+  },
+  {
+   "name": "马俱为",
+   "npc_id": "/kungfu/class/gaibang/ma-juwei",
+   "aliases": [
+    "ma juwei",
+    "ma",
+    "juwei"
+   ],
+   "sect": "gaibang",
+   "teaches": [
+    "begging",
+    "blade",
+    "digging",
+    "dodge",
+    "force",
+    "hand",
+    "huntian-qigong",
+    "liuhe-dao",
+    "parry",
+    "shexing-diaoshou",
+    "xiaoyaoyou"
+   ],
+   "combat_exp": 200000,
+   "room_id": "/d/gaibang/underxc",
+   "room_short": "谷场槐树边",
+   "area": "gaibang"
+  },
+  {
+   "name": "余洪兴",
+   "npc_id": "/kungfu/class/gaibang/yu-hongxing",
+   "aliases": [
+    "yu hongxing",
+    "yu",
+    "hongxing"
+   ],
+   "sect": "gaibang",
+   "teaches": [
+    "begging",
+    "blade",
+    "checking",
+    "dodge",
+    "force",
+    "hand",
+    "huntian-qigong",
+    "liuhe-dao",
+    "parry",
+    "shexing-diaoshou",
+    "stealing",
+    "training",
+    "xiaoyaoyou"
+   ],
+   "combat_exp": 300000,
+   "room_id": "/d/gaibang/underxx",
+   "room_short": "沙丘小洞",
+   "area": "gaibang"
+  },
+  {
+   "name": "朱丹臣",
+   "npc_id": "/d/dali/npc/zhudanchen",
+   "aliases": [
+    "zhu danchen",
+    "zhu"
+   ],
+   "sect": null,
+   "teaches": [
+    "buddhism",
+    "cuff",
+    "dodge",
+    "duanjia-jian",
+    "duanshi-shenfa",
+    "force",
+    "kurong-changong",
+    "parry",
+    "qingyan-zhang",
+    "strike",
+    "sword"
+   ],
+   "combat_exp": 150000,
+   "room_id": null,
+   "room_short": null,
+   "area": null
+  },
+  {
+   "name": "灭绝师太",
+   "npc_id": "/d/xiakedao/npc/miejue",
+   "aliases": [
+    "miejue shitai",
+    "miejue",
+    "shitai"
+   ],
+   "sect": null,
+   "teaches": [
+    "blade",
+    "claw",
+    "dodge",
+    "finger",
+    "force",
+    "huifeng-jian",
+    "jinding-zhang",
+    "linji-zhuang",
+    "literate",
+    "mahayana",
+    "parry",
+    "persuading",
+    "strike",
+    "sword",
+    "throwing",
+    "tiangang-zhi",
+    "yanxing-dao",
+    "zhutian-bu"
+   ],
+   "combat_exp": 1300000,
+   "room_id": "/d/xiakedao/xkx21",
+   "room_short": "石室",
+   "area": "xiakedao"
+  },
+  {
+   "name": "欧阳锋",
+   "npc_id": "/d/xiakedao/npc/ouyang",
+   "aliases": [
+    "ouyang feng",
+    "ouyang",
+    "feng"
+   ],
+   "sect": null,
+   "teaches": [
+    "chanchubu",
+    "dodge",
+    "force",
+    "hamagong",
+    "hand",
+    "lingshe-zhang",
+    "parry",
+    "poison",
+    "shexing-diaoshou",
+    "staff",
+    "strike",
+    "training"
+   ],
+   "combat_exp": 1500000,
+   "room_id": "/d/xiakedao/xkx5",
+   "room_short": "石室",
+   "area": "xiakedao"
+  },
+  {
+   "name": "岳不群",
+   "npc_id": "/d/huashan/npc/buqun",
+   "aliases": [
+    "yue buqun",
+    "yue",
+    "buqun"
+   ],
+   "sect": null,
+   "teaches": [
+    "cuff",
+    "dodge",
+    "force",
+    "huashan-jianfa",
+    "huashan-shenfa",
+    "hunyuan-zhang",
+    "literate",
+    "parry",
+    "pishi-poyu",
+    "strike",
+    "sword",
+    "zhengqi-jue",
+    "zixia-gong",
+    "ziyin-yin"
+   ],
+   "combat_exp": 950000,
+   "room_id": null,
+   "room_short": null,
+   "area": null
+  },
+  {
+   "name": "欧阳峰",
+   "npc_id": "/d/xingxiu/npc/feng",
+   "aliases": [
+    "ouyang feng",
+    "ouyang",
+    "feng"
+   ],
+   "sect": null,
+   "teaches": [
+    "chanchubu",
+    "dodge",
+    "force",
+    "hamagong",
+    "hand",
+    "lingshe-zhang",
+    "parry",
+    "shexing-diaoshou",
+    "staff",
+    "strike",
+    "training",
+    "xingxiu-duzhang"
+   ],
+   "combat_exp": 1500000,
+   "room_id": "/d/xingxiu/btshan1",
+   "room_short": "白驼山庄",
+   "area": "xingxiuhai"
+  },
+  {
+   "name": "木人",
+   "npc_id": "/d/taihu/npc/mu-ren",
+   "aliases": [
+    "mu ren",
+    "mu",
+    "wood man",
+    "wood"
+   ],
+   "sect": null,
+   "teaches": [
+    "dodge",
+    "force",
+    "parry",
+    "unarmed"
+   ],
+   "combat_exp": 50000,
+   "room_id": "/d/taihu/liangong",
+   "room_short": "练功房",
+   "area": "taihu"
+  },
+  {
+   "name": "木人",
+   "npc_id": "/d/shaolin/obj/mu-ren",
+   "aliases": [
+    "mu ren",
+    "mu",
+    "wood man",
+    "wood"
+   ],
+   "sect": null,
+   "teaches": [
+    "dodge",
+    "force",
+    "parry",
+    "unarmed"
+   ],
+   "combat_exp": 50000,
+   "room_id": "/d/dali/tianls7",
+   "room_short": "兜天大士院",
+   "area": "dali"
+  },
+  {
+   "name": "玄慈大师",
+   "npc_id": "/d/shaolin/npc/xuanci",
+   "aliases": [
+    "xuanci dashi",
+    "xuanci",
+    "dashi"
+   ],
+   "sect": null,
+   "teaches": [
+    "buddhism",
+    "claw",
+    "club",
+    "cuff",
+    "dodge",
+    "finger",
+    "force",
+    "hand",
+    "hunyuan-yiqi",
+    "jingang-quan",
+    "literate",
+    "luohan-quan",
+    "nianhua-zhi",
+    "parry",
+    "qianye-shou",
+    "sanhua-zhang",
+    "shaolin-shenfa",
+    "strike",
+    "weituo-gun"
+   ],
+   "combat_exp": 900000,
+   "room_id": null,
+   "room_short": null,
+   "area": null
+  },
+  {
+   "name": "木人",
+   "npc_id": "/d/shaolin/npc/mu-ren",
+   "aliases": [
+    "mu ren",
+    "mu",
+    "wood man",
+    "wood"
+   ],
+   "sect": null,
+   "teaches": [
+    "dodge",
+    "force",
+    "parry",
+    "unarmed"
+   ],
+   "combat_exp": 50000,
+   "room_id": "/d/shaolin/wuchang3",
+   "room_short": "练武场",
+   "area": "shaolin"
+  },
+  {
+   "name": "铜人",
+   "npc_id": "/d/shaolin/npc/tong-ren",
+   "aliases": [
+    "tong ren",
+    "tong",
+    "copper man",
+    "copper"
+   ],
+   "sect": null,
+   "teaches": [
+    "dodge",
+    "force",
+    "parry",
+    "unarmed"
+   ],
+   "combat_exp": 50000,
+   "room_id": null,
+   "room_short": null,
+   "area": null
+  },
+  {
+   "name": "玄慈大师",
+   "npc_id": "/d/shaolin/npc/xuan-ci",
+   "aliases": [
+    "xuanci dashi",
+    "xuanci",
+    "dashi"
+   ],
+   "sect": null,
+   "teaches": [
+    "buddhism",
+    "claw",
+    "dodge",
+    "fengyun-shou",
+    "finger",
+    "force",
+    "hand",
+    "hunyuan-yiqi",
+    "literate",
+    "longzhua-gong",
+    "nianhua-zhi",
+    "parry",
+    "sanhua-zhang",
+    "shaolin-shenfa",
+    "strike"
+   ],
+   "combat_exp": 900000,
+   "room_id": null,
+   "room_short": null,
+   "area": null
+  },
+  {
+   "name": "木人",
+   "npc_id": "/d/shaolin/npc/obj/mu-ren",
+   "aliases": [
+    "mu ren",
+    "mu",
+    "wood man",
+    "wood"
+   ],
+   "sect": null,
+   "teaches": [
+    "dodge",
+    "force",
+    "parry",
+    "unarmed"
+   ],
+   "combat_exp": 50000,
+   "room_id": null,
+   "room_short": null,
+   "area": null
+  },
+  {
+   "name": "程瑶迦",
+   "npc_id": "/d/zhongnan/npc/cheng",
+   "aliases": [
+    "cheng yaojia",
+    "cheng"
+   ],
+   "sect": null,
+   "teaches": [
+    "chunyang-quan",
+    "cuff",
+    "dodge",
+    "force",
+    "jinyangong",
+    "literate",
+    "parry",
+    "quanzhen-jian",
+    "sanhua-juding",
+    "strike",
+    "sword",
+    "taoism",
+    "xiantian-gong"
+   ],
+   "combat_exp": 80000,
+   "room_id": null,
+   "room_short": null,
+   "area": null
+  },
+  {
+   "name": "马钰",
+   "npc_id": "/d/zhongnan/npc/ma",
+   "aliases": [
+    "ma yu",
+    "ma"
+   ],
+   "sect": null,
+   "teaches": [
+    "chunyang-quan",
+    "cuff",
+    "dodge",
+    "force",
+    "jinyangong",
+    "literate",
+    "parry",
+    "quanzhen-jian",
+    "sanhua-juding",
+    "strike",
+    "sword",
+    "taoism",
+    "xiantian-gong"
+   ],
+   "combat_exp": 8000000,
+   "room_id": null,
+   "room_short": null,
+   "area": null
+  },
+  {
+   "name": "丘处机",
+   "npc_id": "/d/zhongnan/npc/qiu",
+   "aliases": [
+    "qiu chuji",
+    "qiu"
+   ],
+   "sect": null,
+   "teaches": [
+    "chunyang-quan",
+    "cuff",
+    "dodge",
+    "force",
+    "jinyangong",
+    "literate",
+    "parry",
+    "quanzhen-jian",
+    "sanhua-juding",
+    "strike",
+    "sword",
+    "taoism",
+    "xiantian-gong"
+   ],
+   "combat_exp": 1000000,
+   "room_id": null,
+   "room_short": null,
+   "area": null
+  },
+  {
+   "name": "姬清虚",
+   "npc_id": "/d/zhongnan/npc/ji",
+   "aliases": [
+    "ji qingxu",
+    "ji"
+   ],
+   "sect": null,
+   "teaches": [
+    "chunyang-quan",
+    "cuff",
+    "dodge",
+    "force",
+    "jinyangong",
+    "literate",
+    "parry",
+    "quanzhen-jian",
+    "sanhua-juding",
+    "strike",
+    "sword",
+    "taoism",
+    "xiantian-gong"
+   ],
+   "combat_exp": 40000,
+   "room_id": "/d/zhongnan/guangchang",
+   "room_short": "重阳宫广场",
+   "area": "zhongnan"
+  },
+  {
+   "name": "孙不二",
+   "npc_id": "/d/zhongnan/npc/sun",
+   "aliases": [
+    "sun buer",
+    "sun"
+   ],
+   "sect": null,
+   "teaches": [
+    "chunyang-quan",
+    "cuff",
+    "dodge",
+    "force",
+    "jinyangong",
+    "literate",
+    "parry",
+    "quanzhen-jian",
+    "sanhua-juding",
+    "strike",
+    "sword",
+    "taoism",
+    "xiantian-gong"
+   ],
+   "combat_exp": 600000,
+   "room_id": null,
+   "room_short": null,
+   "area": null
+  },
+  {
+   "name": "李志常",
+   "npc_id": "/d/zhongnan/npc/li",
+   "aliases": [
+    "li zhichang",
+    "li"
+   ],
+   "sect": null,
+   "teaches": [
+    "beidou-zhenfa",
+    "chunyang-quan",
+    "cuff",
+    "dodge",
+    "force",
+    "jinyangong",
+    "literate",
+    "parry",
+    "quanzhen-jian",
+    "sanhua-juding",
+    "strike",
+    "sword",
+    "taoism",
+    "xiantian-gong"
+   ],
+   "combat_exp": 300000,
+   "room_id": null,
+   "room_short": null,
+   "area": null
+  },
+  {
+   "name": "尹志平",
+   "npc_id": "/d/zhongnan/npc/yin",
+   "aliases": [
+    "yin zhiping",
+    "yin"
+   ],
+   "sect": null,
+   "teaches": [
+    "beidou-zhenfa",
+    "chunyang-quan",
+    "cuff",
+    "dodge",
+    "force",
+    "jinyangong",
+    "literate",
+    "parry",
+    "quanzhen-jian",
+    "sanhua-juding",
+    "strike",
+    "sword",
+    "taoism",
+    "xiantian-gong"
+   ],
+   "combat_exp": 350000,
+   "room_id": null,
+   "room_short": null,
+   "area": null
+  },
+  {
+   "name": "皮清玄",
+   "npc_id": "/d/zhongnan/npc/pi",
+   "aliases": [
+    "pi qingxuan",
+    "pi"
+   ],
+   "sect": null,
+   "teaches": [
+    "chunyang-quan",
+    "cuff",
+    "dodge",
+    "force",
+    "jinyangong",
+    "literate",
+    "parry",
+    "quanzhen-jian",
+    "sanhua-juding",
+    "strike",
+    "sword",
+    "taoism",
+    "xiantian-gong"
+   ],
+   "combat_exp": 40000,
+   "room_id": null,
+   "room_short": null,
+   "area": null
+  },
+  {
+   "name": "赵志敬",
+   "npc_id": "/d/zhongnan/npc/zhao",
+   "aliases": [
+    "zhao zhijing",
+    "zhao"
+   ],
+   "sect": null,
+   "teaches": [
+    "beidou-zhenfa",
+    "chunyang-quan",
+    "cuff",
+    "dodge",
+    "force",
+    "jinyangong",
+    "literate",
+    "parry",
+    "quanzhen-jian",
+    "sanhua-juding",
+    "strike",
+    "sword",
+    "taoism",
+    "xiantian-gong"
+   ],
+   "combat_exp": 400000,
+   "room_id": null,
+   "room_short": null,
+   "area": null
+  },
+  {
+   "name": "王处一",
+   "npc_id": "/d/zhongnan/npc/wang",
+   "aliases": [
+    "wang chuyi",
+    "wang"
+   ],
+   "sect": null,
+   "teaches": [
+    "chunyang-quan",
+    "cuff",
+    "dodge",
+    "force",
+    "jinyangong",
+    "literate",
+    "parry",
+    "quanzhen-jian",
+    "sanhua-juding",
+    "strike",
+    "sword",
+    "taoism",
+    "xiantian-gong"
+   ],
+   "combat_exp": 900000,
+   "room_id": null,
+   "room_short": null,
+   "area": null
+  },
+  {
+   "name": "王重阳",
+   "npc_id": "/d/zhongnan/npc/wang-cy",
+   "aliases": [
+    "wang chongyang",
+    "wang"
+   ],
+   "sect": null,
+   "teaches": [
+    "chunyang-quan",
+    "cuff",
+    "dodge",
+    "force",
+    "jinyangong",
+    "literate",
+    "parry",
+    "quanzhen-jian",
+    "sanhua-juding",
+    "strike",
+    "sword",
+    "taoism",
+    "xiantian-gong"
+   ],
+   "combat_exp": 2000000,
+   "room_id": null,
+   "room_short": null,
+   "area": null
+  },
+  {
+   "name": "郝大通",
+   "npc_id": "/d/zhongnan/npc/hao",
+   "aliases": [
+    "hao datong",
+    "hao"
+   ],
+   "sect": null,
+   "teaches": [
+    "chunyang-quan",
+    "cuff",
+    "dodge",
+    "force",
+    "jinyangong",
+    "literate",
+    "parry",
+    "quanzhen-jian",
+    "sanhua-juding",
+    "strike",
+    "sword",
+    "taoism",
+    "xiantian-gong"
+   ],
+   "combat_exp": 700000,
+   "room_id": null,
+   "room_short": null,
+   "area": null
+  },
+  {
+   "name": "刘处玄",
+   "npc_id": "/d/zhongnan/npc/liu",
+   "aliases": [
+    "liu chuxuan",
+    "liu"
+   ],
+   "sect": null,
+   "teaches": [
+    "chunyang-quan",
+    "cuff",
+    "dodge",
+    "force",
+    "jinyangong",
+    "literate",
+    "parry",
+    "quanzhen-jian",
+    "sanhua-juding",
+    "strike",
+    "sword",
+    "taoism",
+    "xiantian-gong"
+   ],
+   "combat_exp": 700000,
+   "room_id": null,
+   "room_short": null,
+   "area": null
+  },
+  {
+   "name": "谭处端",
+   "npc_id": "/d/zhongnan/npc/tan",
+   "aliases": [
+    "tan chuduan",
+    "tan"
+   ],
+   "sect": null,
+   "teaches": [
+    "chunyang-quan",
+    "cuff",
+    "dodge",
+    "force",
+    "jinyangong",
+    "literate",
+    "parry",
+    "quanzhen-jian",
+    "sanhua-juding",
+    "strike",
+    "sword",
+    "taoism",
+    "xiantian-gong"
+   ],
+   "combat_exp": 750000,
+   "room_id": null,
+   "room_short": null,
+   "area": null
+  },
+  {
+   "name": "木人",
+   "npc_id": "/d/xueshan/npc/mu-ren",
+   "aliases": [
+    "mu ren",
+    "mu",
+    "wood man",
+    "wood"
+   ],
+   "sect": null,
+   "teaches": [
+    "dodge",
+    "force",
+    "parry",
+    "unarmed"
+   ],
+   "combat_exp": 50000,
+   "room_id": "/d/xueshan/houyuan",
+   "room_short": "后院",
+   "area": "qilian-shan"
+  },
+  {
+   "name": "宋青书",
+   "npc_id": "/d/em/npc/qingshu",
+   "aliases": [
+    "song qingshu",
+    "song",
+    "qingshu"
+   ],
+   "sect": null,
+   "teaches": [
+    "cuff",
+    "dodge",
+    "force",
+    "literate",
+    "parry",
+    "sword",
+    "taiji-jian",
+    "taiji-quan",
+    "taiji-shengong",
+    "taoism",
+    "tiyunzong"
+   ],
+   "combat_exp": 100000,
+   "room_id": "/d/em/hztrip4",
+   "room_short": "小树林",
+   "area": "emei"
+  },
+  {
+   "name": "枯木禅师",
+   "npc_id": "/d/hangzhou/npc/kumu",
+   "aliases": [
+    "kumu chanshi",
+    "kumu",
+    "chanshi"
+   ],
+   "sect": null,
+   "teaches": [
+    "buddhism",
+    "dodge",
+    "finger",
+    "force",
+    "hunyuan-yiqi",
+    "nianhua-zhi",
+    "parry",
+    "shaolin-shenfa"
+   ],
+   "combat_exp": 80000,
+   "room_id": "/d/hangzhou/lingyin3",
+   "room_short": "大雄宝殿",
+   "area": "hangzhou"
+  },
+  {
+   "name": "魏无双",
+   "npc_id": "/d/taishan/npc/meng-zhu",
+   "aliases": [
+    "wulin mengzhu",
+    "mengzhu",
+    "zhu"
+   ],
+   "sect": null,
+   "teaches": [
+    "dodge",
+    "force",
+    "parry",
+    "sword",
+    "unarmed"
+   ],
+   "combat_exp": 500000,
+   "room_id": null,
+   "room_short": null,
+   "area": null
+  },
+  {
+   "name": "宋青书",
+   "npc_id": "/d/emei/npc/qingshu",
+   "aliases": [
+    "song qingshu",
+    "song",
+    "qingshu"
+   ],
+   "sect": null,
+   "teaches": [
+    "dodge",
+    "force",
+    "literate",
+    "mian-zhang",
+    "parry",
+    "strike",
+    "sword",
+    "taiji-jian",
+    "taiji-shengong",
+    "taoism",
+    "tiyunzong"
+   ],
+   "combat_exp": 100000,
+   "room_id": "/d/emei/hztrip4",
+   "room_short": "小树林",
+   "area": "emei"
+  },
+  {
+   "name": "方怡",
+   "npc_id": "/d/shenlong/npc/fang",
+   "aliases": [
+    "fang yi",
+    "fang"
+   ],
+   "sect": null,
+   "teaches": [
+    "dodge",
+    "dulong-dafa",
+    "force",
+    "jueming-tui",
+    "kick",
+    "lingshe-shenfa",
+    "literate",
+    "parry",
+    "strike",
+    "sword"
+   ],
+   "combat_exp": 50000,
+   "room_id": null,
+   "room_short": null,
+   "area": null
+  },
+  {
+   "name": "魏无双",
+   "npc_id": "/d/shenlong/npc/spy",
+   "aliases": [
+    "wulin mengzhu",
+    "mengzhu",
+    "zhu"
+   ],
+   "sect": null,
+   "teaches": [
+    "dodge",
+    "force",
+    "parry",
+    "sword",
+    "unarmed"
+   ],
+   "combat_exp": null,
+   "room_id": null,
+   "room_short": null,
+   "area": null
+  },
+  {
+   "name": "张三丰",
+   "npc_id": "/d/city/tmp/zhang",
+   "aliases": [
+    "zhang sanfeng",
+    "zhang"
+   ],
+   "sect": null,
+   "teaches": [
+    "cuff",
+    "dodge",
+    "force",
+    "literate",
+    "parry",
+    "sword",
+    "taiji-jian",
+    "taiji-quan",
+    "taiji-shengong",
+    "taoism",
+    "tiyunzong"
+   ],
+   "combat_exp": 2000000,
+   "room_id": null,
+   "room_short": null,
+   "area": null
+  }
+ ]
+}

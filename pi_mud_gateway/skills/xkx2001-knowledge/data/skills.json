@@ -1,0 +1,2743 @@
+{
+ "skill_count": 430,
+ "skills": [
+  {
+   "skill_id": "18-zhang",
+   "file": "/kungfu/skill/18-zhang",
+   "types": [
+    "parry",
+    "strike"
+   ]
+  },
+  {
+   "skill_id": "6mai-shenjian",
+   "file": "/kungfu/skill/6mai-shenjian",
+   "types": [
+    "finger",
+    "parry"
+   ]
+  },
+  {
+   "skill_id": "ailao",
+   "file": "/kungfu/skill/duanjia-jian/ailao",
+   "types": null
+  },
+  {
+   "skill_id": "archery",
+   "file": "/kungfu/skill/archery",
+   "types": null
+  },
+  {
+   "skill_id": "attack",
+   "file": "/kungfu/skill/douzhuan-xingyi/attack",
+   "types": null
+  },
+  {
+   "skill_id": "axe",
+   "file": "/kungfu/skill/axe",
+   "types": null
+  },
+  {
+   "skill_id": "bahuang-gong",
+   "file": "/kungfu/skill/bahuang-gong",
+   "types": [
+    "force"
+   ]
+  },
+  {
+   "skill_id": "baihong",
+   "file": "/kungfu/skill/liuyang-zhang/baihong",
+   "types": null
+  },
+  {
+   "skill_id": "baihong-jianfa",
+   "file": "/kungfu/skill/baihong-jianfa",
+   "types": [
+    "parry",
+    "sword"
+   ]
+  },
+  {
+   "skill_id": "ban",
+   "file": "/kungfu/skill/dagou-bang/ban",
+   "types": null
+  },
+  {
+   "skill_id": "banruo-zhang",
+   "file": "/kungfu/skill/banruo-zhang",
+   "types": [
+    "parry",
+    "strike"
+   ]
+  },
+  {
+   "skill_id": "beauty",
+   "file": "/kungfu/skill/beauty",
+   "types": null
+  },
+  {
+   "skill_id": "begging",
+   "file": "/kungfu/skill/begging",
+   "types": null
+  },
+  {
+   "skill_id": "beidou-zhenfa",
+   "file": "/kungfu/skill/beidou-zhenfa",
+   "types": null
+  },
+  {
+   "skill_id": "beiming-shengong",
+   "file": "/kungfu/skill/beiming-shengong",
+   "types": [
+    "force"
+   ]
+  },
+  {
+   "skill_id": "bidu",
+   "file": "/kungfu/skill/xiantian-gong/bidu",
+   "types": null
+  },
+  {
+   "skill_id": "bitao-xuangong",
+   "file": "/kungfu/skill/bitao-xuangong",
+   "types": [
+    "force"
+   ]
+  },
+  {
+   "skill_id": "bite",
+   "file": "/kungfu/skill/lingshe-zhang/bite",
+   "types": null
+  },
+  {
+   "skill_id": "blade",
+   "file": "/kungfu/skill/blade",
+   "types": null
+  },
+  {
+   "skill_id": "blood",
+   "file": "/kungfu/skill/hanbing-mianzhang/blood",
+   "types": null
+  },
+  {
+   "skill_id": "buddhism",
+   "file": "/kungfu/skill/buddhism",
+   "types": null
+  },
+  {
+   "skill_id": "buzhen",
+   "file": "/kungfu/skill/bitao-xuangong/buzhen",
+   "types": null
+  },
+  {
+   "skill_id": "canglang-bian",
+   "file": "/kungfu/skill/canglang-bian",
+   "types": [
+    "parry",
+    "whip"
+   ]
+  },
+  {
+   "skill_id": "canhe-zhi",
+   "file": "/kungfu/skill/canhe-zhi",
+   "types": [
+    "finger",
+    "parry"
+   ]
+  },
+  {
+   "skill_id": "canshang",
+   "file": "/kungfu/skill/canhe-zhi/canshang",
+   "types": null
+  },
+  {
+   "skill_id": "canzhi-duanhun",
+   "file": "/kungfu/skill/canzhi-duanhun",
+   "types": [
+    "claw",
+    "parry"
+   ]
+  },
+  {
+   "skill_id": "caoshang-fei",
+   "file": "/kungfu/skill/caoshang-fei",
+   "types": [
+    "dodge",
+    "move"
+   ]
+  },
+  {
+   "skill_id": "chan",
+   "file": "/kungfu/skill/dagou-bang/chan",
+   "types": null
+  },
+  {
+   "skill_id": "chanchubu",
+   "file": "/kungfu/skill/chanchubu",
+   "types": [
+    "dodge",
+    "move"
+   ]
+  },
+  {
+   "skill_id": "chang-quan",
+   "file": "/kungfu/skill/chang-quan",
+   "types": [
+    "cuff",
+    "parry"
+   ]
+  },
+  {
+   "skill_id": "chanrao",
+   "file": "/kungfu/skill/riyue-bian/chanrao",
+   "types": null
+  },
+  {
+   "skill_id": "chanshen",
+   "file": "/kungfu/skill/shexing-diaoshou/chanshen",
+   "types": null
+  },
+  {
+   "skill_id": "checking",
+   "file": "/kungfu/skill/checking",
+   "types": null
+  },
+  {
+   "skill_id": "chilian-shenzhang",
+   "file": "/kungfu/skill/chilian-shenzhang",
+   "types": [
+    "parry",
+    "strike"
+   ]
+  },
+  {
+   "skill_id": "chousui-zhang",
+   "file": "/kungfu/skill/chousui-zhang",
+   "types": [
+    "parry",
+    "strike"
+   ]
+  },
+  {
+   "skill_id": "chunyang-quan",
+   "file": "/kungfu/skill/chunyang-quan",
+   "types": [
+    "cuff",
+    "parry"
+   ]
+  },
+  {
+   "skill_id": "cibei-dao",
+   "file": "/kungfu/skill/cibei-dao",
+   "types": [
+    "blade",
+    "parry"
+   ]
+  },
+  {
+   "skill_id": "cimu",
+   "file": "/kungfu/skill/pixie-jian/cimu",
+   "types": null
+  },
+  {
+   "skill_id": "ciwan",
+   "file": "/kungfu/skill/pixie-jian/ciwan",
+   "types": null
+  },
+  {
+   "skill_id": "cixin",
+   "file": "/kungfu/skill/pixie-jian/cixin",
+   "types": null
+  },
+  {
+   "skill_id": "cizu",
+   "file": "/kungfu/skill/pixie-jian/cizu",
+   "types": null
+  },
+  {
+   "skill_id": "claw",
+   "file": "/kungfu/skill/claw",
+   "types": null
+  },
+  {
+   "skill_id": "club",
+   "file": "/kungfu/skill/club",
+   "types": null
+  },
+  {
+   "skill_id": "cross",
+   "file": "/kungfu/skill/liuhe-dao/cross",
+   "types": null
+  },
+  {
+   "skill_id": "cuff",
+   "file": "/kungfu/skill/cuff",
+   "types": null
+  },
+  {
+   "skill_id": "cuixin-zhang",
+   "file": "/kungfu/skill/cuixin-zhang",
+   "types": [
+    "parry",
+    "strike"
+   ]
+  },
+  {
+   "skill_id": "cure",
+   "file": "/kungfu/skill/kurong-changong/cure",
+   "types": null
+  },
+  {
+   "skill_id": "cursing",
+   "file": "/kungfu/skill/cursing",
+   "types": [
+    "spell"
+   ]
+  },
+  {
+   "skill_id": "dafeng-yunfei",
+   "file": "/kungfu/skill/dafeng-yunfei",
+   "types": [
+    "hand",
+    "parry"
+   ]
+  },
+  {
+   "skill_id": "dagou",
+   "file": "/kungfu/skill/dagou-bang/dagou",
+   "types": null
+  },
+  {
+   "skill_id": "dagou-bang",
+   "file": "/kungfu/skill/dagou-bang",
+   "types": [
+    "parry",
+    "stick"
+   ]
+  },
+  {
+   "skill_id": "damo-jian",
+   "file": "/kungfu/skill/damo-jian",
+   "types": [
+    "parry",
+    "sword"
+   ]
+  },
+  {
+   "skill_id": "dashou-yin",
+   "file": "/kungfu/skill/dashou-yin",
+   "types": [
+    "hand",
+    "parry"
+   ]
+  },
+  {
+   "skill_id": "daxiao",
+   "file": "/kungfu/skill/linji-zhuang/daxiao",
+   "types": null
+  },
+  {
+   "skill_id": "dian",
+   "file": "/kungfu/skill/yinsuo-jinling/dian",
+   "types": null
+  },
+  {
+   "skill_id": "digging",
+   "file": "/kungfu/skill/digging",
+   "types": null
+  },
+  {
+   "skill_id": "ding-dodge",
+   "file": "/kungfu/skill/ding-dodge",
+   "types": [
+    "dodge",
+    "move"
+   ]
+  },
+  {
+   "skill_id": "ding-force",
+   "file": "/kungfu/skill/ding-force",
+   "types": [
+    "force"
+   ]
+  },
+  {
+   "skill_id": "ding-unarmed",
+   "file": "/kungfu/skill/ding-unarmed",
+   "types": [
+    "cuff",
+    "parry",
+    "unarmed"
+   ]
+  },
+  {
+   "skill_id": "dingjia-qinnashou",
+   "file": "/kungfu/skill/dingjia-qinnashou",
+   "types": [
+    "hand",
+    "parry"
+   ]
+  },
+  {
+   "skill_id": "dodge",
+   "file": "/kungfu/skill/dodge",
+   "types": null
+  },
+  {
+   "skill_id": "douzhuan",
+   "file": "/kungfu/skill/douzhuan",
+   "types": [
+    "blade",
+    "club",
+    "hook",
+    "parry",
+    "pike",
+    "staff",
+    "stick",
+    "strike",
+    "sword",
+    "whip"
+   ]
+  },
+  {
+   "skill_id": "douzhuan-xingyi",
+   "file": "/kungfu/skill/douzhuan-xingyi",
+   "types": [
+    "force"
+   ]
+  },
+  {
+   "skill_id": "drift_sense",
+   "file": "/kungfu/skill/bashi-shentong/drift_sense",
+   "types": null
+  },
+  {
+   "skill_id": "drink",
+   "file": "/kungfu/skill/zixia-gong/drink",
+   "types": null
+  },
+  {
+   "skill_id": "du",
+   "file": "/kungfu/skill/hunyuan-yiqi/du",
+   "types": null
+  },
+  {
+   "skill_id": "duanjia-jian",
+   "file": "/kungfu/skill/duanjia-jian",
+   "types": [
+    "parry",
+    "staff",
+    "sword"
+   ]
+  },
+  {
+   "skill_id": "duanshi-shenfa",
+   "file": "/kungfu/skill/duanshi-shenfa",
+   "types": [
+    "dodge",
+    "move"
+   ]
+  },
+  {
+   "skill_id": "duanyun",
+   "file": "/kungfu/skill/duanyun-bian/duanyun",
+   "types": null
+  },
+  {
+   "skill_id": "duanyun-bian",
+   "file": "/kungfu/skill/duanyun-bian",
+   "types": [
+    "parry",
+    "whip"
+   ]
+  },
+  {
+   "skill_id": "dugu-jiujian",
+   "file": "/kungfu/skill/dugu-jiujian",
+   "types": null
+  },
+  {
+   "skill_id": "dugu1",
+   "file": "/kungfu/skill/dugu1",
+   "types": null
+  },
+  {
+   "skill_id": "dulong-dafa",
+   "file": "/kungfu/skill/dulong-dafa",
+   "types": [
+    "force"
+   ]
+  },
+  {
+   "skill_id": "duo",
+   "file": "/kungfu/skill/dagou-bang/duo",
+   "types": null
+  },
+  {
+   "skill_id": "emei-jian",
+   "file": "/kungfu/skill/emei-jian",
+   "types": [
+    "parry",
+    "sword"
+   ]
+  },
+  {
+   "skill_id": "falun-dafa",
+   "file": "/kungfu/skill/falun-dafa",
+   "types": null
+  },
+  {
+   "skill_id": "falun-gong",
+   "file": "/kungfu/skill/falun-gong",
+   "types": [
+    "force"
+   ]
+  },
+  {
+   "skill_id": "feifeng-bian",
+   "file": "/kungfu/skill/feifeng-bian",
+   "types": [
+    "parry",
+    "whip"
+   ]
+  },
+  {
+   "skill_id": "feilong",
+   "file": "/kungfu/skill/huashan-jianfa/feilong",
+   "types": null
+  },
+  {
+   "skill_id": "feixing-shu",
+   "file": "/kungfu/skill/feixing-shu",
+   "types": [
+    "parry"
+   ]
+  },
+  {
+   "skill_id": "feiyu-bian",
+   "file": "/kungfu/skill/feiyu-bian",
+   "types": [
+    "parry",
+    "whip"
+   ]
+  },
+  {
+   "skill_id": "feizhang",
+   "file": "/kungfu/skill/fengmo-zhang/feizhang",
+   "types": null
+  },
+  {
+   "skill_id": "fen",
+   "file": "/kungfu/skill/huoyan-dao/fen",
+   "types": null
+  },
+  {
+   "skill_id": "feng",
+   "file": "/kungfu/skill/dagou-bang/feng",
+   "types": null
+  },
+  {
+   "skill_id": "fengmo",
+   "file": "/kungfu/skill/fengmo-zhang/fengmo",
+   "types": null
+  },
+  {
+   "skill_id": "fengmo-zhang",
+   "file": "/kungfu/skill/fengmo-zhang",
+   "types": [
+    "parry",
+    "staff"
+   ]
+  },
+  {
+   "skill_id": "fengyun",
+   "file": "/kungfu/skill/linji-zhuang/fengyun",
+   "types": null
+  },
+  {
+   "skill_id": "fengyun-shou",
+   "file": "/kungfu/skill/fengyun-shou",
+   "types": [
+    "hand",
+    "parry"
+   ]
+  },
+  {
+   "skill_id": "fightd",
+   "file": "/kungfu/skill/fightd",
+   "types": null
+  },
+  {
+   "skill_id": "finger",
+   "file": "/kungfu/skill/finger",
+   "types": null
+  },
+  {
+   "skill_id": "force",
+   "file": "/kungfu/skill/force",
+   "types": null
+  },
+  {
+   "skill_id": "fork",
+   "file": "/kungfu/skill/fork",
+   "types": null
+  },
+  {
+   "skill_id": "fumo-jian",
+   "file": "/kungfu/skill/fumo-jian",
+   "types": [
+    "parry",
+    "sword"
+   ]
+  },
+  {
+   "skill_id": "fuxue",
+   "file": "/kungfu/skill/nianhua-zhi/fuxue",
+   "types": null
+  },
+  {
+   "skill_id": "guangming-xinfa",
+   "file": "/kungfu/skill/guangming-xinfa",
+   "types": null
+  },
+  {
+   "skill_id": "guimei",
+   "file": "/kungfu/skill/pixie-jian/guimei",
+   "types": null
+  },
+  {
+   "skill_id": "gumu-shenfa",
+   "file": "/kungfu/skill/gumu-shenfa",
+   "types": [
+    "dodge",
+    "move"
+   ]
+  },
+  {
+   "skill_id": "halberd",
+   "file": "/kungfu/skill/halberd",
+   "types": null
+  },
+  {
+   "skill_id": "hama-gong",
+   "file": "/kungfu/skill/hama-gong",
+   "types": null
+  },
+  {
+   "skill_id": "hamagong",
+   "file": "/kungfu/skill/hamagong",
+   "types": null
+  },
+  {
+   "skill_id": "hammer",
+   "file": "/kungfu/skill/hammer",
+   "types": null
+  },
+  {
+   "skill_id": "hanbing-mianzhang",
+   "file": "/kungfu/skill/hanbing-mianzhang",
+   "types": [
+    "parry",
+    "strike"
+   ]
+  },
+  {
+   "skill_id": "hand",
+   "file": "/kungfu/skill/hand",
+   "types": null
+  },
+  {
+   "skill_id": "heal",
+   "file": "/kungfu/skill/taiji-shengong/heal",
+   "types": null
+  },
+  {
+   "skill_id": "heart_sense",
+   "file": "/kungfu/skill/bashi-shentong/heart_sense",
+   "types": null
+  },
+  {
+   "skill_id": "hebi",
+   "file": "/kungfu/skill/liangyi-dao/hebi",
+   "types": null
+  },
+  {
+   "skill_id": "heji",
+   "file": "/kungfu/skill/feiyu-bian/heji",
+   "types": null
+  },
+  {
+   "skill_id": "hongming-xuangong",
+   "file": "/kungfu/skill/hongming-xuangong",
+   "types": [
+    "force"
+   ]
+  },
+  {
+   "skill_id": "hook",
+   "file": "/kungfu/skill/hook",
+   "types": null
+  },
+  {
+   "skill_id": "hua",
+   "file": "/kungfu/skill/huagong-dafa/hua",
+   "types": null
+  },
+  {
+   "skill_id": "huagong-dafa",
+   "file": "/kungfu/skill/huagong-dafa/huagong-dafa",
+   "types": [
+    "force"
+   ]
+  },
+  {
+   "skill_id": "huagu-mianzhang",
+   "file": "/kungfu/skill/huagu-mianzhang",
+   "types": [
+    "parry",
+    "strike"
+   ]
+  },
+  {
+   "skill_id": "huakai",
+   "file": "/kungfu/skill/mian-zhang/huakai",
+   "types": null
+  },
+  {
+   "skill_id": "huanying",
+   "file": "/kungfu/skill/yanxing-dao/huanying",
+   "types": null
+  },
+  {
+   "skill_id": "huashan-jianfa",
+   "file": "/kungfu/skill/huashan-jianfa",
+   "types": [
+    "parry",
+    "sword"
+   ]
+  },
+  {
+   "skill_id": "huashan-shenfa",
+   "file": "/kungfu/skill/huashan-shenfa",
+   "types": [
+    "dodge",
+    "move"
+   ]
+  },
+  {
+   "skill_id": "huayu",
+   "file": "/kungfu/skill/youshen-zhang/huayu",
+   "types": null
+  },
+  {
+   "skill_id": "hubo",
+   "file": "/kungfu/skill/quanzhen-jian/hubo",
+   "types": null
+  },
+  {
+   "skill_id": "huifeng-jian",
+   "file": "/kungfu/skill/huifeng-jian",
+   "types": [
+    "parry",
+    "sword"
+   ]
+  },
+  {
+   "skill_id": "huntian-qigong",
+   "file": "/kungfu/skill/huntian-qigong",
+   "types": [
+    "force"
+   ]
+  },
+  {
+   "skill_id": "hunyuan-yiqi",
+   "file": "/kungfu/skill/hunyuan-yiqi",
+   "types": [
+    "force"
+   ]
+  },
+  {
+   "skill_id": "hunyuan-zhang",
+   "file": "/kungfu/skill/hunyuan-zhang",
+   "types": [
+    "parry",
+    "strike"
+   ]
+  },
+  {
+   "skill_id": "huoyan-dao",
+   "file": "/kungfu/skill/huoyan-dao",
+   "types": [
+    "parry",
+    "strike"
+   ]
+  },
+  {
+   "skill_id": "huxin",
+   "file": "/kungfu/skill/douzhuan-xingyi/huxin",
+   "types": null
+  },
+  {
+   "skill_id": "huzhua-gong",
+   "file": "/kungfu/skill/huzhua-gong",
+   "types": [
+    "claw",
+    "parry"
+   ]
+  },
+  {
+   "skill_id": "huzhua-juehu",
+   "file": "/kungfu/skill/huzhua-juehu",
+   "types": [
+    "claw",
+    "parry"
+   ]
+  },
+  {
+   "skill_id": "jiangshi-bu",
+   "file": "/kungfu/skill/jiangshi-bu",
+   "types": [
+    "dodge",
+    "move"
+   ]
+  },
+  {
+   "skill_id": "jiangshi-quan",
+   "file": "/kungfu/skill/jiangshi-quan",
+   "types": [
+    "cuff",
+    "parry"
+   ]
+  },
+  {
+   "skill_id": "jianhebi",
+   "file": "/kungfu/skill/quanzhen-jian/jianhebi",
+   "types": null
+  },
+  {
+   "skill_id": "jianmang",
+   "file": "/kungfu/skill/yuxiao-jian/jianmang",
+   "types": null
+  },
+  {
+   "skill_id": "jianzhang",
+   "file": "/kungfu/skill/huashan-jianfa/jianzhang",
+   "types": null
+  },
+  {
+   "skill_id": "jianzhi",
+   "file": "/kungfu/skill/yuxiao-jian/jianzhi",
+   "types": null
+  },
+  {
+   "skill_id": "jinding-zhang",
+   "file": "/kungfu/skill/jinding-zhang",
+   "types": [
+    "parry",
+    "strike"
+   ]
+  },
+  {
+   "skill_id": "jingang",
+   "file": "/kungfu/skill/jingang-quan/jingang",
+   "types": null
+  },
+  {
+   "skill_id": "jingang-chu",
+   "file": "/kungfu/skill/jingang-chu",
+   "types": [
+    "parry",
+    "staff"
+   ]
+  },
+  {
+   "skill_id": "jingang-quan",
+   "file": "/kungfu/skill/jingang-quan",
+   "types": [
+    "cuff",
+    "parry"
+   ]
+  },
+  {
+   "skill_id": "jinglei",
+   "file": "/kungfu/skill/yuxiao-jian/jinglei",
+   "types": null
+  },
+  {
+   "skill_id": "jinglisuck",
+   "file": "/kungfu/skill/huagong-dafa/jinglisuck",
+   "types": null
+  },
+  {
+   "skill_id": "jingmo",
+   "file": "/kungfu/skill/yizhi-chan/jingmo",
+   "types": null
+  },
+  {
+   "skill_id": "jingsuck",
+   "file": "/kungfu/skill/huagong-dafa/jingsuck",
+   "types": null
+  },
+  {
+   "skill_id": "jinshe-jianfa",
+   "file": "/kungfu/skill/jinshe-jianfa",
+   "types": [
+    "parry",
+    "sword"
+   ]
+  },
+  {
+   "skill_id": "jinshe-zhuifa",
+   "file": "/kungfu/skill/jinshe-zhuifa",
+   "types": [
+    "throwing"
+   ]
+  },
+  {
+   "skill_id": "jinxian",
+   "file": "/kungfu/skill/tianshan-zhang/jinxian",
+   "types": null
+  },
+  {
+   "skill_id": "jinyangong",
+   "file": "/kungfu/skill/jinyangong",
+   "types": [
+    "dodge",
+    "move"
+   ]
+  },
+  {
+   "skill_id": "jinyu-quan",
+   "file": "/kungfu/skill/jinyu-quan",
+   "types": [
+    "cuff",
+    "parry"
+   ]
+  },
+  {
+   "skill_id": "jinzhongzhao",
+   "file": "/kungfu/skill/hunyuan-yiqi/jinzhongzhao",
+   "types": null
+  },
+  {
+   "skill_id": "jiutian",
+   "file": "/kungfu/skill/feifeng-bian/jiutian",
+   "types": null
+  },
+  {
+   "skill_id": "jiuyang-shengong",
+   "file": "/kungfu/skill/jiuyang-shengong",
+   "types": [
+    "force"
+   ]
+  },
+  {
+   "skill_id": "jiuyin-zhao",
+   "file": "/kungfu/skill/jiuyin-zhao",
+   "types": [
+    "claw",
+    "parry"
+   ]
+  },
+  {
+   "skill_id": "jue",
+   "file": "/kungfu/skill/emei-jian/jue",
+   "types": null
+  },
+  {
+   "skill_id": "juehu",
+   "file": "/kungfu/skill/wudang-unarmed/juehu",
+   "types": null
+  },
+  {
+   "skill_id": "juehu-zhua",
+   "file": "/kungfu/skill/juehu-zhua",
+   "types": [
+    "claw",
+    "parry"
+   ]
+  },
+  {
+   "skill_id": "jueming-tui",
+   "file": "/kungfu/skill/jueming-tui",
+   "types": [
+    "kick"
+   ]
+  },
+  {
+   "skill_id": "jueqing-bian",
+   "file": "/kungfu/skill/jueqing-bian",
+   "types": [
+    "parry",
+    "whip"
+   ]
+  },
+  {
+   "skill_id": "kick",
+   "file": "/kungfu/skill/kick",
+   "types": null
+  },
+  {
+   "skill_id": "kongming-quan",
+   "file": "/kungfu/skill/kongming-quan",
+   "types": [
+    "cuff",
+    "parry"
+   ]
+  },
+  {
+   "skill_id": "kuangfeng",
+   "file": "/kungfu/skill/luoying-shenjian/kuangfeng",
+   "types": null
+  },
+  {
+   "skill_id": "kurong",
+   "file": "/kungfu/skill/kurong-changong/kurong",
+   "types": null
+  },
+  {
+   "skill_id": "kurong-changong",
+   "file": "/kungfu/skill/kurong-changong",
+   "types": [
+    "force"
+   ]
+  },
+  {
+   "skill_id": "lamaism",
+   "file": "/kungfu/skill/lamaism",
+   "types": null
+  },
+  {
+   "skill_id": "lanhua-fuxue",
+   "file": "/kungfu/skill/lanhua-fuxue",
+   "types": [
+    "hand",
+    "parry"
+   ]
+  },
+  {
+   "skill_id": "leidong",
+   "file": "/kungfu/skill/hunyuan-zhang/leidong",
+   "types": null
+  },
+  {
+   "skill_id": "leiting",
+   "file": "/kungfu/skill/xianglong-zhang/leiting",
+   "types": null
+  },
+  {
+   "skill_id": "liangyi",
+   "file": "/kungfu/skill/wudang-jian/liangyi",
+   "types": null
+  },
+  {
+   "skill_id": "liangyi-dao",
+   "file": "/kungfu/skill/liangyi-dao",
+   "types": [
+    "blade",
+    "parry"
+   ]
+  },
+  {
+   "skill_id": "liangyi-jian",
+   "file": "/kungfu/skill/liangyi-jian",
+   "types": [
+    "parry",
+    "sword"
+   ]
+  },
+  {
+   "skill_id": "lianhuan",
+   "file": "/kungfu/skill/ruyi-dao/lianhuan",
+   "types": null
+  },
+  {
+   "skill_id": "liaodu",
+   "file": "/kungfu/skill/wudu-xinfa/liaodu",
+   "types": null
+  },
+  {
+   "skill_id": "liaoshang",
+   "file": "/kungfu/skill/kurong-changong/liaoshang",
+   "types": null
+  },
+  {
+   "skill_id": "lifeheal",
+   "file": "/kungfu/skill/wudu-xinfa/lifeheal",
+   "types": null
+  },
+  {
+   "skill_id": "lifesave",
+   "file": "/kungfu/skill/taiji-shengong/lifesave",
+   "types": null
+  },
+  {
+   "skill_id": "lingbo-weibu",
+   "file": "/kungfu/skill/lingbo-weibu",
+   "types": [
+    "dodge"
+   ]
+  },
+  {
+   "skill_id": "lingshe-quan",
+   "file": "/kungfu/skill/lingshe-quan",
+   "types": [
+    "cuff",
+    "parry"
+   ]
+  },
+  {
+   "skill_id": "lingshe-shenfa",
+   "file": "/kungfu/skill/lingshe-shenfa",
+   "types": [
+    "dodge",
+    "move"
+   ]
+  },
+  {
+   "skill_id": "lingshe-zhang",
+   "file": "/kungfu/skill/lingshe-zhang",
+   "types": [
+    "parry",
+    "staff"
+   ]
+  },
+  {
+   "skill_id": "linji-zhuang",
+   "file": "/kungfu/skill/linji-zhuang",
+   "types": [
+    "force"
+   ]
+  },
+  {
+   "skill_id": "literate",
+   "file": "/kungfu/skill/literate",
+   "types": null
+  },
+  {
+   "skill_id": "liuchu",
+   "file": "/kungfu/skill/xueshan-jian/liuchu",
+   "types": null
+  },
+  {
+   "skill_id": "liuhe-dao",
+   "file": "/kungfu/skill/liuhe-dao",
+   "types": [
+    "blade",
+    "parry"
+   ]
+  },
+  {
+   "skill_id": "liuhe-qiang",
+   "file": "/kungfu/skill/liuhe-qiang",
+   "types": [
+    "halberd",
+    "parry",
+    "pike"
+   ]
+  },
+  {
+   "skill_id": "liumai-shenjian",
+   "file": "/kungfu/skill/liumai-shenjian",
+   "types": [
+    "finger",
+    "parry"
+   ]
+  },
+  {
+   "skill_id": "liuxing-bu",
+   "file": "/kungfu/skill/liuxing-bu",
+   "types": [
+    "dodge",
+    "move"
+   ]
+  },
+  {
+   "skill_id": "liuyang-rongxue",
+   "file": "/kungfu/skill/liuyang-rongxue",
+   "types": [
+    "force"
+   ]
+  },
+  {
+   "skill_id": "liuyang-zhang",
+   "file": "/kungfu/skill/liuyang-zhang",
+   "types": [
+    "parry",
+    "strike"
+   ]
+  },
+  {
+   "skill_id": "longhe",
+   "file": "/kungfu/skill/linji-zhuang/longhe",
+   "types": null
+  },
+  {
+   "skill_id": "longxiang",
+   "file": "/kungfu/skill/longxiang-banruo/longxiang",
+   "types": null
+  },
+  {
+   "skill_id": "longxiang-banruo",
+   "file": "/kungfu/skill/longxiang-banruo",
+   "types": [
+    "force"
+   ]
+  },
+  {
+   "skill_id": "longzhua-gong",
+   "file": "/kungfu/skill/longzhua-gong",
+   "types": [
+    "claw",
+    "parry"
+   ]
+  },
+  {
+   "skill_id": "luan-blade",
+   "file": "/kungfu/skill/luan-blade",
+   "types": [
+    "blade",
+    "parry"
+   ]
+  },
+  {
+   "skill_id": "luanhuan",
+   "file": "/kungfu/skill/taiji-quan/luanhuan",
+   "types": null
+  },
+  {
+   "skill_id": "luohan-quan",
+   "file": "/kungfu/skill/luohan-quan",
+   "types": [
+    "cuff",
+    "parry"
+   ]
+  },
+  {
+   "skill_id": "luowang",
+   "file": "/kungfu/skill/tianluo-diwang/luowang",
+   "types": null
+  },
+  {
+   "skill_id": "luoyan-jian",
+   "file": "/kungfu/skill/luoyan-jian",
+   "types": [
+    "parry",
+    "sword"
+   ]
+  },
+  {
+   "skill_id": "luoying",
+   "file": "/kungfu/skill/lanhua-fuxue/luoying",
+   "types": null
+  },
+  {
+   "skill_id": "luoying-shenfa",
+   "file": "/kungfu/skill/luoying-shenfa",
+   "types": [
+    "dodge",
+    "move"
+   ]
+  },
+  {
+   "skill_id": "luoying-shenjian",
+   "file": "/kungfu/skill/luoying-shenjian",
+   "types": [
+    "parry",
+    "strike"
+   ]
+  },
+  {
+   "skill_id": "mahayana",
+   "file": "/kungfu/skill/mahayana",
+   "types": null
+  },
+  {
+   "skill_id": "maxsuck",
+   "file": "/kungfu/skill/huagong-dafa/maxsuck",
+   "types": null
+  },
+  {
+   "skill_id": "medicine",
+   "file": "/kungfu/skill/medicine",
+   "types": null
+  },
+  {
+   "skill_id": "meinu-quan",
+   "file": "/kungfu/skill/meinu-quan",
+   "types": [
+    "cuff",
+    "parry"
+   ]
+  },
+  {
+   "skill_id": "meiren-sanzhao",
+   "file": "/kungfu/skill/meiren-sanzhao",
+   "types": [
+    "parry",
+    "sword"
+   ]
+  },
+  {
+   "skill_id": "mian-zhang",
+   "file": "/kungfu/skill/mian-zhang",
+   "types": [
+    "parry",
+    "strike"
+   ]
+  },
+  {
+   "skill_id": "mie",
+   "file": "/kungfu/skill/emei-jian/mie",
+   "types": null
+  },
+  {
+   "skill_id": "mingwang-jian",
+   "file": "/kungfu/skill/mingwang-jian",
+   "types": [
+    "parry",
+    "sword"
+   ]
+  },
+  {
+   "skill_id": "mo",
+   "file": "/kungfu/skill/mo-bang/mo",
+   "types": null
+  },
+  {
+   "skill_id": "mo-bang",
+   "file": "/kungfu/skill/mo-bang",
+   "types": [
+    "parry",
+    "stick"
+   ]
+  },
+  {
+   "skill_id": "mofu-wuzong",
+   "file": "/kungfu/skill/mofu-wuzong",
+   "types": [
+    "dodge"
+   ]
+  },
+  {
+   "skill_id": "murong-shenfa",
+   "file": "/kungfu/skill/murong-shenfa",
+   "types": [
+    "dodge",
+    "move"
+   ]
+  },
+  {
+   "skill_id": "music",
+   "file": "/kungfu/skill/music",
+   "types": null
+  },
+  {
+   "skill_id": "necromancy",
+   "file": "/kungfu/skill/necromancy",
+   "types": null
+  },
+  {
+   "skill_id": "neiheal",
+   "file": "/kungfu/skill/zixia-gong/neiheal",
+   "types": null
+  },
+  {
+   "skill_id": "neilisuck",
+   "file": "/kungfu/skill/huagong-dafa/neilisuck",
+   "types": null
+  },
+  {
+   "skill_id": "nian",
+   "file": "/kungfu/skill/taiji-quan/nian",
+   "types": null
+  },
+  {
+   "skill_id": "nianhua-zhi",
+   "file": "/kungfu/skill/nianhua-zhi",
+   "types": [
+    "finger",
+    "parry"
+   ]
+  },
+  {
+   "skill_id": "parry",
+   "file": "/kungfu/skill/parry",
+   "types": null
+  },
+  {
+   "skill_id": "persuading",
+   "file": "/kungfu/skill/persuading",
+   "types": null
+  },
+  {
+   "skill_id": "piaoxue",
+   "file": "/kungfu/skill/jinding-zhang/piaoxue",
+   "types": null
+  },
+  {
+   "skill_id": "pifeng",
+   "file": "/kungfu/skill/tianshan-zhang/pifeng",
+   "types": null
+  },
+  {
+   "skill_id": "pike",
+   "file": "/kungfu/skill/pike",
+   "types": null
+  },
+  {
+   "skill_id": "pishi-poyu",
+   "file": "/kungfu/skill/pishi-poyu",
+   "types": [
+    "cuff",
+    "parry"
+   ]
+  },
+  {
+   "skill_id": "pixie-jian",
+   "file": "/kungfu/skill/pixie-jian",
+   "types": [
+    "dodge",
+    "parry",
+    "sword"
+   ]
+  },
+  {
+   "skill_id": "pixie_superskill",
+   "file": "/kungfu/skill/pixie-jian/pixie_superskill",
+   "types": null
+  },
+  {
+   "skill_id": "po",
+   "file": "/kungfu/skill/dugu-jiujian/po",
+   "types": null
+  },
+  {
+   "skill_id": "pobian",
+   "file": "/kungfu/skill/dugu-jiujian/pobian",
+   "types": null
+  },
+  {
+   "skill_id": "podao",
+   "file": "/kungfu/skill/dugu-jiujian/podao",
+   "types": null
+  },
+  {
+   "skill_id": "poem-dodge",
+   "file": "/kungfu/skill/poem-dodge",
+   "types": [
+    "dodge",
+    "move"
+   ]
+  },
+  {
+   "skill_id": "poison",
+   "file": "/kungfu/skill/poison",
+   "types": null
+  },
+  {
+   "skill_id": "pojian",
+   "file": "/kungfu/skill/dugu-jiujian/pojian",
+   "types": null
+  },
+  {
+   "skill_id": "poqi",
+   "file": "/kungfu/skill/dugu-jiujian/poqi",
+   "types": null
+  },
+  {
+   "skill_id": "poqiang",
+   "file": "/kungfu/skill/dugu-jiujian/poqiang",
+   "types": null
+  },
+  {
+   "skill_id": "posuo",
+   "file": "/kungfu/skill/dugu-jiujian/posuo",
+   "types": null
+  },
+  {
+   "skill_id": "powerup",
+   "file": "/kungfu/skill/hamagong/powerup",
+   "types": null
+  },
+  {
+   "skill_id": "pozhang",
+   "file": "/kungfu/skill/dugu-jiujian/pozhang",
+   "types": null
+  },
+  {
+   "skill_id": "pozhen",
+   "file": "/kungfu/skill/bitao-xuangong/pozhen",
+   "types": null
+  },
+  {
+   "skill_id": "pudu-zhang",
+   "file": "/kungfu/skill/pudu-zhang",
+   "types": [
+    "parry",
+    "staff"
+   ]
+  },
+  {
+   "skill_id": "puji",
+   "file": "/kungfu/skill/hamagong/puji",
+   "types": null
+  },
+  {
+   "skill_id": "puzhao",
+   "file": "/kungfu/skill/jinding-zhang/puzhao",
+   "types": null
+  },
+  {
+   "skill_id": "qiankun",
+   "file": "/kungfu/skill/yiyang-zhi/qiankun",
+   "types": null
+  },
+  {
+   "skill_id": "qiankun-danuoyi",
+   "file": "/kungfu/skill/qiankun-danuoyi",
+   "types": [
+    "dodge",
+    "move",
+    "parry"
+   ]
+  },
+  {
+   "skill_id": "qianye-shou",
+   "file": "/kungfu/skill/qianye-shou",
+   "types": [
+    "hand",
+    "parry"
+   ]
+  },
+  {
+   "skill_id": "qianzhu-wandu",
+   "file": "/kungfu/skill/qianzhu-wandu",
+   "types": [
+    "dodge",
+    "finger",
+    "force",
+    "hand",
+    "parry"
+   ]
+  },
+  {
+   "skill_id": "qimen-dunjia",
+   "file": "/kungfu/skill/qimen-dunjia",
+   "types": null
+  },
+  {
+   "skill_id": "qingfu-shenfa",
+   "file": "/kungfu/skill/qingfu-shenfa",
+   "types": [
+    "dodge"
+   ]
+  },
+  {
+   "skill_id": "qingtian-zhang",
+   "file": "/kungfu/skill/qingtian-zhang",
+   "types": [
+    "parry",
+    "staff"
+   ]
+  },
+  {
+   "skill_id": "qingyan-zhang",
+   "file": "/kungfu/skill/qingyan-zhang",
+   "types": [
+    "parry",
+    "strike"
+   ]
+  },
+  {
+   "skill_id": "qingyi",
+   "file": "/kungfu/skill/shenghuo-xuanming/qingyi",
+   "types": null
+  },
+  {
+   "skill_id": "qinnashou",
+   "file": "/kungfu/skill/qinnashou",
+   "types": [
+    "hand",
+    "parry"
+   ]
+  },
+  {
+   "skill_id": "qishang-quan",
+   "file": "/kungfu/skill/qishang-quan",
+   "types": [
+    "cuff",
+    "parry"
+   ]
+  },
+  {
+   "skill_id": "qisuck",
+   "file": "/kungfu/skill/huagong-dafa/qisuck",
+   "types": null
+  },
+  {
+   "skill_id": "quanzhen-jian",
+   "file": "/kungfu/skill/quanzhen-jian",
+   "types": [
+    "parry",
+    "sword",
+    "zuoyou-hubo"
+   ]
+  },
+  {
+   "skill_id": "qudu",
+   "file": "/kungfu/skill/hamagong/qudu",
+   "types": null
+  },
+  {
+   "skill_id": "qufeng",
+   "file": "/kungfu/skill/yunu-xinjing/qufeng",
+   "types": null
+  },
+  {
+   "skill_id": "qufu",
+   "file": "/kungfu/skill/liuyang-zhang/qufu",
+   "types": null
+  },
+  {
+   "skill_id": "raozhi",
+   "file": "/kungfu/skill/taiji-jian/raozhi",
+   "types": null
+  },
+  {
+   "skill_id": "recover",
+   "file": "/kungfu/skill/force/recover",
+   "types": null
+  },
+  {
+   "skill_id": "refresh",
+   "file": "/kungfu/skill/force/refresh",
+   "types": null
+  },
+  {
+   "skill_id": "regenerate",
+   "file": "/kungfu/skill/force/regenerate",
+   "types": null
+  },
+  {
+   "skill_id": "remove",
+   "file": "/kungfu/skill/linji-zhuang/remove",
+   "types": null
+  },
+  {
+   "skill_id": "reverse",
+   "file": "/kungfu/skill/hamagong/reverse",
+   "types": null
+  },
+  {
+   "skill_id": "revive",
+   "file": "/kungfu/skill/beiming-shengong/revive",
+   "types": null
+  },
+  {
+   "skill_id": "riyue",
+   "file": "/kungfu/skill/duanyun-bian/riyue",
+   "types": null
+  },
+  {
+   "skill_id": "riyue-bian",
+   "file": "/kungfu/skill/riyue-bian",
+   "types": [
+    "parry",
+    "whip"
+   ]
+  },
+  {
+   "skill_id": "riyue-lun",
+   "file": "/kungfu/skill/riyue-lun",
+   "types": [
+    "hammer",
+    "parry"
+   ]
+  },
+  {
+   "skill_id": "riyue-quan",
+   "file": "/kungfu/skill/riyue-quan",
+   "types": [
+    "cuff",
+    "parry"
+   ]
+  },
+  {
+   "skill_id": "roar",
+   "file": "/kungfu/skill/hunyuan-yiqi/roar",
+   "types": null
+  },
+  {
+   "skill_id": "ruhe",
+   "file": "/kungfu/skill/shiba-pan/ruhe",
+   "types": null
+  },
+  {
+   "skill_id": "ruyi-dao",
+   "file": "/kungfu/skill/ruyi-dao",
+   "types": [
+    "blade",
+    "parry"
+   ]
+  },
+  {
+   "skill_id": "ruyi-gou",
+   "file": "/kungfu/skill/ruyi-gou",
+   "types": [
+    "hook",
+    "parry"
+   ]
+  },
+  {
+   "skill_id": "san",
+   "file": "/kungfu/skill/tianyu-qijian/san",
+   "types": null
+  },
+  {
+   "skill_id": "san-sword",
+   "file": "/kungfu/skill/san-sword",
+   "types": [
+    "parry",
+    "sword"
+   ]
+  },
+  {
+   "skill_id": "sandu",
+   "file": "/kungfu/skill/chousui-zhang/sandu",
+   "types": null
+  },
+  {
+   "skill_id": "sandu1",
+   "file": "/kungfu/skill/chousui-zhang/sandu1",
+   "types": null
+  },
+  {
+   "skill_id": "sangong",
+   "file": "/kungfu/skill/hunyuan-yiqi/sangong",
+   "types": null
+  },
+  {
+   "skill_id": "sanhua",
+   "file": "/kungfu/skill/sanhua-juding/sanhua",
+   "types": null
+  },
+  {
+   "skill_id": "sanhua-juding",
+   "file": "/kungfu/skill/sanhua-juding",
+   "types": [
+    "parry",
+    "strike"
+   ]
+  },
+  {
+   "skill_id": "sanhua-zhang",
+   "file": "/kungfu/skill/sanhua-zhang",
+   "types": [
+    "parry",
+    "strike"
+   ]
+  },
+  {
+   "skill_id": "sanhui",
+   "file": "/kungfu/skill/xianglong-zhang/sanhui",
+   "types": null
+  },
+  {
+   "skill_id": "sanqing",
+   "file": "/kungfu/skill/quanzhen-jian/sanqing",
+   "types": null
+  },
+  {
+   "skill_id": "sansha",
+   "file": "/kungfu/skill/dagou-bang/sansha",
+   "types": null
+  },
+  {
+   "skill_id": "sanshen",
+   "file": "/kungfu/skill/liangyi-dao/sanshen",
+   "types": null
+  },
+  {
+   "skill_id": "sanwu",
+   "file": "/kungfu/skill/jueqing-bian/sanwu",
+   "types": null
+  },
+  {
+   "skill_id": "sanyin",
+   "file": "/kungfu/skill/sanyin-zhua/sanyin",
+   "types": null
+  },
+  {
+   "skill_id": "sanyin-zhua",
+   "file": "/kungfu/skill/sanyin-zhua",
+   "types": [
+    "claw",
+    "parry"
+   ]
+  },
+  {
+   "skill_id": "sayin",
+   "file": "/kungfu/skill/sanyin-zhua/sayin",
+   "types": null
+  },
+  {
+   "skill_id": "shangyang",
+   "file": "/kungfu/skill/liumai-shenjian/shangyang",
+   "types": null
+  },
+  {
+   "skill_id": "shaolin-bian",
+   "file": "/kungfu/skill/shaolin-bian",
+   "types": [
+    "parry",
+    "whip"
+   ]
+  },
+  {
+   "skill_id": "shaolin-shenfa",
+   "file": "/kungfu/skill/shaolin-shenfa",
+   "types": [
+    "dodge",
+    "move"
+   ]
+  },
+  {
+   "skill_id": "shaoshang",
+   "file": "/kungfu/skill/liumai-shenjian/shaoshang",
+   "types": null
+  },
+  {
+   "skill_id": "shaoze",
+   "file": "/kungfu/skill/liumai-shenjian/shaoze",
+   "types": null
+  },
+  {
+   "skill_id": "shendao",
+   "file": "/kungfu/skill/xue-dao/shendao",
+   "types": null
+  },
+  {
+   "skill_id": "shengang",
+   "file": "/kungfu/skill/huntian-qigong/shengang",
+   "types": null
+  },
+  {
+   "skill_id": "shenghuo-xuangong",
+   "file": "/kungfu/skill/shenghuo-xuangong",
+   "types": [
+    "force"
+   ]
+  },
+  {
+   "skill_id": "shenghuo-xuanming",
+   "file": "/kungfu/skill/shenghuo-xuanming",
+   "types": [
+    "force"
+   ]
+  },
+  {
+   "skill_id": "shenkongxing",
+   "file": "/kungfu/skill/shenkongxing",
+   "types": [
+    "dodge",
+    "move"
+   ]
+  },
+  {
+   "skill_id": "shenmen",
+   "file": "/kungfu/skill/taiji-jian/shenmen",
+   "types": null
+  },
+  {
+   "skill_id": "shentong",
+   "file": "/kungfu/skill/xiantian-gong/shentong",
+   "types": null
+  },
+  {
+   "skill_id": "shentuo-zhang",
+   "file": "/kungfu/skill/shentuo-zhang",
+   "types": [
+    "parry",
+    "strike",
+    "unarmed"
+   ]
+  },
+  {
+   "skill_id": "shenzhua",
+   "file": "/kungfu/skill/jiuyin-zhao/shenzhua",
+   "types": null
+  },
+  {
+   "skill_id": "shexin",
+   "file": "/kungfu/skill/huntian-qigong/shexin",
+   "types": null
+  },
+  {
+   "skill_id": "shexing-diaoshou",
+   "file": "/kungfu/skill/shexing-diaoshou",
+   "types": [
+    "hand",
+    "parry",
+    "unarmed"
+   ]
+  },
+  {
+   "skill_id": "shiba-pan",
+   "file": "/kungfu/skill/shiba-pan",
+   "types": [
+    "parry",
+    "sword"
+   ]
+  },
+  {
+   "skill_id": "shield",
+   "file": "/kungfu/skill/beiming-shengong/shield",
+   "types": null
+  },
+  {
+   "skill_id": "shoot",
+   "file": "/kungfu/skill/lingshe-zhang/shoot",
+   "types": null
+  },
+  {
+   "skill_id": "sing",
+   "file": "/kungfu/skill/longxiang-banruo/sing",
+   "types": null
+  },
+  {
+   "skill_id": "sing_old",
+   "file": "/kungfu/skill/longxiang-banruo/sing_old",
+   "types": null
+  },
+  {
+   "skill_id": "songshan-jian",
+   "file": "/kungfu/skill/songshan-jian",
+   "types": [
+    "parry",
+    "sword"
+   ]
+  },
+  {
+   "skill_id": "staff",
+   "file": "/kungfu/skill/staff",
+   "types": null
+  },
+  {
+   "skill_id": "stealing",
+   "file": "/kungfu/skill/stealing",
+   "types": null
+  },
+  {
+   "skill_id": "stick",
+   "file": "/kungfu/skill/stick",
+   "types": null
+  },
+  {
+   "skill_id": "strike",
+   "file": "/kungfu/skill/strike",
+   "types": null
+  },
+  {
+   "skill_id": "suxin",
+   "file": "/kungfu/skill/yunu-jianfa/suxin",
+   "types": null
+  },
+  {
+   "skill_id": "swimming",
+   "file": "/kungfu/skill/swimming",
+   "types": null
+  },
+  {
+   "skill_id": "sword",
+   "file": "/kungfu/skill/sword",
+   "types": null
+  },
+  {
+   "skill_id": "taiji",
+   "file": "/kungfu/skill/taiji-jian/taiji",
+   "types": null
+  },
+  {
+   "skill_id": "taiji-dao",
+   "file": "/kungfu/skill/taiji-dao",
+   "types": [
+    "blade",
+    "parry"
+   ]
+  },
+  {
+   "skill_id": "taiji-gong",
+   "file": "/kungfu/skill/taiji-gong",
+   "types": null
+  },
+  {
+   "skill_id": "taiji-jian",
+   "file": "/kungfu/skill/taiji-jian",
+   "types": [
+    "parry",
+    "sword"
+   ]
+  },
+  {
+   "skill_id": "taiji-quan",
+   "file": "/kungfu/skill/taiji-quan",
+   "types": [
+    "cuff",
+    "parry"
+   ]
+  },
+  {
+   "skill_id": "taiji-shengong",
+   "file": "/kungfu/skill/taiji-shengong",
+   "types": [
+    "force"
+   ]
+  },
+  {
+   "skill_id": "taixuan-gong",
+   "file": "/kungfu/skill/taixuan-gong",
+   "types": [
+    "force"
+   ]
+  },
+  {
+   "skill_id": "tangshi-jian",
+   "file": "/kungfu/skill/tangshi-jian",
+   "types": [
+    "parry",
+    "sword"
+   ]
+  },
+  {
+   "skill_id": "tanzhi-shentong",
+   "file": "/kungfu/skill/tanzhi-shentong",
+   "types": [
+    "finger",
+    "parry"
+   ]
+  },
+  {
+   "skill_id": "taoism",
+   "file": "/kungfu/skill/taoism",
+   "types": null
+  },
+  {
+   "skill_id": "throwing",
+   "file": "/kungfu/skill/throwing",
+   "types": null
+  },
+  {
+   "skill_id": "tiandi",
+   "file": "/kungfu/skill/linji-zhuang/tiandi",
+   "types": null
+  },
+  {
+   "skill_id": "tiangang-zhi",
+   "file": "/kungfu/skill/tiangang-zhi",
+   "types": [
+    "finger",
+    "parry"
+   ]
+  },
+  {
+   "skill_id": "tianji-xuangong",
+   "file": "/kungfu/skill/tianji-xuangong",
+   "types": [
+    "force"
+   ]
+  },
+  {
+   "skill_id": "tianluo-diwang",
+   "file": "/kungfu/skill/tianluo-diwang",
+   "types": [
+    "dodge",
+    "parry",
+    "strike"
+   ]
+  },
+  {
+   "skill_id": "tianshan-zhang",
+   "file": "/kungfu/skill/tianshan-zhang",
+   "types": [
+    "parry",
+    "staff"
+   ]
+  },
+  {
+   "skill_id": "tianshang-zhang",
+   "file": "/kungfu/skill/tianshang-zhang",
+   "types": [
+    "parry",
+    "staff"
+   ]
+  },
+  {
+   "skill_id": "tianyu-qijian",
+   "file": "/kungfu/skill/tianyu-qijian",
+   "types": [
+    "parry",
+    "sword"
+   ]
+  },
+  {
+   "skill_id": "tie-zhang",
+   "file": "/kungfu/skill/tie-zhang",
+   "types": [
+    "parry",
+    "strike"
+   ]
+  },
+  {
+   "skill_id": "tiyun-zong",
+   "file": "/kungfu/skill/tiyun-zong",
+   "types": [
+    "dodge",
+    "move"
+   ]
+  },
+  {
+   "skill_id": "tiyunzong",
+   "file": "/kungfu/skill/tiyunzong",
+   "types": [
+    "dodge",
+    "move"
+   ]
+  },
+  {
+   "skill_id": "tonggui",
+   "file": "/kungfu/skill/quanzhen-jian/tonggui",
+   "types": null
+  },
+  {
+   "skill_id": "tongshou",
+   "file": "/kungfu/skill/taiji-jian/tongshou",
+   "types": null
+  },
+  {
+   "skill_id": "touch",
+   "file": "/kungfu/skill/touch",
+   "types": [
+    "cuff",
+    "parry",
+    "unarmed"
+   ]
+  },
+  {
+   "skill_id": "training",
+   "file": "/kungfu/skill/training",
+   "types": null
+  },
+  {
+   "skill_id": "tuo",
+   "file": "/kungfu/skill/touch/tuo",
+   "types": null
+  },
+  {
+   "skill_id": "tuwu",
+   "file": "/kungfu/skill/jinshe-zhuifa/tuwu",
+   "types": null
+  },
+  {
+   "skill_id": "tuxi",
+   "file": "/kungfu/skill/qianzhu-wandu/tuxi",
+   "types": null
+  },
+  {
+   "skill_id": "unarmed",
+   "file": "/kungfu/skill/unarmed",
+   "types": null
+  },
+  {
+   "skill_id": "user",
+   "file": "/kungfu/skill/yanxing-dao/copy/user",
+   "types": null
+  },
+  {
+   "skill_id": "void_sense",
+   "file": "/kungfu/skill/bashi-shentong/void_sense",
+   "types": null
+  },
+  {
+   "skill_id": "weituo",
+   "file": "/kungfu/skill/damo-jian/weituo",
+   "types": null
+  },
+  {
+   "skill_id": "weituo-gun",
+   "file": "/kungfu/skill/weituo-gun",
+   "types": [
+    "club",
+    "parry"
+   ]
+  },
+  {
+   "skill_id": "whip",
+   "file": "/kungfu/skill/whip",
+   "types": null
+  },
+  {
+   "skill_id": "wrestling",
+   "file": "/kungfu/skill/wrestling",
+   "types": [
+    "hand",
+    "parry"
+   ]
+  },
+  {
+   "skill_id": "wuchang-zhang",
+   "file": "/kungfu/skill/wuchang-zhang",
+   "types": [
+    "parry",
+    "staff"
+   ]
+  },
+  {
+   "skill_id": "wudang-jian",
+   "file": "/kungfu/skill/wudang-jian",
+   "types": [
+    "parry",
+    "sword"
+   ]
+  },
+  {
+   "skill_id": "wudang-jiuyang",
+   "file": "/kungfu/skill/wudang-jiuyang",
+   "types": [
+    "force"
+   ]
+  },
+  {
+   "skill_id": "wudu-xinfa",
+   "file": "/kungfu/skill/wudu-xinfa",
+   "types": [
+    "force"
+   ]
+  },
+  {
+   "skill_id": "wugou-jianfa",
+   "file": "/kungfu/skill/wugou-jianfa",
+   "types": [
+    "parry",
+    "sword"
+   ]
+  },
+  {
+   "skill_id": "wuhu-duanmen",
+   "file": "/kungfu/skill/wuhu-duanmen",
+   "types": [
+    "blade",
+    "parry"
+   ]
+  },
+  {
+   "skill_id": "wuhu-gun",
+   "file": "/kungfu/skill/wuhu-gun",
+   "types": [
+    "club",
+    "parry",
+    "stick"
+   ]
+  },
+  {
+   "skill_id": "wuji",
+   "file": "/kungfu/skill/hunyuan-zhang/wuji",
+   "types": null
+  },
+  {
+   "skill_id": "wuji-gou",
+   "file": "/kungfu/skill/wuji-gou",
+   "types": [
+    "hook",
+    "parry"
+   ]
+  },
+  {
+   "skill_id": "wuqing",
+   "file": "/kungfu/skill/meinu-quan/wuqing",
+   "types": null
+  },
+  {
+   "skill_id": "wuxing-quan",
+   "file": "/kungfu/skill/wuxing-quan",
+   "types": [
+    "cuff",
+    "parry"
+   ]
+  },
+  {
+   "skill_id": "wuxingbu",
+   "file": "/kungfu/skill/wuxingbu",
+   "types": [
+    "dodge",
+    "move"
+   ]
+  },
+  {
+   "skill_id": "wuyu-zhangfa",
+   "file": "/kungfu/skill/wuyu-zhangfa",
+   "types": [
+    "parry",
+    "strike"
+   ]
+  },
+  {
+   "skill_id": "wuzhuan",
+   "file": "/kungfu/skill/bitao-xuangong/wuzhuan",
+   "types": null
+  },
+  {
+   "skill_id": "xianglong",
+   "file": "/kungfu/skill/xianglong-zhang/xianglong",
+   "types": null
+  },
+  {
+   "skill_id": "xianglong-zhang",
+   "file": "/kungfu/skill/xianglong-zhang",
+   "types": [
+    "parry",
+    "strike"
+   ]
+  },
+  {
+   "skill_id": "xiantian-gong",
+   "file": "/kungfu/skill/xiantian-gong",
+   "types": [
+    "force"
+   ]
+  },
+  {
+   "skill_id": "xiaohun",
+   "file": "/kungfu/skill/xiaohun-zhang/xiaohun",
+   "types": null
+  },
+  {
+   "skill_id": "xiaohun-zhang",
+   "file": "/kungfu/skill/xiaohun-zhang",
+   "types": [
+    "parry",
+    "strike"
+   ]
+  },
+  {
+   "skill_id": "xiaowuxiang",
+   "file": "/kungfu/skill/xiaowuxiang",
+   "types": [
+    "force"
+   ]
+  },
+  {
+   "skill_id": "xiaoyao",
+   "file": "/kungfu/skill/xiaoyao-jianfa/xiaoyao",
+   "types": null
+  },
+  {
+   "skill_id": "xiaoyao-jianfa",
+   "file": "/kungfu/skill/xiaoyao-jianfa/xiaoyao-jianfa",
+   "types": [
+    "parry",
+    "sword"
+   ]
+  },
+  {
+   "skill_id": "xiaoyao-piaopiao",
+   "file": "/kungfu/skill/xiaoyao-piaopiao",
+   "types": [
+    "dodge"
+   ]
+  },
+  {
+   "skill_id": "xiaoyao-zhangfa",
+   "file": "/kungfu/skill/xiaoyao-zhangfa",
+   "types": [
+    "parry",
+    "strike"
+   ]
+  },
+  {
+   "skill_id": "xiaoyaoyou",
+   "file": "/kungfu/skill/xiaoyaoyou",
+   "types": [
+    "dodge",
+    "move"
+   ]
+  },
+  {
+   "skill_id": "xidu",
+   "file": "/kungfu/skill/wudu-xinfa/xidu",
+   "types": null
+  },
+  {
+   "skill_id": "xingxiu-duzhang",
+   "file": "/kungfu/skill/xingxiu-duzhang",
+   "types": [
+    "parry",
+    "strike"
+   ]
+  },
+  {
+   "skill_id": "xiuluo",
+   "file": "/kungfu/skill/xiuluo-dao/xiuluo",
+   "types": null
+  },
+  {
+   "skill_id": "xiuluo-dao",
+   "file": "/kungfu/skill/xiuluo-dao",
+   "types": [
+    "blade",
+    "parry"
+   ]
+  },
+  {
+   "skill_id": "xuanfeng-saoye",
+   "file": "/kungfu/skill/xuanfeng-saoye",
+   "types": [
+    "kick",
+    "parry"
+   ]
+  },
+  {
+   "skill_id": "xuanmen-yinlun",
+   "file": "/kungfu/skill/xuanmen-yinlun",
+   "types": [
+    "dodge",
+    "move"
+   ]
+  },
+  {
+   "skill_id": "xue-dao",
+   "file": "/kungfu/skill/xue-dao",
+   "types": [
+    "blade",
+    "parry"
+   ]
+  },
+  {
+   "skill_id": "xuedao",
+   "file": "/kungfu/skill/xuedao",
+   "types": null
+  },
+  {
+   "skill_id": "xueshan-jian",
+   "file": "/kungfu/skill/xueshan-jian",
+   "types": [
+    "parry",
+    "sword"
+   ]
+  },
+  {
+   "skill_id": "xueshitiao",
+   "file": "/kungfu/skill/xueshitiao",
+   "types": [
+    "dodge",
+    "move"
+   ]
+  },
+  {
+   "skill_id": "xuli",
+   "file": "/kungfu/skill/songshan-jian/xuli",
+   "types": null
+  },
+  {
+   "skill_id": "xunlei",
+   "file": "/kungfu/skill/liangyi-jian/xunlei",
+   "types": null
+  },
+  {
+   "skill_id": "yangjia-qiang",
+   "file": "/kungfu/skill/yangjia-qiang",
+   "types": [
+    "parry",
+    "pike"
+   ]
+  },
+  {
+   "skill_id": "yangtui",
+   "file": "/kungfu/skill/yunu-xinjing/yangtui",
+   "types": null
+  },
+  {
+   "skill_id": "yanqing-quan",
+   "file": "/kungfu/skill/yanqing-quan",
+   "types": [
+    "cuff",
+    "parry"
+   ]
+  },
+  {
+   "skill_id": "yanxing-dao",
+   "file": "/kungfu/skill/yanxing-dao",
+   "types": [
+    "blade",
+    "parry"
+   ]
+  },
+  {
+   "skill_id": "yiji",
+   "file": "/kungfu/skill/sanyin-zhua/yiji",
+   "types": null
+  },
+  {
+   "skill_id": "yingxiong-sanzhao",
+   "file": "/kungfu/skill/yingxiong-sanzhao",
+   "types": [
+    "finger",
+    "parry"
+   ]
+  },
+  {
+   "skill_id": "yingzhua-gong",
+   "file": "/kungfu/skill/yingzhua-gong",
+   "types": [
+    "claw",
+    "parry"
+   ]
+  },
+  {
+   "skill_id": "yingzhua-qinna",
+   "file": "/kungfu/skill/yingzhua-qinna",
+   "types": [
+    "claw",
+    "parry"
+   ]
+  },
+  {
+   "skill_id": "yinjin",
+   "file": "/kungfu/skill/yunu-xinjing/yinjin",
+   "types": null
+  },
+  {
+   "skill_id": "yinsuo-jinling",
+   "file": "/kungfu/skill/yinsuo-jinling",
+   "types": [
+    "parry",
+    "whip"
+   ]
+  },
+  {
+   "skill_id": "yinyun",
+   "file": "/kungfu/skill/taiji-shengong/yinyun",
+   "types": null
+  },
+  {
+   "skill_id": "yiwei-dujiang",
+   "file": "/kungfu/skill/yiwei-dujiang",
+   "types": null
+  },
+  {
+   "skill_id": "yiyang",
+   "file": "/kungfu/skill/duanjia-jian/yiyang",
+   "types": null
+  },
+  {
+   "skill_id": "yiyang-zhi",
+   "file": "/kungfu/skill/yiyang-zhi",
+   "types": [
+    "finger",
+    "parry"
+   ]
+  },
+  {
+   "skill_id": "yizhi-chan",
+   "file": "/kungfu/skill/yizhi-chan",
+   "types": [
+    "finger",
+    "parry"
+   ]
+  },
+  {
+   "skill_id": "youju",
+   "file": "/kungfu/skill/meinu-quan/youju",
+   "types": null
+  },
+  {
+   "skill_id": "youming",
+   "file": "/kungfu/skill/linji-zhuang/youming",
+   "types": null
+  },
+  {
+   "skill_id": "youshen-zhang",
+   "file": "/kungfu/skill/youshen-zhang",
+   "types": [
+    "parry",
+    "strike"
+   ]
+  },
+  {
+   "skill_id": "yuenu-jian",
+   "file": "/kungfu/skill/yuenu-jian",
+   "types": [
+    "parry",
+    "sword"
+   ]
+  },
+  {
+   "skill_id": "yueying-wubu",
+   "file": "/kungfu/skill/yueying-wubu",
+   "types": [
+    "dodge",
+    "move"
+   ]
+  },
+  {
+   "skill_id": "yujiamu-quan",
+   "file": "/kungfu/skill/yujiamu-quan",
+   "types": [
+    "cuff",
+    "parry"
+   ]
+  },
+  {
+   "skill_id": "yulong-baibian",
+   "file": "/kungfu/skill/yulong-baibian",
+   "types": [
+    "dodge",
+    "move"
+   ]
+  },
+  {
+   "skill_id": "yunu-jian",
+   "file": "/kungfu/skill/yunu-jian",
+   "types": [
+    "parry",
+    "sword",
+    "zuoyou-hubo"
+   ]
+  },
+  {
+   "skill_id": "yunu-jianfa",
+   "file": "/kungfu/skill/yunu-jianfa",
+   "types": [
+    "parry",
+    "sword",
+    "zuoyou-hubo"
+   ]
+  },
+  {
+   "skill_id": "yunu-jing",
+   "file": "/kungfu/skill/yunu-jing",
+   "types": [
+    "force"
+   ]
+  },
+  {
+   "skill_id": "yunu-jue",
+   "file": "/kungfu/skill/yunu-jue",
+   "types": null
+  },
+  {
+   "skill_id": "yunu-xinjing",
+   "file": "/kungfu/skill/yunu-xinjing",
+   "types": [
+    "force"
+   ]
+  },
+  {
+   "skill_id": "yunwu",
+   "file": "/kungfu/skill/luoyan-jian/yunwu",
+   "types": null
+  },
+  {
+   "skill_id": "yuxiao-jian",
+   "file": "/kungfu/skill/yuxiao-jian",
+   "types": [
+    "parry",
+    "sword"
+   ]
+  },
+  {
+   "skill_id": "zhaixinggong",
+   "file": "/kungfu/skill/zhaixinggong",
+   "types": [
+    "dodge",
+    "move"
+   ]
+  },
+  {
+   "skill_id": "zhao",
+   "file": "/kungfu/skill/ding-force/zhao",
+   "types": null
+  },
+  {
+   "skill_id": "zhemei",
+   "file": "/kungfu/skill/zhemei-shou/zhemei",
+   "types": null
+  },
+  {
+   "skill_id": "zhemei-shou",
+   "file": "/kungfu/skill/zhemei-shou",
+   "types": [
+    "hand",
+    "parry"
+   ]
+  },
+  {
+   "skill_id": "zhengqi-jue",
+   "file": "/kungfu/skill/zhengqi-jue",
+   "types": null
+  },
+  {
+   "skill_id": "zhixin",
+   "file": "/kungfu/skill/linji-zhuang/zhixin",
+   "types": null
+  },
+  {
+   "skill_id": "zhongchong",
+   "file": "/kungfu/skill/liumai-shenjian/zhongchong",
+   "types": null
+  },
+  {
+   "skill_id": "zhongfu",
+   "file": "/kungfu/skill/liuyang-zhang/zhongfu",
+   "types": null
+  },
+  {
+   "skill_id": "zhuan",
+   "file": "/kungfu/skill/dagou-bang/zhuan",
+   "types": null
+  },
+  {
+   "skill_id": "zhutian-bu",
+   "file": "/kungfu/skill/zhutian-bu",
+   "types": [
+    "dodge",
+    "move"
+   ]
+  },
+  {
+   "skill_id": "zixia",
+   "file": "/kungfu/skill/zixia-gong/zixia",
+   "types": null
+  },
+  {
+   "skill_id": "zixia-gong",
+   "file": "/kungfu/skill/zixia-gong",
+   "types": [
+    "force"
+   ]
+  },
+  {
+   "skill_id": "ziyin-yin",
+   "file": "/kungfu/skill/ziyin-yin",
+   "types": null
+  },
+  {
+   "skill_id": "zui-gun",
+   "file": "/kungfu/skill/zui-gun",
+   "types": [
+    "club",
+    "parry"
+   ]
+  },
+  {
+   "skill_id": "zuida",
+   "file": "/kungfu/skill/zui-gun/zuida",
+   "types": null
+  },
+  {
+   "skill_id": "zuoyou-hubo",
+   "file": "/kungfu/skill/zuoyou-hubo",
+   "types": null
+  }
+ ]
+}

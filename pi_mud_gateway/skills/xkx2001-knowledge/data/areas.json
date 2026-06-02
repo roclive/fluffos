@@ -1,0 +1,289 @@
+{
+ "areas": [
+  {
+   "area": "/d/qilian",
+   "name_cn": null,
+   "room_count": 5
+  },
+  {
+   "area": "baituo",
+   "name_cn": "西域白驼山",
+   "room_count": 65
+  },
+  {
+   "area": "beijing",
+   "name_cn": "北京",
+   "room_count": 466
+  },
+  {
+   "area": "bwdh",
+   "name_cn": null,
+   "room_count": 185
+  },
+  {
+   "area": "chanbai",
+   "name_cn": null,
+   "room_count": 1
+  },
+  {
+   "area": "changbai",
+   "name_cn": "关外长白山",
+   "room_count": 49
+  },
+  {
+   "area": "city",
+   "name_cn": "扬州",
+   "room_count": 158
+  },
+  {
+   "area": "dali",
+   "name_cn": "云南大理",
+   "room_count": 276
+  },
+  {
+   "area": "death",
+   "name_cn": "地狱",
+   "room_count": 9
+  },
+  {
+   "area": "dongtinghu",
+   "name_cn": null,
+   "room_count": 3
+  },
+  {
+   "area": "em",
+   "name_cn": null,
+   "room_count": 49
+  },
+  {
+   "area": "emei",
+   "name_cn": "四川峨嵋",
+   "room_count": 201
+  },
+  {
+   "area": "forest",
+   "name_cn": "扬州郊外",
+   "room_count": 46
+  },
+  {
+   "area": "foshan",
+   "name_cn": "广东佛山",
+   "room_count": 7
+  },
+  {
+   "area": "gaibang",
+   "name_cn": "丐帮所在地",
+   "room_count": 40
+  },
+  {
+   "area": "guiyun",
+   "name_cn": null,
+   "room_count": 2
+  },
+  {
+   "area": "hangzhou",
+   "name_cn": "杭州",
+   "room_count": 126
+  },
+  {
+   "area": "heimuya",
+   "name_cn": null,
+   "room_count": 50
+  },
+  {
+   "area": "hengshan",
+   "name_cn": null,
+   "room_count": 13
+  },
+  {
+   "area": "huanghe",
+   "name_cn": "黄河边",
+   "room_count": 12
+  },
+  {
+   "area": "huangshan",
+   "name_cn": "安徽黄山",
+   "room_count": 47
+  },
+  {
+   "area": "huashan",
+   "name_cn": "华山",
+   "room_count": 94
+  },
+  {
+   "area": "island",
+   "name_cn": "海外",
+   "room_count": 7
+  },
+  {
+   "area": "jiaxing",
+   "name_cn": "嘉兴",
+   "room_count": 17
+  },
+  {
+   "area": "kunlun",
+   "name_cn": "昆仑山",
+   "room_count": 105
+  },
+  {
+   "area": "lingjiu",
+   "name_cn": "飘渺峰灵鹫宫",
+   "room_count": 0
+  },
+  {
+   "area": "miaojiang",
+   "name_cn": "云南苗疆",
+   "room_count": 0
+  },
+  {
+   "area": "mingjiao",
+   "name_cn": null,
+   "room_count": 42
+  },
+  {
+   "area": "qilian",
+   "name_cn": "祈连山",
+   "room_count": 40
+  },
+  {
+   "area": "qilian-shan",
+   "name_cn": null,
+   "room_count": 106
+  },
+  {
+   "area": "quanzhou",
+   "name_cn": "福建泉州",
+   "room_count": 142
+  },
+  {
+   "area": "quanzou",
+   "name_cn": null,
+   "room_count": 1
+  },
+  {
+   "area": "shaolin",
+   "name_cn": "嵩山少林",
+   "room_count": 187
+  },
+  {
+   "area": "shenlong",
+   "name_cn": "辽东神龙岛",
+   "room_count": 39
+  },
+  {
+   "area": "taihu",
+   "name_cn": "太湖边",
+   "room_count": 35
+  },
+  {
+   "area": "taishan",
+   "name_cn": "山东泰山",
+   "room_count": 41
+  },
+  {
+   "area": "taohua",
+   "name_cn": "东海桃花岛",
+   "room_count": 115
+  },
+  {
+   "area": "taohuacun",
+   "name_cn": null,
+   "room_count": 5
+  },
+  {
+   "area": "tianshan",
+   "name_cn": null,
+   "room_count": 23
+  },
+  {
+   "area": "tianying",
+   "name_cn": null,
+   "room_count": 32
+  },
+  {
+   "area": "village",
+   "name_cn": "华山村",
+   "room_count": 16
+  },
+  {
+   "area": "wanshou",
+   "name_cn": null,
+   "room_count": 7
+  },
+  {
+   "area": "wanshou-shanzhuang",
+   "name_cn": null,
+   "room_count": 17
+  },
+  {
+   "area": "wizard",
+   "name_cn": "仙界",
+   "room_count": 5
+  },
+  {
+   "area": "wudang",
+   "name_cn": "湖北武当山",
+   "room_count": 149
+  },
+  {
+   "area": "xiakedao",
+   "name_cn": "侠客岛",
+   "room_count": 89
+  },
+  {
+   "area": "xiangyang",
+   "name_cn": null,
+   "room_count": 113
+  },
+  {
+   "area": "xingxiu",
+   "name_cn": "西域",
+   "room_count": 93
+  },
+  {
+   "area": "xingxiu-hai",
+   "name_cn": null,
+   "room_count": 4
+  },
+  {
+   "area": "xingxiuhai",
+   "name_cn": null,
+   "room_count": 60
+  },
+  {
+   "area": "xixia",
+   "name_cn": "西夏",
+   "room_count": 96
+  },
+  {
+   "area": "xueshan",
+   "name_cn": "藏边大雪山",
+   "room_count": 20
+  },
+  {
+   "area": "xx",
+   "name_cn": null,
+   "room_count": 12
+  },
+  {
+   "area": "xxx",
+   "name_cn": null,
+   "room_count": 11
+  },
+  {
+   "area": "zhongnan",
+   "name_cn": "终南山",
+   "room_count": 134
+  },
+  {
+   "area": "zhongnanshan",
+   "name_cn": null,
+   "room_count": 1
+  },
+  {
+   "area": "虚无飘渺",
+   "name_cn": null,
+   "room_count": 1
+  }
+ ]
+}

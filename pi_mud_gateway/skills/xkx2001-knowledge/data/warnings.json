@@ -1,0 +1,3602 @@
+[
+ {
+  "room_id": "/d/forest/field4",
+  "dir": "north",
+  "raw": "\"/d/huanghe/bank1\",\n//\t\t\"east\" : \"/d/village/wexit\"",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/kunlun/yananshan",
+  "dir": "eastup",
+  "raw": "__DIR__\"lingjia\",\n//                \"west\" : __DIR__\"???????",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/city/guangchang",
+  "dir": "north",
+  "raw": "__DIR__\"beidajie1\",\n//\t\t\"enter\" : \"/u/xuy/bwdh1/kantai1\"",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/city/xiaobaozhai",
+  "dir": "south",
+  "raw": "__DIR__\"dongnanjie\",\n//\t\t\t\t\"north\" : \"/u/ssy/paimai\",\n//\t\t\t\t",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/city/dangpu",
+  "dir": "west",
+  "raw": "__DIR__\"nandajie1\",\n//              \"south\" : \"/u/ssy/paimai",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/city/guopintan",
+  "dir": "north",
+  "raw": "__DIR__\"dongnanjie\",\n//              \"west\" : __DIR__\"nandaj",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/city/duchang2",
+  "dir": "down",
+  "raw": "__DIR__\"duchang\",\n//\t\t\"up\"    : \"/u/ssy/card/cardtest\"",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/city/duchang",
+  "dir": "east",
+  "raw": "__DIR__\"nandajie1\",\n//\t\t\"north\" : \"/u/ding/sp9room\"",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/city/wumiao",
+  "dir": "northwest",
+  "raw": "\"/d/wizard/guest_room\",\n//              \"west\": \"/u/ssy/webr",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/shenlong/luanshi",
+  "dir": "northeast",
+  "raw": "__DIR__\"jushi\",\n //           \"northwest\" : __DIR__\"shulin3\"",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/emei/meihua3",
+  "dir": "northwest",
+  "raw": "__DIR__\"meihua\"+(random(7)+1)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/emei/meihua3",
+  "dir": "southeast",
+  "raw": "__DIR__\"meihua\"+(random(7)+1)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/emei/meihua3",
+  "dir": "southwest",
+  "raw": "__DIR__\"meihua\"+(random(7)+1)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/emei/meihua7",
+  "dir": "northwest",
+  "raw": "__DIR__\"meihua\"+(random(7)+1)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/emei/meihua7",
+  "dir": "northeast",
+  "raw": "__DIR__\"meihua\"+(random(7)+1)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/emei/meihua7",
+  "dir": "southwest",
+  "raw": "__DIR__\"meihua\"+(random(7)+1)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/emei/meihua4",
+  "dir": "northeast",
+  "raw": "__DIR__\"meihua\"+(random(7)+1)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/emei/meihua4",
+  "dir": "southeast",
+  "raw": "__DIR__\"meihua\"+(random(7)+1)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/emei/meihua4",
+  "dir": "southwest",
+  "raw": "__DIR__\"meihua\"+(random(7)+1)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/emei/meihua1",
+  "dir": "northwest",
+  "raw": "__DIR__\"meihua\"+(random(7)+1)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/emei/meihua1",
+  "dir": "northeast",
+  "raw": "__DIR__\"meihua\"+(random(7)+1)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/emei/meihua1",
+  "dir": "southwest",
+  "raw": "__DIR__\"meihua\"+(random(7)+1)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/emei/meihua5",
+  "dir": "northwest",
+  "raw": "__DIR__\"meihua\"+(random(7)+1)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/emei/meihua5",
+  "dir": "northeast",
+  "raw": "__DIR__\"meihua\"+(random(7)+1)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/emei/meihua5",
+  "dir": "southwest",
+  "raw": "__DIR__\"meihua\"+(random(7)+1)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/emei/treeup",
+  "dir": "down",
+  "raw": "__DIR__\"dao9\"+(random(4)+6)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/emei/meihua2",
+  "dir": "northwest",
+  "raw": "__DIR__\"meihua\"+(random(7)+1)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/emei/meihua2",
+  "dir": "northeast",
+  "raw": "__DIR__\"meihua\"+(random(7)+1)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/emei/meihua2",
+  "dir": "southeast",
+  "raw": "__DIR__\"meihua\"+(random(7)+1)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/emei/meihua6",
+  "dir": "northwest",
+  "raw": "__DIR__\"meihua\"+(random(7)+1)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/emei/meihua6",
+  "dir": "southeast",
+  "raw": "__DIR__\"meihua\"+(random(7)+1)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/emei/meihua6",
+  "dir": "southwest",
+  "raw": "__DIR__\"meihua\"+(random(7)+1)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/emei/bailong",
+  "dir": "east",
+  "raw": "__DIR__\"meihua\"+(3*random(2)+1)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/emei/bailong",
+  "dir": "west",
+  "raw": "__DIR__\"meihua\"+(3*random(2)+1)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/wanshou/forest0",
+  "dir": "north",
+  "raw": "__DIR__\"forest\"+(random(3)+1)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/taishan/nantian",
+  "dir": "northup",
+  "raw": "__DIR__\"yuhuang\",\n//\t\t\"west\" : __DIR__\"yueguan\"",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/hangzhou/xiaoyuannn",
+  "dir": "south",
+  "raw": "__DIR__\"xiaoyuann\",\n             // \"north\" : __DIR__\"xiaoyu",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/em/meihua3",
+  "dir": "northwest",
+  "raw": "__DIR__\"meihua\"+(random(7)+1)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/em/meihua3",
+  "dir": "southeast",
+  "raw": "__DIR__\"meihua\"+(random(7)+1)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/em/meihua3",
+  "dir": "southwest",
+  "raw": "__DIR__\"meihua\"+(random(7)+1)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/em/meihua7",
+  "dir": "northwest",
+  "raw": "__DIR__\"meihua\"+(random(7)+1)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/em/meihua7",
+  "dir": "northeast",
+  "raw": "__DIR__\"meihua\"+(random(7)+1)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/em/meihua7",
+  "dir": "southwest",
+  "raw": "__DIR__\"meihua\"+(random(7)+1)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/em/meihua4",
+  "dir": "northeast",
+  "raw": "__DIR__\"meihua\"+(random(7)+1)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/em/meihua4",
+  "dir": "southeast",
+  "raw": "__DIR__\"meihua\"+(random(7)+1)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/em/meihua4",
+  "dir": "southwest",
+  "raw": "__DIR__\"meihua\"+(random(7)+1)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/em/meihua1",
+  "dir": "northwest",
+  "raw": "__DIR__\"meihua\"+(random(7)+1)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/em/meihua1",
+  "dir": "northeast",
+  "raw": "__DIR__\"meihua\"+(random(7)+1)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/em/meihua1",
+  "dir": "southwest",
+  "raw": "__DIR__\"meihua\"+(random(7)+1)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/em/meihua5",
+  "dir": "northwest",
+  "raw": "__DIR__\"meihua\"+(random(7)+1)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/em/meihua5",
+  "dir": "northeast",
+  "raw": "__DIR__\"meihua\"+(random(7)+1)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/em/meihua5",
+  "dir": "southwest",
+  "raw": "__DIR__\"meihua\"+(random(7)+1)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/em/treeup",
+  "dir": "down",
+  "raw": "__DIR__\"dao9\"+(random(4)+6)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/em/meihua2",
+  "dir": "northwest",
+  "raw": "__DIR__\"meihua\"+(random(7)+1)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/em/meihua2",
+  "dir": "northeast",
+  "raw": "__DIR__\"meihua\"+(random(7)+1)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/em/meihua2",
+  "dir": "southeast",
+  "raw": "__DIR__\"meihua\"+(random(7)+1)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/em/meihua6",
+  "dir": "northwest",
+  "raw": "__DIR__\"meihua\"+(random(7)+1)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/em/meihua6",
+  "dir": "southeast",
+  "raw": "__DIR__\"meihua\"+(random(7)+1)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/em/meihua6",
+  "dir": "southwest",
+  "raw": "__DIR__\"meihua\"+(random(7)+1)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/em/bailong",
+  "dir": "east",
+  "raw": "__DIR__\"meihua\"+(3*random(2)+1)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/em/bailong",
+  "dir": "west",
+  "raw": "__DIR__\"meihua\"+(3*random(2)+1)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/baituo/shegu_maze4",
+  "dir": "northwest",
+  "raw": "__DIR__\"shegu_maze\" + (5+random(4))",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/baituo/shegu_maze9",
+  "dir": "south",
+  "raw": "__DIR__\"shegu_maze\"+ (5+random(4))",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/baituo/shegu_maze9",
+  "dir": "east",
+  "raw": "__DIR__\"shegu_maze\"+ (5+random(2))",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/baituo/shegu_maze7",
+  "dir": "northwest",
+  "raw": "__DIR__\"shegu_maze\"+ (5+random(2))",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/baituo/shegu_maze8",
+  "dir": "northeast",
+  "raw": "__DIR__\"shegu_maze\"+ (5+random(4))",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/baituo/shegu_maze8",
+  "dir": "southwest",
+  "raw": "__DIR__\"shegu_maze\"+ (4+random(4))",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/baituo/shegu_maze8",
+  "dir": "southeast",
+  "raw": "__DIR__\"shegu_maze\"+ (5+random(4))",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/baituo/shegu_maze6",
+  "dir": "northwest",
+  "raw": "__DIR__\"shegu_maze\"+ (5+random(4))",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/baituo/shegu_maze6",
+  "dir": "southwest",
+  "raw": "__DIR__\"shegu_maze\"+ (5+random(4))",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/baituo/shegu_maze6",
+  "dir": "southeast",
+  "raw": "__DIR__\"shegu_maze\"+ (5+random(4))",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/baituo/shegu_maze5",
+  "dir": "northwest",
+  "raw": "__DIR__\"shegu_maze\" + (5+random(4))",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/taohua/ship",
+  "dir": "east",
+  "raw": "__FILE__,\n//\t\t\"west\" : __DIR__\"dahai2\",\n//\t\t\"south\" : __DIR_",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/wudang/pine_forest5",
+  "dir": "south",
+  "raw": "__DIR__\"pine_forest\"+(5+random(4))",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/wudang/pine_forest5",
+  "dir": "north",
+  "raw": "__DIR__\"pine_forest\"+(3+random(7))",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/wudang/pine_forest5",
+  "dir": "west",
+  "raw": "__DIR__\"pine_forest\"+(random(6))",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/wudang/pine_forest1",
+  "dir": "south",
+  "raw": "__DIR__\"pine_forest\"+(2+random(4))",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/wudang/pine_forest10",
+  "dir": "east",
+  "raw": "__DIR__\"pine_forest\"+(random(2))",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/wudang/pine_forest10",
+  "dir": "west",
+  "raw": "__DIR__\"pine_forest\"+(random(2))",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/wudang/pine_forest6",
+  "dir": "south",
+  "raw": "__DIR__\"pine_forest\"+(4+random(6))",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/wudang/pine_forest6",
+  "dir": "north",
+  "raw": "__DIR__\"pine_forest\"+(6+random(4))",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/wudang/pine_forest6",
+  "dir": "east",
+  "raw": "__DIR__\"pine_forest\"+(random(6))",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/wudang/pine_forest6",
+  "dir": "west",
+  "raw": "__DIR__\"pine_forest\"+(random(6))",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/wudang/pine_forest8",
+  "dir": "south",
+  "raw": "__DIR__\"pine_forest\"+(7+random(3))",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/wudang/pine_forest8",
+  "dir": "north",
+  "raw": "__DIR__\"pine_forest\"+(8+random(2))",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/wudang/pine_forest8",
+  "dir": "east",
+  "raw": "__DIR__\"pine_forest\"+(random(8))",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/wudang/pine_forest8",
+  "dir": "west",
+  "raw": "__DIR__\"pine_forest\"+(random(8))",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/wudang/pine_forest2",
+  "dir": "north",
+  "raw": "__DIR__\"pine_forest\"+(3+random(7))",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/wudang/pine_forest2",
+  "dir": "south",
+  "raw": "__DIR__\"pine_forest\"+(2+random(6))",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/wudang/pine_forest2",
+  "dir": "west",
+  "raw": "__DIR__\"pine_forest\"+(random(6))",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/wudang/pine_forest2",
+  "dir": "east",
+  "raw": "__DIR__\"pine_forest\"+(random(2))",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/wudang/pine_forest7",
+  "dir": "south",
+  "raw": "__DIR__\"pine_forest\"+(7+random(3))",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/wudang/pine_forest7",
+  "dir": "north",
+  "raw": "__DIR__\"pine_forest\"+(5+random(5))",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/wudang/pine_forest7",
+  "dir": "east",
+  "raw": "__DIR__\"pine_forest\"+(random(10))",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/wudang/pine_forest7",
+  "dir": "west",
+  "raw": "__DIR__\"pine_forest\"+(random(10))",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/wudang/pine_forest3",
+  "dir": "south",
+  "raw": "__DIR__\"pine_forest\"+(4+random(6))",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/wudang/pine_forest3",
+  "dir": "north",
+  "raw": "__DIR__\"pine_forest\"+(2+random(8))",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/wudang/pine_forest3",
+  "dir": "west",
+  "raw": "__DIR__\"pine_forest\"+(random(6))",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/wudang/pine_forest3",
+  "dir": "east",
+  "raw": "__DIR__\"pine_forest\"+(random(3))",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/wudang/pine_forest9",
+  "dir": "south",
+  "raw": "__DIR__\"pine_forest\"+(random(11))",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/wudang/pine_forest9",
+  "dir": "east",
+  "raw": "__DIR__\"pine_forest\"+(random(9))",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/wudang/pine_forest9",
+  "dir": "west",
+  "raw": "__DIR__\"pine_forest\"+(random(9))",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/wudang/sanqingdian",
+  "dir": "south",
+  "raw": "__DIR__\"hd_zoulang\",\n\t//\t\"east\" : __DIR__\"donglang1\",\n\t\t//\"w",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/wudang/pine_forest4",
+  "dir": "south",
+  "raw": "__DIR__\"pine_forest\"+(4+random(6))",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/wudang/pine_forest4",
+  "dir": "north",
+  "raw": "__DIR__\"pine_forest\"+(3+random(7))",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/wudang/pine_forest4",
+  "dir": "west",
+  "raw": "__DIR__\"pine_forest\"+(random(6))",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/wudang/pine_forest4",
+  "dir": "east",
+  "raw": "__DIR__\"pine_forest\"+(random(4))",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/wudang/pine_forest0",
+  "dir": "north",
+  "raw": "__DIR__\"pine_forest\"+(2+random(4))",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/qilian/xiaolu",
+  "dir": "north",
+  "raw": "__FILE__",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/qilian/xiaolu",
+  "dir": "south",
+  "raw": "__FILE__",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/qilian/xiaolu2",
+  "dir": "east",
+  "raw": "__FILE__",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/qilian/xiaolu6",
+  "dir": "north",
+  "raw": "__DIR__\"xiaolu\"+(random(3)+2)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/qilian/xiaolu6",
+  "dir": "west",
+  "raw": "__DIR__\"xiaolu\"+(random(8)+4)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/qilian/xiaolu6",
+  "dir": "south",
+  "raw": "__DIR__\"xiaolu\"+(random(8)+4)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/qilian/xiala1",
+  "dir": "north",
+  "raw": "__FILE__",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/qilian/gebi2",
+  "dir": "south",
+  "raw": "__FILE__",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/qilian/xiaolu1",
+  "dir": "east",
+  "raw": "__FILE__",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/qilian/xiaolu1",
+  "dir": "south",
+  "raw": "__FILE__",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/qilian/xiaolu5",
+  "dir": "east",
+  "raw": "__DIR__\"xiaolu\"+(random(2)+5)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/qilian/xiala",
+  "dir": "north",
+  "raw": "__FILE__",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/qilian/xiala",
+  "dir": "south",
+  "raw": "__FILE__",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/qilian/xiala",
+  "dir": "west",
+  "raw": "__FILE__",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/qilian/prairie",
+  "dir": "south",
+  "raw": "__FILE__",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/qilian/prairie",
+  "dir": "east",
+  "raw": "__FILE__",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/qilian/xiala2",
+  "dir": "south",
+  "raw": "__FILE__",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/qilian/xiala2",
+  "dir": "north",
+  "raw": "__FILE__",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/qilian/xiaolu10",
+  "dir": "northeast",
+  "raw": "__DIR__\"xiaolu\"+(random(6)+6)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/qilian/xiaolu10",
+  "dir": "northwest",
+  "raw": "__DIR__\"xiaolu\"+(random(11)+1)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/qilian/xiaolu10",
+  "dir": "southeast",
+  "raw": "__DIR__\"xiaolu\"+(random(11)+1)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/qilian/xiaolu10",
+  "dir": "southwest",
+  "raw": "__DIR__\"xiaolu\"+(random(6)+6)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/qilian/gebi1",
+  "dir": "north",
+  "raw": "__FILE__",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/qilian/xiaolu4",
+  "dir": "east",
+  "raw": "__DIR__\"xiaolu\"+(random(2)+4)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/qilian/xiaolu4",
+  "dir": "north",
+  "raw": "__DIR__\"xiaolu\"+(random(2)+4)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/qilian/xiaolu4",
+  "dir": "west",
+  "raw": "__DIR__\"xiaolu\"+(random(2)+4)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/qilian/gebi4",
+  "dir": "south",
+  "raw": "__FILE__",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/qilian/xiala3",
+  "dir": "south",
+  "raw": "__FILE__",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/qilian/xiaolu11",
+  "dir": "northeast",
+  "raw": "__DIR__\"xiaolu\"+(random(3)+6)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/qilian/xiaolu11",
+  "dir": "southeast",
+  "raw": "__DIR__\"xiaolu\"+(random(3)+6)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/qilian/xiaolu11",
+  "dir": "southwest",
+  "raw": "__DIR__\"xiaolu\"+(random(3)+6)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/qilian/gebi",
+  "dir": "east",
+  "raw": "__FILE__",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/qilian/gebi",
+  "dir": "west",
+  "raw": "__FILE__",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/qilian/xiaolu3",
+  "dir": "north",
+  "raw": "__DIR__\"xiaolu\"+(random(5)+1)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/qilian/xiaolu3",
+  "dir": "south",
+  "raw": "__DIR__\"xiaolu\"+(random(5)+1)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/qilian/xiaolu3",
+  "dir": "west",
+  "raw": "__DIR__\"xiaolu\"+(random(5)+1)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/qilian/xiaolu9",
+  "dir": "east",
+  "raw": "__DIR__\"xiaolu\"+(random(5)+4)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/qilian/xiaolu7",
+  "dir": "east",
+  "raw": "__DIR__\"xiaolu\"+(random(6)+6)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/qilian/xiaolu7",
+  "dir": "west",
+  "raw": "__DIR__\"xiaolu\"+(random(6)+6)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/qilian/xiaolu7",
+  "dir": "south",
+  "raw": "__DIR__\"xiaolu\"+(random(6)+6)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/qilian/gebi3",
+  "dir": "south",
+  "raw": "__FILE__",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/qilian/caoyuan3",
+  "dir": "west",
+  "raw": "__FILE__",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/qilian/caoyuan3",
+  "dir": "east",
+  "raw": "__FILE__",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/qilian/xiaolu12",
+  "dir": "northeast",
+  "raw": "__DIR__\"xiaolu\"+(random(7)+5)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/qilian/xiaolu12",
+  "dir": "southwest",
+  "raw": "__DIR__\"xiaolu\"+(random(7)+5)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/qilian/xiala4",
+  "dir": "south",
+  "raw": "__FILE__",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/zhongnan/haodian",
+  "dir": "north",
+  "raw": "__DIR__\"yuanneixiaojing7\",\n\t\t\t\t]),\n\t\t\t  );\n\n        set(\"obj",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/huanghe/bank8",
+  "dir": "southwest",
+  "raw": "__DIR__\"bank7\",\n//\t\t\"east\" : __DIR__\"sea1\", // for fun. not ",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/shaolin/bamboo3",
+  "dir": "south",
+  "raw": "__DIR__\"bamboo\"+(random(13)+1)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/shaolin/bamboo3",
+  "dir": "east",
+  "raw": "__DIR__\"bamboo\"+(random(13)+1)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/shaolin/bamboo3",
+  "dir": "west",
+  "raw": "__DIR__\"bamboo\"+(random(13)+1)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/shaolin/bamboo9",
+  "dir": "west",
+  "raw": "__DIR__\"bamboo\"+(random(13)+1)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/shaolin/bamboo9",
+  "dir": "south",
+  "raw": "__DIR__\"bamboo\"+(random(13)+1)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/shaolin/bamboo9",
+  "dir": "north",
+  "raw": "__DIR__\"bamboo\"+(random(13)+1)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/shaolin/shulin13",
+  "dir": "east",
+  "raw": "__DIR__\"shulin\"+(random(8)+6)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/shaolin/shulin13",
+  "dir": "south",
+  "raw": "__DIR__\"shulin\"+(random(8)+6)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/shaolin/shulin13",
+  "dir": "west",
+  "raw": "__DIR__\"shulin\"+(random(8)+6)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/shaolin/shulin13",
+  "dir": "north",
+  "raw": "__DIR__\"shulin\"+(random(8)+6)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/shaolin/bamboo14",
+  "dir": "south",
+  "raw": "__DIR__\"bamboo\"+(random(13)+1)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/shaolin/bamboo14",
+  "dir": "east",
+  "raw": "__DIR__\"bamboo\"+(random(13)+1)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/shaolin/bamboo14",
+  "dir": "west",
+  "raw": "__DIR__\"bamboo\"+(random(13)+1)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/shaolin/bamboo10",
+  "dir": "north",
+  "raw": "__DIR__\"bamboo\"+(random(13)+1)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/shaolin/bamboo10",
+  "dir": "east",
+  "raw": "__DIR__\"bamboo\"+(random(13)+1)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/shaolin/bamboo10",
+  "dir": "west",
+  "raw": "__DIR__\"bamboo\"+(random(13)+1)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/shaolin/bamboo7",
+  "dir": "east",
+  "raw": "__DIR__\"bamboo\"+(random(13)+1)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/shaolin/bamboo7",
+  "dir": "south",
+  "raw": "__DIR__\"bamboo\"+(random(13)+1)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/shaolin/bamboo7",
+  "dir": "north",
+  "raw": "__DIR__\"bamboo\"+(random(13)+1)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/shaolin/shulin5",
+  "dir": "east",
+  "raw": "__DIR__\"shulin\"+(random(10)+2)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/shaolin/shulin5",
+  "dir": "west",
+  "raw": "__DIR__\"shulin\"+(random(10)+2)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/shaolin/shulin1",
+  "dir": "east",
+  "raw": "__DIR__\"shulin\"+(random(10)+2)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/shaolin/shulin1",
+  "dir": "north",
+  "raw": "__DIR__\"shulin\"+(random(10)+2)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/shaolin/wuxing0",
+  "dir": "east",
+  "raw": "__DIR__\"wuxing\"+(random(4))",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/shaolin/wuxing0",
+  "dir": "south",
+  "raw": "__DIR__\"wuxing\"+(random(4))",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/shaolin/wuxing0",
+  "dir": "west",
+  "raw": "__DIR__\"wuxing\"+(random(4))",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/shaolin/wuxing0",
+  "dir": "north",
+  "raw": "__DIR__\"wuxing\"+(random(4))",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/shaolin/shulin10",
+  "dir": "east",
+  "raw": "__DIR__\"shulin\"+(random(8)+6)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/shaolin/shulin10",
+  "dir": "south",
+  "raw": "__DIR__\"shulin\"+(random(8)+6)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/shaolin/shulin10",
+  "dir": "west",
+  "raw": "__DIR__\"shulin\"+(random(8)+6)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/shaolin/shulin10",
+  "dir": "north",
+  "raw": "__DIR__\"shulin\"+(random(8)+6)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/shaolin/shulin14",
+  "dir": "east",
+  "raw": "__DIR__\"shulin\"+(random(10)+2)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/shaolin/shulin14",
+  "dir": "north",
+  "raw": "__DIR__\"shulin\"+(random(10)+2)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/shaolin/bamboo4",
+  "dir": "north",
+  "raw": "__DIR__\"bamboo\"+(random(13)+1)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/shaolin/bamboo4",
+  "dir": "east",
+  "raw": "__DIR__\"bamboo\"+(random(13)+1)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/shaolin/bamboo4",
+  "dir": "west",
+  "raw": "__DIR__\"bamboo\"+(random(13)+1)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/shaolin/bamboo13",
+  "dir": "northeast",
+  "raw": "__DIR__\"bamboo\"+(random(13)+1)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/shaolin/bamboo13",
+  "dir": "southeast",
+  "raw": "__DIR__\"bamboo\"+(random(13)+1)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/shaolin/bamboo13",
+  "dir": "southwest",
+  "raw": "__DIR__\"bamboo\"+(random(13)+1)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/shaolin/shulin6",
+  "dir": "south",
+  "raw": "__DIR__\"shulin\"+(random(10)+2)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/shaolin/shulin6",
+  "dir": "west",
+  "raw": "__DIR__\"shulin\"+(random(10)+2)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/shaolin/shulin8",
+  "dir": "south",
+  "raw": "__DIR__\"shulin\"+(random(10)+2)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/shaolin/shulin8",
+  "dir": "north",
+  "raw": "__DIR__\"shulin\"+(random(10)+2)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/shaolin/shulin2",
+  "dir": "south",
+  "raw": "__DIR__\"shulin\"+(random(10)+2)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/shaolin/shulin2",
+  "dir": "north",
+  "raw": "__DIR__\"shulin\"+(random(10)+2)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/shaolin/wuxing1",
+  "dir": "east",
+  "raw": "__DIR__\"wuxing\"+(random(4))",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/shaolin/wuxing1",
+  "dir": "south",
+  "raw": "__DIR__\"wuxing\"+(random(4))",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/shaolin/wuxing1",
+  "dir": "west",
+  "raw": "__DIR__\"wuxing\"+(random(4))",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/shaolin/wuxing1",
+  "dir": "north",
+  "raw": "__DIR__\"wuxing\"+(random(4))",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/shaolin/shulin11",
+  "dir": "east",
+  "raw": "__DIR__\"shulin\"+(random(8)+6)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/shaolin/shulin11",
+  "dir": "south",
+  "raw": "__DIR__\"shulin\"+(random(8)+6)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/shaolin/shulin11",
+  "dir": "west",
+  "raw": "__DIR__\"shulin\"+(random(8)+6)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/shaolin/shulin11",
+  "dir": "north",
+  "raw": "__DIR__\"shulin\"+(random(8)+6)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/shaolin/bamboo1",
+  "dir": "northeast",
+  "raw": "__DIR__\"bamboo\"+(random(13)+1)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/shaolin/bamboo1",
+  "dir": "northwest",
+  "raw": "__DIR__\"bamboo\"+(random(13)+1)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/shaolin/bamboo1",
+  "dir": "southeast",
+  "raw": "__DIR__\"bamboo\"+(random(13)+1)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/shaolin/bamboo5",
+  "dir": "east",
+  "raw": "__DIR__\"bamboo\"+(random(13)+1)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/shaolin/bamboo5",
+  "dir": "south",
+  "raw": "__DIR__\"bamboo\"+(random(13)+1)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/shaolin/bamboo5",
+  "dir": "north",
+  "raw": "__DIR__\"bamboo\"+(random(13)+1)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/shaolin/bamboo12",
+  "dir": "south",
+  "raw": "__DIR__\"bamboo\"+(random(13)+1)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/shaolin/bamboo12",
+  "dir": "east",
+  "raw": "__DIR__\"bamboo\"+(random(13)+1)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/shaolin/bamboo12",
+  "dir": "west",
+  "raw": "__DIR__\"bamboo\"+(random(13)+1)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/shaolin/shulin7",
+  "dir": "south",
+  "raw": "__DIR__\"shulin\"+(random(10)+2)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/shaolin/shulin7",
+  "dir": "west",
+  "raw": "__DIR__\"shulin\"+(random(10)+2)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/shaolin/rukou",
+  "dir": "south",
+  "raw": "__DIR__\"wuxing\"+random(5)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/shaolin/shulin3",
+  "dir": "west",
+  "raw": "__DIR__\"shulin\"+(random(10)+2)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/shaolin/shulin3",
+  "dir": "north",
+  "raw": "__DIR__\"shulin\"+(random(10)+2)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/shaolin/shulin9",
+  "dir": "east",
+  "raw": "__DIR__\"shulin\"+(random(8)+6)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/shaolin/shulin9",
+  "dir": "south",
+  "raw": "__DIR__\"shulin\"+(random(8)+6)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/shaolin/shulin9",
+  "dir": "west",
+  "raw": "__DIR__\"shulin\"+(random(8)+6)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/shaolin/shulin9",
+  "dir": "north",
+  "raw": "__DIR__\"shulin\"+(random(8)+6)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/shaolin/bamboo8",
+  "dir": "west",
+  "raw": "__DIR__\"bamboo\"+(random(13)+1)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/shaolin/bamboo8",
+  "dir": "south",
+  "raw": "__DIR__\"bamboo\"+(random(13)+1)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/shaolin/bamboo8",
+  "dir": "north",
+  "raw": "__DIR__\"bamboo\"+(random(13)+1)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/shaolin/shulin12",
+  "dir": "east",
+  "raw": "__DIR__\"shulin\"+(random(8)+6)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/shaolin/shulin12",
+  "dir": "south",
+  "raw": "__DIR__\"shulin\"+(random(8)+6)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/shaolin/shulin12",
+  "dir": "west",
+  "raw": "__DIR__\"shulin\"+(random(8)+6)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/shaolin/shulin12",
+  "dir": "north",
+  "raw": "__DIR__\"shulin\"+(random(8)+6)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/shaolin/bamboo2",
+  "dir": "northeast",
+  "raw": "__DIR__\"bamboo\"+(random(13)+1)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/shaolin/bamboo2",
+  "dir": "northwest",
+  "raw": "__DIR__\"bamboo\"+(random(13)+1)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/shaolin/bamboo2",
+  "dir": "southwest",
+  "raw": "__DIR__\"bamboo\"+(random(13)+1)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/shaolin/bamboo11",
+  "dir": "east",
+  "raw": "__DIR__\"bamboo\"+(random(13)+1)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/shaolin/bamboo11",
+  "dir": "south",
+  "raw": "__DIR__\"bamboo\"+(random(13)+1)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/shaolin/bamboo11",
+  "dir": "north",
+  "raw": "__DIR__\"bamboo\"+(random(13)+1)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/shaolin/bamboo6",
+  "dir": "west",
+  "raw": "__DIR__\"bamboo\"+(random(13)+1)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/shaolin/bamboo6",
+  "dir": "south",
+  "raw": "__DIR__\"bamboo\"+(random(13)+1)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/shaolin/bamboo6",
+  "dir": "north",
+  "raw": "__DIR__\"bamboo\"+(random(13)+1)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/shaolin/shulin4",
+  "dir": "south",
+  "raw": "__DIR__\"shulin\"+(random(10)+2)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/shaolin/shulin4",
+  "dir": "west",
+  "raw": "__DIR__\"shulin\"+(random(10)+2)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/taihu/field",
+  "dir": "northeast",
+  "raw": "\"/d/forest/clforest1\",\n//\t\t\"west\"  : __DIR__\"yixing\"",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/xingxiu/chalu6",
+  "dir": "northwest",
+  "raw": "__DIR__\"chalu\"+(6+random(4))",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/xingxiu/chalu8",
+  "dir": "southeast",
+  "raw": "__DIR__\"chalu\"+(1+random(4))",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/xingxiu/chalu8",
+  "dir": "northwest",
+  "raw": "__DIR__\"chalu\"+(1+random(4))",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/xingxiu/chalu8",
+  "dir": "southwest",
+  "raw": "__DIR__\"chalu\"+(1+random(9))",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/xingxiu/nanjiang1",
+  "dir": "southeast",
+  "raw": "__FILE__",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/xingxiu/nanjiang1",
+  "dir": "northwest",
+  "raw": "__FILE__",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/xingxiu/nanjiang1",
+  "dir": "north",
+  "raw": "__FILE__",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/xingxiu/nanjiang1",
+  "dir": "west",
+  "raw": "__FILE__",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/xingxiu/nanjiang1",
+  "dir": "south",
+  "raw": "__FILE__",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/xingxiu/nanjiang1",
+  "dir": "east",
+  "raw": "__FILE__",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/xingxiu/shanlu3",
+  "dir": "east",
+  "raw": "__DIR__\"chalu\"+(6+random(4))",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/xingxiu/yinshan",
+  "dir": "eastdown",
+  "raw": "__DIR__\"shankou\",\n//            \"north\" : __DIR__\"tianroad2\"",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/xingxiu/shamo4",
+  "dir": "east",
+  "raw": "__FILE__",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/xingxiu/chalu11",
+  "dir": "east",
+  "raw": "__DIR__\"chalu\"+(1+random(10))",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/xingxiu/chalu11",
+  "dir": "northeast",
+  "raw": "__DIR__\"chalu\"+(1+random(10))",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/xingxiu/chalu11",
+  "dir": "southeast",
+  "raw": "__DIR__\"chalu\"+(1+random(10))",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/xingxiu/chalu11",
+  "dir": "northwest",
+  "raw": "__DIR__\"chalu\"+(1+random(10))",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/xingxiu/chalu11",
+  "dir": "southwest",
+  "raw": "__DIR__\"chalu\"+(1+random(10))",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/xingxiu/nanjiang",
+  "dir": "southeast",
+  "raw": "__FILE__",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/xingxiu/nanjiang",
+  "dir": "southwest",
+  "raw": "__FILE__",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/xingxiu/nanjiang",
+  "dir": "north",
+  "raw": "__FILE__",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/xingxiu/nanjiang",
+  "dir": "west",
+  "raw": "__FILE__",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/xingxiu/nanjiang",
+  "dir": "south",
+  "raw": "__FILE__",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/xingxiu/nanjiang",
+  "dir": "east",
+  "raw": "__FILE__",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/xingxiu/chalu5",
+  "dir": "southwest",
+  "raw": "__DIR__\"chalu\"+(1+random(10))",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/xingxiu/nanjiang2",
+  "dir": "southwest",
+  "raw": "__FILE__",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/xingxiu/nanjiang2",
+  "dir": "northwest",
+  "raw": "__FILE__",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/xingxiu/nanjiang2",
+  "dir": "north",
+  "raw": "__FILE__",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/xingxiu/nanjiang2",
+  "dir": "west",
+  "raw": "__FILE__",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/xingxiu/nanjiang2",
+  "dir": "south",
+  "raw": "__FILE__",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/xingxiu/nanjiang2",
+  "dir": "east",
+  "raw": "__FILE__",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/xingxiu/shamo3",
+  "dir": "east",
+  "raw": "__FILE__",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/xingxiu/chalu4",
+  "dir": "west",
+  "raw": "__DIR__\"chalu\"+(1+random(4))",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/xingxiu/chalu4",
+  "dir": "northwest",
+  "raw": "__DIR__\"chalu\"+(3+random(5))",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/xingxiu/chalu4",
+  "dir": "southwest",
+  "raw": "__DIR__\"chalu\"+(1+random(10))",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/xingxiu/nanjiang3",
+  "dir": "southeast",
+  "raw": "__FILE__",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/xingxiu/nanjiang3",
+  "dir": "southwest",
+  "raw": "__FILE__",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/xingxiu/nanjiang3",
+  "dir": "northwest",
+  "raw": "__FILE__",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/xingxiu/nanjiang3",
+  "dir": "north",
+  "raw": "__FILE__",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/xingxiu/nanjiang3",
+  "dir": "west",
+  "raw": "__FILE__",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/xingxiu/nanjiang3",
+  "dir": "south",
+  "raw": "__FILE__",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/xingxiu/nanjiang3",
+  "dir": "east",
+  "raw": "__FILE__",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/xingxiu/gcmaze2",
+  "dir": "out",
+  "raw": "__FILE__",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/xingxiu/gcmaze2",
+  "dir": "enter",
+  "raw": "__FILE__",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/xingxiu/shamo2",
+  "dir": "east",
+  "raw": "__FILE__",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/xingxiu/chalu7",
+  "dir": "northwest",
+  "raw": "__DIR__\"chalu\"+(1+random(4))",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/xingxiu/chalu9",
+  "dir": "northwest",
+  "raw": "__DIR__\"chalu\"+(1+random(10))",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/xingxiu/chalu3",
+  "dir": "west",
+  "raw": "__DIR__\"chalu\"+(1+random(4))",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/xingxiu/chalu3",
+  "dir": "northwest",
+  "raw": "__DIR__\"chalu\"+(3+random(5))",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/xingxiu/chalu3",
+  "dir": "southwest",
+  "raw": "__DIR__\"chalu\"+(1+random(5))",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/xingxiu/shamo1",
+  "dir": "east",
+  "raw": "__FILE__",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/xiakedao/xianliao",
+  "dir": "west",
+  "raw": "__DIR__\"yongdao5\",\n//\t\t\"east\" : __DIR__\"eproom\"",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/xiakedao/dadong",
+  "dir": "south",
+  "raw": "__DIR__\"yongdao3\",\n//\t\"enter\" : __DIR__\"yongdao10\"",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/dali/maze2",
+  "dir": "金",
+  "raw": "__FILE__",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/dali/maze2",
+  "dir": "木",
+  "raw": "__FILE__",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/dali/maze2",
+  "dir": "水",
+  "raw": "__FILE__",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/dali/maze2",
+  "dir": "火",
+  "raw": "__FILE__",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/dali/maze2",
+  "dir": "土",
+  "raw": "__FILE__",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/dali/wls9",
+  "dir": "southeast",
+  "raw": "__FILE__",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/dali/wls9",
+  "dir": "southwest",
+  "raw": "__FILE__",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/dali/wls9",
+  "dir": "northwest",
+  "raw": "__FILE__",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/dali/wls9",
+  "dir": "west",
+  "raw": "__FILE__",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/dali/wls1",
+  "dir": "northeast",
+  "raw": "__FILE__",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/dali/wls1",
+  "dir": "southwest",
+  "raw": "__FILE__",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/dali/wls1",
+  "dir": "northwest",
+  "raw": "__FILE__",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/dali/wls1",
+  "dir": "south",
+  "raw": "__FILE__",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/dali/wls1",
+  "dir": "north",
+  "raw": "__FILE__",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/dali/wls1",
+  "dir": "west",
+  "raw": "__FILE__",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/gaibang/ml2",
+  "dir": "east",
+  "raw": "__FILE__",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/gaibang/ml2",
+  "dir": "west",
+  "raw": "__FILE__",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/gaibang/ml6",
+  "dir": "east",
+  "raw": "__FILE__",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/gaibang/ml6",
+  "dir": "north",
+  "raw": "__FILE__",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/gaibang/ml1",
+  "dir": "west",
+  "raw": "__FILE__",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/gaibang/ml1",
+  "dir": "north",
+  "raw": "__FILE__",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/gaibang/ml5",
+  "dir": "west",
+  "raw": "__FILE__",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/gaibang/ml5",
+  "dir": "north",
+  "raw": "__FILE__",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/gaibang/ml4",
+  "dir": "east",
+  "raw": "__FILE__",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/gaibang/ml4",
+  "dir": "west",
+  "raw": "__FILE__",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/gaibang/undertre",
+  "dir": "up",
+  "raw": "__DIR__\"inhole\",\n//              \"down\":__DIR__\"chuchang\"",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/gaibang/ml3",
+  "dir": "east",
+  "raw": "__FILE__",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/gaibang/ml3",
+  "dir": "north",
+  "raw": "__FILE__",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/gaibang/ml7",
+  "dir": "east",
+  "raw": "__FILE__",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/gaibang/ml7",
+  "dir": "west",
+  "raw": "__FILE__",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/bwdh/sjsz/kantai_w1",
+  "dir": "south",
+  "raw": "__DIR__\"kantai_w3\",\n//        \"east\"  : __DIR__\"west_xiangfa",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/bwdh/sjsz/east_xiangfang",
+  "dir": "up",
+  "raw": "__DIR__\"wizroom\",\n\t\t  //\"east\" : __DIR__\"kantai_e1\"",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/bwdh/sjsz/wizroom",
+  "dir": "square",
+  "raw": "__DIR__\"square\",\n        //\"skantai\" : __DIR__\"kantai_s\",\n  ",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/bwdh/sjsz/wizroom",
+  "dir": "center",
+  "raw": "__DIR__\"room_28\",\n        //\"dc\"  : __DIR__\"gamble_room\"",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/bwdh/sjsz/kantai_e1",
+  "dir": "south",
+  "raw": "__DIR__\"kantai_e3\",\n//        \"west\"  : __DIR__\"east_xiangfa",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/bwdh/sjsz/west_xiangfang",
+  "dir": "up",
+  "raw": "__DIR__\"wizroom\",\n//        \"west\" : __DIR__\"kantai_w1\"",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/bwdh/sjsz2/kantai_w1",
+  "dir": "south",
+  "raw": "__DIR__\"kantai_w3\",\n//        \"east\"  : __DIR__\"west_xiangfa",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/bwdh/sjsz2/east_xiangfang",
+  "dir": "up",
+  "raw": "__DIR__\"wizroom\",\n\t\t  //\"east\" : __DIR__\"kantai_e1\"",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/bwdh/sjsz2/wizroom",
+  "dir": "square",
+  "raw": "__DIR__\"square\",\n        //\"skantai\" : __DIR__\"kantai_s\",\n  ",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/bwdh/sjsz2/wizroom",
+  "dir": "center",
+  "raw": "__DIR__\"room_28\",\n        //\"dc\"  : __DIR__\"gamble_room\"",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/bwdh/sjsz2/kantai_e1",
+  "dir": "south",
+  "raw": "__DIR__\"kantai_e3\",\n//        \"west\"  : __DIR__\"east_xiangfa",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/bwdh/sjsz2/west_xiangfang",
+  "dir": "up",
+  "raw": "__DIR__\"wizroom\",\n//        \"west\" : __DIR__\"kantai_w1\"",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/bwdh/sjsz3/kantai_w1",
+  "dir": "south",
+  "raw": "__DIR__\"kantai_w3\",\n//        \"east\"  : __DIR__\"west_xiangfa",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/bwdh/sjsz3/east_xiangfang",
+  "dir": "up",
+  "raw": "__DIR__\"wizroom\",\n\t\t  //\"east\" : __DIR__\"kantai_e1\"",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/bwdh/sjsz3/wizroom",
+  "dir": "square",
+  "raw": "__DIR__\"square\",\n        //\"skantai\" : __DIR__\"kantai_s\",\n  ",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/bwdh/sjsz3/wizroom",
+  "dir": "center",
+  "raw": "__DIR__\"room_28\",\n        //\"dc\"  : __DIR__\"gamble_room\"",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/bwdh/sjsz3/kantai_e1",
+  "dir": "south",
+  "raw": "__DIR__\"kantai_e3\",\n//        \"west\"  : __DIR__\"east_xiangfa",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/bwdh/sjsz3/west_xiangfang",
+  "dir": "up",
+  "raw": "__DIR__\"wizroom\",\n//        \"west\" : __DIR__\"kantai_w1\"",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/taohua/maze/maze6",
+  "dir": "west",
+  "raw": "__DIR__\"maze44\",\n//\t\t\"north\" : __DIR__\"\"",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/taohua/maze/maze2",
+  "dir": "east",
+  "raw": "__DIR__\"maze15\",\n//\t\t\"south\" : __DIR__\"\"",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/taohua/maze/maze19",
+  "dir": "east",
+  "raw": "__DIR__\"maze24\",\n//\t\t\"south\" : __DIR__\"\"",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/taohua/maze/maze13",
+  "dir": "west",
+  "raw": "__DIR__\"maze6\",\n//\t\t\"north\" : __DIR__\"\"",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/taohua/maze/maze36",
+  "dir": "east",
+  "raw": "__DIR__\"\",\n//\t\t\"south\" : __DIR__\"\"",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/taohua/maze/maze26",
+  "dir": "south",
+  "raw": "__DIR__\"maze11\",\n//\t\t\"west\" : __DIR__\"\"",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/taohua/maze/maze43",
+  "dir": "south",
+  "raw": "__DIR__\"maze14\",\n//\t\t\"west\" : __DIR__\"\"",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/taohua/maze/maze14",
+  "dir": "south",
+  "raw": "__DIR__\"maze34\",\n//\t\t\"west\" : __DIR__\"\"",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/taohua/maze/maze5",
+  "dir": "south",
+  "raw": "__DIR__\"maze26\",\n//\t\t\"west\" : __DIR__\"\"",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/taohua/maze/maze1",
+  "dir": "south",
+  "raw": "__DIR__\"maze43\",\n//\t\t\"west\" : __DIR__\"\",\n//\t\t\"north\" : __DIR",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/taohua/maze/maze10",
+  "dir": "west",
+  "raw": "__DIR__\"maze33\",\n//\t\t\"north\" : __DIR__\"\"",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/taohua/maze/maze44",
+  "dir": "west",
+  "raw": "__DIR__\"maze25\",\n//\t\t\"north\" : __DIR__\"\"",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/taohua/maze/maze25",
+  "dir": "west",
+  "raw": "__DIR__\"maze10\",\n//\t\t\"north\" : __DIR__\"\"",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/taohua/maze/maze15",
+  "dir": "east",
+  "raw": "__DIR__\"maze19\",\n//\t\t\"south\" : __DIR__\"\"",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/taohua/maze/maze34",
+  "dir": "south",
+  "raw": "__DIR__\"maze9\",\n//\t\t\"west\" : __DIR__\"\"",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/taohua/maze/maze11",
+  "dir": "east",
+  "raw": "__DIR__\"maze2\",\n//\t\t\"south\" : __DIR__\"\",\n//\t\t\"west\" : __DIR_",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/taohua/maze/maze24",
+  "dir": "east",
+  "raw": "__DIR__\"maze46\",\n//\t\t\"south\" : __DIR__\"\"",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/taohua/maze/maze33",
+  "dir": "west",
+  "raw": "__DIR__\"maze12\",\n//\t\t\"north\" : __DIR__\"\"",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/taohua/maze/maze7",
+  "dir": "east",
+  "raw": "__DIR__\"maze36\",\n//\t\t\"south\" : __DIR__\"\"",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/taohua/maze/maze12",
+  "dir": "west",
+  "raw": "__DIR__\"maze1\",\n//\t\t\"north\" : __DIR__\"\"",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/taohua/maze/maze9",
+  "dir": "south",
+  "raw": "__DIR__\"maze5\",\n//\t\t\"west\" : __DIR__\"\"",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/taohua/maze/maze46",
+  "dir": "east",
+  "raw": "__DIR__\"maze7\",\n//\t\t\"south\" : __DIR__\"\"",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/quanzhou/yaopu/yaopu",
+  "dir": "north",
+  "raw": "\"__DIR__citong_w2\"",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/taohuacun/obj/home",
+  "dir": "out",
+  "raw": "out",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/taohuacun/obj/bed",
+  "dir": "out",
+  "raw": "this_object()->query(\"out\")",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/beijing/zijin/wumen",
+  "dir": "south",
+  "raw": "__DIR__\"duanmen\",\n/*        \"west\"  : __DIR__\"piandian2\",   ",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/beijing/east/andingmen",
+  "dir": "up",
+  "raw": "__DIR__\"andingmenlou\",\n//\t\"north\" : __DIR__\"ditan\"",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/clone/ship/seaboat2",
+  "dir": "down",
+  "raw": "__DIR__\"cabin\" + num",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/clone/ship/seaboat1",
+  "dir": "down",
+  "raw": "__DIR__\"cabin\" + num",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/clone/ship/cabin3",
+  "dir": "up",
+  "raw": "__DIR__\"seaboat\" + num",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/clone/ship/cabin2",
+  "dir": "up",
+  "raw": "__DIR__\"seaboat\" + num",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/clone/ship/seaboat3",
+  "dir": "down",
+  "raw": "__DIR__\"cabin\" + num",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/clone/ship/cabin1",
+  "dir": "up",
+  "raw": "__DIR__\"seaboat\" + num",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/kungfu/skill/bitao-xuangong/buzhen",
+  "dir": "east",
+  "raw": "file_name(env)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/kungfu/skill/bitao-xuangong/buzhen",
+  "dir": "south",
+  "raw": "file_name(env)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/kungfu/skill/bitao-xuangong/buzhen",
+  "dir": "west",
+  "raw": "file_name(env)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/kungfu/skill/bitao-xuangong/buzhen",
+  "dir": "north",
+  "raw": "file_name(env)",
+  "reason": "computed/unresolved exit"
+ },
+ {
+  "room_id": "/d/forest/sea1",
+  "dir": "west",
+  "target": "/d/forest/bank8",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/tianying/damen",
+  "dir": "south",
+  "target": "/d/tianying/unknown",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/tianying/dating1",
+  "dir": "south",
+  "target": "/d/tianying/zoulang",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/tianying/dating1",
+  "dir": "west",
+  "target": "/d/tianying/xiangfang",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/tianying/dating1",
+  "dir": "north",
+  "target": "/d/tianying/houting",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/kunlun/yushuquan",
+  "dir": "west",
+  "target": "/d/kunlun/????",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/kunlun/mj_center",
+  "dir": "out",
+  "target": "/u/zhangchi/workroom",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/kunlun/hanku",
+  "dir": "north",
+  "target": "/d/kunlun/?????",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/beijing/dadao_yongan_s",
+  "dir": "north",
+  "target": "/d/beijing/yonganmen",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/beijing/tianqiao",
+  "dir": "northeast",
+  "target": "/d/beijing/zhubaodian",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/beijing/gulou",
+  "dir": "south",
+  "target": "/d/beijing/dianmen",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/beijing/changanjie_e",
+  "dir": "southeast",
+  "target": "/d/beijing/huayuan",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/beijing/changanjie_w",
+  "dir": "southwest",
+  "target": "/d/beijing/yuefang",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/beijing/changanjie_w",
+  "dir": "southeast",
+  "target": "/d/beijing/qitang",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/beijing/chongwendajie",
+  "dir": "northeast",
+  "target": "/d/beijing/tianshuijing",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/beijing/chaoyangdajie",
+  "dir": "west",
+  "target": "/d/beijing/jingshan",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/beijing/zhengyangdajie",
+  "dir": "north",
+  "target": "/d/beijing/zhengyangmen",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/beijing/fuchengdajie",
+  "dir": "east",
+  "target": "/d/beijing/beihai",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/beijing/huoshenmiao",
+  "dir": "out",
+  "target": "/d/beijing/jingshan",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/beijing/changanjie",
+  "dir": "south",
+  "target": "/d/beijing/zhengyangmen",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/city/tianshan",
+  "dir": "east",
+  "target": "/d/city/road2",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/city/shaolin",
+  "dir": "east",
+  "target": "/d/city/road8",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/city/quanzhou",
+  "dir": "west",
+  "target": "/d/city/road10",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/city/shenlong",
+  "dir": "west",
+  "target": "/d/city/road7",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/city/seforest2",
+  "dir": "east",
+  "target": "/d/jiaxing/qzroad3",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/city/seforest2",
+  "dir": "north",
+  "target": "/d/huanghe/changle/damen",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/city/damo",
+  "dir": "east",
+  "target": "/d/city/road1",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/city/xinsu",
+  "dir": "east",
+  "target": "/d/city/road4",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/shenlong/shulin1",
+  "dir": "west",
+  "target": "/d/shenlong/tiandi2",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/shenlong/hechuan",
+  "dir": "out",
+  "target": "/d/forest/bank2",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/shenlong/shulin2",
+  "dir": "west",
+  "target": "/d/shenlong/yutang",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/shenlong/ship",
+  "dir": "down",
+  "target": "/d/shenlong/cabin",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/shenlong/shangang",
+  "dir": "westdown",
+  "target": "/d/shenlong/tiandi4",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/dongtinghu/yaopu",
+  "dir": "out",
+  "target": "/d/dongtinghu/huapu",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/emei/secret_path4",
+  "dir": "down",
+  "target": "/d/emei/cliffpool",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/village/hsstreet1",
+  "dir": "west",
+  "target": "/d/village/d/village/eexit",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/village/hsstreet1",
+  "dir": "east",
+  "target": "/d/village/hsstreet2",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/quanzhou/shanlu10",
+  "dir": "north",
+  "target": "/d/quanzhou/square",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/hangzhou/forest",
+  "dir": "northwest",
+  "target": "/d/hangzhou/forest5",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/hangzhou/forest",
+  "dir": "south",
+  "target": "/d/hangzhou/forest2",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/hangzhou/forest",
+  "dir": "east",
+  "target": "/d/hangzhou/forest3",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/hangzhou/field",
+  "dir": "north",
+  "target": "/d/wudang/wdroad1",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/em/secret_path4",
+  "dir": "down",
+  "target": "/d/em/cliffpool",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/em/daxiong",
+  "dir": "south",
+  "target": "/d/em/hz_back",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/em/pan14",
+  "dir": "westup",
+  "target": "/d/em/pan13",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/em/pan12",
+  "dir": "northeast",
+  "target": "/d/em/pan13",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/baituo/dating",
+  "dir": "east",
+  "target": "/d/baituo/d/xingxiu/btyard",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/baituo/btroad",
+  "dir": "east",
+  "target": "/d/baituo/xxroad2",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/huangshan/tiandu1",
+  "dir": "up",
+  "target": "/d/huangshan/jiyubei",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/huangshan/template",
+  "dir": "east",
+  "target": "/d/huangshan/yuelang",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/huangshan/ciguang",
+  "dir": "south",
+  "target": "/d/huangshan/wengquan",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/xiangyang/aozhanga",
+  "dir": "westdown",
+  "target": "/d/xiangyang/dengcheng",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/xiangyang/sshuigua",
+  "dir": "west",
+  "target": "/d/xiangyang/shuixingtai",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/xiangyang/shuixing",
+  "dir": "east",
+  "target": "/d/xiangyang/sshuiguan",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/xiangyang/dengchen",
+  "dir": "eastup",
+  "target": "/d/xiangyang/aozhangang",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/qilian/underxs",
+  "dir": "up",
+  "target": "/d/qilian/d/xueshan/shanlu7",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/qilian/huanghe1",
+  "dir": "northeast",
+  "target": "/d/forest/huanghe1",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/qilian/luyeyuan",
+  "dir": "east",
+  "target": "/d/qilian/wangyou",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/qilian/beilu",
+  "dir": "eastdown",
+  "target": "/d/qilian/shanlu2",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/qilian/beilu",
+  "dir": "south",
+  "target": "/d/qilian/dshanlu",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/heimuya/cliff",
+  "dir": "enter",
+  "target": "/d/heimuya/basket",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/heimuya/blifftop",
+  "dir": "southeast",
+  "target": "/d/heimuya/pailou",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/heimuya/blifftop",
+  "dir": "enter",
+  "target": "/d/heimuya/basket",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/zhongnan/desert3",
+  "dir": "west",
+  "target": "/d/zhongnan/desert4",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/shaolin/shanlu",
+  "dir": "eastup",
+  "target": "/d/shaolin/pinglu",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/hengshan/chanshi",
+  "dir": "out",
+  "target": "/d/hengshan/annei",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/hengshan/hufengkou",
+  "dir": "northup",
+  "target": "/d/hengshan/wusean",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/hengshan/ciyaokou",
+  "dir": "westup",
+  "target": "/d/hengshan/wusean",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/hengshan/jingshi",
+  "dir": "east",
+  "target": "/d/hengshan/wusean",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/xingxiu/shashan",
+  "dir": "west",
+  "target": "/d/xingxiu/yueerquan",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/xingxiu/btbase",
+  "dir": "up",
+  "target": "/d/xingxiu/btroom",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/xingxiu/toutai",
+  "dir": "north",
+  "target": "/d/xingxiu/",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/xingxiu/toutai",
+  "dir": "south",
+  "target": "/d/xingxiu/",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/huashan/hsstreet1",
+  "dir": "west",
+  "target": "/d/huashan/d/village/eexit",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/huashan/yongdao3",
+  "dir": "out",
+  "target": "/d/huashan/cliff",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/xiakedao/shandong3",
+  "dir": "south",
+  "target": "/d/xiakedao/",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/xiakedao/dong",
+  "dir": "south",
+  "target": "/d/xiakedao/",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/xiakedao/shandong2",
+  "dir": "south",
+  "target": "/d/xiakedao/",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/xiakedao/wulinpu",
+  "dir": "south",
+  "target": "/d/xiakedao/",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/xiakedao/shandong1",
+  "dir": "south",
+  "target": "/d/xiakedao/",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/bwdh/square",
+  "dir": "1",
+  "target": "/d/bwdh/kantai1",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/bwdh/square",
+  "dir": "2",
+  "target": "/d/bwdh/kantai2",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/bwdh/square",
+  "dir": "3",
+  "target": "/d/bwdh/kantai3",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/bwdh/square",
+  "dir": "4",
+  "target": "/d/bwdh/kantai4",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/bwdh/square",
+  "dir": "5",
+  "target": "/d/bwdh/kantai5",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/bwdh/square",
+  "dir": "6",
+  "target": "/d/bwdh/kantai6",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/bwdh/square",
+  "dir": "7",
+  "target": "/d/bwdh/kantai7",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/bwdh/square",
+  "dir": "8",
+  "target": "/d/bwdh/kantai8",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/bwdh/square",
+  "dir": "north",
+  "target": "/d/bwdh/sjsz2/gate",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/bwdh/square",
+  "dir": "south",
+  "target": "/d/bwdh/sjsz3/gate",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/dali/tlsgate",
+  "dir": "south",
+  "target": "/d/dali/diancang",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/gaibang/underem",
+  "dir": "up",
+  "target": "/d/gaibang/d/emei/shack",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/gaibang/inhole",
+  "dir": "out",
+  "target": "/d/gaibang/d/city/guangchang",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/gaibang/underxx",
+  "dir": "west",
+  "target": "/d/gaibang/d/xingxiu/silk4",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/gaibang/ml7",
+  "dir": "south",
+  "target": "/d/gaibang/d/city/dongmen",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/bwdh/sjsz2/square",
+  "dir": "out",
+  "target": "/d/bwdh/sjsz2/gate",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/bwdh/sjsz3/square",
+  "dir": "out",
+  "target": "/d/bwdh/sjsz3/gate",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/xiakedao/npc/yongdao2",
+  "dir": "north",
+  "target": "/d/xiakedao/npc/yongdao1",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/xiakedao/npc/yongdao2",
+  "dir": "south",
+  "target": "/d/xiakedao/npc/yongdao5",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/xiakedao/npc/yongdao2",
+  "dir": "east",
+  "target": "/d/xiakedao/npc/yingbin",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/xiakedao/npc/yongdao3",
+  "dir": "west",
+  "target": "/d/xiakedao/npc/yongdao1",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/xiakedao/npc/yongdao3",
+  "dir": "north",
+  "target": "/d/xiakedao/npc/dadong",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/huashan/oldrooms/square",
+  "dir": "north",
+  "target": "/d/huashan/oldrooms/yunu",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/huashan/oldrooms/shuyuan",
+  "dir": "west",
+  "target": "/d/huashan/oldrooms/donglang",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/huashan/oldrooms/liangong2",
+  "dir": "north",
+  "target": "/d/huashan/oldrooms/xilang",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/huashan/oldrooms/buwei1",
+  "dir": "east",
+  "target": "/d/huashan/oldrooms/donglang",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/huashan/oldrooms/buwei1",
+  "dir": "west",
+  "target": "/d/huashan/oldrooms/xilang",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/huashan/oldrooms/liangong1",
+  "dir": "north",
+  "target": "/d/huashan/oldrooms/donglang",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/huashan/oldrooms/chufang",
+  "dir": "east",
+  "target": "/d/huashan/oldrooms/xilang",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/xingxiu/npc/btshan",
+  "dir": "east",
+  "target": "/d/xingxiu/npc/shamo4",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/xingxiu/npc/btshan",
+  "dir": "west",
+  "target": "/d/xingxiu/npc/btshan1",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/taihu/gumu/damen",
+  "dir": "north",
+  "target": "/d/taihu/gumu/huating",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/taihu/gumu/damen",
+  "dir": "south",
+  "target": "/d/taihu/gumu/qianyuan",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/taihu/gumu/damen",
+  "dir": "east",
+  "target": "/d/taihu/gumu/shufang",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/taihu/gumu/sleeproom",
+  "dir": "north",
+  "target": "/d/taihu/gumu/huating",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/taihu/gumu/sleeproom",
+  "dir": "south",
+  "target": "/d/taihu/gumu/qianyuan",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/taihu/gumu/sleeproom",
+  "dir": "east",
+  "target": "/d/taihu/gumu/shufang",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/taihu/gumu/houtang",
+  "dir": "north",
+  "target": "/d/taihu/gumu/huating",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/taihu/gumu/houtang",
+  "dir": "south",
+  "target": "/d/taihu/gumu/qianyuan",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/taihu/gumu/houtang",
+  "dir": "east",
+  "target": "/d/taihu/gumu/shufang",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/taihu/gumu/houshan",
+  "dir": "south",
+  "target": "/d/taihu/gumu/shan",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/shaolin/npc/riverbank",
+  "dir": "northup",
+  "target": "/d/shaolin/npc/shanlu",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/shaolin/npc/riverbank",
+  "dir": "west",
+  "target": "/d/shaolin/npc/hanshui2",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/wudang/taoyuan/tyroad1",
+  "dir": "westup",
+  "target": "/d/wudang/taoyuan/guangchang",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/wudang/taoyuan/tyroad7",
+  "dir": "westdown",
+  "target": "/d/wudang/taoyuan/tyroad8",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/taohua/maze/maze13",
+  "dir": "east",
+  "target": "/d/taohua/maze/",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/taohua/maze/maze22",
+  "dir": "east",
+  "target": "/d/taohua/maze/",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/taohua/maze/maze49",
+  "dir": "east",
+  "target": "/d/taohua/maze/",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/taohua/maze/maze30",
+  "dir": "east",
+  "target": "/d/taohua/maze/",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/taohua/maze/maze55",
+  "dir": "east",
+  "target": "/d/taohua/maze/",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/taohua/maze/maze37",
+  "dir": "east",
+  "target": "/d/taohua/maze/",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/taohua/maze/maze63",
+  "dir": "east",
+  "target": "/d/taohua/maze/",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/em/obj/tomb",
+  "dir": "south",
+  "target": "/d/em/obj/grassland",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/em/obj/tomb",
+  "dir": "east",
+  "target": "/d/em/obj/tombpath",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/em/npc/obj/tomb",
+  "dir": "south",
+  "target": "/d/em/npc/obj/grassland",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/em/npc/obj/tomb",
+  "dir": "east",
+  "target": "/d/em/npc/obj/tombpath",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/quanzhou/biwudahui/enyuan",
+  "dir": "south",
+  "target": "/d/quanzhou/biwudahui/citong_e2",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/jiaxing/obj/dilao",
+  "dir": "out",
+  "target": "/d/jiaxing/obj/workroom",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/jiaxing/pig/gong",
+  "dir": "gb",
+  "target": "/d/city/gbxiaowu",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/jiaxing/npc/obj/dilao",
+  "dir": "out",
+  "target": "/d/jiaxing/npc/obj/workroom",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/emei/obj/tomb",
+  "dir": "south",
+  "target": "/d/emei/obj/grassland",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/emei/obj/tomb",
+  "dir": "east",
+  "target": "/d/emei/obj/tombpath",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/emei/npc/obj/tomb",
+  "dir": "south",
+  "target": "/d/emei/npc/obj/grassland",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/emei/npc/obj/tomb",
+  "dir": "east",
+  "target": "/d/emei/npc/obj/tombpath",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/beijing/zijin/yushanfa",
+  "dir": "north",
+  "target": "/d/beijing/zijin/yangxind",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/beijing/zijin/shunzhme",
+  "dir": "north",
+  "target": "/d/beijing/zijin/shenwume",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/beijing/zijin/shunzhme",
+  "dir": "south",
+  "target": "/d/beijing/zijin/yuhuayua",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/beijing/east/wangfudajie3",
+  "dir": "southwest",
+  "target": "/d/beijing/zijincheng/dongchangan",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/beijing/east/yumadamen",
+  "dir": "southwest",
+  "target": "/d/beijing/zijincheng/donghuamen",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/beijing/west/chengqiang8",
+  "dir": "east",
+  "target": "/d/beijing/west/zuoanmenlou",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/beijing/west/yonganmen",
+  "dir": "east",
+  "target": "/d/beijing/west/tulu_yaza1",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/beijing/west/yonganmen",
+  "dir": "west",
+  "target": "/d/beijing/west/tulu_yaya1",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/beijing/west/yonganmen",
+  "dir": "south",
+  "target": "/d/beijing/west/dadao_yas1",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/kunlun/obj/moli",
+  "dir": "south",
+  "target": "/d/kunlun/obj/suibei",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/kunlun/obj/szchang",
+  "dir": "west",
+  "target": "/d/kunlun/obj/shanlu33",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/d/kunlun/obj/szchang",
+  "dir": "north",
+  "target": "/d/kunlun/obj/hqku",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/adm/register/reg_room",
+  "dir": "north",
+  "target": "/adm/guild/meetingroom",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/clone/misc/qiyuan2",
+  "dir": "east",
+  "target": "/clone/misc/qiyuan1",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/clone/drug/fengdong",
+  "dir": "out",
+  "target": "/clone/drug/shanlu18",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/u/ryu/workroom",
+  "dir": "wr",
+  "target": "/d/wizard/meeting_room",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/u/ryu/workroom",
+  "dir": "lyu",
+  "target": "/u/lyu/workroom",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/u/ryu/workroom",
+  "dir": "kane",
+  "target": "/u/kane/workroom",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/u/ryu/workroom",
+  "dir": "xbc",
+  "target": "/u/xbc/workroom",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/u/ryu/workroom",
+  "dir": "ssy",
+  "target": "/u/ssy/workroom",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/u/ryu/workroom",
+  "dir": "rover",
+  "target": "/u/rover/workroom",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/u/ryu/workroom",
+  "dir": "marz",
+  "target": "/u/marz/workroom",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/u/ryu/workroom",
+  "dir": "long",
+  "target": "/u/long/workroom",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/u/ryu/workroom",
+  "dir": "chu",
+  "target": "/u/chu/workroom",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/u/ryu/workroom",
+  "dir": "mgl",
+  "target": "/u/mongol/workroom",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/u/ryu/workroom",
+  "dir": "ox",
+  "target": "/u/oyxb/workroom",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/u/ryu/workroom",
+  "dir": "dg",
+  "target": "/u/ding/workroom",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/u/ryu/workroom",
+  "dir": "enter",
+  "target": "/u/ryu/room2",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/u/ryu/workroom",
+  "dir": "up",
+  "target": "/u/ryu/room3",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/u/arthurgu/workroom",
+  "dir": "lyu",
+  "target": "/u/lyu/workroom",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/u/arthurgu/workroom",
+  "dir": "kane",
+  "target": "/u/kane/workroom",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/u/arthurgu/workroom",
+  "dir": "xbc",
+  "target": "/u/xbc/workroom",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/u/arthurgu/workroom",
+  "dir": "rover",
+  "target": "/u/rover/workroom",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/u/arthurgu/workroom",
+  "dir": "marz",
+  "target": "/u/marz/workroom",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/u/arthurgu/workroom",
+  "dir": "mgl",
+  "target": "/u/mongol/workroom",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/u/arthurgu/workroom",
+  "dir": "ox",
+  "target": "/u/oyxb/workroom",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/u/arthurgu/workroom",
+  "dir": "dg",
+  "target": "/u/ding/workroom",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/u/arthurgu/workroom",
+  "dir": "chu",
+  "target": "/u/chu/workroom",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/u/arthurgu/workroom",
+  "dir": "ssy",
+  "target": "/u/ssy/workroom",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/u/xuy/workroom",
+  "dir": "leitai",
+  "target": "/u/xuy/bwdh/leitai",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/u/xuy/workroom",
+  "dir": "prog",
+  "target": "/d/wizard/meeting_room",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/u/sdong/workroom",
+  "dir": "wr",
+  "target": "/d/wizard/meeting_room",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/u/sdong/workroom",
+  "dir": "lyu",
+  "target": "/u/lyu/workroom",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/u/sdong/workroom",
+  "dir": "kane",
+  "target": "/u/kane/workroom",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/u/sdong/workroom",
+  "dir": "xbc",
+  "target": "/u/xbc/workroom",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/u/sdong/workroom",
+  "dir": "ssy",
+  "target": "/u/ssy/workroom",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/u/sdong/workroom",
+  "dir": "rover",
+  "target": "/u/rover/workroom",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/u/sdong/workroom",
+  "dir": "marz",
+  "target": "/u/marz/workroom",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/u/sdong/workroom",
+  "dir": "long",
+  "target": "/u/long/workroom",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/u/sdong/workroom",
+  "dir": "chu",
+  "target": "/u/chu/workroom",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/u/sdong/workroom",
+  "dir": "mgl",
+  "target": "/u/mongol/workroom",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/u/sdong/workroom",
+  "dir": "ox",
+  "target": "/u/oyxb/workroom",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/u/sdong/workroom",
+  "dir": "dg",
+  "target": "/u/ding/workroom",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/u/sdong/workroom",
+  "dir": "leitai",
+  "target": "/u/sdong/u/xuy/bwdh/leitai",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/u/sdong/workroom",
+  "dir": "up",
+  "target": "/u/sdong/library",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/u/qfy/workroom",
+  "dir": "kl",
+  "target": "/d/kunlun/wall5",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/u/qfy/workroom",
+  "dir": "wr",
+  "target": "/d/wizard/meeting_room",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/u/xqin/workroom",
+  "dir": "enter",
+  "target": "/u/xqin/direct",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/u/acep/workroom",
+  "dir": "lyu",
+  "target": "/u/lyu/workroom",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/u/acep/workroom",
+  "dir": "xbc",
+  "target": "/u/xbc/workroom",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/u/acep/workroom",
+  "dir": "rover",
+  "target": "/u/rover/workroom",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/u/acep/workroom",
+  "dir": "marz",
+  "target": "/u/marz/workroom",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/u/acep/workroom",
+  "dir": "mgl",
+  "target": "/u/mongol/workroom",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/u/aln/workroom",
+  "dir": "kl",
+  "target": "/d/kunlun/wall5",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/u/aln/workroom",
+  "dir": "wr",
+  "target": "/d/wizard/meeting_room",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/kungfu/class/baituo/btyard",
+  "dir": "eastdown",
+  "target": "/kungfu/class/baituo/btgate",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/kungfu/class/baituo/btyard",
+  "dir": "west",
+  "target": "/kungfu/class/baituo/btroom",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/kungfu/class/baituo/btyard",
+  "dir": "north",
+  "target": "/kungfu/class/baituo/btbarn",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/kungfu/class/baituo/btyard",
+  "dir": "south",
+  "target": "/kungfu/class/baituo/btkitchen",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/kungfu/class/gaibang/zhulin3",
+  "dir": "southeast",
+  "target": "/kungfu/class/gaibang/gbxiaowu",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/kungfu/class/gaibang/zhulin3",
+  "dir": "south",
+  "target": "/kungfu/class/gaibang/zhulin2",
+  "reason": "target room not in parsed set"
+ },
+ {
+  "room_id": "/kungfu/class/gaibang/zhulin3",
+  "dir": "west",
+  "target": "/kungfu/class/gaibang/zhulin1",
+  "reason": "target room not in parsed set"
+ }
+]

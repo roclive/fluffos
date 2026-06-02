@@ -1,0 +1,121 @@
+{
+  "_doc": "Authoritative FluffOS-text → state parse table for xkx2001 (侠客行). Every regex is derived from the live mudlib source (provenance in `src`). The gateway's parseFluffosText should STRIP ANSI escape codes first (\\u001b\\[[0-9;]*m), then split into lines and apply these. Replaces the generic heuristics that did not match this mudlib's real output.",
+  "_provenance_root": "run/ (mudlib, config name ES2-UTF8, telnet 5555, utf-8)",
+
+  "preprocess": {
+    "strip_ansi": "\\u001b\\[[0-9;]*m",
+    "note": "hp/score values are wrapped in ANSI color codes (HIC/HIG/HIY/YEL/HIR/RED). Strip them before matching numbers."
+  },
+
+  "status_line": {
+    "_src": "run/cmds/usr/hp.c:29-49 (command: hp)",
+    "_layout": "精：jing/ eff_jing (pct%)   精力：jingli / max_jingli (+jiajin) | 气：qi/ eff_qi (pct%)   内力：neili / max_neili (+jiali) | 食物 潜能 | 饮水 经验",
+    "fields": [
+      { "name": "jing", "regex": "精[:：]\\s*(\\d+)\\s*/\\s*(\\d+)\\s*\\((\\d+)%\\)",
+        "groups": ["jing_cur", "jing_eff_max", "jing_injury_pct"],
+        "map": { "jing": "g1", "jing_max": "g2" },
+        "note": "g3 = eff_jing*100/max_jing = 精的有效上限被打折程度（内伤指标），<100% 即受内伤。" },
+      { "name": "jingli", "regex": "精力[:：]\\s*(\\d+)\\s*/\\s*(\\d+)\\s*\\(\\+(\\d+)\\)",
+        "groups": ["jingli_cur", "jingli_max", "jiajin"],
+        "map": { "mp": "g1", "mp_max": "g2" },
+        "note": "精力=行动耐力，走路/动作消耗；jiajin=加劲。耗尽→busy/迟缓。" },
+      { "name": "qi", "regex": "气[:：]\\s*(\\d+)\\s*/\\s*(\\d+)\\s*\\((\\d+)%\\)",
+        "groups": ["qi_cur", "qi_eff_max", "qi_injury_pct"],
+        "map": { "hp": "g1", "hp_max": "g2" },
+        "note": "qi=主生命(承伤)。g1/g2=当前/有效上限(即时危险度)；g3=eff_qi*100/max_qi=有效上限折损(内伤)。" },
+      { "name": "neili", "regex": "内力[:：]\\s*(\\d+)\\s*/\\s*(\\d+)\\s*\\(\\+(\\d+)\\)",
+        "groups": ["neili_cur", "neili_max", "jiali"],
+        "map": { "neili": "g1", "neili_max": "g2" },
+        "note": "内力驱动招式/运功疗伤；jiali=加力。不足→高级招式不可用。" },
+      { "name": "food", "regex": "食物[:：]\\s*(\\d+)\\s*/\\s*(\\d+)", "map": { "food": "g1", "food_max": "g2" } },
+      { "name": "water", "regex": "饮水[:：]\\s*(\\d+)\\s*/\\s*(\\d+)", "map": { "water": "g1", "water_max": "g2" } },
+      { "name": "potential", "regex": "潜能[:：]\\s*(\\d+)\\s*/\\s*(\\d+)", "map": { "potential": "g1", "potential_max": "g2" } },
+      { "name": "combat_exp", "regex": "经验[:：]\\s*(\\d+)", "map": { "combat_exp": "g1" } }
+    ]
+  },
+
+  "thresholds": {
+    "_src": "run/cmds/usr/hp.c:53-65 (status_color) + run/inherit/char/char.c:115-136 (heart_beat death/flee)",
+    "_basis": "对 当前/有效上限 比例(percent = cur*100/max)。颜色档=危险档。",
+    "levels": [
+      { "state": "overcharged", "percent_gte": 101, "color": "HIC", "meaning": "超出上限(加成态)" },
+      { "state": "healthy", "percent_gte": 90, "color": "HIG" },
+      { "state": "ok", "percent_gte": 60, "color": "HIY" },
+      { "state": "caution", "percent_gte": 30, "color": "YEL", "agent_action": "可继续但留意，准备脱离" },
+      { "state": "danger", "percent_gte": 10, "color": "HIR", "agent_action": "低血：优先疗伤/撤离/防御，勿恋战" },
+      { "state": "critical", "percent_lt": 10, "color": "RED", "agent_action": "紧急：立刻 flee / 运功保命" }
+    ],
+    "death_rule": { "_src": "run/inherit/char/char.c:115", "cond": "qi<0 || jing<0 || jingli<0", "effect": "unconcious()→die()" },
+    "auto_flee_rule": { "_src": "run/inherit/char/char.c:130-135", "cond": "is_fighting && (qi% || jing% || jingli%) <= env/wimpy", "note": "NPC/玩家 wimpy 触发自动逃跑；agent 可主动设 set wimpy。" },
+    "internal_injury_rule": { "cond": "qi_injury_pct < 100 或 jing_injury_pct < 100", "state": "受内伤", "agent_action": "需静坐/疗伤恢复有效上限，单纯补气无效。" }
+  },
+
+  "room": {
+    "_src": "run/cmds/std/look.c:42-60 (command: look)",
+    "title": {
+      "regex": "^(.+?)\\s*-\\s*(\\S*)\\s*$",
+      "note": "格式 'short - filename'。非巫师 filename 为空，故标题行常是 'short - '（破折号后为空）。room 名取 g1；不要要求破折号后有内容（旧 parser 的 bug）。巫师视角 g2=room_id 文件名。"
+    },
+    "exits": [
+      { "case": "none", "regex": "这里没有任何明显的出路。", "exits": [] },
+      { "case": "one", "regex": "这里唯一的出口是\\s*(\\S+?)。", "exits_group": "g1" },
+      { "case": "many", "regex": "这里明显的出口是\\s*(.+?)。", "split": "[、和]", "note": "方向是英文/拼音 key：north/south/east/west/up/down/northeast/eastup/... 注意复合方向如 eastup。" }
+    ]
+  },
+
+  "messages": {
+    "_doc": "文案 → 标准状态枚举。命中即置对应 state/flag。",
+    "combat_enter": {
+      "state": "combat=true",
+      "patterns": [
+        { "re": "对著?.+?大吼，想杀死", "_src": "run/adm/daemons/combatd.c:42" },
+        { "re": "你(对|攻击|杀)", "_src": "kill/fight 发起" },
+        { "re": "(击中|打中|命中|劈中|踢中)" },
+        { "re": "(招架|挡格|格开)" },
+        { "re": "(闪避|闪身|躲开|避开)" },
+        { "re": "受(了|到).*?伤" }
+      ]
+    },
+    "combat_exit": {
+      "state": "combat=false",
+      "_note": "gateway 旧版只置 true 从不置 false——必须靠这些命中来清除。",
+      "patterns": [
+        { "re": ".+?被.+?死了。", "_src": "run/adm/daemons/combatd.c:937,1061", "effect": "对手或自己死亡→战斗结束" },
+        { "re": ".+?的尸体" },
+        { "re": "你逃跑失败。", "_src": "run/cmds/std/*:68", "effect": "仍在战斗(逃跑没成功)，不清 combat" , "negate": true },
+        { "re": "(你|.+?)(逃出|逃离|逃走|拔腿就跑)", "effect": "逃离成功→combat=false" },
+        { "re": "(战斗结束|杀死了|不再有敌)" }
+      ]
+    },
+    "coma": { "state": "disabled=coma", "patterns": [
+      { "re": "昏迷不醒", "_src": "run/inherit/char/char.c:121" },
+      { "re": "已经陷入半昏迷状态", "_src": "run/adm/daemons/combatd.c:195/275", "state": "disabled=half_coma" }
+    ]},
+    "busy": { "state": "busy=true", "patterns": [
+      { "re": "你(现在)?正?忙着呢。", "_src": "run/cmds/skill/*.c & inherit/char (is_busy)" },
+      { "re": "你上一个动作还没有完成", "_src": "run/cmds/skill/yun.c:16" }
+    ], "_clear_note": "busy 在该动作完成提示或下一条命令被接受后清除；无显式统一文案，建议命中 busy 后下一成功命令即清。" },
+    "blocked_action": { "state": "action_rejected", "patterns": [
+      { "re": "这里(禁止|不准)战斗。", "_src": "run/cmds/std/fight.c:13 / kill.c:17", "tag": "no_pk_zone" },
+      { "re": "你必须先(用 )?enable", "_src": "run/cmds/skill/perform.c:46", "tag": "need_enable_force", "hint": "先 enable <内功> 再施展特异功能" },
+      { "re": "你并不属于任何门派", "_src": "run/cmds/.../shou.c:38", "tag": "need_sect" },
+      { "re": "请放下兵刃|不得持兵刃上山", "_src": "run/d/shaolin/shanmen.c:57", "tag": "weapon_forbidden", "hint": "进少林需 unwield 兵器" },
+      { "re": "少林向不许女流擅入|不接待女客", "_src": "run/d/shaolin/shanmen.c:41-46", "tag": "gender_restricted" }
+    ]}
+  },
+
+  "actions": {
+    "_doc": "动态 available_actions 提示（命令语法，按本服务器实测）。",
+    "_src": "run/cmds/{std,skill}",
+    "move": "go <dir> | <dir>（north/south/east/west/up/down/northeast/.../eastup 复合方向直接当命令）",
+    "look": "look | l | look <obj> | look <npc>",
+    "status": "hp（精/气/精力/内力/食物/饮水/潜能/经验） | score | sc",
+    "inventory": "inventory | i",
+    "skills": "skills（查看已学武功）",
+    "combat": { "attack": "kill <target> | fight <target>（fight=切磋, kill=生死斗）", "flee": "flee", "exit_note": "禁战区会被 '这里禁止战斗' 拒绝" },
+    "internal": { "enable": "enable <内功>（施展内功特异功能前必须先 enable）", "exert": "exert <func>（运功：疗伤/恢复等）", "perform": "perform <skill> <target>", "dazuo": "dazuo（打坐补内力/恢复）", "yun": "yun <jing|qi|jingli>（运气恢复）" },
+    "learn": "learn <master> <skill> | 拜师相关（master NPC 见 npcs.json is_master/teaches）",
+    "shop": "buy <item> | sell <item> | list",
+    "money": "存取见钱庄(bank, inherit/room/bank.c)"
+  }
+}

@@ -723,8 +723,9 @@ function buildSystemPrompt(config: GatewayConfig): string {
 6) 探图时优先调用 get_known_routes()；有 commands 的路线用 execute_route_skill，有 directions 的路线再用 follow_path。
 7) 不要在命令序列里反复 look；只在当前位置未知、出口未知、或路线结束后需要校验时使用 look。
 8) 不要用 send_command 连续单发代替 execute_command_sequence；除非只需要一条信息命令。
-9) 若 wait_event 返回空，不要连续空调用，先等待。
+9) 普通观察调用 wait_event() 时不要传 timeoutMs，使用默认短等待；除非刚执行了明确需要长等待的动作，否则不要传 1000ms 这类长等待。
 10) 少林挑水任务优先读取 skill shaolin-water-carrying；执行时使用 shaolin_fzlou_accept_water_job / shaolin_chufang_prepare_water_tools / shaolin_chufang_to_riverbank_for_water_job / shaolin_water_fill_bucket_at_riverbank / shaolin_water_return_* / shaolin_chufang_finish_water_job。
+11) 长渡船、busy、挑水 yao/dao 等等待必须放进 execute_route_skill 的 per-step waitMs，不要用 wait_event 长等。
 `.trim();
 }
 
@@ -1080,18 +1081,20 @@ async function main() {
   const waitEventTool: Tool = {
     name: 'wait_event',
     label: 'wait_event',
-    description: '等待 MUD 服务器响应并返回事件列表。发送命令后必须调用此工具获取结果。',
+    description: '短等待 MUD 服务器响应并返回事件列表。普通观察不要传 timeoutMs；如传入也会被限制在50-250ms。长等待应交给execute_route_skill的per-step waitMs。',
     parameters: {
       type: 'object',
       properties: {
-        timeoutMs: { type: 'number', description: '等待时长(ms)，默认使用配置值' },
+        timeoutMs: { type: 'number', description: '短等待时长(ms)，默认150，实际范围50-250；普通观察不要传。' },
       },
     },
     execute: async (_id, params) => {
-      const timeoutMs = Number(params?.timeoutMs || config.agent.waitEventDefaultMs);
+      const requestedTimeoutMs = Number(params?.timeoutMs || config.agent.waitEventDefaultMs);
+      const timeoutMs = Math.max(50, Math.min(250, Number.isFinite(requestedTimeoutMs) ? requestedTimeoutMs : config.agent.waitEventDefaultMs));
       state.phase = 'WAIT';
-      console.log(`[Agent] wait_event ${timeoutMs}ms`);
-      broadcast({ type: 'log', data: `agent waiting ${timeoutMs}ms for MUD events` });
+      const clampedNote = requestedTimeoutMs !== timeoutMs ? ` (requested ${requestedTimeoutMs}ms clamped)` : '';
+      console.log(`[Agent] wait_event ${timeoutMs}ms${clampedNote}`);
+      broadcast({ type: 'log', data: `agent waiting ${timeoutMs}ms for MUD events${clampedNote}` });
       await sleep(timeoutMs);
 
       const events = [...state.eventQueue];

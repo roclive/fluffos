@@ -1,0 +1,138 @@
+{
+  "_meta": {
+    "note": "Quest catalog for xkx2001 (侠客行). Extracted/verified from live mudlib source under run/. Each quest lists giver, prerequisites (gated in source), the action sequence, fill/turn-in checks, rewards, failure modes, and the room route as area-relative hops. Where a step uses a RANDOM exit (set at create()) it is flagged 'random_exit' — those hops are NOT in the static map graph (see warnings.json) and the agent must probe at runtime.",
+    "verified_against": [
+      "run/d/shaolin/fzlou.c", "run/d/shaolin/chufang.c", "run/d/shaolin/riverbank.c",
+      "run/d/shaolin/npc/riverbank.c", "run/d/shaolin/obj/tong.c", "run/d/shaolin/npc/tiaoshui1.h",
+      "run/d/shaolin/npc/tiaoshui2.h", "run/d/shaolin/shanlu.c", "run/d/shaolin/houdian.c"
+    ]
+  },
+
+  "quests": [
+
+    {
+      "id": "shaolin_water_carrying",
+      "name": "少林挑水任务 (water-carrying)",
+      "type": "repeatable_chore",
+      "sect": "shaolin",
+      "purpose": "Low-level potential + combat_exp grind for shaolin disciples; the canonical 'first job' to teach the loop how to fill/carry/turn-in and walk a random-exit return path.",
+      "giver": {
+        "npc": "知客僧 (tiaoshui giver)",
+        "where": "/d/shaolin/fzlou (方丈楼/知客处)",
+        "verb": "ask <giver> about 挑水",
+        "src": "run/d/shaolin/npc/tiaoshui1.h ask_tiaoshui"
+      },
+      "prerequisites": {
+        "family": "弟子必须是 少林派 (query('family/family_name')=='少林派')",
+        "combat_exp_max": 500000,
+        "not_already_assigned": "query('job_asked')/job 未在身 (job_asked flag must be unset)",
+        "cooldown": "ts_pending 冷却未过则拒绝 (turn-in sets ts_pending)",
+        "src": "tiaoshui1.h: checks family, combat_exp<=500000, !job_asked, !ts_pending"
+      },
+      "on_accept": {
+        "sets": ["job_asked flag", "tiaoshui condition = 2000 + random(600) (time budget)"],
+        "src": "tiaoshui1.h apply_condition('tiaoshui', 2000+random(600))"
+      },
+      "tools": {
+        "object": "水桶 (shui tong)",
+        "path": "run/d/shaolin/obj/tong.c",
+        "obtained_at": "/d/shaolin/chufang (厨房)",
+        "verbs_on_tong": {
+          "tiao": "do_tiao — 挑起水桶 (carry on shoulder)",
+          "fang": "do_fang — 放下水桶 (must put down before 舀; sets tong_pos)",
+          "dao": "do_dao — 把瓢里的水倒进桶, water_level += from piao; water_level==5 => set('full',1)"
+        }
+      },
+      "fill_mechanism": {
+        "verb": "yao shui (舀水)",
+        "ONLY_works_at": ["/d/shaolin/riverbank", "/d/shaolin/npc/riverbank"],
+        "why": "The 'yao' verb is an add_action do_yao hardcoded in riverbank.c init(); it fills the 瓢 (piao) only if player has shaolin job_asked. Drop rate 1/100 (room) or 1/10 (npc variant).",
+        "src": "run/d/shaolin/riverbank.c do_yao; run/d/shaolin/npc/riverbank.c",
+        "fill_loop": "yao shui (repeat until piao full) -> dao (pour piao into tong) -> repeat until tong water_level==5 => tong becomes 'full'"
+      },
+      "back_hall_well_DEADEND": {
+        "question": "后殿内水井 (well in /d/shaolin/houdian) 是不是更近的取水点？",
+        "answer": "NO — 不可行的捷径。",
+        "reason": "houdian.c 仅 set('resource/water',1) 并在 long 描述里提到「佛心清水井」，但它 NO add_action('do_yao','yao')。'yao shui' 取水动作只在 riverbank.c / npc/riverbank.c 里硬编码。turn-in (tiaoshui2.h accept_object) 只检查桶的 query('full'），不检查取水地点；但 'full' 只能靠 dao 倒入由 yao 在河边灌满的 piao 得到。所以无论后殿水井多近，都无法在那里把桶灌满。河边取水 + 山路随机返回是强制路径。",
+        "src": "run/d/shaolin/houdian.c (no do_yao), run/d/shaolin/npc/tiaoshui2.h accept_object (only checks full)"
+      },
+      "turn_in": {
+        "npc": "挑水监督 (tiaoshui2)",
+        "verb": "give tong to <npc>  (交桶)",
+        "checks": [
+          "tong->query('full') == 1",
+          "player job_asked set",
+          "player has 'tiaoshui' condition (time budget not expired)",
+          "owner of tong matches turn-in player"
+        ],
+        "src": "run/d/shaolin/npc/tiaoshui2.h accept_object"
+      },
+      "rewards": {
+        "potential": "+ (reward_dest gives potential)",
+        "combat_exp": "+ small combat_exp",
+        "clears": ["job_asked", "tiaoshui condition"],
+        "sets": "ts_pending cooldown (prevents immediate re-take)",
+        "src": "tiaoshui2.h reward_dest"
+      },
+      "route_skills": {
+        "note": "Implemented as gateway route-skills under pi_mud_gateway/skills/shaolin-water-carrying/. See that SKILL.md.",
+        "ordered": [
+          "shaolin_fzlou_accept_water_job",
+          "shaolin_fzlou_to_chufang",
+          "shaolin_chufang_prepare_water_tools  (get tong; fang; ready to carry)",
+          "shaolin_chufang_to_riverbank_for_water_job",
+          "shaolin_water_fill_bucket_at_riverbank  (yao shui xN -> dao -> until full)",
+          "shaolin_water_return_riverbank_to_shanlu_probe",
+          "shaolin_water_return_shanlu_to_chufang_via_{up|westup|northwest|northup}  (RANDOM)",
+          "shaolin_chufang_finish_water_job  (give tong to monitor)"
+        ]
+      },
+      "random_exit_warning": {
+        "where": "/d/shaolin/shanlu (山路)",
+        "detail": "shanlu.c create() sets exits randomly: southdown->riverbank ALWAYS, plus ONE of {up|westup|northwest|northup}->shanlu1 chosen per-reset. valid_leave can slip/spill/break-bucket (~1/30)/fall. So the return leg is NOT a fixed graph path — agent must read exits each visit and pick the live one, and re-fill if the bucket spills.",
+        "src": "run/d/shaolin/shanlu.c"
+      },
+      "failure_modes": [
+        "tiaoshui condition expires (time budget 2000+random(600) ran out) -> turn-in rejected",
+        "bucket spills/breaks on shanlu (valid_leave ~1/30) -> water_level lost, must re-fill at riverbank",
+        "wrong fill location (e.g. tried 后殿水井) -> bucket never reaches 'full', turn-in impossible",
+        "combat_exp > 500000 -> giver refuses (overqualified)",
+        "not 少林派 family -> giver refuses"
+      ]
+    },
+
+    {
+      "id": "shaolin_apprentice_learn",
+      "name": "拜师学艺 (join sect + learn skills) — shaolin example",
+      "type": "progression",
+      "sect": "shaolin",
+      "purpose": "The core advancement loop: join a sect, then repeatedly find the right master and 'learn <master> <skill>' (and 'study'/practice) to raise skills, gated by potential, the student's combat_exp, sect membership, and 武学常识 (literate).",
+      "join": {
+        "verbs": ["bai <master>  (拜师 join sect)", "或 specific 入门 NPC"],
+        "effect": "sets family/family_name to the sect; unlocks sect masters' teaching",
+        "note": "Each sect has an entry master; for shaolin see masters.json sect=='shaolin' standing in /d/shaolin/."
+      },
+      "learn_loop": {
+        "find_master": "scripts/find_master.py --skill <skill_id> [--sect shaolin] [--from <here>]  -> master name, room, route",
+        "verb": "learn <master> <skill>   (反复 learn 直到提示需要更高 potential/常识)",
+        "raise": "study / lian <skill>  to convert potential into skill level; dazuo to raise neili first if a force skill",
+        "gates": [
+          "potential 足够 (learn 消耗潜能)",
+          "student combat_exp / skill prerequisite reached",
+          "literate (武学常识) >= 该武功可学等级闸门 (see attributes.md §5)",
+          "must be sect family member for sect-restricted skills"
+        ]
+      },
+      "data_sources": {
+        "masters": "data/masters.json (191 masters; 139 with fixed rooms). Fields: name, npc_id, sect, teaches[], combat_exp, room_id, room_short, area.",
+        "skills": "data/skills.json (skill_id -> types[]: force/sword/parry/dodge/blade/cuff/...)",
+        "note": "npc_id starting /kungfu/class/ is a master MIXIN (no fixed room); the concrete /d/<area>/npc/ NPC that inherits it carries the room. find_master shows both; route only the ones with a room_id."
+      },
+      "example_shaolin_masters": [
+        {"name": "清无比丘", "room": "广场 /d/shaolin/guangchang1e", "teaches_sample": ["force","luohan-quan","cibei-dao","shaolin-shenfa"], "exp": 20000},
+        {"name": "道成禅师", "room": "练武场 /d/shaolin/wuchang3", "teaches_sample": ["fengyun-shou","luohan-quan","force"], "exp": 50000}
+      ]
+    }
+
+  ]
+}
