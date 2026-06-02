@@ -54,13 +54,20 @@ type WorldSummary = {
   player: {
     id?: string;
     title?: string;
-    hp?: number;
-    hp_max?: number;
-    mp?: number;
-    mp_max?: number;
-    neili?: number;
-    jing?: number;
-    jing_max?: number;
+    hp?: number;        // 气 当前
+    hp_max?: number;    // 气 有效上限
+    hp_injury_pct?: number; // 气 有效上限/真上限 %，<100 表示内伤
+    mp?: number;        // 精力 当前
+    mp_max?: number;    // 精力 上限
+    neili?: number;     // 内力 当前
+    neili_max?: number; // 内力 上限
+    jing?: number;      // 精 当前
+    jing_max?: number;  // 精 有效上限
+    jing_injury_pct?: number;
+    food?: number;
+    water?: number;
+    potential?: number;
+    combat_exp?: number;
     busy: boolean;
     combat: boolean;
   };
@@ -526,8 +533,88 @@ async function loadConfig(): Promise<GatewayConfig> {
 // FluffOS text parser → WorldSummary
 // ---------------------------------------------------------------------------
 
+// 进战斗信号（任一命中 → 倾向 combat=true）
+const COMBAT_ENTER_RE: RegExp[] = [
+  /对著?.+?大吼，想杀死/, // combatd.c:42 发起攻击
+  /你(对|攻击|杀)/,        // kill/fight 发起
+  /(击中|打中|命中|劈中|踢中)/,
+  /(招架|挡格|格开)/,
+  /(闪避|闪身|躲开|避开)/,
+  /受(了|到).{0,6}伤/,
+];
+// 脱战斗信号（任一命中 → combat=false），优先级高于进战斗
+const COMBAT_EXIT_RE: RegExp[] = [
+  /.+?被.+?死了。/,            // 对手或自己死亡 → 战斗结束 (combatd.c:937,1061)
+  /.+?的尸体/,
+  /(你|.+?)(逃出|逃离|逃走|拔腿就跑)/, // 逃离成功
+  /(战斗结束|杀死了|不再有敌)/,
+];
+// 否定信号：逃跑失败 = 仍在战斗，不可清除 combat
+const COMBAT_EXIT_NEGATE_RE = /你逃跑失败。/;
+
+/**
+ * 战斗状态切换：脱战斗优先于进战斗。
+ * - 命中任一脱战斗模式（且非"逃跑失败"）→ combat=false
+ * - 否则命中任一进战斗模式，或"逃跑失败"（逃跑没成功，仍在打）→ combat=true
+ * - 都没命中 → 保持原状态（不会无故清除/置位）
+ */
+function updateCombatState(text: string) {
+  const exited = COMBAT_EXIT_RE.some((re) => re.test(text));
+  if (exited) {
+    state.world.player.combat = false;
+    return;
+  }
+  const failedFlee = COMBAT_EXIT_NEGATE_RE.test(text);
+  const entered = COMBAT_ENTER_RE.some((re) => re.test(text));
+  if (entered || failedFlee) {
+    state.world.player.combat = true;
+  }
+  // 否则维持现状
+}
+
+// hp 状态行解析（来源已对源码核对：run/cmds/usr/hp.c:29-49）
+// 真实布局：精/气 是 "当前/ 有效上限 (有效上限折损%)"；精力/内力 是 "当前 / 上限 (+加成)"。
+// 旧 gateway 用 "气血:N/N" 完全不匹配本服务器输出，导致感知失真——这里替换为 KB 校验过的正则。
+// 同步定义见 skills/xkx2001-knowledge/references/status-patterns.json
+const STATUS_RE = {
+  jing: /精[:：]\s*(\d+)\s*\/\s*(\d+)\s*\((\d+)%\)/,
+  jingli: /精力[:：]\s*(\d+)\s*\/\s*(\d+)\s*\(\+?\d+\)/,
+  qi: /气[:：]\s*(\d+)\s*\/\s*(\d+)\s*\((\d+)%\)/,
+  neili: /内力[:：]\s*(\d+)\s*\/\s*(\d+)\s*\(\+?\d+\)/,
+  food: /食物[:：]\s*(\d+)\s*\/\s*(\d+)/,
+  water: /饮水[:：]\s*(\d+)\s*\/\s*(\d+)/,
+  potential: /潜能[:：]\s*(\d+)\s*\/\s*(\d+)/,
+  combat_exp: /经验[:：]\s*(\d+)/,
+};
+
+function parseStatusLine(text: string) {
+  const p = state.world.player;
+  let m: RegExpMatchArray | null;
+  // 气 → hp（当前/有效上限），第三组=内伤%
+  if ((m = text.match(STATUS_RE.qi))) {
+    p.hp = Number(m[1]); p.hp_max = Number(m[2]); p.hp_injury_pct = Number(m[3]);
+  }
+  // 精 → jing，第三组=内伤%
+  if ((m = text.match(STATUS_RE.jing))) {
+    p.jing = Number(m[1]); p.jing_max = Number(m[2]); p.jing_injury_pct = Number(m[3]);
+  }
+  // 精力 → mp（行动耐力）
+  if ((m = text.match(STATUS_RE.jingli))) {
+    p.mp = Number(m[1]); p.mp_max = Number(m[2]);
+  }
+  // 内力
+  if ((m = text.match(STATUS_RE.neili))) {
+    p.neili = Number(m[1]); p.neili_max = Number(m[2]);
+  }
+  if ((m = text.match(STATUS_RE.food))) p.food = Number(m[1]);
+  if ((m = text.match(STATUS_RE.water))) p.water = Number(m[1]);
+  if ((m = text.match(STATUS_RE.potential))) p.potential = Number(m[1]);
+  if ((m = text.match(STATUS_RE.combat_exp))) p.combat_exp = Number(m[1]);
+}
+
 function parseFluffosText(raw: string) {
-  const text = raw.replace(/\r/g, '');
+  // 先剥离 ANSI 颜色码（hp/score 数值外包 HIC/HIG/HIY… 颜色，不剥离会破坏数字正则）
+  const text = raw.replace(/\r/g, '').replace(/\[[0-9;]*m/g, '');
   const lines = text.split('\n').map((s) => s.trim()).filter(Boolean);
 
   // 房间标题启发
@@ -554,25 +641,13 @@ function parseFluffosText(raw: string) {
     }
   }
 
-  // 战斗
-  if (/战斗|你对|你被|招架|闪避|躲开|击中/.test(text)) {
-    state.world.player.combat = true;
-  } else if (/战斗结束|胜利|失败|逃离/.test(text)) {
-    state.world.player.combat = false;
-  }
+  // 战斗状态机（combat 默认 false；进战斗/脱战斗都靠文案切换）
+  // 模式来源：skills/xkx2001-knowledge/references/status-patterns.json（已对 mudlib 源码核对）。
+  // 关键：脱战斗(死亡/逃离/结束)优先于进战斗——同一段文本里"你击中…对方被你打死了"应判定为脱战。
+  updateCombatState(text);
 
-  // HP
-  const hp = text.match(/(?:气血|HP)[:：]\s*(\d+)\s*\/\s*(\d+)/i);
-  if (hp) {
-    state.world.player.hp = Number(hp[1]);
-    state.world.player.hp_max = Number(hp[2]);
-  }
-
-  // MP / 内力
-  const mp = text.match(/(?:内力|MP|mana)[:：]\s*(\d+)\s*\/\s*(\d+)/i);
-  if (mp) {
-    state.world.player.neili = Number(mp[1]);
-  }
+  // 状态资源（精/气/精力/内力/食物/饮水/潜能/经验）——查 KB 校验过的正则
+  parseStatusLine(text);
 
   state.world.meta.tick += 1;
   state.world.meta.timestamp = Date.now();
