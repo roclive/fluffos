@@ -20,7 +20,10 @@ World ──────────►│ areas.json       │─────�
                                  │ teaches *                       │ has
                                  ▼                                 ▼
                               Skill(skills.json) ◄── learns ── Attributes(精/气/精力/内力…)
-                                 │ belongs_to                      │ in
+                                 │ has mechanics                   │ in
+                                 ▼                                 ▼
+                              SkillMechanics(skill_mechanics.json)
+                                 │ belongs_to
                                  ▼                                 ▼
                               Sect(门派) ◄────── member_of ── PlayerState(busy/combat/disabled)
 ```
@@ -72,6 +75,16 @@ World ──────────►│ areas.json       │─────�
 - 关系：Skill enabled_as usage（决定战斗角色）；Skill taught_by Master(见 npcs.teaches)；Skill belongs_to Sect。
 - 机制：学武耗 potential，受 悟性 与 武学常识 上限限制；兵器类需装备对应兵器，徒手退回拳脚；
   内功(force)是资源底座，需先 `enable` 才能施展特异功能。
+
+## 5.5 SkillMechanics 武功机制  (`data/skill_mechanics.json`)
+- 主键 `skill_id`，补充 `skills.json` 不承载的决策细节：`valid_learn.requirements[]`,
+  `practice.requirements[]`, `performs[]`, `action_unlocks[]`, `source_files[]`。
+- 来源：`scripts/build_kb.py` 从 skill 主文件与 `run/kungfu/skill/<skill_id>/*.c` perform 文件抽取常见条件，
+  少林核心技能再用手工校正覆盖关键门槛。
+- `skills.json` 是基础索引；`skill_mechanics.json` 才是“能不能学、怎么练、perform 需要什么”的依据。
+- **perform 与招式动作不同**：`query_action`/`query_skill_name` 中的招式名是普通出招动作或等级解锁；
+  `perform_action_file()` 指向的子目录文件才是主动绝招/perform。例：`shaolin-shenfa` 没有对应 perform
+  子目录，学到中高级只扩大 dodge 动作池，不提供主动 perform。
 
 ## 6. Sect 门派
 - 代码列表（`run/kungfu/class/`）：shaolin 武当wudang emei gaibang(丐帮) huashan quanzhen(全真)

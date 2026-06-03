@@ -8,7 +8,7 @@
  * 4. 保留全部 v2 特性：WorldSummary / AgentPhase / Checkpoint / 人类协作
  * 5. CompactMemory 本身的 token 消耗最小化（专用短 system prompt）
  * 6. 增加 fast_explore：LLM 暂停，每 150ms 按既定方向走一步，观察并累计停机原因，解决 LLM 决策间隔过长导致反复“决策-等待-决策”的浪费。
- * 7. 增加 execute_command_sequence：LLM 一次生成 4-5 条命令，Gateway TS 本地按 150ms 间隔执行。
+ * 7. 增加 execute_command_sequence：LLM 一次生成 2-3 条命令，Gateway TS 本地按 150ms 间隔执行。
  *
  * Token 模型：
  *   - 每 COMPACT_EVERY_TURNS 轮，session 被销毁重建
@@ -44,6 +44,27 @@ type Tool = {
   ) => Promise<{ content: Array<{ type: string; text: string }>; details?: any }>;
 };
 
+type AgentTraceKind = 'series' | 'tool' | 'kb' | 'ontology' | 'skill' | 'route' | 'command_sequence' | 'command' | 'observation' | 'state_machine';
+type AgentTracePhase = 'start' | 'progress' | 'end' | 'error';
+type AgentTraceStatus = 'ok' | 'error' | 'stopped' | 'blocked';
+
+type AgentTraceData = {
+  id: string;
+  turn: number;
+  seriesId: number;
+  ts: number;
+  phase: AgentTracePhase;
+  kind: AgentTraceKind;
+  name?: string;
+  toolCallId?: string;
+  input?: any;
+  outputSummary?: any;
+  keywords?: string[];
+  resources?: Array<{ type: 'kb' | 'ontology' | 'skill' | 'memory' | 'tool'; name: string; path?: string; query?: string }>;
+  durationMs?: number;
+  status?: AgentTraceStatus;
+};
+
 type WorldSummary = {
   meta: {
     server: 'fluffos';
@@ -65,8 +86,11 @@ type WorldSummary = {
     jing_max?: number;  // 精 有效上限
     jing_injury_pct?: number;
     food?: number;
+    food_max?: number;
     water?: number;
+    water_max?: number;
     potential?: number;
+    potential_max?: number;
     combat_exp?: number;
     busy: boolean;
     combat: boolean;
@@ -124,6 +148,39 @@ type RuntimeCheckpoint = {
   updated_at: number;
 };
 
+type PersistentMemory = {
+  version: 1;
+  agent_id: string;
+  updated_at: number;
+  turn: number;
+  summary: string;
+  last_world: {
+    player: Partial<WorldSummary['player']>;
+    location: WorldSummary['location'];
+  };
+  visited_rooms: Record<string, {
+    room_id?: string;
+    name: string;
+    area?: string;
+    exits: string[];
+    visits: number;
+    last_seen_turn: number;
+    last_seen_at: number;
+  }>;
+  known_npcs: Record<string, {
+    id?: string;
+    name: string;
+    room?: string;
+    attitude?: string;
+    last_seen_turn: number;
+    last_seen_at: number;
+  }>;
+  active_quests: WorldSummary['quests']['active'];
+  progress_loop?: Partial<ProgressLoopState>;
+  key_events: Array<{ turn: number; ts: number; text: string; type?: string }>;
+  notes: string[];
+};
+
 type GatewayConfig = {
   mud: {
     host: string;
@@ -146,6 +203,7 @@ type GatewayConfig = {
     fastExploreIntervalMs: number;
     compactEveryTurns: number; // 每多少 turn 重建一次 session
     compactKeepRecentEvents: number; // COMPACT 后保留的最近事件数
+    memoryPath: string; // 跨重启常时记忆
   };
   runtime: {
     clearInitialNoiseMs: number;
@@ -156,8 +214,9 @@ type GatewayConfig = {
 
 /** pi-coding-agent session 对象（库未导出 type 时用 any） */
 type AgentSession = any;
+type NativeToolTraceHandler = (event: any) => void;
 
-type RouteStep = string | { cmd: string; waitMs?: number };
+type RouteStep = string | { cmd: string; waitMs?: number; note?: string };
 
 type KnownRoute = {
   from: string;
@@ -168,6 +227,25 @@ type KnownRoute = {
   notes?: string;
 };
 
+type ProgressLoopMode = 'idle' | 'learn_then_water';
+
+type ProgressLoopState = {
+  active: boolean;
+  mode: ProgressLoopMode;
+  stage: string;
+  targetMaster: string;
+  targetSkill: string;
+  skillPlan: string[];
+  skillIndex: number;
+  learnTimes: number;
+  minPotential: number;
+  lastAction: string;
+  lastReason: string;
+  lastResult: string;
+  blockedSkills: Record<string, string>;
+  updatedAt: number;
+};
+
 // ---------------------------------------------------------------------------
 // Config defaults
 // ---------------------------------------------------------------------------
@@ -175,6 +253,26 @@ type KnownRoute = {
 const ROOT_DIR = path.dirname(new URL(import.meta.url).pathname);
 const CONFIG_PATH = path.resolve(ROOT_DIR, 'gateway.config.json');
 const SKILLS_DIR = path.resolve(ROOT_DIR, 'skills');
+const MEMORY_AGENT_ID = 'pi-mud-agent-v2.5';
+
+function createEmptyPersistentMemory(): PersistentMemory {
+  return {
+    version: 1,
+    agent_id: MEMORY_AGENT_ID,
+    updated_at: Date.now(),
+    turn: 1,
+    summary: '',
+    last_world: {
+      player: {},
+      location: { exits: [] },
+    },
+    visited_rooms: {},
+    known_npcs: {},
+    active_quests: [],
+    key_events: [],
+    notes: [],
+  };
+}
 
 const DEFAULT_CONFIG: GatewayConfig = {
   mud: { host: '127.0.0.1', port: 5555, encoding: 'utf-8' },
@@ -194,11 +292,12 @@ const DEFAULT_CONFIG: GatewayConfig = {
     fastExploreIntervalMs: 150,
     compactEveryTurns: 10,     // ← 核心：每 10 turn 重建 session
     compactKeepRecentEvents: 15,
+    memoryPath: './memory.json',
   },
   runtime: {
     clearInitialNoiseMs: 1800,
     monitorPort: 8099,
-    manualHoldMs: 10_000,
+    manualHoldMs: 1_500,
   },
 };
 
@@ -213,6 +312,46 @@ const state = {
   eventQueue: [] as Array<{ type: string; content: string; timestamp: number }>,
   pendingActions: [] as string[],
   memorySummary: '', // 跨 session 持久化的记忆摘要
+  agentSeriesId: 0,
+  traceSeq: 0,
+  recentTraces: [] as AgentTraceData[],
+  persistentMemory: createEmptyPersistentMemory(),
+  waterRoute: {
+    active: false,
+    routeName: '',
+    from: '',
+    to: '',
+    step: 0,
+    total: 0,
+    currentCmd: '',
+    expectedStage: '',
+    expectedCommand: '',
+    actualRoom: '',
+    actualExits: [] as string[],
+    deviation: '',
+    deviationKind: '',
+    recoveryHint: '',
+    recentActualRooms: [] as string[],
+    lastLine: '',
+    plannedCommands: [] as string[],
+    updatedAt: 0,
+  },
+  progressLoop: {
+    active: false,
+    mode: 'idle',
+    stage: 'idle',
+    targetMaster: 'qingshan biqiu',
+    targetSkill: '',
+    skillPlan: ['buddhism', 'literate', 'force', 'dodge', 'parry', 'cuff', 'blade', 'strike', 'sword'],
+    skillIndex: 0,
+    learnTimes: 10,
+    minPotential: 8,
+    lastAction: '',
+    lastReason: '',
+    lastResult: '',
+    blockedSkills: {} as Record<string, string>,
+    updatedAt: 0,
+  } as ProgressLoopState,
 
   world: {
     meta: { server: 'fluffos', mudlib: 'xkx2001', tick: 0, timestamp: Date.now() },
@@ -236,6 +375,10 @@ const collab = {
   manualUntil: 0,
   steeringPrompt: '',
   steeringUpdatedAt: 0,
+  oneShotPrompt: '',
+  oneShotPromptId: 0,
+  oneShotUpdatedAt: 0,
+  activeOneShotPromptId: 0,
 };
 
 // ---------------------------------------------------------------------------
@@ -343,6 +486,99 @@ const KNOWN_ROUTES: Record<string, KnownRoute> = {
     commands: ['south', 'south', 'southdown', 'south', 'west', 'north', 'north'],
     notes: '方丈楼 -> 练武场 -> 后殿 -> 精进场 -> 勤修场 -> 斋厅 -> 厨房。',
   },
+  shaolin_chufang_to_fzlou: {
+    from: '少林厨房 /d/shaolin/chufang',
+    to: '少林方丈楼 /d/shaolin/fzlou',
+    commands: ['south', 'south', 'east', 'north', 'northup', 'north', 'north'],
+    notes: '厨房 -> 斋厅 -> 勤修场 -> 精进场 -> 后殿 -> 练武场 -> 方丈楼，用于潜能不足时重新接挑水任务。',
+  },
+  shaolin_chufang_to_qingshan_biqiu: {
+    from: '少林厨房 /d/shaolin/chufang',
+    to: '清善比丘处 /d/shaolin/guangchang2',
+    commands: ['south', 'south', 'east', 'south'],
+    notes: '厨房到寺内广场，清善比丘在此。当前角色 master_id=qingshan biqiu 时可优先向他学习基础技能。',
+  },
+  shaolin_qingshan_biqiu_to_chufang: {
+    from: '清善比丘处 /d/shaolin/guangchang2',
+    to: '少林厨房 /d/shaolin/chufang',
+    commands: ['north', 'west', 'north', 'north'],
+    notes: '清善比丘处返回厨房，用于学完/潜能不足后转挑水。',
+  },
+  shaolin_fzlou_to_qingshan_biqiu: {
+    from: '少林方丈楼 /d/shaolin/fzlou',
+    to: '清善比丘处 /d/shaolin/guangchang2',
+    commands: ['south', 'south', 'southdown', 'south', 'south'],
+    notes: '方丈楼到清善比丘所在广场。',
+  },
+  shaolin_qingshan_biqiu_to_fzlou: {
+    from: '清善比丘处 /d/shaolin/guangchang2',
+    to: '少林方丈楼 /d/shaolin/fzlou',
+    commands: ['north', 'north', 'northup', 'north', 'north'],
+    notes: '清善比丘所在广场到方丈楼。',
+  },
+  shaolin_chufang_to_qingwu_biqiu: {
+    from: '少林厨房 /d/shaolin/chufang',
+    to: '清无比丘处 /d/shaolin/guangchang1e',
+    commands: [
+      'south', 'south', 'east', 'south',
+      'south', 'southdown', 'south',
+      { cmd: 'open gate', waitMs: 300, note: 'gate_special: 山门殿内开南门；下一步必须立刻 south。' },
+      'south', 'east',
+    ],
+    notes: '清无比丘在寺前广场东侧，可教 blade/force/dodge/parry/cuff/literate/buddhism 等低阶技能。',
+  },
+  shaolin_qingwu_biqiu_to_chufang: {
+    from: '清无比丘处 /d/shaolin/guangchang1e',
+    to: '少林厨房 /d/shaolin/chufang',
+    commands: [
+      'west',
+      { cmd: 'knock gate', waitMs: 300, note: 'gate_special: 寺前广场敲北门；下一步必须立刻 north。' },
+      'north', 'north', 'northup', 'north',
+      'north', 'west', 'north', 'north',
+    ],
+    notes: '清无比丘处回厨房。',
+  },
+  shaolin_qingshan_biqiu_to_qingwu_biqiu: {
+    from: '清善比丘处 /d/shaolin/guangchang2',
+    to: '清无比丘处 /d/shaolin/guangchang1e',
+    commands: [
+      'south', 'southdown', 'south',
+      { cmd: 'open gate', waitMs: 300, note: 'gate_special: 山门殿内开南门；下一步必须立刻 south。' },
+      'south', 'east',
+    ],
+    notes: '从寺内清善处出山门到清无处，常用于 blade 学习。',
+  },
+  shaolin_qingwu_biqiu_to_qingshan_biqiu: {
+    from: '清无比丘处 /d/shaolin/guangchang1e',
+    to: '清善比丘处 /d/shaolin/guangchang2',
+    commands: [
+      'west',
+      { cmd: 'knock gate', waitMs: 300, note: 'gate_special: 寺前广场敲北门；下一步必须立刻 north。' },
+      'north', 'north', 'northup', 'north',
+    ],
+    notes: '清无处回寺内清善处。',
+  },
+  shaolin_chufang_to_qingfa_biqiu: {
+    from: '少林厨房 /d/shaolin/chufang',
+    to: '清法比丘处 /d/shaolin/guangchang1',
+    commands: [
+      'south', 'south', 'east', 'south',
+      'south', 'southdown', 'south',
+      { cmd: 'open gate', waitMs: 300, note: 'gate_special: 山门殿内开南门；下一步必须立刻 south。' },
+      'south',
+    ],
+    notes: '清法比丘在寺前广场，可作为清善不能教时的低阶学习 fallback。',
+  },
+  shaolin_qingfa_biqiu_to_chufang: {
+    from: '清法比丘处 /d/shaolin/guangchang1',
+    to: '少林厨房 /d/shaolin/chufang',
+    commands: [
+      { cmd: 'knock gate', waitMs: 300, note: 'gate_special: 寺前广场敲北门；下一步必须立刻 north。' },
+      'north', 'north', 'northup', 'north',
+      'north', 'west', 'north', 'north',
+    ],
+    notes: '清法比丘处回厨房。',
+  },
   shaolin_chufang_prepare_water_tools: {
     from: '少林厨房 /d/shaolin/chufang',
     to: '已领取水桶和水瓢',
@@ -359,15 +595,15 @@ const KNOWN_ROUTES: Record<string, KnownRoute> = {
     commands: [
       'south', 'south', 'east',
       'south', 'south', 'southdown', 'south',
-      'open gate',
+      { cmd: 'open gate', waitMs: 300, note: 'gate_special: 山门殿内开南门；门10秒后会关，下一步必须立刻 south。' },
       'south',
       'south', 'southdown', 'southdown', 'southdown', 'westdown',
       'west', 'southdown', 'southdown', 'southdown', 'eastdown', 'southdown', 'southdown',
       'east', 'south', 'south', 'south',
       'west',
     ],
-    requirements: ['少林僧人可从正门出寺；若在寺外或门已关，open gate 失败通常不影响后续 south 尝试。'],
-    notes: '去河边不要走挑水山路；从正门下山到汉水北岸，再 west 到汉水岸边。',
+    requirements: ['少林僧人可从正门出寺；在山门殿必须 open gate 后迅速 south。'],
+    notes: '去河边不要走挑水山路；从正门下山到汉水北岸，再 west 到汉水岸边。gate special: 山门殿 open gate -> south。',
   },
   shaolin_water_fill_bucket_at_riverbank: {
     from: '汉水岸边 /d/shaolin/riverbank',
@@ -404,11 +640,11 @@ const KNOWN_ROUTES: Record<string, KnownRoute> = {
       'northeast', 'east',
       'northup', 'northup', 'westup', 'northup', 'northup', 'northup',
       'east', 'eastup', 'northup', 'northup', 'northup', 'north',
-      'knock gate', 'north',
+      { cmd: 'knock gate', waitMs: 300, note: 'gate_special: 寺前广场敲北门；门10秒后会关，下一步必须立刻 north。' }, 'north',
       'north', 'northup', 'north', 'north', 'west', 'north', 'north',
     ],
     requirements: ['当前山路出口包含 up', '少林僧人，携带满水桶。'],
-    notes: '回程上山可能摔倒或洒水；若水洒了，回河边重新 fill。',
+    notes: '回程上山可能摔倒或洒水；若水洒了，回河边重新 fill。gate special: 寺前广场 knock gate -> north。',
   },
   shaolin_water_return_shanlu_to_chufang_via_westup: {
     from: '挑水山路第一段 /d/shaolin/shanlu',
@@ -418,11 +654,11 @@ const KNOWN_ROUTES: Record<string, KnownRoute> = {
       'northeast', 'east',
       'northup', 'northup', 'westup', 'northup', 'northup', 'northup',
       'east', 'eastup', 'northup', 'northup', 'northup', 'north',
-      'knock gate', 'north',
+      { cmd: 'knock gate', waitMs: 300, note: 'gate_special: 寺前广场敲北门；门10秒后会关，下一步必须立刻 north。' }, 'north',
       'north', 'northup', 'north', 'north', 'west', 'north', 'north',
     ],
     requirements: ['当前山路出口包含 westup', '少林僧人，携带满水桶。'],
-    notes: '回程上山可能摔倒或洒水；若水洒了，回河边重新 fill。',
+    notes: '回程上山可能摔倒或洒水；若水洒了，回河边重新 fill。gate special: 寺前广场 knock gate -> north。',
   },
   shaolin_water_return_shanlu_to_chufang_via_northwest: {
     from: '挑水山路第一段 /d/shaolin/shanlu',
@@ -432,11 +668,11 @@ const KNOWN_ROUTES: Record<string, KnownRoute> = {
       'northeast', 'east',
       'northup', 'northup', 'westup', 'northup', 'northup', 'northup',
       'east', 'eastup', 'northup', 'northup', 'northup', 'north',
-      'knock gate', 'north',
+      { cmd: 'knock gate', waitMs: 300, note: 'gate_special: 寺前广场敲北门；门10秒后会关，下一步必须立刻 north。' }, 'north',
       'north', 'northup', 'north', 'north', 'west', 'north', 'north',
     ],
     requirements: ['当前山路出口包含 northwest', '少林僧人，携带满水桶。'],
-    notes: '回程上山可能摔倒或洒水；若水洒了，回河边重新 fill。',
+    notes: '回程上山可能摔倒或洒水；若水洒了，回河边重新 fill。gate special: 寺前广场 knock gate -> north。',
   },
   shaolin_chufang_finish_water_job: {
     from: '少林厨房 /d/shaolin/chufang',
@@ -484,6 +720,225 @@ function summarizeEvents(events: Array<{ type: string; content: string; timestam
   return events.slice(-limit).map((e) => e.content).join('\n');
 }
 
+function routeStepCommand(step: RouteStep) {
+  return typeof step === 'string' ? step : step.cmd;
+}
+
+function routeStepNote(step: RouteStep) {
+  return typeof step === 'string' ? '' : (step.note || '');
+}
+
+function commandSequenceWaitMs(cmd: string, defaultWaitMs: number) {
+  const c = cmd.trim().toLowerCase();
+  if (/^(yao|舀)\s+(shui|water|水)$/.test(c)) return Math.max(defaultWaitMs, 4_000);
+  if (/^(dao|倒)\s+(shui|water|水)\s+to\s+/.test(c)) return Math.max(defaultWaitMs, 3_500);
+  if (/^(putdown|fang|放)\s+/.test(c)) return Math.max(defaultWaitMs, 1_000);
+  if (/^(carry|tiao|挑)\s+/.test(c)) return Math.max(defaultWaitMs, 1_000);
+  return defaultWaitMs;
+}
+
+function isShaolinWaterRoute(name: string) {
+  return [
+    'shaolin_fzlou_accept_water_job',
+    'shaolin_fzlou_to_chufang',
+    'shaolin_chufang_prepare_water_tools',
+    'shaolin_chufang_to_riverbank_for_water_job',
+    'shaolin_water_fill_bucket_at_riverbank',
+    'shaolin_water_return_riverbank_to_shanlu_probe',
+    'shaolin_water_return_shanlu_to_chufang_via_up',
+    'shaolin_water_return_shanlu_to_chufang_via_westup',
+    'shaolin_water_return_shanlu_to_chufang_via_northwest',
+    'shaolin_chufang_finish_water_job',
+  ].includes(name);
+}
+
+function expectedWaterStage(routeName: string, stepNo: number, total: number, cmd: string) {
+  const c = cmd.trim().toLowerCase();
+  if (routeName === 'shaolin_chufang_to_riverbank_for_water_job') {
+    if (c === 'open gate') return { label: '山门殿内开南门', keywords: ['山门殿'] };
+    if (stepNo === 9 && c === 'south') return { label: '穿过南门到寺前广场', keywords: ['广场'] };
+    if (stepNo <= 3) return { label: '厨房到斋厅段', keywords: ['厨房', '斋厅', '饭厅'] };
+    if (stepNo >= total - 4) return { label: '汉水岸边方向', keywords: ['汉水', '河边', '少林寺'] };
+    return { label: '出寺下山段', keywords: [] as string[] };
+  }
+  if (routeName.startsWith('shaolin_water_return_shanlu_to_chufang')) {
+    if (c === 'knock gate') return { label: '寺前广场敲北门', keywords: ['广场'] };
+    if (c === 'north' && stepNo >= total - 8) return { label: '穿过北门入山门殿/寺内', keywords: ['山门殿', '台阶', '广场'] };
+    if (stepNo <= 3) return { label: '挑水山路随机段', keywords: ['山路', '小径'] };
+    if (stepNo >= total - 5) return { label: '寺内返回厨房段', keywords: ['厨房', '斋厅', '饭厅', '勤修场', '精进场'] };
+    return { label: '回寺上山段', keywords: [] as string[] };
+  }
+  if (routeName === 'shaolin_water_return_riverbank_to_shanlu_probe') {
+    return { label: '河边进入随机山路', keywords: ['山路'] };
+  }
+  if (routeName === 'shaolin_water_fill_bucket_at_riverbank') {
+    return { label: '汉水岸边打水', keywords: ['汉水', '河边'] };
+  }
+  if (routeName === 'shaolin_chufang_prepare_water_tools' || routeName === 'shaolin_chufang_finish_water_job') {
+    return { label: '少林厨房', keywords: ['厨房'] };
+  }
+  if (routeName === 'shaolin_fzlou_accept_water_job') {
+    return { label: '方丈楼接任务', keywords: ['方丈楼'] };
+  }
+  if (routeName === 'shaolin_fzlou_to_chufang') {
+    return { label: '寺内方丈楼到厨房', keywords: [] as string[] };
+  }
+  return { label: '', keywords: [] as string[] };
+}
+
+function waterRouteDeviation(expected: { label: string; keywords: string[] }, actualRoom: string) {
+  if (!expected.keywords.length || !actualRoom) return '';
+  return expected.keywords.some((k) => actualRoom.includes(k))
+    ? ''
+    : `route偏离: 期望 ${expected.label} (${expected.keywords.join('/')})，实际 ${actualRoom}`;
+}
+
+function classifyRouteDeviation(
+  routeName: string,
+  cmd: string,
+  expected: { label: string; keywords: string[] },
+  actualRoom: string,
+  events: Array<{ type: string; content: string; timestamp: number }>,
+  stopReason?: string | null,
+) {
+  const c = cmd.trim().toLowerCase();
+  const text = summarizeEvents(events, 20);
+  if (stopReason === 'manual_control_active') return 'manual_control_active';
+  if (stopReason === 'low_qi' || stopReason === 'low_jing') return stopReason;
+  if (/门|gate/.test(text) && /关|必须先|打不开|不能|没有门|阻|拦|挡/.test(text)) return 'gate_blocked';
+  if ((c === 'south' || c === 'north') && routeName.includes('shaolin') && stopReason === 'blocked_exit') return 'gate_blocked';
+  if (/正忙|busy|现在不能/.test(text) || stopReason === 'blocked_or_busy') return 'busy_or_blocked';
+  if (stopReason === 'blocked_exit') return 'blocked_exit';
+  if (waterRouteDeviation(expected, actualRoom)) return 'room_mismatch';
+  return '';
+}
+
+function routeRecoveryHint(
+  routeName: string,
+  cmd: string,
+  deviationKind: string,
+  actualRoom: string,
+  actualExits: string[],
+) {
+  const exits = actualExits.join('/');
+  const place = actualRoom || '当前位置未知';
+  if (!deviationKind) return '';
+  if (deviationKind === 'manual_control_active') return '人类刚输入了命令；等待约1.5秒后先 look/hp 重新定位，再继续最近的 route skill。';
+  if (deviationKind === 'low_qi') return '气太低；先 yun recover 或撤到安全地点，恢复后再继续挑水 route。';
+  if (deviationKind === 'low_jing') return '精太低；先 yun regenerate 或等待恢复，恢复后再继续挑水 route。';
+  if (deviationKind === 'busy_or_blocked') return '角色 busy 或被阻挡；下一轮先 wait_event/get_world_summary，必要时只用2-3条 execute_command_sequence 纠错。';
+  if (deviationKind === 'gate_blocked') {
+    if (place.includes('山门殿') || cmd.trim().toLowerCase() === 'south') {
+      return `当前在${place}，出寺应短序列执行 ["open gate", "south", "look"]。`;
+    }
+    if (place.includes('广场') || cmd.trim().toLowerCase() === 'north') {
+      return `当前在${place}，回寺应短序列执行 ["knock gate", "north", "look"]。`;
+    }
+    return `疑似山门 gate 阻塞，当前房间=${place} exits=${exits || '--'}；先 look，再按内侧 open gate/south 或外侧 knock gate/north 恢复。`;
+  }
+  if (deviationKind === 'room_mismatch') {
+    if (routeName === 'shaolin_water_fill_bucket_at_riverbank') {
+      return `打水 route 要在汉水岸边执行；当前=${place}，先重新导航到汉水岸边再 fill。`;
+    }
+    return `当前=${place} exits=${exits || '--'}；停止硬走，先 look 重新定位，再从最近稳定的少林挑水 route skill 接入。`;
+  }
+  if (deviationKind === 'blocked_exit') return `出口被阻塞，当前=${place} exits=${exits || '--'}；先 look 确认出口，再用短序列纠错。`;
+  return `route stopped=${deviationKind}；先 wait_event/get_world_summary 重新定位，再用短序列或最近 route skill 恢复。`;
+}
+
+function appendRecentWaterRoom(actualRoom: string) {
+  const rooms = state.waterRoute.recentActualRooms || [];
+  if (actualRoom && rooms[rooms.length - 1] !== actualRoom) {
+    rooms.push(actualRoom);
+  }
+  return rooms.slice(-8);
+}
+
+const PROGRESS_MASTER_BY_SKILL: Record<string, string> = {
+  buddhism: 'qingshan biqiu',
+  literate: 'qingshan biqiu',
+  force: 'qingshan biqiu',
+  dodge: 'qingshan biqiu',
+  parry: 'qingshan biqiu',
+  cuff: 'qingshan biqiu',
+  blade: 'qingwu biqiu',
+  strike: 'qingshan biqiu',
+  sword: 'qingshan biqiu',
+};
+
+const PROGRESS_MASTER_ROUTE_SUFFIX: Record<string, string> = {
+  'qingshan biqiu': 'qingshan_biqiu',
+  'qingwu biqiu': 'qingwu_biqiu',
+  'qingfa biqiu': 'qingfa_biqiu',
+};
+
+function progressRoomKey() {
+  const exits = new Set((state.world.location.exits || []).map(normalizeDirection));
+  const room = state.world.location.name || '';
+  if (room.includes('厨房')) return 'chufang';
+  if (room.includes('方丈楼')) return 'fzlou';
+  if (room.includes('汉水')) return 'riverbank';
+  if (room.includes('山路')) return 'shanlu';
+  if (room.includes('广场')) {
+    if (exits.has('northup') && exits.has('south') && exits.has('east') && exits.has('west')) return 'qingshan_biqiu';
+    if (exits.has('southdown') && exits.has('east') && exits.has('west')) return 'qingwu_biqiu';
+    if (exits.has('east') && exits.has('south') && exits.has('west')) return 'qingfa_biqiu';
+  }
+  return '';
+}
+
+function progressRouteName(fromKey: string, toKey: string) {
+  if (!fromKey || !toKey || fromKey === toKey) return '';
+  const direct = `shaolin_${fromKey}_to_${toKey}`;
+  return KNOWN_ROUTES[direct]?.commands?.length ? direct : '';
+}
+
+function progressLearnOutcome(events: Array<{ type: string; content: string; timestamp: number }>) {
+  const text = summarizeEvents(events, 20);
+  if (!text) return '';
+  if (/潜能不够/.test(text)) return 'potential_low';
+  if (/今天太累|过于疲倦|正忙/.test(text)) return 'needs_recovery';
+  if (/太客气|这怎么敢当|见笑|雕虫小技|受宠若惊/.test(text)) return 'not_apprentice_or_wrong_master';
+  if (/必须找别人学|不愿意教|程度已经不输|没有办法学习/.test(text)) return 'skill_blocked';
+  if (/有些心得|有所提高|请教有关/.test(text)) return 'learned';
+  return '';
+}
+
+function chooseProgressSkill(loop: ProgressLoopState) {
+  const plan = loop.skillPlan.length ? loop.skillPlan : ['buddhism', 'literate', 'force', 'dodge', 'parry', 'cuff', 'blade'];
+  for (let offset = 0; offset < plan.length; offset += 1) {
+    const idx = (loop.skillIndex + offset) % plan.length;
+    const skill = plan[idx];
+    if (!loop.blockedSkills[skill]) return { skill, index: idx };
+  }
+  return { skill: plan[0] || 'force', index: 0 };
+}
+
+function progressRecoveryCommands() {
+  const p = state.world.player;
+  const commands: string[] = [];
+  const foodLow = typeof p.food === 'number' && p.food < 80;
+  const waterLow = typeof p.water === 'number' && p.water < 80;
+  const jingLow = typeof p.jing === 'number' && typeof p.jing_max === 'number' && p.jing_max > 0 && p.jing / p.jing_max < 0.55;
+  const qiLow = typeof p.hp === 'number' && typeof p.hp_max === 'number' && p.hp_max > 0 && p.hp / p.hp_max < 0.7;
+
+  if (foodLow) commands.push('eat biji');
+  if (waterLow) commands.push('drink hulu');
+  if (jingLow && commands.length < 2) commands.push('yun regenerate');
+  if (qiLow && commands.length < 2) commands.push('yun recover');
+  if (commands.length < 2) commands.push('hp');
+  if (commands.length < 2) commands.push('skills');
+  return commands.slice(0, 3);
+}
+
+function updateProgressLoop(patch: Partial<ProgressLoopState>) {
+  state.progressLoop = {
+    ...state.progressLoop,
+    ...patch,
+    updatedAt: Date.now(),
+  };
+}
+
 function detectStopReason(events: Array<{ type: string; content: string; timestamp: number }>): string | null {
   const qi = state.world.player.hp;
   const qiMax = state.world.player.hp_max;
@@ -527,6 +982,176 @@ async function loadConfig(): Promise<GatewayConfig> {
   } catch {
     return DEFAULT_CONFIG;
   }
+}
+
+function memoryFilePath(config: GatewayConfig) {
+  return path.resolve(ROOT_DIR, config.agent.memoryPath || DEFAULT_CONFIG.agent.memoryPath);
+}
+
+function normalizePersistentMemory(raw: Partial<PersistentMemory> | null | undefined): PersistentMemory {
+  const base = createEmptyPersistentMemory();
+  if (!raw || typeof raw !== 'object') return base;
+  return {
+    ...base,
+    ...raw,
+    version: 1,
+    agent_id: raw.agent_id || MEMORY_AGENT_ID,
+    last_world: {
+      player: raw.last_world?.player || {},
+      location: {
+        ...(raw.last_world?.location || {}),
+        exits: Array.isArray(raw.last_world?.location?.exits) ? raw.last_world.location.exits : [],
+      },
+    },
+    visited_rooms: raw.visited_rooms && typeof raw.visited_rooms === 'object' ? raw.visited_rooms : {},
+    known_npcs: raw.known_npcs && typeof raw.known_npcs === 'object' ? raw.known_npcs : {},
+    active_quests: Array.isArray(raw.active_quests) ? raw.active_quests : [],
+    key_events: Array.isArray(raw.key_events) ? raw.key_events.slice(-80) : [],
+    notes: Array.isArray(raw.notes) ? raw.notes.slice(-30) : [],
+  };
+}
+
+async function loadPersistentMemory(config: GatewayConfig): Promise<PersistentMemory> {
+  try {
+    const raw = await fs.readFile(memoryFilePath(config), 'utf-8');
+    return normalizePersistentMemory(safeJsonParse<Partial<PersistentMemory> | null>(raw, null));
+  } catch {
+    return createEmptyPersistentMemory();
+  }
+}
+
+function roomMemoryKey(location: WorldSummary['location']) {
+  if (location.room_id) return location.room_id;
+  const name = location.name || '';
+  const area = location.area || '';
+  if (!name && !area) return '';
+  return `${area || 'unknown'}:${name || 'unknown'}`;
+}
+
+function isImportantMemoryEvent(text: string) {
+  return /任务|潜能|经验|学会|学习|拜|师父|师傅|水桶|水瓢|挑水|得到|获得|失去|死亡|昏迷|内伤|中毒|拦住|挡住|不愿意教|没有办法学习|必须找别人学|正忙|busy/i.test(text);
+}
+
+function summarizePersistentMemory(memory: PersistentMemory) {
+  const location = memory.last_world.location;
+  const room = [location.name, location.area].filter(Boolean).join(' / ') || '未知地点';
+  const p = memory.last_world.player || {};
+  const resources = [
+    typeof p.hp === 'number' && typeof p.hp_max === 'number' ? `气 ${p.hp}/${p.hp_max}` : '',
+    typeof p.jing === 'number' && typeof p.jing_max === 'number' ? `精 ${p.jing}/${p.jing_max}` : '',
+    typeof p.potential === 'number' ? `潜能 ${p.potential}` : '',
+    typeof p.combat_exp === 'number' ? `经验 ${p.combat_exp}` : '',
+  ].filter(Boolean).join('，');
+  const recentEvents = memory.key_events.slice(-5).map((e) => e.text.replace(/\s+/g, ' ').slice(0, 80));
+  const progress = memory.progress_loop?.active
+    ? `进度循环 ${memory.progress_loop.stage || 'active'}；目标 ${memory.progress_loop.targetSkill || memory.progress_loop.targetMaster || '未定'}`
+    : '';
+  return [
+    `当前位置：${room}${location.exits?.length ? `，出口 ${location.exits.join('/')}` : ''}`,
+    resources ? `角色状态：${resources}` : '',
+    `已记住房间：${Object.keys(memory.visited_rooms).length}；已记住NPC：${Object.keys(memory.known_npcs).length}`,
+    progress,
+    memory.active_quests.length ? `进行中任务：${memory.active_quests.map((q) => q.name || q.id || 'unknown').join('，')}` : '',
+    recentEvents.length ? `最近关键事件：${recentEvents.join('；')}` : '',
+  ].filter(Boolean).join('\n');
+}
+
+function mergePersistentMemoryFromWorld(events: Array<{ type?: string; content?: string; text?: string; timestamp?: number }> = []) {
+  const memory = state.persistentMemory;
+  const now = Date.now();
+  memory.updated_at = now;
+  memory.turn = state.turn;
+  memory.last_world = {
+    player: { ...state.world.player },
+    location: {
+      ...state.world.location,
+      exits: [...(state.world.location.exits || [])],
+    },
+  };
+  memory.active_quests = [...state.world.quests.active];
+  memory.progress_loop = {
+    active: state.progressLoop.active,
+    mode: state.progressLoop.mode,
+    stage: state.progressLoop.stage,
+    targetMaster: state.progressLoop.targetMaster,
+    targetSkill: state.progressLoop.targetSkill,
+    skillPlan: [...state.progressLoop.skillPlan],
+    skillIndex: state.progressLoop.skillIndex,
+    learnTimes: state.progressLoop.learnTimes,
+    minPotential: state.progressLoop.minPotential,
+    lastAction: state.progressLoop.lastAction,
+    lastReason: state.progressLoop.lastReason,
+    lastResult: state.progressLoop.lastResult,
+    blockedSkills: { ...state.progressLoop.blockedSkills },
+    updatedAt: state.progressLoop.updatedAt,
+  };
+
+  const key = roomMemoryKey(state.world.location);
+  if (key) {
+    const prev = memory.visited_rooms[key];
+    memory.visited_rooms[key] = {
+      room_id: state.world.location.room_id,
+      name: state.world.location.name || prev?.name || key,
+      area: state.world.location.area || prev?.area,
+      exits: [...new Set([...(prev?.exits || []), ...(state.world.location.exits || [])])],
+      visits: (prev?.visits || 0) + 1,
+      last_seen_turn: state.turn,
+      last_seen_at: now,
+    };
+  }
+
+  for (const npc of state.world.entities.npcs || []) {
+    const npcKey = npc.id || npc.name;
+    if (!npcKey) continue;
+    memory.known_npcs[npcKey] = {
+      id: npc.id,
+      name: npc.name,
+      room: key || state.world.location.name,
+      attitude: npc.attitude,
+      last_seen_turn: state.turn,
+      last_seen_at: now,
+    };
+  }
+
+  const candidateEvents: Array<{ type?: string; content?: string; text?: string; timestamp?: number }> = events.length
+    ? events
+    : state.world.events.recent.slice(-6).map((e) => ({ type: e.type, text: e.text, timestamp: e.timestamp }));
+  for (const e of candidateEvents) {
+    const text = String(e.content ?? e.text ?? '').trim();
+    if (!text || !isImportantMemoryEvent(text)) continue;
+    const duplicate = memory.key_events.slice(-12).some((prev) => prev.text === text);
+    if (duplicate) continue;
+    memory.key_events.push({
+      turn: state.turn,
+      ts: e.timestamp || now,
+      text: text.slice(0, 240),
+      type: e.type || 'text',
+    });
+  }
+  if (memory.key_events.length > 80) memory.key_events = memory.key_events.slice(-80);
+  memory.summary = summarizePersistentMemory(memory);
+}
+
+async function savePersistentMemory(config: GatewayConfig) {
+  mergePersistentMemoryFromWorld();
+  const p = memoryFilePath(config);
+  await fs.mkdir(path.dirname(p), { recursive: true });
+  await fs.writeFile(p, JSON.stringify(state.persistentMemory, null, 2), 'utf-8');
+}
+
+function formatPersistentMemoryForPrompt() {
+  mergePersistentMemoryFromWorld();
+  const memory = state.persistentMemory;
+  const recentRooms = Object.values(memory.visited_rooms)
+    .sort((a, b) => b.last_seen_at - a.last_seen_at)
+    .slice(0, 6)
+    .map((r) => `${r.name}${r.area ? `/${r.area}` : ''}${r.exits.length ? ` exits=${r.exits.join('/')}` : ''}`);
+  return [
+    '【常时记忆 memory.json】',
+    memory.summary || '暂无长期记忆。',
+    recentRooms.length ? `最近记住房间：${recentRooms.join('；')}` : '',
+    memory.notes.length ? `备注：${memory.notes.slice(-5).join('；')}` : '',
+  ].filter(Boolean).join('\n').slice(0, 1800);
 }
 
 // ---------------------------------------------------------------------------
@@ -606,9 +1231,15 @@ function parseStatusLine(text: string) {
   if ((m = text.match(STATUS_RE.neili))) {
     p.neili = Number(m[1]); p.neili_max = Number(m[2]);
   }
-  if ((m = text.match(STATUS_RE.food))) p.food = Number(m[1]);
-  if ((m = text.match(STATUS_RE.water))) p.water = Number(m[1]);
-  if ((m = text.match(STATUS_RE.potential))) p.potential = Number(m[1]);
+  if ((m = text.match(STATUS_RE.food))) {
+    p.food = Number(m[1]); p.food_max = Number(m[2]);
+  }
+  if ((m = text.match(STATUS_RE.water))) {
+    p.water = Number(m[1]); p.water_max = Number(m[2]);
+  }
+  if ((m = text.match(STATUS_RE.potential))) {
+    p.potential = Number(m[1]); p.potential_max = Number(m[2]);
+  }
   if ((m = text.match(STATUS_RE.combat_exp))) p.combat_exp = Number(m[1]);
 }
 
@@ -660,6 +1291,7 @@ function parseFluffosText(raw: string) {
   if (state.world.events.recent.length > MAX_EVENTS_IN_WORLD) {
     state.world.events.recent = state.world.events.recent.slice(-MAX_EVENTS_IN_WORLD);
   }
+  mergePersistentMemoryFromWorld(lines.map((line) => ({ type: 'text', text: line, timestamp: Date.now() })));
 }
 
 // ---------------------------------------------------------------------------
@@ -667,8 +1299,9 @@ function parseFluffosText(raw: string) {
 // ---------------------------------------------------------------------------
 
 async function saveCheckpoint(config: GatewayConfig) {
+  await savePersistentMemory(config);
   const cp: RuntimeCheckpoint = {
-    agent_id: 'pi-mud-agent-v2.5',
+    agent_id: MEMORY_AGENT_ID,
     phase: state.phase,
     turn: state.turn,
     world: {
@@ -752,6 +1385,11 @@ async function compactMemory(
     location: state.world.location,
     quests: state.world.quests,
     recentEvents: state.world.events.recent.slice(-10),
+    persistentMemory: {
+      summary: state.persistentMemory.summary,
+      keyEvents: state.persistentMemory.key_events.slice(-10),
+      progressLoop: state.persistentMemory.progress_loop,
+    },
   }, null, 2);
 
   let summary = '';
@@ -791,20 +1429,63 @@ function buildSystemPrompt(config: GatewayConfig): string {
 强制策略：
 1) 每回合先调用 wait_event() 或 get_world_summary() 观察环境。
 2) 若目标是跨区域移动或已知路线，先调用 get_known_routes()，再优先调用 execute_route_skill()，不要自己逐步推路。
-3) 普通局部行动回合才调用 execute_command_sequence()，一次提交 4-5 条命令，让 Gateway 本地循环快速执行。
+3) 普通局部行动或探索回合才调用 execute_command_sequence()，一次提交 2-3 条命令，让 Gateway 本地循环快速执行。
 3) 遇到战斗或低血（HP < 30%），优先保命：恢复/撤离/防御。
 4) 关键转折时调用 save_checkpoint()。
-5) 小步快跑策略：观察 → execute_route_skill 或 execute_command_sequence(4-5条) → 再观察。
+5) 小步快跑策略：观察 → 稳定 route 用 execute_route_skill；普通探索/局部行动用 execute_command_sequence(2-3条) → 再观察。
 6) 探图时优先调用 get_known_routes()；有 commands 的路线用 execute_route_skill，有 directions 的路线再用 follow_path。
 7) 不要在命令序列里反复 look；只在当前位置未知、出口未知、或路线结束后需要校验时使用 look。
 8) 不要用 send_command 连续单发代替 execute_command_sequence；除非只需要一条信息命令。
 9) 普通观察调用 wait_event() 时不要传 timeoutMs，使用默认短等待；除非刚执行了明确需要长等待的动作，否则不要传 1000ms 这类长等待。
 10) 少林挑水任务优先读取 skill shaolin-water-carrying；执行时使用 shaolin_fzlou_accept_water_job / shaolin_chufang_prepare_water_tools / shaolin_chufang_to_riverbank_for_water_job / shaolin_water_fill_bucket_at_riverbank / shaolin_water_return_* / shaolin_chufang_finish_water_job。
 11) 长渡船、busy、挑水 yao/dao 等等待必须放进 execute_route_skill 的 per-step waitMs，不要用 wait_event 长等。
+12) 若 execute_route_skill 返回 deviationKind/recoveryHint，立刻停止长路线；下一轮只允许用 execute_command_sequence 发送2-3条纠错命令，或重新进入最近的稳定 route skill。
+13) 山门特殊规则：寺内山门殿出寺使用 ["open gate","south","look"]；寺外广场回寺使用 ["knock gate","north","look"]。
+14) 若短纠错序列必须包含 yao shui / dao shui to shui tong，Gateway 会自动加长这些命令的等待；不要把五轮打水压成一条人工长字符串。
+15) 少林新手成长循环（吃喝恢复 -> 找清善/清无/清法学习 -> 潜能不足挑水 -> 回来继续学）优先调用 execute_progress_loop_step；不要让 LLM 自己长篇拼接 learn/tiaoshui 路线。
 `.trim();
 }
 
-async function createSession(config: GatewayConfig, tools: Tool[]): Promise<AgentSession> {
+function classifyNativeKnowledgeTool(toolName: string, args: any): {
+  kind: AgentTraceKind;
+  name: string;
+  keywords: string[];
+  resources: AgentTraceData['resources'];
+} | null {
+  const text = `${toolName}\n${JSON.stringify(args || {})}`;
+  const lower = text.toLowerCase();
+  const pathMatch = text.match(/(?:file|path|cwd|cmd|command|args)["'\s:=[\],]+([^"'\]\n]+(?:ONTOLOGY\.md|SKILL\.md|status-patterns\.json|route\.py|find_master\.py|build_kb\.py|skills\/xkx2001-knowledge\/data)[^"'\]\n]*)/i);
+  const matchedPath = pathMatch?.[1]?.trim();
+
+  if (lower.includes('ontology.md')) {
+    return {
+      kind: 'ontology',
+      name: 'ontology_lookup',
+      keywords: ['ontology', 'xkx2001'],
+      resources: [{ type: 'ontology', name: 'xkx2001 ontology', path: matchedPath || 'skills/xkx2001-knowledge/ONTOLOGY.md' }],
+    };
+  }
+  if (lower.includes('skills/xkx2001-knowledge/data') || lower.includes('status-patterns.json') || lower.includes('route.py') || lower.includes('find_master.py') || lower.includes('build_kb.py')) {
+    return {
+      kind: 'kb',
+      name: 'kb_lookup',
+      keywords: ['kb', 'xkx2001'],
+      resources: [{ type: 'kb', name: 'xkx2001 knowledge base', path: matchedPath }],
+    };
+  }
+  if (lower.includes('skill.md')) {
+    const skillName = matchedPath?.split('/skills/')[1]?.split('/')[0] || 'skill';
+    return {
+      kind: 'skill',
+      name: 'skill_lookup',
+      keywords: ['skill', skillName],
+      resources: [{ type: 'skill', name: skillName, path: matchedPath }],
+    };
+  }
+  return null;
+}
+
+async function createSession(config: GatewayConfig, tools: Tool[], onNativeToolTrace?: NativeToolTraceHandler): Promise<AgentSession> {
   const loader = new DefaultResourceLoader({
     cwd: ROOT_DIR,
     additionalSkillPaths: [SKILLS_DIR],
@@ -821,10 +1502,15 @@ async function createSession(config: GatewayConfig, tools: Tool[]): Promise<Agen
 
   // 订阅事件，输出到 stdout
   session.subscribe((event: any) => {
-    if (event.type !== 'message_update') return;
-    const asm = event.assistantMessageEvent;
-    if (asm?.type === 'text_delta') {
-      process.stdout.write(asm.delta);
+    if (event.type === 'message_update') {
+      const asm = event.assistantMessageEvent;
+      if (asm?.type === 'text_delta') {
+        process.stdout.write(asm.delta);
+      }
+      return;
+    }
+    if (event.type === 'tool_execution_start' || event.type === 'tool_execution_end') {
+      onNativeToolTrace?.(event);
     }
   });
 
@@ -837,6 +1523,8 @@ async function createSession(config: GatewayConfig, tools: Tool[]): Promise<Agen
 
 async function main() {
   const config = await loadConfig();
+  state.persistentMemory = await loadPersistentMemory(config);
+  console.log(`[Gateway] Persistent memory loaded (${Object.keys(state.persistentMemory.visited_rooms).length} rooms, ${Object.keys(state.persistentMemory.known_npcs).length} NPCs).`);
 
   // ---- MUD TCP 连接 --------------------------------------------------------
 
@@ -857,6 +1545,75 @@ async function main() {
     for (const client of wss.clients) {
       if ((client as any).readyState === 1) (client as any).send(msg);
     }
+  };
+
+  const emitTrace = (patch: Omit<AgentTraceData, 'id' | 'turn' | 'seriesId' | 'ts'>) => {
+    const data: AgentTraceData = {
+      id: `${state.turn}.${state.traceSeq++}`,
+      turn: state.turn,
+      seriesId: state.agentSeriesId,
+      ts: Date.now(),
+      ...patch,
+    };
+    state.recentTraces.push(data);
+    if (state.recentTraces.length > 200) {
+      state.recentTraces.splice(0, state.recentTraces.length - 200);
+    }
+    broadcast({ type: 'agent_trace', data });
+  };
+
+  const summarizeEvents = (events: Array<{ content: string }>) => ({
+    count: events.length,
+    lastLine: events.length ? events[events.length - 1].content.slice(0, 240) : '',
+  });
+
+  const summarizeToolResult = (toolName: string, result: { details?: any }) => {
+    const d = result?.details || {};
+    if (toolName === 'wait_event') return { count: d.count };
+    if (toolName === 'get_known_routes') return { routes: Object.keys(d).slice(0, 20), count: Object.keys(d).length };
+    if (toolName === 'execute_command_sequence' || toolName === 'execute_route_skill' || toolName === 'follow_path') {
+      return {
+        msg: d.msg,
+        completedSteps: d.completedSteps,
+        requestedSteps: d.requestedSteps,
+        completedCommands: d.completedCommands,
+        requestedCommands: d.requestedCommands,
+        stopReason: d.stopReason || null,
+        deviationKind: d.deviationKind || null,
+        recoveryHint: d.recoveryHint || null,
+      };
+    }
+    if (toolName === 'get_runtime_state') return d;
+    if (toolName === 'execute_progress_loop_step') return d.progressLoop || d;
+    if (toolName === 'get_world_summary') {
+      return {
+        location: d.location?.name || '',
+        exits: d.location?.exits || [],
+        busy: Boolean(d.player?.busy),
+        combat: Boolean(d.player?.combat),
+      };
+    }
+    return d && typeof d === 'object' ? Object.fromEntries(Object.entries(d).slice(0, 8)) : d;
+  };
+
+  const emitNativeKnowledgeTrace: NativeToolTraceHandler = (event: any) => {
+    const classified = classifyNativeKnowledgeTool(event.toolName || '', event.args || {});
+    if (!classified) return;
+    emitTrace({
+      phase: event.type === 'tool_execution_end'
+        ? (event.isError ? 'error' : 'end')
+        : 'start',
+      kind: classified.kind,
+      name: classified.name,
+      toolCallId: event.toolCallId,
+      input: event.type === 'tool_execution_start' ? event.args || {} : undefined,
+      outputSummary: event.type === 'tool_execution_end'
+        ? { toolName: event.toolName, isError: Boolean(event.isError) }
+        : undefined,
+      keywords: classified.keywords,
+      resources: classified.resources,
+      status: event.type === 'tool_execution_end' ? (event.isError ? 'error' : 'ok') : undefined,
+    });
   };
 
   const fastExplore = {
@@ -949,8 +1706,21 @@ async function main() {
         turn: state.turn,
         world: state.world,
         memorySummaryLen: state.memorySummary.length,
+        persistentMemory: {
+          summaryLen: state.persistentMemory.summary.length,
+          rooms: Object.keys(state.persistentMemory.visited_rooms).length,
+          npcs: Object.keys(state.persistentMemory.known_npcs).length,
+          keyEvents: state.persistentMemory.key_events.length,
+          updatedAt: state.persistentMemory.updated_at,
+        },
         manualUntil: collab.manualUntil,
         steeringPrompt: collab.steeringPrompt,
+        oneShotPromptQueued: Boolean(collab.oneShotPrompt),
+        oneShotPromptId: collab.oneShotPromptId,
+        activeOneShotPromptId: collab.activeOneShotPromptId,
+        recentTraces: state.recentTraces.slice(-50),
+        waterRoute: state.waterRoute,
+        progressLoop: state.progressLoop,
         fastExplore: {
           enabled: fastExplore.enabled,
           intervalMs: config.agent.fastExploreIntervalMs,
@@ -1004,9 +1774,24 @@ async function main() {
 
         // 人类设置 steering prompt
         if (m.type === 'prompt') {
-          collab.steeringPrompt = String(m.prompt || '').trim();
-          collab.steeringUpdatedAt = Date.now();
-          broadcast({ type: 'log', data: `steering: ${collab.steeringPrompt || '(cleared)'}` });
+          const prompt = String(m.prompt || '').trim();
+          if (m.oneShot) {
+            collab.oneShotPrompt = prompt;
+            collab.oneShotPromptId += 1;
+            collab.oneShotUpdatedAt = Date.now();
+            broadcast({ type: 'log', data: `one-shot steering queued: ${prompt || '(cleared)'}` });
+            emitTrace({
+              phase: 'progress',
+              kind: 'series',
+              name: 'one_shot_prompt',
+              input: { id: collab.oneShotPromptId, length: prompt.length },
+              status: prompt ? 'ok' : 'stopped',
+            });
+          } else {
+            collab.steeringPrompt = prompt;
+            collab.steeringUpdatedAt = Date.now();
+            broadcast({ type: 'log', data: `steering: ${collab.steeringPrompt || '(cleared)'}` });
+          }
           sendStateSnapshot();
           return;
         }
@@ -1140,6 +1925,13 @@ async function main() {
       state.pendingActions.push(cmd);
       console.log(`[Agent] send_command -> ${cmd}`);
       broadcast({ type: 'log', data: `agent → ${cmd}` });
+      emitTrace({
+        phase: 'progress',
+        kind: 'command',
+        name: 'send_command',
+        input: { cmd },
+        status: 'ok',
+      });
 
       // 返回极简确认，不把 MUD 响应塞进这里（等 wait_event 拿）
       return {
@@ -1192,6 +1984,13 @@ async function main() {
       state.phase = 'OBSERVE';
       console.log(`[Agent] observed ${result.length} event(s)`);
       broadcast({ type: 'log', data: `agent observed ${result.length} event(s)` });
+      emitTrace({
+        phase: 'end',
+        kind: 'observation',
+        name: 'wait_event',
+        outputSummary: summarizeEvents(result),
+        status: 'ok',
+      });
 
       return {
         content: [{ type: 'text', text: JSON.stringify({ msg, count: result.length, events: result }) }],
@@ -1232,32 +2031,58 @@ async function main() {
           turn: state.turn,
           queueLen: state.eventQueue.length,
           memorySummaryLen: state.memorySummary.length,
+          persistentMemory: {
+            summaryLen: state.persistentMemory.summary.length,
+            rooms: Object.keys(state.persistentMemory.visited_rooms).length,
+            npcs: Object.keys(state.persistentMemory.known_npcs).length,
+            keyEvents: state.persistentMemory.key_events.length,
+            updatedAt: state.persistentMemory.updated_at,
+          },
+          manualHoldRemainingMs: Math.max(0, collab.manualUntil - Date.now()),
+          waterRoute: state.waterRoute,
+          progressLoop: state.progressLoop,
         }),
       }],
-      details: {},
+      details: {
+        connected: state.connected,
+        phase: state.phase,
+        turn: state.turn,
+        queueLen: state.eventQueue.length,
+        memorySummaryLen: state.memorySummary.length,
+        persistentMemory: {
+          summaryLen: state.persistentMemory.summary.length,
+          rooms: Object.keys(state.persistentMemory.visited_rooms).length,
+          npcs: Object.keys(state.persistentMemory.known_npcs).length,
+          keyEvents: state.persistentMemory.key_events.length,
+          updatedAt: state.persistentMemory.updated_at,
+        },
+        manualHoldRemainingMs: Math.max(0, collab.manualUntil - Date.now()),
+        waterRoute: state.waterRoute,
+        progressLoop: state.progressLoop,
+      },
     }),
   };
 
   /**
-   * execute_command_sequence: LLM 一次生成 4-5 条命令，Gateway 本地快速执行
+   * execute_command_sequence: LLM 一次生成 2-3 条命令，Gateway 本地快速执行
    */
   const executeCommandSequenceTool: Tool = {
     name: 'execute_command_sequence',
     label: 'execute_command_sequence',
-    description: '一次提交4到5条MUD命令，Gateway会按150ms左右间隔本地执行；每步直接返回MUD原文rawText/rawEvents，不调用LLM摘要。',
+    description: '一次提交2到3条MUD命令，Gateway会按150ms左右间隔本地执行；yao/dao/fang/tiao等busy命令会自动使用更长等待；每步直接返回MUD原文rawText/rawEvents。稳定长路线必须改用execute_route_skill。',
     parameters: {
       type: 'object',
       properties: {
         commands: {
           type: 'array',
           items: { type: 'string' },
-          minItems: 4,
-          maxItems: 5,
-          description: '4到5条命令，例如 ["hp", "east", "southeast", "south"] 或 ["east", "southeast", "south", "west", "hp"]',
+          minItems: 2,
+          maxItems: 3,
+          description: '2到3条命令，例如 ["hp", "east"] 或 ["east", "southeast", "hp"]。除稳定route skill外，探索均用2-3步。',
         },
         stepWaitMs: {
           type: 'number',
-          description: '每条命令后等待MUD响应的毫秒数，默认150，范围80-500。',
+          description: '普通命令后的等待毫秒数，默认150，范围80-500；busy命令会自动覆盖为更长等待。',
         },
       },
       required: ['commands'],
@@ -1273,34 +2098,54 @@ async function main() {
       const commands = (Array.isArray(params?.commands) ? params.commands : [])
         .map((cmd: unknown) => String(cmd || '').trim())
         .filter(Boolean)
-        .slice(0, 5);
+        .slice(0, 3);
 
-      if (commands.length < 4) {
+      if (commands.length < 2) {
         return {
-          content: [{ type: 'text', text: 'Error: commands must contain 4 to 5 non-empty commands.' }],
+          content: [{ type: 'text', text: 'Error: commands must contain 2 to 3 non-empty commands. Use execute_route_skill for stable long routes.' }],
           details: { commands },
         };
       }
 
       const stepWaitMs = Math.max(80, Math.min(500, Number(params?.stepWaitMs || 150)));
-      const steps: Array<{ step: number; cmd: string; rawEvents: string[]; rawText: string; stopReason?: string }> = [];
+      const steps: Array<{ step: number; cmd: string; waitMs: number; rawEvents: string[]; rawText: string; stopReason?: string }> = [];
       let stopReason = '';
 
       state.phase = 'ACT';
       console.log(`[Agent] sequence start: ${commands.length} command(s), ${stepWaitMs}ms interval`);
       broadcast({ type: 'log', data: `agent sequence start: ${commands.length} command(s), ${stepWaitMs}ms interval` });
+      emitTrace({
+        phase: 'start',
+        kind: 'command_sequence',
+        name: 'execute_command_sequence',
+        input: { commands, stepWaitMs },
+      });
 
       for (const [index, cmd] of commands.entries()) {
         if (Date.now() < collab.manualUntil) {
           stopReason = 'manual_control_active';
+          emitTrace({
+            phase: 'progress',
+            kind: 'command_sequence',
+            name: 'execute_command_sequence',
+            outputSummary: { step: index + 1, stopReason },
+            status: 'blocked',
+          });
           break;
         }
 
+        const actualStepWaitMs = commandSequenceWaitMs(cmd, stepWaitMs);
         mud.write(cmd + '\n');
         state.pendingActions.push(`seq:${cmd}`);
-        console.log(`[Agent] sequence ${index + 1}/${commands.length} -> ${cmd}`);
-        broadcast({ type: 'log', data: `agent sequence ${index + 1}/${commands.length} → ${cmd}` });
-        await sleep(stepWaitMs);
+        console.log(`[Agent] sequence ${index + 1}/${commands.length} -> ${cmd}; wait ${actualStepWaitMs}ms`);
+        broadcast({ type: 'log', data: `agent sequence ${index + 1}/${commands.length} → ${cmd}${actualStepWaitMs !== stepWaitMs ? `; wait ${actualStepWaitMs}ms` : ''}` });
+        emitTrace({
+          phase: 'progress',
+          kind: 'command',
+          name: 'sequence_step',
+          input: { step: index + 1, total: commands.length, cmd, waitMs: actualStepWaitMs },
+        });
+        await sleep(actualStepWaitMs);
 
         const events = [...state.eventQueue];
         state.eventQueue.length = 0;
@@ -1309,9 +2154,17 @@ async function main() {
         steps.push({
           step: index + 1,
           cmd,
+          waitMs: actualStepWaitMs,
           rawEvents,
           rawText: rawEvents.join('\n'),
           ...(stop ? { stopReason: stop } : {}),
+        });
+        emitTrace({
+          phase: 'progress',
+          kind: 'command_sequence',
+          name: 'execute_command_sequence',
+          outputSummary: { step: index + 1, cmd, waitMs: actualStepWaitMs, stopReason: stop || null, ...summarizeEvents(events) },
+          status: stop && stop !== 'combat_or_damage' ? 'stopped' : 'ok',
         });
 
         state.world.events.recent = events.slice(-config.agent.maxRecentEvents).map((e) => ({
@@ -1330,6 +2183,13 @@ async function main() {
       state.phase = 'OBSERVE';
       console.log(`[Agent] sequence done: ${steps.length}/${commands.length}${stopReason ? `, stopped=${stopReason}` : ''}`);
       broadcast({ type: 'log', data: `agent sequence done: ${steps.length}/${commands.length}${stopReason ? `, stopped=${stopReason}` : ''}` });
+      emitTrace({
+        phase: 'end',
+        kind: 'command_sequence',
+        name: 'execute_command_sequence',
+        outputSummary: { completedCommands: steps.length, requestedCommands: commands.length, stopReason: stopReason || null },
+        status: stopReason ? 'stopped' : 'ok',
+      });
 
       const result = {
         msg: stopReason ? `stopped: ${stopReason}` : 'completed',
@@ -1374,7 +2234,7 @@ async function main() {
   };
 
   /**
-   * execute_route_skill: 执行预先调查好的长路线，避免 LLM 每 4-5 步重新规划
+   * execute_route_skill: 执行预先调查好的长路线，避免 LLM 用普通探索序列分段规划
    */
   const executeRouteSkillTool: Tool = {
     name: 'execute_route_skill',
@@ -1385,7 +2245,7 @@ async function main() {
       properties: {
         name: { type: 'string', description: '路线名，例如 yangzhou_guangchang_to_shaolin_shanmen_overland' },
         stepWaitMs: { type: 'number', description: '普通步骤后的等待毫秒数，默认150，范围80-1000。特殊步骤可覆盖。' },
-        maxSteps: { type: 'number', description: '最多执行多少步，默认执行完整路线。用于测试时可设为4到5。' },
+        maxSteps: { type: 'number', description: '最多执行多少步，默认执行完整稳定路线。用于测试时可设为2到3。' },
       },
       required: ['name'],
     },
@@ -1409,16 +2269,94 @@ async function main() {
       const defaultWaitMs = Math.max(80, Math.min(1000, Number(params?.stepWaitMs || 150)));
       const maxStepsRaw = Number(params?.maxSteps || route.commands.length);
       const maxSteps = Math.max(1, Math.min(route.commands.length, Number.isFinite(maxStepsRaw) ? maxStepsRaw : route.commands.length));
-      const steps: Array<{ step: number; cmd: string; waitMs: number; rawEvents: string[]; rawText: string; stopReason?: string }> = [];
+      const steps: Array<{
+        step: number;
+        cmd: string;
+        waitMs: number;
+        expectedStage?: string;
+        actualRoom?: string;
+        deviation?: string;
+        deviationKind?: string;
+        recoveryHint?: string;
+        rawEvents: string[];
+        rawText: string;
+        stopReason?: string;
+      }> = [];
       let stopReason = '';
 
       state.phase = 'ACT';
       console.log(`[Agent] route ${name} start: ${route.from} -> ${route.to}, ${maxSteps}/${route.commands.length} step(s)`);
       broadcast({ type: 'log', data: `route ${name} start: ${route.from} -> ${route.to}, ${maxSteps}/${route.commands.length} step(s)` });
+      if (isShaolinWaterRoute(name)) {
+        state.waterRoute = {
+          active: true,
+          routeName: name,
+          from: route.from,
+          to: route.to,
+          step: 0,
+          total: maxSteps,
+          currentCmd: '',
+          expectedStage: `${route.from} -> ${route.to}`,
+          expectedCommand: '',
+          actualRoom: state.world.location.name || '',
+          actualExits: state.world.location.exits || [],
+          deviation: '',
+          deviationKind: '',
+          recoveryHint: '',
+          recentActualRooms: appendRecentWaterRoom(state.world.location.name || ''),
+          lastLine: '',
+          plannedCommands: route.commands.slice(0, maxSteps).map((s, i) => `${i + 1}. ${routeStepCommand(s)}${routeStepNote(s) ? ` (${routeStepNote(s)})` : ''}`),
+          updatedAt: Date.now(),
+        };
+        sendStateSnapshot();
+      }
+      emitTrace({
+        phase: 'start',
+        kind: 'route',
+        name,
+        input: {
+          from: route.from,
+          to: route.to,
+          maxSteps,
+          totalSteps: route.commands.length,
+          plannedCommands: isShaolinWaterRoute(name) ? route.commands.slice(0, maxSteps).map(routeStepCommand) : undefined,
+        },
+        keywords: ['skill', 'route', name, route.from, route.to].filter(Boolean),
+        resources: [{ type: 'skill', name, query: `${route.from} -> ${route.to}` }],
+      });
 
       for (const [index, rawStep] of route.commands.slice(0, maxSteps).entries()) {
         if (Date.now() < collab.manualUntil) {
           stopReason = 'manual_control_active';
+          const actualRoom = state.world.location.name || '';
+          const actualExits = state.world.location.exits || [];
+          const recoveryHint = routeRecoveryHint(name, '', stopReason, actualRoom, actualExits);
+          if (isShaolinWaterRoute(name)) {
+            state.waterRoute = {
+              ...state.waterRoute,
+              active: false,
+              routeName: name,
+              step: index + 1,
+              total: maxSteps,
+              currentCmd: '',
+              expectedCommand: '',
+              actualRoom,
+              actualExits,
+              deviation: stopReason,
+              deviationKind: stopReason,
+              recoveryHint,
+              recentActualRooms: appendRecentWaterRoom(actualRoom),
+              updatedAt: Date.now(),
+            };
+            sendStateSnapshot();
+          }
+          emitTrace({
+            phase: 'progress',
+            kind: 'route',
+            name,
+            outputSummary: { step: index + 1, stopReason, actualRoom, recoveryHint },
+            status: 'blocked',
+          });
           break;
         }
 
@@ -1426,24 +2364,127 @@ async function main() {
         const cmd = step.cmd.trim();
         const waitMs = Math.max(100, Math.min(60_000, Number(step.waitMs || defaultWaitMs)));
         if (!cmd) continue;
+        const expected = expectedWaterStage(name, index + 1, maxSteps, cmd);
+        const preActualRoom = state.world.location.name || '';
+        const preActualExits = state.world.location.exits || [];
+        const preDeviation = waterRouteDeviation(expected, preActualRoom);
+        if (isShaolinWaterRoute(name) && preDeviation) {
+          stopReason = 'room_mismatch';
+          const recoveryHint = routeRecoveryHint(name, cmd, stopReason, preActualRoom, preActualExits);
+          state.waterRoute = {
+            ...state.waterRoute,
+            active: false,
+            routeName: name,
+            step: index + 1,
+            total: maxSteps,
+            currentCmd: cmd,
+            expectedStage: expected.label || `${route.from} -> ${route.to}`,
+            expectedCommand: cmd,
+            actualRoom: preActualRoom,
+            actualExits: preActualExits,
+            deviation: preDeviation,
+            deviationKind: stopReason,
+            recoveryHint,
+            recentActualRooms: appendRecentWaterRoom(preActualRoom),
+            updatedAt: Date.now(),
+          };
+          sendStateSnapshot();
+          emitTrace({
+            phase: 'progress',
+            kind: 'route',
+            name,
+            outputSummary: { step: index + 1, cmd, expectedStage: expected.label || null, actualRoom: preActualRoom, deviation: preDeviation, deviationKind: stopReason, recoveryHint, stopReason },
+            status: 'stopped',
+          });
+          break;
+        }
+        if (isShaolinWaterRoute(name)) {
+          state.waterRoute = {
+            ...state.waterRoute,
+            active: true,
+            routeName: name,
+            step: index + 1,
+            total: maxSteps,
+            currentCmd: cmd,
+            expectedCommand: cmd,
+            expectedStage: expected.label || `${route.from} -> ${route.to}`,
+            actualRoom: preActualRoom,
+            actualExits: preActualExits,
+            deviation: '',
+            deviationKind: '',
+            recoveryHint: '',
+            recentActualRooms: appendRecentWaterRoom(preActualRoom),
+            updatedAt: Date.now(),
+          };
+          sendStateSnapshot();
+        }
 
         mud.write(cmd + '\n');
         state.pendingActions.push(`route:${name}:${cmd}`);
         console.log(`[Agent] route ${name} ${index + 1}/${route.commands.length} -> ${cmd}; wait ${waitMs}ms`);
         broadcast({ type: 'log', data: `route ${name} ${index + 1}/${route.commands.length} → ${cmd}${waitMs > defaultWaitMs ? `; wait ${waitMs}ms` : ''}` });
+        emitTrace({
+          phase: 'progress',
+          kind: 'route',
+          name,
+          input: { step: index + 1, total: route.commands.length, cmd, waitMs },
+        });
         await sleep(waitMs);
 
         const events = [...state.eventQueue];
         state.eventQueue.length = 0;
         const stop = detectStopReason(events);
         const rawEvents = events.map((e) => e.content);
+        const actualRoom = state.world.location.name || '';
+        const deviation = waterRouteDeviation(expected, actualRoom);
+        const deviationKind = isShaolinWaterRoute(name)
+          ? classifyRouteDeviation(name, cmd, expected, actualRoom, events, stop)
+          : '';
+        const routeStopReason = deviationKind || stop || '';
+        const recoveryHint = isShaolinWaterRoute(name)
+          ? routeRecoveryHint(name, cmd, deviationKind || stop || '', actualRoom, state.world.location.exits || [])
+          : '';
+        const lastLine = rawEvents.length ? rawEvents[rawEvents.length - 1].slice(0, 240) : '';
         steps.push({
           step: index + 1,
           cmd,
           waitMs,
+          expectedStage: expected.label || undefined,
+          actualRoom,
+          deviation: deviation || undefined,
+          deviationKind: deviationKind || undefined,
+          recoveryHint: recoveryHint || undefined,
           rawEvents,
           rawText: rawEvents.join('\n'),
-          ...(stop ? { stopReason: stop } : {}),
+          ...(routeStopReason ? { stopReason: routeStopReason } : {}),
+        });
+        if (isShaolinWaterRoute(name)) {
+          state.waterRoute = {
+            ...state.waterRoute,
+            active: true,
+            routeName: name,
+            step: index + 1,
+            total: maxSteps,
+            currentCmd: cmd,
+            expectedCommand: cmd,
+            expectedStage: expected.label || `${route.from} -> ${route.to}`,
+            actualRoom,
+            actualExits: state.world.location.exits || [],
+            deviation,
+            deviationKind,
+            recoveryHint,
+            recentActualRooms: appendRecentWaterRoom(actualRoom),
+            lastLine,
+            updatedAt: Date.now(),
+          };
+          sendStateSnapshot();
+        }
+        emitTrace({
+          phase: 'progress',
+          kind: 'route',
+          name,
+          outputSummary: { step: index + 1, cmd, expectedStage: expected.label || null, actualRoom, deviation: deviation || null, deviationKind: deviationKind || null, recoveryHint: recoveryHint || null, stopReason: routeStopReason || null, ...summarizeEvents(events) },
+          status: routeStopReason && routeStopReason !== 'combat_or_damage' ? 'stopped' : 'ok',
         });
 
         state.world.events.recent = events.slice(-config.agent.maxRecentEvents).map((e) => ({
@@ -1452,16 +2493,49 @@ async function main() {
           timestamp: e.timestamp,
         }));
 
-        if (stop && stop !== 'combat_or_damage') {
-          stopReason = stop;
+        if (routeStopReason && routeStopReason !== 'combat_or_damage') {
+          stopReason = routeStopReason;
           break;
         }
       }
 
       state.pendingActions = [];
       state.phase = 'OBSERVE';
+      if (isShaolinWaterRoute(name)) {
+        state.waterRoute = {
+          ...state.waterRoute,
+          active: false,
+          routeName: name,
+          step: steps.length || state.waterRoute.step,
+          total: maxSteps,
+          currentCmd: stopReason ? state.waterRoute.currentCmd : '',
+          expectedCommand: stopReason ? state.waterRoute.expectedCommand : '',
+          expectedStage: stopReason ? `stopped: ${stopReason}` : `completed: ${route.to}`,
+          actualRoom: state.world.location.name || state.waterRoute.actualRoom,
+          actualExits: state.world.location.exits || [],
+          deviation: stopReason ? (state.waterRoute.deviation || stopReason) : state.waterRoute.deviation,
+          deviationKind: stopReason ? (state.waterRoute.deviationKind || stopReason) : state.waterRoute.deviationKind,
+          recoveryHint: stopReason ? (state.waterRoute.recoveryHint || routeRecoveryHint(name, '', stopReason, state.world.location.name || state.waterRoute.actualRoom, state.world.location.exits || [])) : state.waterRoute.recoveryHint,
+          recentActualRooms: appendRecentWaterRoom(state.world.location.name || state.waterRoute.actualRoom),
+          updatedAt: Date.now(),
+        };
+        sendStateSnapshot();
+      }
       console.log(`[Agent] route ${name} done: ${steps.length}/${route.commands.length}${stopReason ? `, stopped=${stopReason}` : ''}`);
       broadcast({ type: 'log', data: `route ${name} done: ${steps.length}/${route.commands.length}${stopReason ? `, stopped=${stopReason}` : ''}` });
+      emitTrace({
+        phase: 'end',
+        kind: 'route',
+        name,
+        outputSummary: {
+          completedSteps: steps.length,
+          requestedSteps: maxSteps,
+          stopReason: stopReason || null,
+          deviationKind: isShaolinWaterRoute(name) ? state.waterRoute.deviationKind || null : null,
+          recoveryHint: isShaolinWaterRoute(name) ? state.waterRoute.recoveryHint || null : null,
+        },
+        status: stopReason ? 'stopped' : 'ok',
+      });
 
       const result = {
         msg: stopReason ? `stopped: ${stopReason}` : 'completed',
@@ -1469,6 +2543,8 @@ async function main() {
         requestedSteps: maxSteps,
         completedSteps: steps.length,
         stopReason: stopReason || null,
+        deviationKind: isShaolinWaterRoute(name) ? state.waterRoute.deviationKind || null : null,
+        recoveryHint: isShaolinWaterRoute(name) ? state.waterRoute.recoveryHint || null : null,
         finalLocation: state.world.location,
         player: state.world.player,
         steps,
@@ -1487,7 +2563,7 @@ async function main() {
   const followPathTool: Tool = {
     name: 'follow_path',
     label: 'follow_path',
-    description: '按方向数组连续探图。最多 10 步，每步等待 MUD 输出并直接返回原文rawText/rawEvents；遇到危险、卡路、低血、人工接管会停止。',
+    description: '按方向数组连续探图。普通探索最多 3 步，每步等待 MUD 输出并直接返回原文rawText/rawEvents；稳定长路线请用execute_route_skill。',
     parameters: {
       type: 'object',
       properties: {
@@ -1498,7 +2574,7 @@ async function main() {
         },
         maxSteps: {
           type: 'number',
-          description: '最多执行步数，默认 3，硬上限 10',
+          description: '最多执行步数，默认 3，硬上限 3；稳定route不走此工具。',
         },
         stepWaitMs: {
           type: 'number',
@@ -1521,16 +2597,29 @@ async function main() {
         return { content: [{ type: 'text', text: 'Error: directions must be a non-empty array.' }], details: {} };
       }
 
-      const maxSteps = Math.max(1, Math.min(10, Number(params?.maxSteps || 5)));
+      const maxSteps = Math.max(1, Math.min(3, Number(params?.maxSteps || 3)));
       const stepWaitMs = Math.max(80, Math.min(300, Number(params?.stepWaitMs || config.agent.followPathStepWaitMs)));
       const steps: Array<{ step: number; direction: string; rawEvents: string[]; rawText: string; stopReason?: string }> = [];
       let stopReason = '';
 
       state.phase = 'ACT';
+      emitTrace({
+        phase: 'start',
+        kind: 'route',
+        name: 'follow_path',
+        input: { directions: directions.slice(0, maxSteps), maxSteps, stepWaitMs },
+      });
 
       for (const direction of directions.slice(0, maxSteps)) {
         if (Date.now() < collab.manualUntil) {
           stopReason = 'manual_control_active';
+          emitTrace({
+            phase: 'progress',
+            kind: 'route',
+            name: 'follow_path',
+            outputSummary: { stopReason },
+            status: 'blocked',
+          });
           break;
         }
 
@@ -1538,6 +2627,12 @@ async function main() {
         state.pendingActions.push(direction);
         console.log(`[Agent] follow_path -> ${direction}; wait ${stepWaitMs}ms`);
         broadcast({ type: 'log', data: `agent follow_path → ${direction}` });
+        emitTrace({
+          phase: 'progress',
+          kind: 'command',
+          name: 'follow_path_step',
+          input: { step: steps.length + 1, direction, waitMs: stepWaitMs },
+        });
         await sleep(stepWaitMs);
 
         const events = [...state.eventQueue];
@@ -1550,6 +2645,13 @@ async function main() {
           rawEvents,
           rawText: rawEvents.join('\n'),
           ...(stop ? { stopReason: stop } : {}),
+        });
+        emitTrace({
+          phase: 'progress',
+          kind: 'route',
+          name: 'follow_path',
+          outputSummary: { step: steps.length, direction, stopReason: stop || null, ...summarizeEvents(events) },
+          status: stop ? 'stopped' : 'ok',
         });
 
         state.world.events.recent = events.slice(-config.agent.maxRecentEvents).map((e) => ({
@@ -1566,6 +2668,13 @@ async function main() {
 
       state.pendingActions = [];
       state.phase = 'OBSERVE';
+      emitTrace({
+        phase: 'end',
+        kind: 'route',
+        name: 'follow_path',
+        outputSummary: { completedSteps: steps.length, requestedSteps: Math.min(directions.length, maxSteps), stopReason: stopReason || null },
+        status: stopReason ? 'stopped' : 'ok',
+      });
 
       const result = {
         msg: stopReason ? `stopped: ${stopReason}` : 'completed',
@@ -1598,7 +2707,279 @@ async function main() {
     },
   };
 
-  const ALL_TOOLS: Tool[] = [
+  const executeProgressLoopStepTool: Tool = {
+    name: 'execute_progress_loop_step',
+    label: 'execute_progress_loop_step',
+    description: '推进少林新手“恢复吃喝 -> 找师父学技能 -> 潜能不足挑水 -> 回来继续学”的确定性状态机。每次只执行一个稳定阶段；偏差时停止并交给Pi用短序列恢复。',
+    parameters: {
+      type: 'object',
+      properties: {
+        action: { type: 'string', description: 'start|step|stop，默认step。start会启用状态机。' },
+        skillPlan: {
+          type: 'array',
+          items: { type: 'string' },
+          description: '可选技能顺序，默认 buddhism,literate,force,dodge,parry,cuff,blade,strike,sword。',
+        },
+        learnTimes: { type: 'number', description: '每次 learn 的次数，默认10，会被当前潜能限制。' },
+        minPotential: { type: 'number', description: '低于该潜能就转挑水，默认8。' },
+      },
+      required: [],
+    },
+    execute: async (_id, params) => {
+      const action = String(params?.action || 'step').trim().toLowerCase();
+      if (action === 'stop') {
+        updateProgressLoop({ active: false, mode: 'idle', stage: 'idle', lastAction: 'stop', lastReason: 'user_or_pi_requested_stop' });
+        sendStateSnapshot();
+        return { content: [{ type: 'text', text: JSON.stringify(state.progressLoop) }], details: state.progressLoop };
+      }
+
+      if (action === 'start' || !state.progressLoop.active) {
+        updateProgressLoop({
+          active: true,
+          mode: 'learn_then_water',
+          stage: 'need_status',
+          skillPlan: Array.isArray(params?.skillPlan) && params.skillPlan.length
+            ? params.skillPlan.map((s: unknown) => String(s || '').trim()).filter(Boolean)
+            : state.progressLoop.skillPlan,
+          learnTimes: Math.max(1, Math.min(30, Number(params?.learnTimes || state.progressLoop.learnTimes || 10))),
+          minPotential: Math.max(1, Math.min(50, Number(params?.minPotential || state.progressLoop.minPotential || 8))),
+          lastAction: 'start',
+          lastReason: 'progress loop enabled',
+          lastResult: '',
+        });
+      }
+
+      const loop = state.progressLoop;
+      if (!state.connected) {
+        updateProgressLoop({ lastAction: 'pause', lastReason: 'MUD not connected' });
+        return { content: [{ type: 'text', text: JSON.stringify(state.progressLoop) }], details: state.progressLoop };
+      }
+      if (fastExplore.enabled) {
+        updateProgressLoop({ lastAction: 'pause', lastReason: 'fast_explore active' });
+        return { content: [{ type: 'text', text: JSON.stringify(state.progressLoop) }], details: state.progressLoop };
+      }
+      if (Date.now() < collab.manualUntil) {
+        updateProgressLoop({ lastAction: 'pause', lastReason: 'manual_control_active' });
+        sendStateSnapshot();
+        return { content: [{ type: 'text', text: JSON.stringify(state.progressLoop) }], details: state.progressLoop };
+      }
+
+      const runSeq = async (commands: string[], reason: string, stage: string) => {
+        updateProgressLoop({ stage, lastAction: `sequence:${commands.join(',')}`, lastReason: reason });
+        emitTrace({ phase: 'progress', kind: 'state_machine', name: 'progress_loop', input: { stage, commands, reason }, keywords: ['skill', 'progress_loop', stage], resources: [{ type: 'skill', name: 'shaolin progress loop', query: stage }], status: 'ok' });
+        const result = await executeCommandSequenceTool.execute('progress_loop_sequence', { commands, stepWaitMs: 350 });
+        const steps = result.details?.steps || [];
+        const events = steps.flatMap((s: any) => (Array.isArray(s.rawEvents) ? s.rawEvents : []).map((content: string) => ({ type: 'text', content, timestamp: Date.now() })));
+        const outcome = progressLearnOutcome(events);
+        updateProgressLoop({ lastResult: outcome || result.details?.msg || 'sequence_done' });
+        sendStateSnapshot();
+        return result;
+      };
+
+      const runRoute = async (name: string, reason: string, stage: string) => {
+        updateProgressLoop({ stage, lastAction: `route:${name}`, lastReason: reason });
+        emitTrace({ phase: 'progress', kind: 'state_machine', name: 'progress_loop', input: { stage, route: name, reason }, keywords: ['skill', 'progress_loop', name], resources: [{ type: 'skill', name, query: reason }], status: 'ok' });
+        const result = await executeRouteSkillTool.execute('progress_loop_route', { name });
+        updateProgressLoop({ lastResult: result.details?.msg || 'route_done' });
+        sendStateSnapshot();
+        return result;
+      };
+
+      const p = state.world.player;
+      const potential = typeof p.potential === 'number' ? p.potential : 0;
+      const foodLow = typeof p.food === 'number' && p.food < 80;
+      const waterLow = typeof p.water === 'number' && p.water < 80;
+      const jingLow = typeof p.jing === 'number' && typeof p.jing_max === 'number' && p.jing_max > 0 && p.jing / p.jing_max < 0.55;
+      const qiLow = typeof p.hp === 'number' && typeof p.hp_max === 'number' && p.hp_max > 0 && p.hp / p.hp_max < 0.7;
+      const roomKey = progressRoomKey();
+
+      if (loop.stage === 'need_status') {
+        return runSeq(['hp', 'skills'], 'refresh hp/skills before deciding learn vs water', 'observing_status');
+      }
+
+      if (foodLow || waterLow || jingLow || qiLow) {
+        return runSeq(progressRecoveryCommands(), 'food/water/jing/qi below progress thresholds', 'recovering');
+      }
+
+      if (potential < loop.minPotential || loop.stage.startsWith('water_')) {
+        if (roomKey === 'riverbank') {
+          if (loop.stage === 'water_filled') {
+            return runRoute('shaolin_water_return_riverbank_to_shanlu_probe', 'full bucket: enter random water-carrying mountain path', 'water_on_shanlu');
+          }
+          return runRoute('shaolin_water_fill_bucket_at_riverbank', 'fill bucket because potential is low', 'water_filled');
+        }
+        if (roomKey === 'shanlu') {
+          const exits = new Set((state.world.location.exits || []).map(normalizeDirection));
+          const variant = exits.has('up')
+            ? 'shaolin_water_return_shanlu_to_chufang_via_up'
+            : exits.has('westup')
+              ? 'shaolin_water_return_shanlu_to_chufang_via_westup'
+              : exits.has('northwest')
+                ? 'shaolin_water_return_shanlu_to_chufang_via_northwest'
+                : '';
+          if (variant) return runRoute(variant, 'return from random mountain path to kitchen', 'water_returning');
+          updateProgressLoop({ lastAction: 'pause', lastReason: 'shanlu branch unknown; need Pi short recovery/look' });
+          sendStateSnapshot();
+          return { content: [{ type: 'text', text: JSON.stringify(state.progressLoop) }], details: state.progressLoop };
+        }
+        if (roomKey === 'fzlou') {
+          if (loop.stage === 'water_need_job' || loop.stage === 'water_at_fzlou') {
+            return runRoute('shaolin_fzlou_accept_water_job', 'accept Shaolin water job for potential', 'water_job_accepted');
+          }
+          return runRoute('shaolin_fzlou_to_chufang', 'go to kitchen after accepting water job', 'water_at_chufang');
+        }
+        if (roomKey === 'chufang') {
+          if (loop.stage === 'water_returning') {
+            return runRoute('shaolin_chufang_finish_water_job', 'turn in full bucket for reward/potential', 'need_status');
+          }
+          if (loop.stage === 'water_job_accepted' || loop.stage === 'water_at_chufang') {
+            return runRoute('shaolin_chufang_prepare_water_tools', 'get bucket and piao before water run', 'water_tools_done');
+          }
+          if (loop.stage === 'water_tools_done') {
+            return runRoute('shaolin_chufang_to_riverbank_for_water_job', 'go to riverbank for water job', 'water_at_river');
+          }
+          return runRoute('shaolin_chufang_to_fzlou', 'potential low: go to fzlou to accept water job', 'water_at_fzlou');
+        }
+
+        const toKitchen = progressRouteName(roomKey, 'chufang');
+        if (toKitchen) return runRoute(toKitchen, 'potential low: return to kitchen before water loop', 'water_need_job');
+        updateProgressLoop({ lastAction: 'pause', lastReason: `potential low but no route from ${roomKey || 'unknown'} to kitchen` });
+        sendStateSnapshot();
+        return { content: [{ type: 'text', text: JSON.stringify(state.progressLoop) }], details: state.progressLoop };
+      }
+
+      const chosen = chooseProgressSkill(loop);
+      const skill = chosen.skill;
+      const master = PROGRESS_MASTER_BY_SKILL[skill] || loop.targetMaster || 'qingshan biqiu';
+      const targetKey = PROGRESS_MASTER_ROUTE_SUFFIX[master] || 'qingshan_biqiu';
+      if (roomKey !== targetKey) {
+        let routeName = progressRouteName(roomKey, targetKey);
+        if (!routeName && roomKey === 'fzlou') routeName = 'shaolin_fzlou_to_qingshan_biqiu';
+        if (!routeName && roomKey === 'chufang' && targetKey === 'qingshan_biqiu') routeName = 'shaolin_chufang_to_qingshan_biqiu';
+        if (!routeName && roomKey === 'qingshan_biqiu' && targetKey === 'qingwu_biqiu') routeName = 'shaolin_qingshan_biqiu_to_qingwu_biqiu';
+        if (routeName) return runRoute(routeName, `go to ${master} to learn ${skill}`, 'learn_travel');
+        updateProgressLoop({ lastAction: 'pause', lastReason: `no route from ${roomKey || 'unknown'} to ${targetKey}` });
+        sendStateSnapshot();
+        return { content: [{ type: 'text', text: JSON.stringify(state.progressLoop) }], details: state.progressLoop };
+      }
+
+      const times = Math.max(1, Math.min(loop.learnTimes, potential));
+      updateProgressLoop({
+        stage: 'learning',
+        targetMaster: master,
+        targetSkill: skill,
+        skillIndex: (chosen.index + 1) % loop.skillPlan.length,
+      });
+      const result = await runSeq([`learn ${master} ${skill} ${times}`, 'hp'], `learn ${skill} from ${master}; potential=${potential}`, 'learning');
+      const steps = result.details?.steps || [];
+      const events = steps.flatMap((s: any) => (Array.isArray(s.rawEvents) ? s.rawEvents : []).map((content: string) => ({ type: 'text', content, timestamp: Date.now() })));
+      const outcome = progressLearnOutcome(events);
+      if (outcome === 'skill_blocked' || outcome === 'not_apprentice_or_wrong_master') {
+        updateProgressLoop({
+          blockedSkills: { ...state.progressLoop.blockedSkills, [skill]: `${master}:${outcome}` },
+          lastResult: outcome,
+        });
+      } else if (outcome === 'potential_low') {
+        updateProgressLoop({ stage: 'water_need_job', lastResult: outcome });
+      } else if (outcome === 'needs_recovery') {
+        updateProgressLoop({ stage: 'recovering', lastResult: outcome });
+      } else {
+        updateProgressLoop({ lastResult: outcome || 'learn_step_done' });
+      }
+      sendStateSnapshot();
+      return { content: [{ type: 'text', text: JSON.stringify({ progressLoop: state.progressLoop, toolResult: result.details }) }], details: { progressLoop: state.progressLoop, toolResult: result.details } };
+    },
+  };
+
+  const internalTraceTools = new Set([
+    'send_command',
+    'wait_event',
+    'execute_command_sequence',
+    'execute_route_skill',
+    'follow_path',
+    'execute_progress_loop_step',
+  ]);
+
+  const tracedToolKind = (toolName: string): AgentTraceKind => {
+    if (toolName === 'get_known_routes') return 'kb';
+    if (toolName === 'execute_route_skill' || toolName === 'execute_progress_loop_step') return 'skill';
+    return 'tool';
+  };
+
+  const tracedToolResources = (toolName: string, params: any, result?: { details?: any }): AgentTraceData['resources'] => {
+    if (toolName === 'get_known_routes') {
+      const routeNames = Object.keys(result?.details || {});
+      return [{ type: 'kb', name: 'known_routes', query: params?.name || routeNames.slice(0, 6).join(', ') }];
+    }
+    if (toolName === 'execute_route_skill') {
+      const name = String(params?.name || result?.details?.route?.name || 'route_skill');
+      return [{ type: 'skill', name, query: result?.details?.route ? `${result.details.route.from} -> ${result.details.route.to}` : undefined }];
+    }
+    if (toolName === 'execute_progress_loop_step') {
+      return [{ type: 'skill', name: 'shaolin progress loop', query: params?.action || 'step' }];
+    }
+    return undefined;
+  };
+
+  const tracedToolKeywords = (toolName: string, params: any, result?: { details?: any }) => {
+    const words = [toolName];
+    if (toolName === 'get_known_routes') words.push('kb', ...(Object.keys(result?.details || {}).slice(0, 8)));
+    if (toolName === 'execute_route_skill') words.push('skill', String(params?.name || result?.details?.route?.name || 'route'));
+    if (toolName === 'execute_progress_loop_step') words.push('skill', 'progress_loop', String(params?.action || 'step'));
+    return words.filter(Boolean);
+  };
+
+  const withToolTrace = (tool: Tool): Tool => ({
+    ...tool,
+    execute: async (toolCallId, params) => {
+      const started = Date.now();
+      const skipWrapperTrace = internalTraceTools.has(tool.name);
+      const kind = tracedToolKind(tool.name);
+      if (!skipWrapperTrace) {
+        emitTrace({
+          phase: 'start',
+          kind,
+          name: tool.name,
+          toolCallId,
+          input: params || {},
+          keywords: tracedToolKeywords(tool.name, params),
+          resources: tracedToolResources(tool.name, params),
+        });
+      }
+      try {
+        const result = await tool.execute(toolCallId, params);
+        if (!skipWrapperTrace) {
+          emitTrace({
+            phase: 'end',
+            kind,
+            name: tool.name,
+            toolCallId,
+            durationMs: Date.now() - started,
+            status: 'ok',
+            outputSummary: summarizeToolResult(tool.name, result),
+            keywords: tracedToolKeywords(tool.name, params, result),
+            resources: tracedToolResources(tool.name, params, result),
+          });
+        }
+        return result;
+      } catch (e: any) {
+        emitTrace({
+          phase: 'error',
+          kind,
+          name: tool.name,
+          toolCallId,
+          durationMs: Date.now() - started,
+          status: 'error',
+          outputSummary: String(e?.message || e),
+          keywords: tracedToolKeywords(tool.name, params),
+          resources: tracedToolResources(tool.name, params),
+        });
+        throw e;
+      }
+    },
+  });
+
+  const rawTools: Tool[] = [
     sendCommandTool,
     waitEventTool,
     getWorldSummaryTool,
@@ -1608,7 +2989,9 @@ async function main() {
     executeRouteSkillTool,
     followPathTool,
     saveCheckpointTool,
+    executeProgressLoopStepTool,
   ];
+  const ALL_TOOLS: Tool[] = rawTools.map(withToolTrace);
 
   // ---- Wait for MUD connection --------------------------------------------
 
@@ -1621,7 +3004,7 @@ async function main() {
     state.phase = 'RECOVER';
     state.turn = Math.max(1, old.turn);
     state.world.meta.tick = old.last_tick || 0;
-    state.world.player.combat = old.world.combat;
+    state.world.player.combat = Boolean(old.world.combat);
     state.world.player.hp = old.world.hp;
     state.world.location.room_id = old.world.room_id;
     state.pendingActions = old.scheduler.pending_actions || [];
@@ -1640,7 +3023,7 @@ async function main() {
 
   // ---- 创建初始 session ---------------------------------------------------
 
-  let session = await createSession(config, ALL_TOOLS);
+  let session = await createSession(config, ALL_TOOLS, emitNativeKnowledgeTrace);
 
   // ---------------------------------------------------------------------------
   // Agent 主循环
@@ -1695,7 +3078,7 @@ async function main() {
 
       // 4. 销毁旧 session，创建全新 session
       //    旧 session 的所有对话历史在此被完全丢弃
-      session = await createSession(config, ALL_TOOLS);
+      session = await createSession(config, ALL_TOOLS, emitNativeKnowledgeTrace);
 
       // 5. 新 session 首 prompt：注入摘要 + 当前 WorldSummary
       //    这是新 session 唯一的"记忆来源"
@@ -1708,6 +3091,8 @@ async function main() {
       const resumePrompt = [
         `【记忆摘要（前 ${state.turn - 1} 回合）】`,
         state.memorySummary,
+        '',
+        formatPersistentMemoryForPrompt(),
         '',
         `【当前世界状态（Turn ${state.turn}）】`,
         worldNow,
@@ -1732,6 +3117,10 @@ async function main() {
     // ---- 普通回合 prompt ----
     const isFirst = state.turn === 1;
     let prompt: string;
+    state.agentSeriesId += 1;
+    const seriesId = state.agentSeriesId;
+    const oneShotPrompt = collab.oneShotPrompt;
+    const oneShotPromptId = collab.oneShotPromptId;
 
     if (isFirst) {
       // 第一回合：如果有 memorySummary（来自 checkpoint），注入它
@@ -1740,16 +3129,26 @@ async function main() {
           `【恢复运行 - 记忆摘要】`,
           state.memorySummary,
           '',
+          formatPersistentMemoryForPrompt(),
+          '',
           '连接已就绪。先调用 wait_event() 确认当前环境，再继续任务。',
         ].join('\n');
       } else {
-        prompt = '连接已建立。先调用 wait_event() 观察初始环境；若要去少林/扬州等已知地点，调用 get_known_routes() 后用 execute_route_skill()。局部行动才调用一次 execute_command_sequence()。';
+        prompt = [
+          formatPersistentMemoryForPrompt(),
+          '',
+          '连接已建立。先调用 wait_event() 观察初始环境；若要去少林/扬州等已知地点，调用 get_known_routes() 后用 execute_route_skill()。局部行动/探索才调用一次 execute_command_sequence()，只提交2到3条命令。',
+        ].join('\n');
       }
     } else {
       prompt = [
+        formatPersistentMemoryForPrompt(),
+        '',
         `第 ${state.turn} 回合：先观察（wait_event/get_world_summary）。`,
         '若目标是少林/扬州往返或其它已知路线，调用 get_known_routes() 后只调用一次 execute_route_skill()。',
-        '若只是局部探索，再只调用一次 execute_command_sequence()，一次性提交4到5条命令。',
+        '若上一轮 route 返回 deviationKind/recoveryHint，按 recoveryHint 用 execute_command_sequence 发送2-3条纠错命令，不要继续硬跑长 route。',
+        '若目标是少林新手成长循环：吃喝恢复、找清善/清无/清法学习、潜能不足挑水、交任务后继续学习，优先调用 execute_progress_loop_step(action=start/step)。',
+        '若只是局部探索，再只调用一次 execute_command_sequence()，一次性提交2到3条命令。',
         '命令序列不要反复 look；只有位置/出口未知或路线结束校验时才 look。不要逐条调用 send_command。',
       ].join('\n');
     }
@@ -1759,17 +3158,66 @@ async function main() {
       prompt += `\n\n【人类临时策略】${collab.steeringPrompt}\n请优先执行，但仍需保证生存安全。`;
     }
 
+    if (oneShotPrompt) {
+      collab.activeOneShotPromptId = oneShotPromptId;
+      prompt += `\n\n【人类一次性策略，仅本轮 action series 有效】${oneShotPrompt}\n这条指令只影响本次工具调用链；本轮结束后自动忽略。`;
+      sendStateSnapshot();
+    }
+
+    emitTrace({
+      phase: 'start',
+      kind: 'series',
+      name: 'agent_action_series',
+      input: { oneShotPromptId: oneShotPrompt ? oneShotPromptId : null },
+    });
+
     try {
       await session.prompt(prompt);
+      emitTrace({
+        phase: 'end',
+        kind: 'series',
+        name: 'agent_action_series',
+        outputSummary: { seriesId },
+        status: 'ok',
+      });
     } catch (err: any) {
       const msg = String(err?.message || err);
       console.error('[Gateway] agent error:', msg);
+      emitTrace({
+        phase: 'error',
+        kind: 'series',
+        name: 'agent_action_series',
+        outputSummary: msg,
+        status: 'error',
+      });
       state.phase = 'RECOVER';
       // 如果是认证问题，等待后重试
       if (msg.includes('Authentication') || msg.includes('API key')) {
         console.log('[Gateway] Auth error, waiting 20s...');
         await sleep(20_000);
       }
+    } finally {
+      if (oneShotPrompt && collab.activeOneShotPromptId === oneShotPromptId) {
+        collab.activeOneShotPromptId = 0;
+      }
+      if (oneShotPrompt && collab.oneShotPromptId === oneShotPromptId) {
+        collab.oneShotPrompt = '';
+        broadcast({ type: 'prompt_cleared', data: { oneShot: true, id: oneShotPromptId } });
+        emitTrace({
+          phase: 'end',
+          kind: 'series',
+          name: 'one_shot_prompt',
+          outputSummary: { clearedId: oneShotPromptId },
+          status: 'ok',
+        });
+        sendStateSnapshot();
+      }
+    }
+
+    try {
+      await savePersistentMemory(config);
+    } catch (e: any) {
+      console.error('[Gateway] persistent memory save error:', e?.message || e);
     }
 
     // 自动存档

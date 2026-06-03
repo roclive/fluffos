@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MUD Web Client - 三栏增强版</title>
+    <title>MUD Web Client - Enhanced Monitor</title>
     <style>
         * {
             margin: 0;
@@ -504,76 +504,10 @@
             color: #ffb4b4;
         }
 
-        .agent-chat-message.agent-turn {
-            border-color: #30363d;
-            background: #0f141c;
-        }
-
-        .agent-chat-message.agent-turn.active {
-            border-color: #1f6feb;
-        }
-
-        .agent-chat-message.agent-turn.done {
-            border-color: #238636;
-        }
-
-        .agent-chat-message.agent-turn.error {
-            border-color: #da3633;
-        }
-
         .agent-chat-meta {
             color: #8b949e;
             font-size: 10px;
             margin-bottom: 3px;
-        }
-
-        .agent-turn-header {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            flex-wrap: wrap;
-            margin-bottom: 5px;
-        }
-
-        .agent-turn-title {
-            color: #c9d1d9;
-            font-weight: bold;
-            font-size: 11px;
-        }
-
-        .agent-turn-badge {
-            border: 1px solid #30363d;
-            color: #8b949e;
-            border-radius: 999px;
-            padding: 1px 6px;
-            font-size: 10px;
-            line-height: 15px;
-        }
-
-        .agent-turn-badge.hit {
-            border-color: #238636;
-            color: #56d364;
-            background: #0d1f16;
-        }
-
-        .agent-turn-badge.error {
-            border-color: #da3633;
-            color: #ffb4b4;
-            background: #2a1010;
-        }
-
-        .agent-turn-resources {
-            color: #8b949e;
-            font-size: 10px;
-            margin-bottom: 4px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .agent-turn-lines {
-            color: #c9d1d9;
-            white-space: pre-wrap;
         }
 
         .agent-chat-body {
@@ -788,54 +722,54 @@
         <!-- 左栏: MUD 终端 -->
         <div id="panel-terminal">
             <div id="conn-bar">
-                <span class="input-label">服务器</span>
+                <span class="input-label">Server</span>
                 <input type="text" class="input-field" id="ws-host" value="127.0.0.1:8081" style="width:130px">
-                <span class="input-label">账号</span>
+                <span class="input-label">User</span>
                 <input type="text" class="input-field" id="username" value="john" style="width:80px">
-                <span class="input-label">密码</span>
+                <span class="input-label">Password</span>
                 <input type="password" class="input-field" id="password" value="" style="width:80px">
-                <button id="connect-btn" onclick="toggleConnection()">连接监测</button>
+                <button id="connect-btn" onclick="toggleConnection()">Connect Monitor</button>
                 <button id="auto-btn" onclick="toggleAutoExplore()"
-                    style="padding:10px 14px;background:#1f6feb;color:#fff;border:none;cursor:pointer;border-radius:4px;font-size:12px;font-weight:bold;">自动探索</button>
+                    style="padding:10px 14px;background:#1f6feb;color:#fff;border:none;cursor:pointer;border-radius:4px;font-size:12px;font-weight:bold;">Auto Explore</button>
             </div>
             <div id="panel-route-monitor">
                 <div id="route-monitor-summary">
-                    <div id="route-monitor-title">少林挑水 Route</div>
-                    <div id="route-monitor-status">等待 Pi agent 执行挑水 route skill</div>
-                    <div id="route-monitor-stage">预期：--</div>
-                    <div id="route-monitor-room">实际房间：--</div>
-                    <div id="route-monitor-deviation">偏差：--</div>
-                    <div id="route-monitor-recovery">恢复建议：--</div>
-                    <div id="route-monitor-path">实际轨迹：--</div>
-                    <div id="route-monitor-last">最近输出：--</div>
+                    <div id="route-monitor-title">Shaolin Water Route</div>
+                    <div id="route-monitor-status">Waiting for Pi agent route skill</div>
+                    <div id="route-monitor-stage">Expected: --</div>
+                    <div id="route-monitor-room">Actual room: --</div>
+                    <div id="route-monitor-deviation">Deviation: --</div>
+                    <div id="route-monitor-recovery">Recovery hint: --</div>
+                    <div id="route-monitor-path">Actual path: --</div>
+                    <div id="route-monitor-last">Last output: --</div>
                 </div>
                 <div id="route-monitor-plan">
-                    <div class="route-step">route plan 会在 execute_route_skill 开始后显示</div>
+                    <div class="route-step">Route plan appears after execute_route_skill starts</div>
                 </div>
             </div>
             <div id="terminal-output"></div>
             <div id="panel-loop-monitor">
                 <div id="loop-monitor-main">
                     <div id="loop-monitor-header">
-                        <span id="loop-monitor-title">大循环状态机</span>
+                        <span id="loop-monitor-title">Main Loop State Machine</span>
                         <span id="loop-active-pill">idle</span>
                     </div>
                     <div id="loop-monitor-state" class="loop-line">mode: -- / stage: -- / phase: -- / turn: --</div>
-                    <div id="loop-monitor-target" class="loop-line">目标：--</div>
-                    <div id="loop-monitor-action" class="loop-line">最近动作：--</div>
-                    <div id="loop-monitor-result" class="loop-line">结果：--</div>
+                    <div id="loop-monitor-target" class="loop-line">Target: --</div>
+                    <div id="loop-monitor-action" class="loop-line">Last action: --</div>
+                    <div id="loop-monitor-result" class="loop-line">Result: --</div>
                 </div>
                 <div id="loop-monitor-resources">
-                    <div class="loop-stat"><span class="loop-stat-label">潜能</span><span class="loop-stat-value">--</span></div>
-                    <div class="loop-stat"><span class="loop-stat-label">精</span><span class="loop-stat-value">--</span></div>
-                    <div class="loop-stat"><span class="loop-stat-label">精力</span><span class="loop-stat-value">--</span></div>
-                    <div class="loop-stat"><span class="loop-stat-label">气</span><span class="loop-stat-value">--</span></div>
-                    <div class="loop-stat"><span class="loop-stat-label">内力</span><span class="loop-stat-value">--</span></div>
-                    <div class="loop-stat"><span class="loop-stat-label">状态</span><span class="loop-stat-value">--</span></div>
+                    <div class="loop-stat"><span class="loop-stat-label">Potential</span><span class="loop-stat-value">--</span></div>
+                    <div class="loop-stat"><span class="loop-stat-label">Jing</span><span class="loop-stat-value">--</span></div>
+                    <div class="loop-stat"><span class="loop-stat-label">Stamina</span><span class="loop-stat-value">--</span></div>
+                    <div class="loop-stat"><span class="loop-stat-label">Qi</span><span class="loop-stat-value">--</span></div>
+                    <div class="loop-stat"><span class="loop-stat-label">Neili</span><span class="loop-stat-value">--</span></div>
+                    <div class="loop-stat"><span class="loop-stat-label">Status</span><span class="loop-stat-value">--</span></div>
                 </div>
             </div>
             <div id="terminal-input-area">
-                <input type="text" id="cmd-input" placeholder="输入指令 (例如: look)" autofocus>
+                <input type="text" id="cmd-input" placeholder="Enter command (for example: look)" autofocus>
             </div>
         </div>
         <!-- 右栏 -->
@@ -843,7 +777,7 @@
             <!-- 右上: 状态面板 -->
             <div id="panel-status">
                 <div id="hb-section">
-                    <span class="label">❤ 心跳</span>
+                    <span class="label">Heart</span>
                     <span id="hb-indicator"></span>
                     <div id="hb-bar-container">
                         <div id="hb-bar"></div>
@@ -851,28 +785,28 @@
                     <span id="hb-countdown">--</span>
                 </div>
                 <div class="hp-bar-group">
-                    <div class="hp-label"><span>气血 (HP)</span><span id="label-qi"></span></div>
+                    <div class="hp-label"><span>Qi (HP)</span><span id="label-qi"></span></div>
                     <div class="bar-container">
                         <div id="bar-qi" class="bar bar-hp" style="width: 0%"></div>
                         <span id="text-qi" class="bar-text">0/0</span>
                     </div>
                 </div>
                 <div class="hp-bar-group">
-                    <div class="hp-label"><span>精 (Jing)</span><span id="label-jing"></span></div>
+                    <div class="hp-label"><span>Jing</span><span id="label-jing"></span></div>
                     <div class="bar-container">
                         <div id="bar-jing" class="bar bar-jing" style="width: 0%"></div>
                         <span id="text-jing" class="bar-text">0/0</span>
                     </div>
                 </div>
                 <div class="hp-bar-group">
-                    <div class="hp-label"><span>内力 (Neili)</span><span id="label-neili"></span></div>
+                    <div class="hp-label"><span>Neili</span><span id="label-neili"></span></div>
                     <div class="bar-container">
                         <div id="bar-neili" class="bar bar-neili" style="width: 0%"></div>
                         <span id="text-neili" class="bar-text">0/0</span>
                     </div>
                 </div>
                 <div id="enemy-section">
-                    <div class="hp-label"><span>⚔️ 敌方气血</span></div>
+                    <div class="hp-label"><span>Enemy HP</span></div>
                     <div class="bar-container">
                         <div id="bar-enemy-qi" class="bar bar-enemy" style="width: 0%"></div>
                         <span id="text-enemy-qi" class="bar-text">0/0</span>
@@ -881,12 +815,12 @@
             </div>
             <!-- 中间: 策略面板 -->
             <div id="panel-strategy" style="padding: 12px; border-bottom: 1px solid #1a2030; background: #0d1117;">
-                <div class="label" style="margin-bottom: 8px; color: #58a6ff; font-weight: bold;">🎯 Agent 策略下发</div>
+                <div class="label" style="margin-bottom: 8px; color: #58a6ff; font-weight: bold;">Agent Steering</div>
                 <textarea id="strategy-input" class="input-field"
                     style="width: 100%; height: 60px; resize: none; margin-bottom: 8px; background: #161b22; color: #e6e6e6; border: 1px solid #30363d; border-radius: 4px; padding: 6px; font-family: inherit; font-size: 12px;"
-                    placeholder="例如：多练功，经验值优先，force超过50..."></textarea>
+                    placeholder="Example: train more, prioritize experience, force above 50..."></textarea>
                 <button onclick="sendStrategy()"
-                    style="width: 100%; padding: 8px; background: #1f6feb; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; transition: background 0.2s;">下发新策略</button>
+                    style="width: 100%; padding: 8px; background: #1f6feb; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; transition: background 0.2s;">Send Strategy</button>
             </div>
             <!-- 右下: Pi Agent Chat -->
             <div id="panel-agent-chat">
@@ -903,16 +837,16 @@
                 </div>
                 <div id="agent-chat-input-area">
                     <textarea id="agent-chat-input" class="input-field"
-                        placeholder="例如：下一轮用短序列从挑水偏差恢复"></textarea>
-                    <button id="agent-chat-send" onclick="sendAgentChat()">发送</button>
+                        placeholder="Example: next turn, recover from the water-route deviation with a short sequence"></textarea>
+                    <button id="agent-chat-send" onclick="sendAgentChat()">Send</button>
                 </div>
                 <div id="panel-map-hidden">
                     <div id="map-toolbar">
-                        <span class="label">地图</span>
+                        <span class="label">Map</span>
                         <span id="map-room-count" style="color:#8b949e">(0)</span>
-                        <button class="map-btn" onclick="exportMap()" title="导出地图记忆到JSON文件">导出</button>
-                        <button class="map-btn" onclick="importMap()" title="导入地图记忆JSON文件">导入</button>
-                        <button class="map-btn" onclick="clearMap()" title="清空地图">清空</button>
+                        <button class="map-btn" onclick="exportMap()" title="Export map memory as a JSON file">Export</button>
+                        <button class="map-btn" onclick="importMap()" title="Import a map memory JSON file">Import</button>
+                        <button class="map-btn" onclick="clearMap()" title="Clear map">Clear</button>
                         <span id="map-room-name"></span>
                     </div>
                     <div id="map-canvas-wrap">
@@ -938,9 +872,6 @@
         var agentChatLog = document.getElementById("agent-chat-log");
         var agentChatInput = document.getElementById("agent-chat-input");
         var routeMonitorPlan = document.getElementById("route-monitor-plan");
-        var agentTurnCards = {};
-        var agentTurnOrder = [];
-        var seenAgentTraceIds = {};
         var commandHistory = [];
         var commandHistoryIndex = -1;
         var commandHistoryDraft = "";
@@ -1063,9 +994,9 @@
                     ws.binaryType = "arraybuffer";
 
                     ws.onopen = function () {
-                        writeToScreen("==> 已连接到服务器！");
+                        writeToScreen("==> Connected to server.");
                         connected = true;
-                        btn.textContent = "断开";
+                        btn.textContent = "Disconnect";
                         btn.classList.add("connected");
                         cmdInput.focus();
 
@@ -1073,9 +1004,9 @@
                     };
 
                     ws.onclose = function () {
-                        writeToScreen("==> 连接已断开。");
+                        writeToScreen("==> Connection closed.");
                         connected = false;
-                        btn.textContent = "连接";
+                        btn.textContent = "Connect";
                         btn.classList.remove("connected");
                         stopHeartbeat();
                         ws = null;
@@ -1092,10 +1023,10 @@
                     };
 
                     ws.onerror = function () {
-                        writeToScreen("ERROR: 连接出错，请检查服务器是否运行。");
+                        writeToScreen("ERROR: Connection failed. Check whether the server is running.");
                     };
                 } catch (e) {
-                    writeToScreen("ERROR: 建立连接失败: " + e);
+                    writeToScreen("ERROR: Could not create connection: " + e);
                 }
             }
         }
@@ -1113,9 +1044,9 @@
 
             if (ws && ws.readyState === WebSocket.OPEN) {
                 ws.send(JSON.stringify({ type: "prompt", prompt: strategy }));
-                showToast("策略已下发: " + (strategy.length > 20 ? strategy.substring(0, 20) + "..." : strategy));
+                showToast("Strategy sent: " + (strategy.length > 20 ? strategy.substring(0, 20) + "..." : strategy));
             } else {
-                showToast("请先连接监测服务器");
+                showToast("Connect to the monitor server first");
             }
         }
 
@@ -1146,9 +1077,9 @@
                 ws.send(JSON.stringify({ type: "prompt", prompt: prompt, oneShot: true }));
                 appendAgentChatMessage("human", prompt, "Pi one-shot");
                 agentChatInput.value = "";
-                setAgentChatStatus("Pi agent 一次性策略已排队");
+                setAgentChatStatus("Pi agent one-shot instruction queued");
             } else {
-                showToast("请先连接监测服务器");
+                showToast("Connect to the monitor server first");
             }
         }
 
@@ -1168,12 +1099,6 @@
                 agentChatLog.removeChild(agentChatLog.firstChild);
             }
             agentChatLog.scrollTop = agentChatLog.scrollHeight;
-        }
-
-        function shortAgentText(value, maxLen) {
-            var text = String(value == null ? "" : value).replace(/\s+/g, " ").trim();
-            if (!maxLen || text.length <= maxLen) return text;
-            return text.slice(0, maxLen - 1) + "…";
         }
 
         function formatTraceSummary(data) {
@@ -1197,142 +1122,23 @@
                 if (data.outputSummary.expectedStage) parts.push("expected=" + data.outputSummary.expectedStage);
                 if (data.outputSummary.actualRoom) parts.push("actual=" + data.outputSummary.actualRoom);
                 if (data.outputSummary.deviation) parts.push(data.outputSummary.deviation);
-                if (data.outputSummary.routes) parts.push("routes=" + data.outputSummary.routes.slice(0, 8).join(", "));
+                if (data.outputSummary.routes) parts.push("routes=" + data.outputSummary.routes.join(", "));
                 if (data.outputSummary.lastLine) parts.push(data.outputSummary.lastLine);
-            }
-            if (Array.isArray(data.resources) && data.resources.length) {
-                parts.push("resources=" + data.resources.map(function (r) {
-                    return (r.type || "tool") + ":" + (r.name || r.path || r.query || "unknown");
-                }).slice(0, 6).join(", "));
-            }
-            if (Array.isArray(data.keywords) && data.keywords.length) {
-                parts.push("keywords=" + data.keywords.slice(0, 10).join(", "));
             }
             if (data.durationMs !== undefined) parts.push(data.durationMs + "ms");
             if (data.status) parts.push("status=" + data.status);
             return parts.join("\n") || JSON.stringify(data.outputSummary || data.input || {});
         }
 
-        function traceHits(data) {
-            var hits = { kb: false, ontology: false, skill: false };
-            if (data.kind === "kb") hits.kb = true;
-            if (data.kind === "ontology") hits.ontology = true;
-            if (data.kind === "skill") hits.skill = true;
-            if (Array.isArray(data.resources)) {
-                data.resources.forEach(function (r) {
-                    if (r.type === "kb") hits.kb = true;
-                    if (r.type === "ontology") hits.ontology = true;
-                    if (r.type === "skill") hits.skill = true;
-                });
-            }
-            return hits;
-        }
-
-        function shouldShowTraceLine(data) {
-            if (data.phase === "error" || data.status === "error") return true;
-            if (data.kind === "kb" || data.kind === "ontology" || data.kind === "skill") return true;
-            if (data.kind === "series") return data.phase !== "start";
-            if (data.kind === "observation" || data.kind === "state_machine") return true;
-            if (data.kind === "route") {
-                return data.phase === "start" || data.phase === "end" || data.status === "stopped" || data.status === "blocked"
-                    || Boolean(data.outputSummary && (data.outputSummary.deviationKind || data.outputSummary.stopReason));
-            }
-            if (data.kind === "command_sequence") {
-                return data.phase === "start" || data.phase === "end" || data.status === "stopped" || data.status === "blocked";
-            }
-            if (data.kind === "command") return data.name === "send_command";
-            return data.phase === "end";
-        }
-
-        function getAgentTurnModel(data) {
-            var turn = data.turn || "?";
-            var key = "turn-" + turn;
-            if (!agentTurnCards[key]) {
-                var div = document.createElement("div");
-                div.className = "agent-chat-message agent-turn active";
-                div.dataset.turnKey = key;
-                agentChatLog.appendChild(div);
-                agentTurnCards[key] = {
-                    key: key,
-                    turn: turn,
-                    element: div,
-                    seriesIds: {},
-                    flags: { kb: false, ontology: false, skill: false },
-                    resources: {},
-                    counts: {},
-                    lines: [],
-                    status: "active",
-                    startedAt: data.ts || Date.now(),
-                    updatedAt: data.ts || Date.now()
-                };
-                agentTurnOrder.push(key);
-                while (agentTurnOrder.length > 12) {
-                    var oldKey = agentTurnOrder.shift();
-                    var old = agentTurnCards[oldKey];
-                    if (old && old.element && old.element.parentNode) old.element.parentNode.removeChild(old.element);
-                    delete agentTurnCards[oldKey];
-                }
-            }
-            return agentTurnCards[key];
-        }
-
-        function renderAgentTurn(model) {
-            var flags = model.flags;
-            var resourceList = Object.keys(model.resources).slice(-8);
-            var countList = Object.keys(model.counts).sort().map(function (k) {
-                return k + ":" + model.counts[k];
-            }).join(" ");
-            var series = Object.keys(model.seriesIds).filter(Boolean).join(",");
-            var cls = "agent-chat-message agent-turn " + (model.status === "error" ? "error" : model.status === "done" ? "done" : "active");
-            model.element.className = cls;
-            model.element.innerHTML =
-                '<div class="agent-turn-header">'
-                + '<span class="agent-turn-title">Turn ' + escapeHtml(model.turn) + (series ? ' / S' + escapeHtml(series) : '') + '</span>'
-                + '<span class="agent-turn-badge ' + (flags.kb ? 'hit' : '') + '">KB ' + (flags.kb ? 'YES' : 'NO') + '</span>'
-                + '<span class="agent-turn-badge ' + (flags.ontology ? 'hit' : '') + '">Ontology ' + (flags.ontology ? 'YES' : 'NO') + '</span>'
-                + '<span class="agent-turn-badge ' + (flags.skill ? 'hit' : '') + '">Skill ' + (flags.skill ? 'YES' : 'NO') + '</span>'
-                + '<span class="agent-turn-badge ' + (model.status === 'error' ? 'error' : '') + '">' + escapeHtml(model.status) + '</span>'
-                + '</div>'
-                + '<div class="agent-turn-resources">' + escapeHtml((resourceList.length ? resourceList.join(" | ") : "resources: --") + (countList ? " · " + countList : "")) + '</div>'
-                + '<div class="agent-turn-lines">' + escapeHtml(model.lines.slice(-9).join("\n") || "等待 Pi agent 工具/观察结果…") + '</div>';
-            agentChatLog.scrollTop = agentChatLog.scrollHeight;
-        }
-
         function handleAgentTrace(data) {
             if (!data) return;
-            if (data.id && seenAgentTraceIds[data.id]) return;
-            if (data.id) seenAgentTraceIds[data.id] = true;
-            var model = getAgentTurnModel(data);
-            if (data.seriesId) model.seriesIds[data.seriesId] = true;
-            model.updatedAt = data.ts || Date.now();
-            model.counts[data.kind || "trace"] = (model.counts[data.kind || "trace"] || 0) + 1;
-
-            var hits = traceHits(data);
-            model.flags.kb = model.flags.kb || hits.kb;
-            model.flags.ontology = model.flags.ontology || hits.ontology;
-            model.flags.skill = model.flags.skill || hits.skill;
-            if (Array.isArray(data.resources)) {
-                data.resources.forEach(function (r) {
-                    var name = (r.type || "tool") + ":" + (r.name || r.path || r.query || "unknown");
-                    model.resources[name] = true;
-                });
-            }
-            if (data.phase === "error" || data.status === "error") {
-                model.status = "error";
-            } else if (data.kind === "series" && data.phase === "end" && model.status !== "error") {
-                model.status = "done";
-            }
-            if (shouldShowTraceLine(data)) {
-                var title = [data.kind, data.phase, data.name].filter(Boolean).join("/");
-                var summary = shortAgentText(formatTraceSummary(data), 260);
-                model.lines.push((title ? "[" + title + "] " : "") + summary);
-                if (model.lines.length > 18) model.lines = model.lines.slice(-18);
-            }
-            renderAgentTurn(model);
+            var role = data.phase === "error" || data.status === "error" ? "error" : "agent";
+            var title = [data.kind, data.phase, data.name].filter(Boolean).join(" / ");
+            appendAgentChatMessage(role, formatTraceSummary(data), title);
             if (data.kind === "series" && data.name === "one_shot_prompt" && data.phase === "end") {
-                setAgentChatStatus("Pi agent 一次性策略已消费");
-            } else if (data.kind === "tool" || data.kind === "kb" || data.kind === "ontology" || data.kind === "skill" || data.kind === "route" || data.kind === "command_sequence") {
-                setAgentChatStatus([data.kind, data.phase, data.name].filter(Boolean).join(" / "));
+                setAgentChatStatus("Pi agent one-shot instruction consumed");
+            } else if (data.kind === "tool" || data.kind === "kb" || data.kind === "route" || data.kind === "command_sequence") {
+                setAgentChatStatus(title);
             }
         }
 
@@ -1344,32 +1150,32 @@
         function updateWaterRouteMonitor(route) {
             if (!route) return;
             var routeName = route.routeName || "";
-            var title = routeName ? "少林挑水 Route: " + routeName : "少林挑水 Route";
+            var title = routeName ? "Shaolin Water Route: " + routeName : "Shaolin Water Route";
             setText("route-monitor-title", title);
             setText("route-monitor-status", routeName
-                ? ((route.active ? "执行中" : "已停止") + " " + (route.step || 0) + "/" + (route.total || 0) + " cmd=" + (route.currentCmd || route.expectedCommand || "--"))
-                : "等待 Pi agent 执行挑水 route skill");
-            setText("route-monitor-stage", "预期：" + (route.expectedStage || "--") + (route.expectedCommand ? " / " + route.expectedCommand : ""));
-            setText("route-monitor-room", "实际房间：" + (route.actualRoom || "--") + (route.actualExits && route.actualExits.length ? " [" + route.actualExits.join("/") + "]" : ""));
+                ? ((route.active ? "Running" : "Stopped") + " " + (route.step || 0) + "/" + (route.total || 0) + " cmd=" + (route.currentCmd || route.expectedCommand || "--"))
+                : "Waiting for Pi agent route skill");
+            setText("route-monitor-stage", "Expected: " + (route.expectedStage || "--") + (route.expectedCommand ? " / " + route.expectedCommand : ""));
+            setText("route-monitor-room", "Actual room: " + (route.actualRoom || "--") + (route.actualExits && route.actualExits.length ? " [" + route.actualExits.join("/") + "]" : ""));
             var deviationEl = document.getElementById("route-monitor-deviation");
             if (deviationEl) {
-                var deviationText = route.deviation || route.deviationKind || "未检测到";
-                deviationEl.textContent = "偏差：" + deviationText;
+                var deviationText = route.deviation || route.deviationKind || "None detected";
+                deviationEl.textContent = "Deviation: " + deviationText;
                 deviationEl.classList.toggle("warn", Boolean(route.deviation || route.deviationKind));
             }
             var recoveryEl = document.getElementById("route-monitor-recovery");
             if (recoveryEl) {
-                recoveryEl.textContent = "恢复建议：" + (route.recoveryHint || "--");
+                recoveryEl.textContent = "Recovery hint: " + (route.recoveryHint || "--");
                 recoveryEl.classList.toggle("warn", Boolean(route.recoveryHint));
             }
             var recentRooms = Array.isArray(route.recentActualRooms) ? route.recentActualRooms : [];
-            setText("route-monitor-path", "实际轨迹：" + (recentRooms.length ? recentRooms.join(" -> ") : "--"));
-            setText("route-monitor-last", "最近输出：" + (route.lastLine || "--"));
+            setText("route-monitor-path", "Actual path: " + (recentRooms.length ? recentRooms.join(" -> ") : "--"));
+            setText("route-monitor-last", "Last output: " + (route.lastLine || "--"));
 
             if (!routeMonitorPlan) return;
             var planned = Array.isArray(route.plannedCommands) ? route.plannedCommands : [];
             if (!planned.length) {
-                routeMonitorPlan.innerHTML = '<div class="route-step">route plan 会在 execute_route_skill 开始后显示</div>';
+                routeMonitorPlan.innerHTML = '<div class="route-step">Route plan appears after execute_route_skill starts</div>';
                 return;
             }
             routeMonitorPlan.innerHTML = planned.map(function (cmd, idx) {
@@ -1435,7 +1241,7 @@
             );
             setText(
                 "loop-monitor-target",
-                "目标：" + formatLoopValue(loop.targetMaster)
+                "Target: " + formatLoopValue(loop.targetMaster)
                 + " / " + formatLoopValue(currentSkill) + skillPos
                 + " / learn=" + formatLoopValue(loop.learnTimes)
                 + " / minPot=" + formatLoopValue(loop.minPotential)
@@ -1443,26 +1249,26 @@
             );
             setText(
                 "loop-monitor-action",
-                "最近动作：" + formatLoopValue(loop.lastAction)
+                "Last action: " + formatLoopValue(loop.lastAction)
                 + (loop.lastReason ? " / " + loop.lastReason : "")
             );
-            setText("loop-monitor-result", "结果：" + formatLoopValue(loop.lastResult));
+            setText("loop-monitor-result", "Result: " + formatLoopValue(loop.lastResult));
 
             var statusFlags = [];
-            if (player.combat) statusFlags.push("战斗");
+            if (player.combat) statusFlags.push("combat");
             if (player.busy) statusFlags.push("busy");
-            if (!statusFlags.length) statusFlags.push("正常");
+            if (!statusFlags.length) statusFlags.push("normal");
 
             var resources = [
-                { label: "潜能", value: formatLoopRatio(player.potential, player.potential_max), cls: loopStatClass(player.potential, player.potential_max, loop.minPotential) },
-                { label: "精", value: formatLoopRatio(player.jing, player.jing_max), cls: loopStatClass(player.jing, player.jing_max) },
-                { label: "精力", value: formatLoopRatio(player.mp, player.mp_max), cls: loopStatClass(player.mp, player.mp_max) },
-                { label: "气", value: formatLoopRatio(player.hp, player.hp_max), cls: loopStatClass(player.hp, player.hp_max) },
-                { label: "内力", value: formatLoopRatio(player.neili, player.neili_max), cls: loopStatClass(player.neili, player.neili_max) },
-                { label: "食物", value: formatLoopRatio(player.food, player.food_max), cls: loopStatClass(player.food, player.food_max) },
-                { label: "饮水", value: formatLoopRatio(player.water, player.water_max), cls: loopStatClass(player.water, player.water_max) },
-                { label: "经验", value: formatLoopValue(player.combat_exp), cls: "" },
-                { label: "状态", value: statusFlags.join("/"), cls: player.combat ? " danger" : (player.busy ? " warn" : "") }
+                { label: "Potential", value: formatLoopRatio(player.potential, player.potential_max), cls: loopStatClass(player.potential, player.potential_max, loop.minPotential) },
+                { label: "Jing", value: formatLoopRatio(player.jing, player.jing_max), cls: loopStatClass(player.jing, player.jing_max) },
+                { label: "Stamina", value: formatLoopRatio(player.mp, player.mp_max), cls: loopStatClass(player.mp, player.mp_max) },
+                { label: "Qi", value: formatLoopRatio(player.hp, player.hp_max), cls: loopStatClass(player.hp, player.hp_max) },
+                { label: "Neili", value: formatLoopRatio(player.neili, player.neili_max), cls: loopStatClass(player.neili, player.neili_max) },
+                { label: "Food", value: formatLoopRatio(player.food, player.food_max), cls: loopStatClass(player.food, player.food_max) },
+                { label: "Water", value: formatLoopRatio(player.water, player.water_max), cls: loopStatClass(player.water, player.water_max) },
+                { label: "Exp", value: formatLoopValue(player.combat_exp), cls: "" },
+                { label: "Status", value: statusFlags.join("/"), cls: player.combat ? " danger" : (player.busy ? " warn" : "") }
             ];
 
             var resourceEl = document.getElementById("loop-monitor-resources");
@@ -1493,7 +1299,7 @@
                 }
                 ws.send(JSON.stringify({ type: "cmd", cmd: cmd }));
             } else {
-                writeToScreen("请先连接服务器。");
+                writeToScreen("Connect to the server first.");
             }
 
             cmdInput.value = "";
@@ -1593,7 +1399,7 @@
 
                 case 'prompt_cleared':
                     if (msg.data && msg.data.oneShot) {
-                        setAgentChatStatus("Pi agent 一次性策略已消费");
+                        setAgentChatStatus("Pi agent one-shot instruction consumed");
                     }
                     break;
 
@@ -1622,17 +1428,9 @@
             }
 
             if (data.oneShotPromptQueued) {
-                setAgentChatStatus("Pi agent 一次性策略等待下一轮");
+                setAgentChatStatus("Pi agent one-shot instruction waiting for next turn");
             } else if (data.progressLoop && data.progressLoop.active) {
                 setAgentChatStatus("Progress loop: " + (data.progressLoop.stage || "active"));
-            } else if (data.persistentMemory) {
-                setAgentChatStatus("Memory rooms=" + (data.persistentMemory.rooms || 0)
-                    + " npc=" + (data.persistentMemory.npcs || 0)
-                    + " events=" + (data.persistentMemory.keyEvents || 0));
-            }
-
-            if (Array.isArray(data.recentTraces)) {
-                data.recentTraces.forEach(handleAgentTrace);
             }
 
             if (data.waterRoute) {
@@ -1996,11 +1794,11 @@
                 var foundExisting = findRoomByName(roomName);
                 if (foundExisting) {
                     mapData.currentRoom = foundExisting;
-                    showToast("地图恢复: 回到 \"" + roomName + "\"");
+                    showToast("Map restored: back to \"" + roomName + "\"");
                 } else {
                     // 地图中找不到这个房间名, 创建新记忆
                     if (Object.keys(mapData.rooms).length > 0) {
-                        showToast("起始地点 \"" + roomName + "\" 不在地图记忆中，创建新记忆文件");
+                        showToast("Start location \"" + roomName + "\" is not in map memory; creating a new memory file");
                         // 保存旧地图作为备份
                         backupOldMap();
                         // 重置地图
@@ -2074,7 +1872,7 @@
                 ctx.fillStyle = "#30363d";
                 ctx.font = "12px monospace";
                 ctx.textAlign = "center";
-                ctx.fillText("等待地图数据...", W / 2, H / 2);
+                ctx.fillText("Waiting for map data...", W / 2, H / 2);
                 return;
             }
 
@@ -2212,14 +2010,14 @@
                     } else if (savedRoom) {
                         // 存档位置ID不在rooms里（数据损坏或rooms被清空）
                         // 尝试用名字匹配（兼容旧数据）
-                        console.warn("[地图] 存档位置 " + savedRoom + " 不存在于rooms中，尝试名字匹配");
+                        console.warn("[Map] Saved location " + savedRoom + " is missing from rooms; trying name match");
                         mapData.currentRoom = null; // 等待登录后重新定位
                     } else {
                         mapData.currentRoom = null;
                     }
                 }
             } catch (e) {
-                console.error("[地图] 加载失败:", e);
+                console.error("[Map] Load failed:", e);
             }
         }
 
@@ -2243,7 +2041,7 @@
             a.download = "mud_map_" + dateStr + ".json";
             a.click();
             URL.revokeObjectURL(a.href);
-            showToast("地图已导出 (" + exportData.roomCount + " 个房间)");
+            showToast("Map exported (" + exportData.roomCount + " rooms)");
         }
 
         function importMap() {
@@ -2279,21 +2077,21 @@
                             var matchedRoom = findRoomByNameInData(data.rooms, currentRoomName);
                             if (matchedRoom) {
                                 mapData.currentRoom = matchedRoom;
-                                showToast("地图导入成功 (" + Object.keys(data.rooms).length + " 个房间) - 定位到: " + currentRoomName);
+                                showToast("Map imported (" + Object.keys(data.rooms).length + " rooms) - located at: " + currentRoomName);
                             } else {
                                 // 当前位置在导入地图中不存在
                                 mapData.currentRoom = importedCurrentRoom;
-                                showToast("⚠ 导入成功但当前位置 \"" + currentRoomName + "\" 不在地图中，使用地图存档位置");
+                                showToast("Import succeeded, but current location \"" + currentRoomName + "\" is not in the map; using saved map location");
                             }
                         } else {
                             // 未连接或无当前位置，直接使用导入地图的位置
                             mapData.currentRoom = importedCurrentRoom;
                             // 校验导入的currentRoom是否存在于rooms中
                             if (importedCurrentRoom && !data.rooms[importedCurrentRoom]) {
-                                showToast("⚠ 地图导入成功但存档位置无效，需重新定位");
+                                showToast("Map imported, but saved location is invalid; relocation required");
                                 mapData.currentRoom = null;
                             } else {
-                                showToast("地图导入成功 (" + Object.keys(data.rooms).length + " 个房间, 创建: " + (data.createdAt || "未知") + ")");
+                                showToast("Map imported (" + Object.keys(data.rooms).length + " rooms, created: " + (data.createdAt || "unknown") + ")");
                             }
                         }
 
@@ -2301,10 +2099,10 @@
                         renderMap();
                         updateMapUI();
                     } else {
-                        showToast("无效的地图文件");
+                        showToast("Invalid map file");
                     }
                 } catch (err) {
-                    showToast("导入失败: " + err.message);
+                    showToast("Import failed: " + err.message);
                 }
             };
             reader.readAsText(file);
@@ -2323,7 +2121,7 @@
         }
 
         function clearMap() {
-            if (!confirm("确定要清空地图数据吗？\n（当前地图有 " + Object.keys(mapData.rooms).length + " 个房间）")) return;
+            if (!confirm("Clear map data?\n(Current map has " + Object.keys(mapData.rooms).length + " rooms)")) return;
             backupOldMap();
             mapData.rooms = {};
             mapData.currentRoom = null;
@@ -2333,13 +2131,13 @@
             saveMapToStorage();
             renderMap();
             updateMapUI();
-            showToast("地图已清空 (旧数据已备份到 localStorage)");
+            showToast("Map cleared (old data backed up to localStorage)");
         }
 
         // ==================== 自动探索 ====================
         function toggleAutoExplore() {
             if (autoExplore.enabled) {
-                stopAutoExplore("已停止自动探索");
+                stopAutoExplore("Auto explore stopped");
             } else {
                 startAutoExplore();
             }
@@ -2347,7 +2145,7 @@
 
         function startAutoExplore() {
             if (!connected || !ws || ws.readyState !== WebSocket.OPEN) {
-                showToast("请先连接服务器");
+                showToast("Connect to the server first");
                 return;
             }
             autoExplore.enabled = true;
@@ -2356,7 +2154,7 @@
             autoExplore.index = 0;
             updateAutoBtn();
             ws.send(JSON.stringify({ type: "fast_explore", enabled: true, intervalMs: 150 }));
-            showToast("快速探索已启动 (150ms)");
+            showToast("Fast explore started (150ms)");
         }
 
         function stopAutoExplore(msg) {
@@ -2378,10 +2176,10 @@
             var b = document.getElementById("auto-btn");
             if (!b) return;
             if (autoExplore.enabled) {
-                b.textContent = "停止探索";
+                b.textContent = "Stop Explore";
                 b.style.background = "#da3633";
             } else {
-                b.textContent = "自动探索";
+                b.textContent = "Auto Explore";
                 b.style.background = "#1f6feb";
             }
         }
@@ -2395,7 +2193,7 @@
         function runAutoStep() {
             if (!autoExplore.enabled) return;
             if (!connected || !ws || ws.readyState !== WebSocket.OPEN) {
-                stopAutoExplore("连接断开，已停止探索");
+                stopAutoExplore("Connection closed; auto explore stopped");
                 return;
             }
             if (autoExplore.awaitMoveResult) {
@@ -2453,7 +2251,7 @@
                 for (var dir in room.exits) {
                     var tid = room.exits[dir];
                     if (tid !== null && !mapData.rooms[tid]) {
-                        issues.push("房间 \"" + room.name + "\" 的出口 " + dir + " 指向不存在的房间 " + tid);
+                        issues.push("Room \"" + room.name + "\" exit " + dir + " points to missing room " + tid);
                         room.exits[dir] = null; // 自动修复
                     }
                 }
@@ -2462,19 +2260,19 @@
                 for (var j = i + 1; j < roomIds.length; j++) {
                     var other = mapData.rooms[roomIds[j]];
                     if (room.x === other.x && room.y === other.y && (room.z || 0) === (other.z || 0)) {
-                        issues.push("坐标冲突: \"" + room.name + "\" 和 \"" + other.name +
-                            "\" 都在 (" + room.x + "," + room.y + ")");
+                        issues.push("Coordinate conflict: \"" + room.name + "\" and \"" + other.name +
+                            "\" are both at (" + room.x + "," + room.y + ")");
                     }
                 }
             }
 
             if (issues.length > 0) {
-                console.warn("地图校验发现 " + issues.length + " 个问题:");
+                console.warn("Map validation found " + issues.length + " issues:");
                 for (var k = 0; k < issues.length; k++) {
                     console.warn("  " + issues[k]);
                 }
                 saveMapToStorage();
-                showToast("地图校验: 修复了 " + issues.length + " 个问题");
+                showToast("Map validation: fixed " + issues.length + " issues");
             }
 
             return issues;

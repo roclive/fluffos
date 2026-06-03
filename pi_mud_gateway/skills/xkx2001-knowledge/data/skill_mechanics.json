@@ -1,0 +1,1661 @@
+{
+ "skill_count": 12,
+ "skills": [
+  {
+   "skill_id": "banruo-zhang",
+   "file": "/kungfu/skill/banruo-zhang",
+   "types": [
+    "parry",
+    "strike"
+   ],
+   "valid_learn": {
+    "requirements": [
+     {
+      "kind": "state",
+      "state": "unarmed",
+      "text": "必须空手。"
+     },
+     {
+      "kind": "skill",
+      "skill": "hunyuan-yiqi",
+      "op": ">=",
+      "value": 20
+     },
+     {
+      "kind": "attribute",
+      "attribute": "max_neili",
+      "op": ">=",
+      "value": 100
+     }
+    ]
+   },
+   "practice": {
+    "requirements": [
+     {
+      "kind": "skill",
+      "skill": "nianhua-zhi",
+      "op": ">=",
+      "value": 150
+     },
+     {
+      "kind": "attribute",
+      "attribute": "jingli",
+      "op": ">=",
+      "value": 30
+     },
+     {
+      "kind": "attribute",
+      "attribute": "neili",
+      "op": ">=",
+      "value": 20
+     }
+    ]
+   },
+   "performs": [
+    {
+     "name": "san",
+     "file": "/kungfu/skill/banruo-zhang/san",
+     "requirements": [
+      {
+       "kind": "state",
+       "state": "unarmed",
+       "text": "必须空手。"
+      },
+      {
+       "kind": "mapped_skill",
+       "usage": "force",
+       "skill": "hunyuan-yiqi",
+       "text": "enable force hunyuan-yiqi。"
+      },
+      {
+       "kind": "skill",
+       "skill": "hunyuan-yiqi",
+       "op": ">=",
+       "value": 180
+      },
+      {
+       "kind": "skill",
+       "skill": "banruo-zhang",
+       "op": ">=",
+       "value": 180
+      },
+      {
+       "kind": "skill",
+       "skill": "buddhism",
+       "op": ">=",
+       "value": 180
+      },
+      {
+       "kind": "attribute",
+       "attribute": "max_neili",
+       "op": ">",
+       "value": 1000
+      },
+      {
+       "kind": "attribute",
+       "attribute": "neili",
+       "op": ">=",
+       "value": 1000
+      }
+     ]
+    }
+   ],
+   "action_unlocks": [
+    {
+     "level": 0,
+     "name": "横空出世"
+    },
+    {
+     "level": 12,
+     "name": "长虹贯日"
+    },
+    {
+     "level": 18,
+     "name": "云断秦岭"
+    },
+    {
+     "level": 24,
+     "name": "铁索拦江"
+    },
+    {
+     "level": 30,
+     "name": "狂风卷地"
+    },
+    {
+     "level": 36,
+     "name": "怀中抱月"
+    },
+    {
+     "level": 42,
+     "name": "高山流水"
+    },
+    {
+     "level": 48,
+     "name": "摘星换斗"
+    },
+    {
+     "level": 54,
+     "name": "翻江搅海"
+    },
+    {
+     "level": 60,
+     "name": "金刚伏魔"
+    }
+   ],
+   "source_files": [
+    "/kungfu/skill/banruo-zhang",
+    "/kungfu/skill/banruo-zhang/san"
+   ],
+   "notes": []
+  },
+  {
+   "skill_id": "cibei-dao",
+   "file": "/kungfu/skill/cibei-dao",
+   "types": [
+    "blade",
+    "parry"
+   ],
+   "valid_learn": {
+    "requirements": [
+     {
+      "kind": "skill",
+      "skill": "hunyuan-yiqi",
+      "op": ">=",
+      "value": 10
+     },
+     {
+      "kind": "attribute",
+      "attribute": "max_neili",
+      "op": ">=",
+      "value": 50
+     }
+    ]
+   },
+   "practice": {
+    "requirements": [
+     {
+      "kind": "skill",
+      "skill": "luohan-quan",
+      "op": ">=",
+      "value": 30
+     },
+     {
+      "kind": "attribute",
+      "attribute": "jingli",
+      "op": ">=",
+      "value": 50
+     },
+     {
+      "kind": "weapon",
+      "weapon_type": "blade",
+      "text": "必须装备 blade 类武器。"
+     }
+    ]
+   },
+   "performs": [],
+   "action_unlocks": [
+    {
+     "level": 0,
+     "name": "停车问路"
+    },
+    {
+     "level": 8,
+     "name": "童子挂画"
+    },
+    {
+     "level": 16,
+     "name": "推窗望月"
+    },
+    {
+     "level": 24,
+     "name": "开门见山"
+    },
+    {
+     "level": 33,
+     "name": "临溪观鱼"
+    },
+    {
+     "level": 42,
+     "name": "张弓望的"
+    },
+    {
+     "level": 51,
+     "name": "风送轻舟"
+    },
+    {
+     "level": 60,
+     "name": "停车问路"
+    }
+   ],
+   "source_files": [
+    "/kungfu/skill/cibei-dao"
+   ],
+   "notes": []
+  },
+  {
+   "skill_id": "damo-jian",
+   "file": "/kungfu/skill/damo-jian",
+   "types": [
+    "parry",
+    "sword"
+   ],
+   "valid_learn": {
+    "requirements": [
+     {
+      "kind": "skill",
+      "skill": "hunyuan-yiqi",
+      "op": ">=",
+      "value": 20
+     },
+     {
+      "kind": "attribute",
+      "attribute": "max_neili",
+      "op": ">=",
+      "value": 100
+     }
+    ]
+   },
+   "practice": {
+    "requirements": [
+     {
+      "kind": "skill",
+      "skill": "qianye-shou",
+      "op": ">=",
+      "value": 100
+     },
+     {
+      "kind": "attribute",
+      "attribute": "jingli",
+      "op": ">=",
+      "value": 50
+     },
+     {
+      "kind": "weapon",
+      "weapon_type": "sword",
+      "text": "必须装备 sword 类武器。"
+     }
+    ]
+   },
+   "performs": [
+    {
+     "name": "weituo",
+     "file": "/kungfu/skill/damo-jian/weituo",
+     "requirements": [
+      {
+       "kind": "skill",
+       "skill": "hunyuan-yiqi",
+       "op": ">=",
+       "value": 100
+      },
+      {
+       "kind": "skill",
+       "skill": "buddhism",
+       "op": ">=",
+       "value": 100
+      },
+      {
+       "kind": "skill",
+       "skill": "sword",
+       "op": ">=",
+       "value": 100
+      },
+      {
+       "kind": "skill",
+       "skill": "damo-jian",
+       "op": ">=",
+       "value": 100
+      },
+      {
+       "kind": "skill",
+       "skill": "dodge",
+       "op": ">=",
+       "value": 135
+      },
+      {
+       "kind": "skill",
+       "skill": "sword",
+       "op": ">=",
+       "value": 135
+      },
+      {
+       "kind": "mapped_skill",
+       "usage": "force",
+       "skill": "hunyuan-yiqi",
+       "text": "enable force hunyuan-yiqi。"
+      },
+      {
+       "kind": "attribute",
+       "attribute": "neili",
+       "op": ">",
+       "value": 500
+      },
+      {
+       "kind": "attribute",
+       "attribute": "jingli",
+       "op": ">",
+       "value": 500
+      }
+     ]
+    }
+   ],
+   "action_unlocks": [
+    {
+     "level": 0,
+     "name": "万事随缘往"
+    },
+    {
+     "level": 9,
+     "name": "来去若梦行"
+    },
+    {
+     "level": 18,
+     "name": "浮世沧桑远"
+    },
+    {
+     "level": 27,
+     "name": "轮回法舟轻"
+    },
+    {
+     "level": 36,
+     "name": "水月通禅寂"
+    },
+    {
+     "level": 44,
+     "name": "鱼龙听梵音"
+    },
+    {
+     "level": 52,
+     "name": "千里一苇去"
+    },
+    {
+     "level": 60,
+     "name": "禅心顿自明"
+    }
+   ],
+   "source_files": [
+    "/kungfu/skill/damo-jian",
+    "/kungfu/skill/damo-jian/weituo"
+   ],
+   "notes": []
+  },
+  {
+   "skill_id": "hunyuan-yiqi",
+   "file": "/kungfu/skill/hunyuan-yiqi",
+   "types": [
+    "force"
+   ],
+   "valid_learn": {
+    "requirements": [
+     {
+      "kind": "attribute",
+      "attribute": "gender",
+      "op": "==",
+      "value": "男性",
+      "text": "非童男之体不能练混元一气功。"
+     },
+     {
+      "kind": "conditional",
+      "when": "hunyuan-yiqi > 39",
+      "requires": [
+       {
+        "kind": "attribute",
+        "attribute": "class",
+        "op": "==",
+        "value": "bonze"
+       }
+      ],
+      "text": "40级后未入佛门不能继续修练。"
+     },
+     {
+      "kind": "conditional",
+      "when": "buddhism < 120",
+      "requires": [
+       {
+        "kind": "skill_relation",
+        "skill": "buddhism",
+        "op": ">",
+        "other_skill": "hunyuan-yiqi"
+       }
+      ],
+      "text": "禅宗心法不足120时必须高于混元一气功当前等级。"
+     },
+     {
+      "kind": "skill",
+      "skill": "force",
+      "op": ">=",
+      "value": 10,
+      "text": "基本内功至少10。"
+     },
+     {
+      "kind": "skill_ratio",
+      "skill": "force",
+      "op": ">=",
+      "ratio_of": "hunyuan-yiqi",
+      "ratio": "2/3",
+      "text": "基本内功约需达到混元一气功的2/3。"
+     },
+     {
+      "kind": "attribute",
+      "attribute": "guilty",
+      "op": "==",
+      "value": 0,
+      "text": "犯僧家戒律后无法领会更高深混元一气功。"
+     },
+     {
+      "kind": "conditional",
+      "when": "hunyuan-yiqi > 99",
+      "requires": [
+       {
+        "kind": "exclusive_force",
+        "max_force_skills": 1
+       }
+      ],
+      "text": "100级后若体内已有多种内功会互相冲撞。"
+     }
+    ]
+   },
+   "practice": {
+    "requirements": [
+     {
+      "kind": "skill",
+      "skill": "hunyuan-yiqi",
+      "op": ">=",
+      "value": 150,
+      "text": "150级前只能靠 learn 增加熟练度。"
+     },
+     {
+      "kind": "attribute",
+      "attribute": "qi",
+      "op": ">=",
+      "value": 150
+     },
+     {
+      "kind": "attribute",
+      "attribute": "jingli",
+      "op": ">=",
+      "value": 150
+     },
+     {
+      "kind": "attribute",
+      "attribute": "neili",
+      "op": ">=",
+      "value": 150
+     }
+    ]
+   },
+   "performs": [
+    {
+     "name": "du",
+     "file": "/kungfu/skill/hunyuan-yiqi/du",
+     "requirements": [
+      {
+       "kind": "family",
+       "family_name": "少林派",
+       "generation": 35,
+       "text": "必须是少林派35代。"
+      },
+      {
+       "kind": "skill",
+       "skill": "shaolin-shenfa",
+       "op": ">=",
+       "value": 200
+      },
+      {
+       "kind": "skill",
+       "skill": "hunyuan-yiqi",
+       "op": ">=",
+       "value": 160
+      },
+      {
+       "kind": "mapped_skill",
+       "usage": "dodge",
+       "skill": "shaolin-shenfa",
+       "text": "enable dodge shaolin-shenfa。"
+      },
+      {
+       "kind": "attribute",
+       "attribute": "max_neili",
+       "op": ">=",
+       "value": 2000
+      },
+      {
+       "kind": "attribute",
+       "attribute": "neili",
+       "op": ">=",
+       "value": 1000
+      }
+     ]
+    },
+    {
+     "name": "jingang",
+     "file": "/kungfu/skill/hunyuan-yiqi/jingang",
+     "requirements": [
+      {
+       "kind": "state",
+       "state": "unarmed",
+       "text": "必须空手。"
+      },
+      {
+       "kind": "skill",
+       "skill": "hunyuan-yiqi",
+       "op": ">=",
+       "value": 60
+      },
+      {
+       "kind": "skill",
+       "skill": "jingang-quan",
+       "op": ">=",
+       "value": 90
+      },
+      {
+       "kind": "attribute",
+       "attribute": "max_neili",
+       "op": ">",
+       "value": 600
+      },
+      {
+       "kind": "attribute",
+       "attribute": "neili",
+       "op": ">=",
+       "value": 600
+      }
+     ]
+    },
+    {
+     "name": "jinzhongzhao",
+     "file": "/kungfu/skill/hunyuan-yiqi/jinzhongzhao",
+     "requirements": [
+      {
+       "kind": "skill",
+       "skill": "hunyuan-yiqi",
+       "op": ">=",
+       "value": 160
+      },
+      {
+       "kind": "skill",
+       "skill": "banruo-zhang",
+       "op": ">=",
+       "value": 200
+      },
+      {
+       "kind": "mapped_skill",
+       "usage": "force",
+       "skill": "hunyuan-yiqi",
+       "text": "enable force hunyuan-yiqi。"
+      },
+      {
+       "kind": "attribute",
+       "attribute": "neili",
+       "op": ">=",
+       "value": 2000
+      }
+     ]
+    },
+    {
+     "name": "lifeheal",
+     "file": "/kungfu/skill/hunyuan-yiqi/lifeheal",
+     "requirements": [
+      {
+       "kind": "attribute",
+       "attribute": "max_neili",
+       "op": ">=",
+       "value": 300
+      },
+      {
+       "kind": "attribute",
+       "attribute": "neili",
+       "op": ">=",
+       "value": 150
+      }
+     ]
+    },
+    {
+     "name": "roar",
+     "file": "/kungfu/skill/hunyuan-yiqi/roar",
+     "requirements": [
+      {
+       "kind": "attribute",
+       "attribute": "neili",
+       "op": ">=",
+       "value": 600
+      }
+     ]
+    },
+    {
+     "name": "sangong",
+     "file": "/kungfu/skill/hunyuan-yiqi/sangong",
+     "requirements": [
+      {
+       "kind": "skill",
+       "skill": "hunyuan-yiqi",
+       "op": ">=",
+       "value": 100
+      },
+      {
+       "kind": "skill",
+       "skill": "force",
+       "op": ">=",
+       "value": 100
+      },
+      {
+       "kind": "skill",
+       "skill": "buddhism",
+       "op": ">=",
+       "value": 100
+      },
+      {
+       "kind": "attribute",
+       "attribute": "max_neili",
+       "op": ">=",
+       "value": 2500
+      }
+     ]
+    }
+   ],
+   "action_unlocks": [],
+   "source_files": [
+    "/kungfu/skill/hunyuan-yiqi",
+    "/kungfu/skill/hunyuan-yiqi/du",
+    "/kungfu/skill/hunyuan-yiqi/jingang",
+    "/kungfu/skill/hunyuan-yiqi/jinzhongzhao",
+    "/kungfu/skill/hunyuan-yiqi/lifeheal",
+    "/kungfu/skill/hunyuan-yiqi/roar",
+    "/kungfu/skill/hunyuan-yiqi/sangong"
+   ],
+   "notes": []
+  },
+  {
+   "skill_id": "jingang-quan",
+   "file": "/kungfu/skill/jingang-quan",
+   "types": [
+    "cuff",
+    "parry"
+   ],
+   "valid_learn": {
+    "requirements": [
+     {
+      "kind": "state",
+      "state": "unarmed",
+      "text": "必须空手。"
+     },
+     {
+      "kind": "skill",
+      "skill": "hunyuan-yiqi",
+      "op": ">=",
+      "value": 10
+     },
+     {
+      "kind": "attribute",
+      "attribute": "max_neili",
+      "op": ">=",
+      "value": 50
+     }
+    ]
+   },
+   "practice": {
+    "requirements": [
+     {
+      "kind": "skill",
+      "skill": "qianye-shou",
+      "op": ">=",
+      "value": 100
+     },
+     {
+      "kind": "attribute",
+      "attribute": "jingli",
+      "op": ">=",
+      "value": 30
+     },
+     {
+      "kind": "attribute",
+      "attribute": "neili",
+      "op": ">=",
+      "value": 20
+     }
+    ]
+   },
+   "performs": [
+    {
+     "name": "jingang",
+     "file": "/kungfu/skill/jingang-quan/jingang",
+     "requirements": [
+      {
+       "kind": "state",
+       "state": "unarmed",
+       "text": "必须空手。"
+      },
+      {
+       "kind": "skill",
+       "skill": "hunyuan-yiqi",
+       "op": ">=",
+       "value": 60
+      },
+      {
+       "kind": "skill",
+       "skill": "jingang-quan",
+       "op": ">=",
+       "value": 90
+      },
+      {
+       "kind": "attribute",
+       "attribute": "max_neili",
+       "op": ">",
+       "value": 600
+      },
+      {
+       "kind": "attribute",
+       "attribute": "neili",
+       "op": ">=",
+       "value": 600
+      }
+     ]
+    }
+   ],
+   "action_unlocks": [
+    {
+     "level": 0,
+     "name": "莲花座"
+    },
+    {
+     "level": 10,
+     "name": "烈火锥"
+    },
+    {
+     "level": 20,
+     "name": "八方雨"
+    },
+    {
+     "level": 30,
+     "name": "掌心雷"
+    },
+    {
+     "level": 40,
+     "name": "五指山"
+    },
+    {
+     "level": 48,
+     "name": "观音渡"
+    },
+    {
+     "level": 54,
+     "name": "天龙唱"
+    },
+    {
+     "level": 60,
+     "name": "如来笑"
+    }
+   ],
+   "source_files": [
+    "/kungfu/skill/jingang-quan",
+    "/kungfu/skill/jingang-quan/jingang"
+   ],
+   "notes": []
+  },
+  {
+   "skill_id": "longzhua-gong",
+   "file": "/kungfu/skill/longzhua-gong",
+   "types": [
+    "claw",
+    "parry"
+   ],
+   "valid_learn": {
+    "requirements": [
+     {
+      "kind": "state",
+      "state": "unarmed",
+      "text": "必须空手。"
+     },
+     {
+      "kind": "skill",
+      "skill": "hunyuan-yiqi",
+      "op": ">=",
+      "value": 20
+     },
+     {
+      "kind": "attribute",
+      "attribute": "max_neili",
+      "op": ">=",
+      "value": 100
+     }
+    ]
+   },
+   "practice": {
+    "requirements": [
+     {
+      "kind": "skill",
+      "skill": "banruo-zhang",
+      "op": ">=",
+      "value": 180
+     },
+     {
+      "kind": "attribute",
+      "attribute": "jingli",
+      "op": ">=",
+      "value": 30
+     },
+     {
+      "kind": "attribute",
+      "attribute": "neili",
+      "op": ">=",
+      "value": 20
+     }
+    ]
+   },
+   "performs": [
+    {
+     "name": "lianhuan",
+     "file": "/kungfu/skill/longzhua-gong/lianhuan",
+     "requirements": [
+      {
+       "kind": "state",
+       "state": "unarmed",
+       "text": "必须空手。"
+      },
+      {
+       "kind": "skill",
+       "skill": "hunyuan-yiqi",
+       "op": ">=",
+       "value": 100
+      },
+      {
+       "kind": "skill",
+       "skill": "claw",
+       "op": ">=",
+       "value": 140
+      },
+      {
+       "kind": "skill",
+       "skill": "longzhua-gong",
+       "op": ">=",
+       "value": 140
+      },
+      {
+       "kind": "mapped_skill",
+       "usage": "force",
+       "skill": "hunyuan-yiqi",
+       "text": "enable force hunyuan-yiqi。"
+      },
+      {
+       "kind": "attribute",
+       "attribute": "neili",
+       "op": ">",
+       "value": 300
+      },
+      {
+       "kind": "attribute",
+       "attribute": "jingli",
+       "op": ">",
+       "value": 200
+      }
+     ]
+    }
+   ],
+   "action_unlocks": [
+    {
+     "level": 0,
+     "name": "抢珠式"
+    },
+    {
+     "level": 6,
+     "name": "捞月式"
+    },
+    {
+     "level": 12,
+     "name": "拿云式"
+    },
+    {
+     "level": 18,
+     "name": "捕风式"
+    },
+    {
+     "level": 24,
+     "name": "捉影式"
+    },
+    {
+     "level": 30,
+     "name": "抚琴式"
+    },
+    {
+     "level": 45,
+     "name": "鼓瑟式"
+    },
+    {
+     "level": 50,
+     "name": "批亢式"
+    },
+    {
+     "level": 55,
+     "name": "掏虚式"
+    },
+    {
+     "level": 60,
+     "name": "抱残式"
+    },
+    {
+     "level": 70,
+     "name": "守缺式"
+    }
+   ],
+   "source_files": [
+    "/kungfu/skill/longzhua-gong",
+    "/kungfu/skill/longzhua-gong/lianhuan"
+   ],
+   "notes": []
+  },
+  {
+   "skill_id": "luohan-quan",
+   "file": "/kungfu/skill/luohan-quan",
+   "types": [
+    "cuff",
+    "parry"
+   ],
+   "valid_learn": {
+    "requirements": [
+     {
+      "kind": "state",
+      "state": "unarmed",
+      "text": "练罗汉拳必须空手。"
+     },
+     {
+      "kind": "skill",
+      "skill": "hunyuan-yiqi",
+      "op": ">=",
+      "value": 20,
+      "text": "混元一气功至少20。"
+     },
+     {
+      "kind": "attribute",
+      "attribute": "max_neili",
+      "op": ">=",
+      "value": 50,
+      "text": "最大内力至少50。"
+     }
+    ]
+   },
+   "practice": {
+    "requirements": [
+     {
+      "kind": "attribute",
+      "attribute": "jingli",
+      "op": ">=",
+      "value": 30,
+      "text": "精力至少30。"
+     },
+     {
+      "kind": "attribute",
+      "attribute": "neili",
+      "op": ">=",
+      "value": 20,
+      "text": "内力至少20。"
+     }
+    ]
+   },
+   "performs": [],
+   "action_unlocks": [
+    {
+     "level": 0,
+     "name": "黄莺落架"
+    },
+    {
+     "level": 8,
+     "name": "丹凤朝阳"
+    },
+    {
+     "level": 15,
+     "name": "洛钟东应"
+    },
+    {
+     "level": 24,
+     "name": "偏花七星"
+    },
+    {
+     "level": 33,
+     "name": "苦海回头"
+    },
+    {
+     "level": 42,
+     "name": "挟山超海"
+    },
+    {
+     "level": 50,
+     "name": "慑服外道"
+    },
+    {
+     "level": 58,
+     "name": "三入地狱"
+    }
+   ],
+   "source_files": [
+    "/kungfu/skill/luohan-quan"
+   ],
+   "notes": []
+  },
+  {
+   "skill_id": "nianhua-zhi",
+   "file": "/kungfu/skill/nianhua-zhi",
+   "types": [
+    "finger",
+    "parry"
+   ],
+   "valid_learn": {
+    "requirements": [
+     {
+      "kind": "state",
+      "state": "unarmed",
+      "text": "必须空手。"
+     },
+     {
+      "kind": "skill",
+      "skill": "hunyuan-yiqi",
+      "op": ">=",
+      "value": 20
+     },
+     {
+      "kind": "attribute",
+      "attribute": "max_neili",
+      "op": ">=",
+      "value": 100
+     }
+    ]
+   },
+   "practice": {
+    "requirements": [
+     {
+      "kind": "skill",
+      "skill": "jingang-quan",
+      "op": ">=",
+      "value": 120
+     },
+     {
+      "kind": "attribute",
+      "attribute": "jingli",
+      "op": ">=",
+      "value": 30
+     },
+     {
+      "kind": "attribute",
+      "attribute": "neili",
+      "op": ">=",
+      "value": 20
+     }
+    ]
+   },
+   "performs": [
+    {
+     "name": "fuxue",
+     "file": "/kungfu/skill/nianhua-zhi/fuxue",
+     "requirements": [
+      {
+       "kind": "skill",
+       "skill": "finger",
+       "op": ">=",
+       "value": 90
+      },
+      {
+       "kind": "skill",
+       "skill": "hunyuan-yiqi",
+       "op": ">=",
+       "value": 90
+      },
+      {
+       "kind": "skill",
+       "skill": "finger",
+       "op": "<",
+       "value": 90
+      },
+      {
+       "kind": "skill",
+       "skill": "finger",
+       "op": ">=",
+       "value": 115
+      },
+      {
+       "kind": "skill",
+       "skill": "finger",
+       "op": "<",
+       "value": 115
+      },
+      {
+       "kind": "skill",
+       "skill": "finger",
+       "op": ">=",
+       "value": 140
+      },
+      {
+       "kind": "skill",
+       "skill": "finger",
+       "op": "<",
+       "value": 140
+      },
+      {
+       "kind": "skill",
+       "skill": "finger",
+       "op": ">=",
+       "value": 165
+      },
+      {
+       "kind": "skill",
+       "skill": "finger",
+       "op": "<",
+       "value": 165
+      },
+      {
+       "kind": "skill",
+       "skill": "finger",
+       "op": ">=",
+       "value": 190
+      },
+      {
+       "kind": "skill",
+       "skill": "finger",
+       "op": "<",
+       "value": 190
+      },
+      {
+       "kind": "attribute",
+       "attribute": "max_neili",
+       "op": ">",
+       "value": 300
+      },
+      {
+       "kind": "attribute",
+       "attribute": "neili",
+       "op": ">",
+       "value": 2
+      }
+     ]
+    }
+   ],
+   "action_unlocks": [
+    {
+     "level": 0,
+     "name": "瓶花落砚"
+    },
+    {
+     "level": 0,
+     "name": "寒梅吐蕊"
+    },
+    {
+     "level": 0,
+     "name": "初杏问酒"
+    },
+    {
+     "level": 9,
+     "name": "露草斜阳"
+    },
+    {
+     "level": 18,
+     "name": "仰月承霖"
+    },
+    {
+     "level": 27,
+     "name": "叶底留莲"
+    },
+    {
+     "level": 36,
+     "name": "清风拂桂"
+    },
+    {
+     "level": 45,
+     "name": "菊圃秋霜"
+    },
+    {
+     "level": 55,
+     "name": "伽叶微笑"
+    },
+    {
+     "level": 62,
+     "name": "佛祖拈花"
+    }
+   ],
+   "source_files": [
+    "/kungfu/skill/nianhua-zhi",
+    "/kungfu/skill/nianhua-zhi/fuxue"
+   ],
+   "notes": []
+  },
+  {
+   "skill_id": "shaolin-shenfa",
+   "file": "/kungfu/skill/shaolin-shenfa",
+   "types": [
+    "dodge",
+    "move"
+   ],
+   "valid_learn": {
+    "requirements": []
+   },
+   "practice": {
+    "requirements": [
+     {
+      "kind": "attribute",
+      "attribute": "jingli",
+      "op": ">=",
+      "value": 40,
+      "text": "精力至少40才能练少林身法。"
+     }
+    ]
+   },
+   "performs": [],
+   "action_unlocks": [
+    {
+     "level": 0,
+     "name": "一苇渡江"
+    },
+    {
+     "level": 0,
+     "name": "雨燕掠波"
+    },
+    {
+     "level": 0,
+     "name": "移步换形"
+    },
+    {
+     "level": 0,
+     "name": "分身化影"
+    },
+    {
+     "level": 0,
+     "name": "孤骛落日"
+    },
+    {
+     "level": 40,
+     "name": "鸿雁双飞"
+    },
+    {
+     "level": 50,
+     "name": "苍龙出水"
+    },
+    {
+     "level": 60,
+     "name": "稚凤归巢"
+    }
+   ],
+   "source_files": [
+    "/kungfu/skill/shaolin-shenfa"
+   ],
+   "notes": [
+    "源码没有 run/kungfu/skill/shaolin-shenfa/ perform 文件；中高级只扩大 query_action 的 dodge 动作池。"
+   ]
+  },
+  {
+   "skill_id": "weituo-gun",
+   "file": "/kungfu/skill/weituo-gun",
+   "types": [
+    "club",
+    "parry"
+   ],
+   "valid_learn": {
+    "requirements": [
+     {
+      "kind": "skill",
+      "skill": "hunyuan-yiqi",
+      "op": ">=",
+      "value": 20
+     },
+     {
+      "kind": "attribute",
+      "attribute": "max_neili",
+      "op": ">=",
+      "value": 100
+     }
+    ]
+   },
+   "practice": {
+    "requirements": [
+     {
+      "kind": "skill",
+      "skill": "luohan-quan",
+      "op": ">=",
+      "value": 30
+     },
+     {
+      "kind": "attribute",
+      "attribute": "jingli",
+      "op": ">=",
+      "value": 50
+     },
+     {
+      "kind": "weapon",
+      "weapon_type": "club",
+      "text": "必须装备 club 类武器。"
+     }
+    ]
+   },
+   "performs": [],
+   "action_unlocks": [
+    {
+     "level": 0,
+     "name": "黄石纳履"
+    },
+    {
+     "level": 8,
+     "name": "勒马停锋"
+    },
+    {
+     "level": 16,
+     "name": "平地龙飞"
+    },
+    {
+     "level": 25,
+     "name": "伏虎听风"
+    },
+    {
+     "level": 35,
+     "name": "流星赶月"
+    },
+    {
+     "level": 44,
+     "name": "红霞贯日"
+    },
+    {
+     "level": 52,
+     "name": "投鞭断流"
+    },
+    {
+     "level": 60,
+     "name": "苍龙归海"
+    }
+   ],
+   "source_files": [
+    "/kungfu/skill/weituo-gun"
+   ],
+   "notes": []
+  },
+  {
+   "skill_id": "xiuluo-dao",
+   "file": "/kungfu/skill/xiuluo-dao",
+   "types": [
+    "blade",
+    "parry"
+   ],
+   "valid_learn": {
+    "requirements": [
+     {
+      "kind": "skill",
+      "skill": "hunyuan-yiqi",
+      "op": ">=",
+      "value": 10
+     },
+     {
+      "kind": "attribute",
+      "attribute": "max_neili",
+      "op": ">=",
+      "value": 50
+     }
+    ]
+   },
+   "practice": {
+    "requirements": [
+     {
+      "kind": "skill",
+      "skill": "qianye-shou",
+      "op": ">=",
+      "value": 100
+     },
+     {
+      "kind": "attribute",
+      "attribute": "jingli",
+      "op": ">=",
+      "value": 50
+     },
+     {
+      "kind": "weapon",
+      "weapon_type": "blade",
+      "text": "必须装备 blade 类武器。"
+     }
+    ]
+   },
+   "performs": [
+    {
+     "name": "xiuluo",
+     "file": "/kungfu/skill/xiuluo-dao/xiuluo",
+     "requirements": [
+      {
+       "kind": "skill",
+       "skill": "hunyuan-yiqi",
+       "op": ">=",
+       "value": 200
+      },
+      {
+       "kind": "skill",
+       "skill": "buddhism",
+       "op": ">=",
+       "value": 200
+      },
+      {
+       "kind": "skill",
+       "skill": "blade",
+       "op": ">=",
+       "value": 200
+      },
+      {
+       "kind": "skill",
+       "skill": "xiuluo-dao",
+       "op": ">=",
+       "value": 200
+      },
+      {
+       "kind": "mapped_skill",
+       "usage": "force",
+       "skill": "hunyuan-yiqi",
+       "text": "enable force hunyuan-yiqi。"
+      },
+      {
+       "kind": "attribute",
+       "attribute": "neili",
+       "op": ">",
+       "value": 500
+      },
+      {
+       "kind": "attribute",
+       "attribute": "jingli",
+       "op": ">",
+       "value": 250
+      }
+     ]
+    }
+   ],
+   "action_unlocks": [
+    {
+     "level": 0,
+     "name": "割肉饲鹰"
+    },
+    {
+     "level": 12,
+     "name": "投身饿虎"
+    },
+    {
+     "level": 18,
+     "name": "斫头谢天"
+    },
+    {
+     "level": 24,
+     "name": "折骨出髓"
+    },
+    {
+     "level": 30,
+     "name": "挑身千灯"
+    },
+    {
+     "level": 36,
+     "name": "挖眼布施"
+    },
+    {
+     "level": 42,
+     "name": "剥皮书经"
+    },
+    {
+     "level": 48,
+     "name": "剜心决志"
+    },
+    {
+     "level": 54,
+     "name": "烧身供佛"
+    },
+    {
+     "level": 60,
+     "name": "刺血满地"
+    }
+   ],
+   "source_files": [
+    "/kungfu/skill/xiuluo-dao",
+    "/kungfu/skill/xiuluo-dao/xiuluo"
+   ],
+   "notes": []
+  },
+  {
+   "skill_id": "yizhi-chan",
+   "file": "/kungfu/skill/yizhi-chan",
+   "types": [
+    "finger",
+    "parry"
+   ],
+   "valid_learn": {
+    "requirements": [
+     {
+      "kind": "state",
+      "state": "unarmed",
+      "text": "必须空手。"
+     },
+     {
+      "kind": "skill",
+      "skill": "hunyuan-yiqi",
+      "op": ">=",
+      "value": 20
+     },
+     {
+      "kind": "attribute",
+      "attribute": "max_neili",
+      "op": ">=",
+      "value": 100
+     }
+    ]
+   },
+   "practice": {
+    "requirements": [
+     {
+      "kind": "skill",
+      "skill": "banruo-zhang",
+      "op": ">=",
+      "value": 180
+     },
+     {
+      "kind": "attribute",
+      "attribute": "jingli",
+      "op": ">=",
+      "value": 30
+     },
+     {
+      "kind": "attribute",
+      "attribute": "neili",
+      "op": ">=",
+      "value": 20
+     }
+    ]
+   },
+   "performs": [
+    {
+     "name": "jingmo",
+     "file": "/kungfu/skill/yizhi-chan/jingmo",
+     "requirements": [
+      {
+       "kind": "skill",
+       "skill": "yizhi-chan",
+       "op": ">=",
+       "value": 90
+      },
+      {
+       "kind": "skill",
+       "skill": "hunyuan-yiqi",
+       "op": ">=",
+       "value": 60
+      },
+      {
+       "kind": "skill",
+       "skill": "finger",
+       "op": "<",
+       "value": 90
+      },
+      {
+       "kind": "skill",
+       "skill": "finger",
+       "op": ">=",
+       "value": 115
+      },
+      {
+       "kind": "skill",
+       "skill": "finger",
+       "op": "<",
+       "value": 115
+      },
+      {
+       "kind": "skill",
+       "skill": "finger",
+       "op": ">=",
+       "value": 140
+      },
+      {
+       "kind": "skill",
+       "skill": "finger",
+       "op": "<",
+       "value": 140
+      },
+      {
+       "kind": "skill",
+       "skill": "finger",
+       "op": ">=",
+       "value": 165
+      },
+      {
+       "kind": "skill",
+       "skill": "finger",
+       "op": "<",
+       "value": 165
+      },
+      {
+       "kind": "skill",
+       "skill": "finger",
+       "op": ">=",
+       "value": 190
+      },
+      {
+       "kind": "skill",
+       "skill": "finger",
+       "op": "<",
+       "value": 190
+      },
+      {
+       "kind": "attribute",
+       "attribute": "max_neili",
+       "op": ">",
+       "value": 500
+      }
+     ]
+    }
+   ],
+   "action_unlocks": [
+    {
+     "level": 0,
+     "name": "佛恩济世"
+    },
+    {
+     "level": 20,
+     "name": "佛光普照"
+    },
+    {
+     "level": 40,
+     "name": "佛门广渡"
+    },
+    {
+     "level": 60,
+     "name": "佛法无边"
+    }
+   ],
+   "source_files": [
+    "/kungfu/skill/yizhi-chan",
+    "/kungfu/skill/yizhi-chan/jingmo"
+   ],
+   "notes": []
+  }
+ ]
+}

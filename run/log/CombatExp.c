@@ -5,3 +5,6 @@
 ��ѩ(snow) got 1000000 combat_exp in 1811 seconds: Mon Jan 01 18:15:11 2001
 洛�(roclive) got 20000 combat_exp in 1226 seconds: Wed Feb 11 17:59:09 2026
 洛克李(roclive) got 500000 combat_exp in 1238 seconds: Wed Feb 11 19:12:16 2026
+空青岚(scout) got 312 combat_exp in 599 seconds: Tue Jun  2 23:39:56 2026
+空青岚(scout) got 318 combat_exp in 896 seconds: Wed Jun  3 00:19:58 2026
+空青岚(scout) got 326 combat_exp in 601 seconds: Wed Jun  3 01:05:01 2026

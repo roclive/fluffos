@@ -19,11 +19,12 @@
         "checkpointPath": "./checkpoint.json",
         "maxRecentEvents": 60,
         "compactEveryTurns": 50,
-        "compactKeepRecentEvents": 15
+        "compactKeepRecentEvents": 15,
+        "memoryPath": "./memory.json"
     },
     "runtime": {
         "clearInitialNoiseMs": 1800,
         "monitorPort": 8081,
-        "manualHoldMs": 10000
+        "manualHoldMs": 1500
     }
 }

@@ -43,193 +43,6 @@
             line-height: 1.4;
         }
 
-        #panel-loop-monitor {
-            flex: 0 0 auto;
-            border-top: 1px solid #1a2030;
-            background: #0b1118;
-            padding: 7px 8px;
-            display: grid;
-            grid-template-columns: minmax(220px, 0.95fr) minmax(280px, 1.05fr);
-            gap: 8px;
-            min-height: 92px;
-            max-height: 132px;
-            overflow: hidden;
-            font-size: 11px;
-        }
-
-        #loop-monitor-main {
-            min-width: 0;
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-        }
-
-        #loop-monitor-header {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            min-width: 0;
-        }
-
-        #loop-monitor-title {
-            color: #58a6ff;
-            font-weight: bold;
-            white-space: nowrap;
-        }
-
-        #loop-active-pill {
-            padding: 1px 6px;
-            border: 1px solid #30363d;
-            border-radius: 999px;
-            color: #8b949e;
-            background: #161b22;
-            font-size: 10px;
-            line-height: 15px;
-            white-space: nowrap;
-        }
-
-        #loop-active-pill.active {
-            border-color: #238636;
-            color: #56d364;
-            background: #0d1f16;
-        }
-
-        #loop-active-pill.warn {
-            border-color: #d29922;
-            color: #e3b341;
-            background: #211a09;
-        }
-
-        .loop-line {
-            color: #8b949e;
-            min-width: 0;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            line-height: 1.35;
-        }
-
-        .loop-line strong {
-            color: #c9d1d9;
-            font-weight: normal;
-        }
-
-        #loop-monitor-resources {
-            min-width: 0;
-            display: grid;
-            grid-template-columns: repeat(3, minmax(0, 1fr));
-            gap: 4px;
-            overflow-y: auto;
-        }
-
-        .loop-stat {
-            min-width: 0;
-            border: 1px solid #21262d;
-            background: #0f141c;
-            border-radius: 4px;
-            padding: 4px 5px;
-            line-height: 1.2;
-        }
-
-        .loop-stat-label {
-            display: block;
-            color: #8b949e;
-            font-size: 10px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .loop-stat-value {
-            display: block;
-            color: #c9d1d9;
-            font-variant-numeric: tabular-nums;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .loop-stat.warn .loop-stat-value {
-            color: #e3b341;
-        }
-
-        .loop-stat.danger .loop-stat-value {
-            color: #ff7b72;
-        }
-
-        #panel-route-monitor {
-            border-bottom: 1px solid #1a2030;
-            background: #0d1117;
-            padding: 7px 8px;
-            display: grid;
-            grid-template-columns: minmax(170px, 0.85fr) minmax(220px, 1.15fr);
-            gap: 8px;
-            max-height: 178px;
-            min-height: 118px;
-            overflow: hidden;
-            font-size: 11px;
-        }
-
-        #route-monitor-summary {
-            min-width: 0;
-            display: flex;
-            flex-direction: column;
-            gap: 3px;
-        }
-
-        #route-monitor-title {
-            color: #58a6ff;
-            font-weight: bold;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-
-        #route-monitor-status,
-        #route-monitor-room,
-        #route-monitor-deviation,
-        #route-monitor-stage,
-        #route-monitor-recovery,
-        #route-monitor-path,
-        #route-monitor-last {
-            color: #8b949e;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-
-        #route-monitor-deviation.warn {
-            color: #f85149;
-        }
-
-        #route-monitor-recovery.warn {
-            color: #d29922;
-        }
-
-        #route-monitor-plan {
-            min-width: 0;
-            overflow-y: auto;
-            border-left: 1px solid #1a2030;
-            padding-left: 8px;
-        }
-
-        .route-step {
-            color: #8b949e;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            line-height: 1.35;
-        }
-
-        .route-step.active {
-            color: #56d364;
-            font-weight: bold;
-        }
-
-        .route-step.done {
-            color: #484f58;
-        }
-
         #terminal-input-area {
             padding: 8px;
             border-top: 1px solid #1a2030;
@@ -426,7 +239,7 @@
             display: block;
         }
 
-        /* 右下: Pi Agent Chat */
+        /* 右下: Agent Chat */
         #panel-agent-chat {
             flex: 1;
             display: flex;
@@ -504,76 +317,10 @@
             color: #ffb4b4;
         }
 
-        .agent-chat-message.agent-turn {
-            border-color: #30363d;
-            background: #0f141c;
-        }
-
-        .agent-chat-message.agent-turn.active {
-            border-color: #1f6feb;
-        }
-
-        .agent-chat-message.agent-turn.done {
-            border-color: #238636;
-        }
-
-        .agent-chat-message.agent-turn.error {
-            border-color: #da3633;
-        }
-
         .agent-chat-meta {
             color: #8b949e;
             font-size: 10px;
             margin-bottom: 3px;
-        }
-
-        .agent-turn-header {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            flex-wrap: wrap;
-            margin-bottom: 5px;
-        }
-
-        .agent-turn-title {
-            color: #c9d1d9;
-            font-weight: bold;
-            font-size: 11px;
-        }
-
-        .agent-turn-badge {
-            border: 1px solid #30363d;
-            color: #8b949e;
-            border-radius: 999px;
-            padding: 1px 6px;
-            font-size: 10px;
-            line-height: 15px;
-        }
-
-        .agent-turn-badge.hit {
-            border-color: #238636;
-            color: #56d364;
-            background: #0d1f16;
-        }
-
-        .agent-turn-badge.error {
-            border-color: #da3633;
-            color: #ffb4b4;
-            background: #2a1010;
-        }
-
-        .agent-turn-resources {
-            color: #8b949e;
-            font-size: 10px;
-            margin-bottom: 4px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .agent-turn-lines {
-            color: #c9d1d9;
-            white-space: pre-wrap;
         }
 
         .agent-chat-body {
@@ -798,42 +545,7 @@
                 <button id="auto-btn" onclick="toggleAutoExplore()"
                     style="padding:10px 14px;background:#1f6feb;color:#fff;border:none;cursor:pointer;border-radius:4px;font-size:12px;font-weight:bold;">自动探索</button>
             </div>
-            <div id="panel-route-monitor">
-                <div id="route-monitor-summary">
-                    <div id="route-monitor-title">少林挑水 Route</div>
-                    <div id="route-monitor-status">等待 Pi agent 执行挑水 route skill</div>
-                    <div id="route-monitor-stage">预期：--</div>
-                    <div id="route-monitor-room">实际房间：--</div>
-                    <div id="route-monitor-deviation">偏差：--</div>
-                    <div id="route-monitor-recovery">恢复建议：--</div>
-                    <div id="route-monitor-path">实际轨迹：--</div>
-                    <div id="route-monitor-last">最近输出：--</div>
-                </div>
-                <div id="route-monitor-plan">
-                    <div class="route-step">route plan 会在 execute_route_skill 开始后显示</div>
-                </div>
-            </div>
             <div id="terminal-output"></div>
-            <div id="panel-loop-monitor">
-                <div id="loop-monitor-main">
-                    <div id="loop-monitor-header">
-                        <span id="loop-monitor-title">大循环状态机</span>
-                        <span id="loop-active-pill">idle</span>
-                    </div>
-                    <div id="loop-monitor-state" class="loop-line">mode: -- / stage: -- / phase: -- / turn: --</div>
-                    <div id="loop-monitor-target" class="loop-line">目标：--</div>
-                    <div id="loop-monitor-action" class="loop-line">最近动作：--</div>
-                    <div id="loop-monitor-result" class="loop-line">结果：--</div>
-                </div>
-                <div id="loop-monitor-resources">
-                    <div class="loop-stat"><span class="loop-stat-label">潜能</span><span class="loop-stat-value">--</span></div>
-                    <div class="loop-stat"><span class="loop-stat-label">精</span><span class="loop-stat-value">--</span></div>
-                    <div class="loop-stat"><span class="loop-stat-label">精力</span><span class="loop-stat-value">--</span></div>
-                    <div class="loop-stat"><span class="loop-stat-label">气</span><span class="loop-stat-value">--</span></div>
-                    <div class="loop-stat"><span class="loop-stat-label">内力</span><span class="loop-stat-value">--</span></div>
-                    <div class="loop-stat"><span class="loop-stat-label">状态</span><span class="loop-stat-value">--</span></div>
-                </div>
-            </div>
             <div id="terminal-input-area">
                 <input type="text" id="cmd-input" placeholder="输入指令 (例如: look)" autofocus>
             </div>
@@ -858,7 +570,7 @@
                     </div>
                 </div>
                 <div class="hp-bar-group">
-                    <div class="hp-label"><span>精 (Jing)</span><span id="label-jing"></span></div>
+                    <div class="hp-label"><span>精力 (Jing)</span><span id="label-jing"></span></div>
                     <div class="bar-container">
                         <div id="bar-jing" class="bar bar-jing" style="width: 0%"></div>
                         <span id="text-jing" class="bar-text">0/0</span>
@@ -888,22 +600,22 @@
                 <button onclick="sendStrategy()"
                     style="width: 100%; padding: 8px; background: #1f6feb; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; transition: background 0.2s;">下发新策略</button>
             </div>
-            <!-- 右下: Pi Agent Chat -->
+            <!-- 右下: Agent Chat -->
             <div id="panel-agent-chat">
                 <div id="agent-chat-header">
-                    <span id="agent-chat-title">Pi Agent Chat</span>
-                    <span id="agent-chat-status">Pi one-shot instruction queue</span>
+                    <span id="agent-chat-title">Agent Chat</span>
+                    <span id="agent-chat-status">待连接</span>
                     <span id="agent-current-room"></span>
                 </div>
                 <div id="agent-chat-log">
                     <div class="agent-chat-message system">
                         <div class="agent-chat-meta">system</div>
-                        <div class="agent-chat-body">Pi one-shot instruction queue: input affects only the next Pi agent action series.</div>
+                        <div class="agent-chat-body">输入只影响下一轮 agent action series，不会保存。</div>
                     </div>
                 </div>
                 <div id="agent-chat-input-area">
                     <textarea id="agent-chat-input" class="input-field"
-                        placeholder="例如：下一轮用短序列从挑水偏差恢复"></textarea>
+                        placeholder="例如：下一轮只执行 hp/score，不要移动"></textarea>
                     <button id="agent-chat-send" onclick="sendAgentChat()">发送</button>
                 </div>
                 <div id="panel-map-hidden">
@@ -937,13 +649,6 @@
         var btn = document.getElementById("connect-btn");
         var agentChatLog = document.getElementById("agent-chat-log");
         var agentChatInput = document.getElementById("agent-chat-input");
-        var routeMonitorPlan = document.getElementById("route-monitor-plan");
-        var agentTurnCards = {};
-        var agentTurnOrder = [];
-        var seenAgentTraceIds = {};
-        var commandHistory = [];
-        var commandHistoryIndex = -1;
-        var commandHistoryDraft = "";
 
         // Heartbeat
         var hbAnimFrame = null;
@@ -1144,9 +849,9 @@
 
             if (ws && ws.readyState === WebSocket.OPEN) {
                 ws.send(JSON.stringify({ type: "prompt", prompt: prompt, oneShot: true }));
-                appendAgentChatMessage("human", prompt, "Pi one-shot");
+                appendAgentChatMessage("human", prompt, "one-shot");
                 agentChatInput.value = "";
-                setAgentChatStatus("Pi agent 一次性策略已排队");
+                setAgentChatStatus("已排队一次性策略");
             } else {
                 showToast("请先连接监测服务器");
             }
@@ -1170,12 +875,6 @@
             agentChatLog.scrollTop = agentChatLog.scrollHeight;
         }
 
-        function shortAgentText(value, maxLen) {
-            var text = String(value == null ? "" : value).replace(/\s+/g, " ").trim();
-            if (!maxLen || text.length <= maxLen) return text;
-            return text.slice(0, maxLen - 1) + "…";
-        }
-
         function formatTraceSummary(data) {
             var parts = [];
             if (data.input) {
@@ -1190,286 +889,24 @@
                 if (data.outputSummary.completedSteps !== undefined) parts.push("steps=" + data.outputSummary.completedSteps);
                 if (data.outputSummary.completedCommands !== undefined) parts.push("cmds=" + data.outputSummary.completedCommands);
                 if (data.outputSummary.count !== undefined) parts.push("events=" + data.outputSummary.count);
-                if (data.outputSummary.waitMs !== undefined) parts.push("wait=" + data.outputSummary.waitMs + "ms");
                 if (data.outputSummary.stopReason) parts.push("stop=" + data.outputSummary.stopReason);
-                if (data.outputSummary.deviationKind) parts.push("deviationKind=" + data.outputSummary.deviationKind);
-                if (data.outputSummary.recoveryHint) parts.push("recovery=" + data.outputSummary.recoveryHint);
-                if (data.outputSummary.expectedStage) parts.push("expected=" + data.outputSummary.expectedStage);
-                if (data.outputSummary.actualRoom) parts.push("actual=" + data.outputSummary.actualRoom);
-                if (data.outputSummary.deviation) parts.push(data.outputSummary.deviation);
-                if (data.outputSummary.routes) parts.push("routes=" + data.outputSummary.routes.slice(0, 8).join(", "));
+                if (data.outputSummary.routes) parts.push("routes=" + data.outputSummary.routes.join(", "));
                 if (data.outputSummary.lastLine) parts.push(data.outputSummary.lastLine);
-            }
-            if (Array.isArray(data.resources) && data.resources.length) {
-                parts.push("resources=" + data.resources.map(function (r) {
-                    return (r.type || "tool") + ":" + (r.name || r.path || r.query || "unknown");
-                }).slice(0, 6).join(", "));
-            }
-            if (Array.isArray(data.keywords) && data.keywords.length) {
-                parts.push("keywords=" + data.keywords.slice(0, 10).join(", "));
             }
             if (data.durationMs !== undefined) parts.push(data.durationMs + "ms");
             if (data.status) parts.push("status=" + data.status);
             return parts.join("\n") || JSON.stringify(data.outputSummary || data.input || {});
         }
 
-        function traceHits(data) {
-            var hits = { kb: false, ontology: false, skill: false };
-            if (data.kind === "kb") hits.kb = true;
-            if (data.kind === "ontology") hits.ontology = true;
-            if (data.kind === "skill") hits.skill = true;
-            if (Array.isArray(data.resources)) {
-                data.resources.forEach(function (r) {
-                    if (r.type === "kb") hits.kb = true;
-                    if (r.type === "ontology") hits.ontology = true;
-                    if (r.type === "skill") hits.skill = true;
-                });
-            }
-            return hits;
-        }
-
-        function shouldShowTraceLine(data) {
-            if (data.phase === "error" || data.status === "error") return true;
-            if (data.kind === "kb" || data.kind === "ontology" || data.kind === "skill") return true;
-            if (data.kind === "series") return data.phase !== "start";
-            if (data.kind === "observation" || data.kind === "state_machine") return true;
-            if (data.kind === "route") {
-                return data.phase === "start" || data.phase === "end" || data.status === "stopped" || data.status === "blocked"
-                    || Boolean(data.outputSummary && (data.outputSummary.deviationKind || data.outputSummary.stopReason));
-            }
-            if (data.kind === "command_sequence") {
-                return data.phase === "start" || data.phase === "end" || data.status === "stopped" || data.status === "blocked";
-            }
-            if (data.kind === "command") return data.name === "send_command";
-            return data.phase === "end";
-        }
-
-        function getAgentTurnModel(data) {
-            var turn = data.turn || "?";
-            var key = "turn-" + turn;
-            if (!agentTurnCards[key]) {
-                var div = document.createElement("div");
-                div.className = "agent-chat-message agent-turn active";
-                div.dataset.turnKey = key;
-                agentChatLog.appendChild(div);
-                agentTurnCards[key] = {
-                    key: key,
-                    turn: turn,
-                    element: div,
-                    seriesIds: {},
-                    flags: { kb: false, ontology: false, skill: false },
-                    resources: {},
-                    counts: {},
-                    lines: [],
-                    status: "active",
-                    startedAt: data.ts || Date.now(),
-                    updatedAt: data.ts || Date.now()
-                };
-                agentTurnOrder.push(key);
-                while (agentTurnOrder.length > 12) {
-                    var oldKey = agentTurnOrder.shift();
-                    var old = agentTurnCards[oldKey];
-                    if (old && old.element && old.element.parentNode) old.element.parentNode.removeChild(old.element);
-                    delete agentTurnCards[oldKey];
-                }
-            }
-            return agentTurnCards[key];
-        }
-
-        function renderAgentTurn(model) {
-            var flags = model.flags;
-            var resourceList = Object.keys(model.resources).slice(-8);
-            var countList = Object.keys(model.counts).sort().map(function (k) {
-                return k + ":" + model.counts[k];
-            }).join(" ");
-            var series = Object.keys(model.seriesIds).filter(Boolean).join(",");
-            var cls = "agent-chat-message agent-turn " + (model.status === "error" ? "error" : model.status === "done" ? "done" : "active");
-            model.element.className = cls;
-            model.element.innerHTML =
-                '<div class="agent-turn-header">'
-                + '<span class="agent-turn-title">Turn ' + escapeHtml(model.turn) + (series ? ' / S' + escapeHtml(series) : '') + '</span>'
-                + '<span class="agent-turn-badge ' + (flags.kb ? 'hit' : '') + '">KB ' + (flags.kb ? 'YES' : 'NO') + '</span>'
-                + '<span class="agent-turn-badge ' + (flags.ontology ? 'hit' : '') + '">Ontology ' + (flags.ontology ? 'YES' : 'NO') + '</span>'
-                + '<span class="agent-turn-badge ' + (flags.skill ? 'hit' : '') + '">Skill ' + (flags.skill ? 'YES' : 'NO') + '</span>'
-                + '<span class="agent-turn-badge ' + (model.status === 'error' ? 'error' : '') + '">' + escapeHtml(model.status) + '</span>'
-                + '</div>'
-                + '<div class="agent-turn-resources">' + escapeHtml((resourceList.length ? resourceList.join(" | ") : "resources: --") + (countList ? " · " + countList : "")) + '</div>'
-                + '<div class="agent-turn-lines">' + escapeHtml(model.lines.slice(-9).join("\n") || "等待 Pi agent 工具/观察结果…") + '</div>';
-            agentChatLog.scrollTop = agentChatLog.scrollHeight;
-        }
-
         function handleAgentTrace(data) {
             if (!data) return;
-            if (data.id && seenAgentTraceIds[data.id]) return;
-            if (data.id) seenAgentTraceIds[data.id] = true;
-            var model = getAgentTurnModel(data);
-            if (data.seriesId) model.seriesIds[data.seriesId] = true;
-            model.updatedAt = data.ts || Date.now();
-            model.counts[data.kind || "trace"] = (model.counts[data.kind || "trace"] || 0) + 1;
-
-            var hits = traceHits(data);
-            model.flags.kb = model.flags.kb || hits.kb;
-            model.flags.ontology = model.flags.ontology || hits.ontology;
-            model.flags.skill = model.flags.skill || hits.skill;
-            if (Array.isArray(data.resources)) {
-                data.resources.forEach(function (r) {
-                    var name = (r.type || "tool") + ":" + (r.name || r.path || r.query || "unknown");
-                    model.resources[name] = true;
-                });
-            }
-            if (data.phase === "error" || data.status === "error") {
-                model.status = "error";
-            } else if (data.kind === "series" && data.phase === "end" && model.status !== "error") {
-                model.status = "done";
-            }
-            if (shouldShowTraceLine(data)) {
-                var title = [data.kind, data.phase, data.name].filter(Boolean).join("/");
-                var summary = shortAgentText(formatTraceSummary(data), 260);
-                model.lines.push((title ? "[" + title + "] " : "") + summary);
-                if (model.lines.length > 18) model.lines = model.lines.slice(-18);
-            }
-            renderAgentTurn(model);
+            var role = data.phase === "error" || data.status === "error" ? "error" : "agent";
+            var title = [data.kind, data.phase, data.name].filter(Boolean).join(" / ");
+            appendAgentChatMessage(role, formatTraceSummary(data), title);
             if (data.kind === "series" && data.name === "one_shot_prompt" && data.phase === "end") {
-                setAgentChatStatus("Pi agent 一次性策略已消费");
-            } else if (data.kind === "tool" || data.kind === "kb" || data.kind === "ontology" || data.kind === "skill" || data.kind === "route" || data.kind === "command_sequence") {
-                setAgentChatStatus([data.kind, data.phase, data.name].filter(Boolean).join(" / "));
-            }
-        }
-
-        function setText(id, text) {
-            var el = document.getElementById(id);
-            if (el) el.textContent = text;
-        }
-
-        function updateWaterRouteMonitor(route) {
-            if (!route) return;
-            var routeName = route.routeName || "";
-            var title = routeName ? "少林挑水 Route: " + routeName : "少林挑水 Route";
-            setText("route-monitor-title", title);
-            setText("route-monitor-status", routeName
-                ? ((route.active ? "执行中" : "已停止") + " " + (route.step || 0) + "/" + (route.total || 0) + " cmd=" + (route.currentCmd || route.expectedCommand || "--"))
-                : "等待 Pi agent 执行挑水 route skill");
-            setText("route-monitor-stage", "预期：" + (route.expectedStage || "--") + (route.expectedCommand ? " / " + route.expectedCommand : ""));
-            setText("route-monitor-room", "实际房间：" + (route.actualRoom || "--") + (route.actualExits && route.actualExits.length ? " [" + route.actualExits.join("/") + "]" : ""));
-            var deviationEl = document.getElementById("route-monitor-deviation");
-            if (deviationEl) {
-                var deviationText = route.deviation || route.deviationKind || "未检测到";
-                deviationEl.textContent = "偏差：" + deviationText;
-                deviationEl.classList.toggle("warn", Boolean(route.deviation || route.deviationKind));
-            }
-            var recoveryEl = document.getElementById("route-monitor-recovery");
-            if (recoveryEl) {
-                recoveryEl.textContent = "恢复建议：" + (route.recoveryHint || "--");
-                recoveryEl.classList.toggle("warn", Boolean(route.recoveryHint));
-            }
-            var recentRooms = Array.isArray(route.recentActualRooms) ? route.recentActualRooms : [];
-            setText("route-monitor-path", "实际轨迹：" + (recentRooms.length ? recentRooms.join(" -> ") : "--"));
-            setText("route-monitor-last", "最近输出：" + (route.lastLine || "--"));
-
-            if (!routeMonitorPlan) return;
-            var planned = Array.isArray(route.plannedCommands) ? route.plannedCommands : [];
-            if (!planned.length) {
-                routeMonitorPlan.innerHTML = '<div class="route-step">route plan 会在 execute_route_skill 开始后显示</div>';
-                return;
-            }
-            routeMonitorPlan.innerHTML = planned.map(function (cmd, idx) {
-                var stepNo = idx + 1;
-                var cls = "route-step";
-                if (stepNo === route.step) cls += " active";
-                else if (stepNo < route.step) cls += " done";
-                return '<div class="' + cls + '">' + escapeHtml(cmd) + '</div>';
-            }).join("");
-        }
-
-        function formatLoopValue(value) {
-            return value === undefined || value === null || value === "" ? "--" : String(value);
-        }
-
-        function formatLoopRatio(current, max) {
-            if (current === undefined || current === null || current === "") return "--";
-            if (max === undefined || max === null || max === "") return String(current);
-            return String(current) + "/" + String(max);
-        }
-
-        function loopStatClass(current, max, warnBelow) {
-            if (current === undefined || current === null) return "";
-            if (typeof warnBelow === "number" && Number(current) < warnBelow) return " danger";
-            if (max === undefined || max === null || Number(max) <= 0) return "";
-            var pct = Number(current) / Number(max);
-            if (pct > 0 && pct < 0.15) return " danger";
-            if (pct > 0 && pct < 0.35) return " warn";
-            return "";
-        }
-
-        function renderLoopStat(label, value, cls) {
-            return '<div class="loop-stat' + (cls || "") + '">'
-                + '<span class="loop-stat-label">' + escapeHtml(label) + '</span>'
-                + '<span class="loop-stat-value">' + escapeHtml(value) + '</span>'
-                + '</div>';
-        }
-
-        function updateProgressLoopPanel(data) {
-            data = data || {};
-            var loop = data.progressLoop || {};
-            var world = data.world || {};
-            var player = world.player || {};
-            var skillPlan = Array.isArray(loop.skillPlan) ? loop.skillPlan : [];
-            var skillIndex = typeof loop.skillIndex === "number" ? loop.skillIndex : 0;
-            var currentSkill = loop.targetSkill || skillPlan[skillIndex] || "--";
-            var skillPos = skillPlan.length ? " (" + Math.min(skillIndex + 1, skillPlan.length) + "/" + skillPlan.length + ")" : "";
-            var blockedCount = loop.blockedSkills ? Object.keys(loop.blockedSkills).length : 0;
-
-            var pill = document.getElementById("loop-active-pill");
-            if (pill) {
-                pill.textContent = loop.active ? "active" : "idle";
-                pill.classList.toggle("active", Boolean(loop.active));
-                pill.classList.toggle("warn", Boolean(player.busy || player.combat || blockedCount));
-            }
-
-            setText(
-                "loop-monitor-state",
-                "mode: " + formatLoopValue(loop.mode)
-                + " / stage: " + formatLoopValue(loop.stage)
-                + " / phase: " + formatLoopValue(data.phase)
-                + " / turn: " + formatLoopValue(data.turn)
-            );
-            setText(
-                "loop-monitor-target",
-                "目标：" + formatLoopValue(loop.targetMaster)
-                + " / " + formatLoopValue(currentSkill) + skillPos
-                + " / learn=" + formatLoopValue(loop.learnTimes)
-                + " / minPot=" + formatLoopValue(loop.minPotential)
-                + (blockedCount ? " / blocked=" + blockedCount : "")
-            );
-            setText(
-                "loop-monitor-action",
-                "最近动作：" + formatLoopValue(loop.lastAction)
-                + (loop.lastReason ? " / " + loop.lastReason : "")
-            );
-            setText("loop-monitor-result", "结果：" + formatLoopValue(loop.lastResult));
-
-            var statusFlags = [];
-            if (player.combat) statusFlags.push("战斗");
-            if (player.busy) statusFlags.push("busy");
-            if (!statusFlags.length) statusFlags.push("正常");
-
-            var resources = [
-                { label: "潜能", value: formatLoopRatio(player.potential, player.potential_max), cls: loopStatClass(player.potential, player.potential_max, loop.minPotential) },
-                { label: "精", value: formatLoopRatio(player.jing, player.jing_max), cls: loopStatClass(player.jing, player.jing_max) },
-                { label: "精力", value: formatLoopRatio(player.mp, player.mp_max), cls: loopStatClass(player.mp, player.mp_max) },
-                { label: "气", value: formatLoopRatio(player.hp, player.hp_max), cls: loopStatClass(player.hp, player.hp_max) },
-                { label: "内力", value: formatLoopRatio(player.neili, player.neili_max), cls: loopStatClass(player.neili, player.neili_max) },
-                { label: "食物", value: formatLoopRatio(player.food, player.food_max), cls: loopStatClass(player.food, player.food_max) },
-                { label: "饮水", value: formatLoopRatio(player.water, player.water_max), cls: loopStatClass(player.water, player.water_max) },
-                { label: "经验", value: formatLoopValue(player.combat_exp), cls: "" },
-                { label: "状态", value: statusFlags.join("/"), cls: player.combat ? " danger" : (player.busy ? " warn" : "") }
-            ];
-
-            var resourceEl = document.getElementById("loop-monitor-resources");
-            if (resourceEl) {
-                resourceEl.innerHTML = resources.map(function (item) {
-                    return renderLoopStat(item.label, item.value, item.cls);
-                }).join("");
+                setAgentChatStatus("一次性策略已消费");
+            } else if (data.kind === "tool" || data.kind === "kb" || data.kind === "route" || data.kind === "command_sequence") {
+                setAgentChatStatus(title);
             }
         }
 
@@ -1593,7 +1030,7 @@
 
                 case 'prompt_cleared':
                     if (msg.data && msg.data.oneShot) {
-                        setAgentChatStatus("Pi agent 一次性策略已消费");
+                        setAgentChatStatus("一次性策略已消费");
                     }
                     break;
 
@@ -1622,24 +1059,8 @@
             }
 
             if (data.oneShotPromptQueued) {
-                setAgentChatStatus("Pi agent 一次性策略等待下一轮");
-            } else if (data.progressLoop && data.progressLoop.active) {
-                setAgentChatStatus("Progress loop: " + (data.progressLoop.stage || "active"));
-            } else if (data.persistentMemory) {
-                setAgentChatStatus("Memory rooms=" + (data.persistentMemory.rooms || 0)
-                    + " npc=" + (data.persistentMemory.npcs || 0)
-                    + " events=" + (data.persistentMemory.keyEvents || 0));
+                setAgentChatStatus("一次性策略等待下一轮");
             }
-
-            if (Array.isArray(data.recentTraces)) {
-                data.recentTraces.forEach(handleAgentTrace);
-            }
-
-            if (data.waterRoute) {
-                updateWaterRouteMonitor(data.waterRoute);
-            }
-
-            updateProgressLoopPanel(data);
 
             // 更新世界状态
             if (data.world) {
@@ -1651,11 +1072,6 @@
                     var hpMax = w.player.hp_max;
                     if (hp !== undefined && hpMax !== undefined) {
                         setBar('qi', hp, hpMax);
-                    }
-
-                    // 更新精
-                    if (w.player.jing !== undefined) {
-                        setBar('jing', w.player.jing, w.player.jing_max || 0);
                     }
 
                     // 更新内力
@@ -1825,51 +1241,12 @@
         cmdInput.addEventListener("keydown", function (event) {
             if (event.key === "Enter") {
                 event.preventDefault();
-                var cmd = cmdInput.value.trim();
+                var cmd = cmdInput.value;
                 if (cmd) {
-                    addCommandHistory(cmd);
                     sendCommand(cmd);
                 }
-            } else if (event.key === "ArrowUp") {
-                event.preventDefault();
-                recallCommandHistory(-1);
-            } else if (event.key === "ArrowDown") {
-                event.preventDefault();
-                recallCommandHistory(1);
             }
         });
-
-        function addCommandHistory(cmd) {
-            if (!cmd) return;
-            if (commandHistory[commandHistory.length - 1] !== cmd) {
-                commandHistory.push(cmd);
-                if (commandHistory.length > 100) commandHistory.shift();
-            }
-            commandHistoryIndex = -1;
-            commandHistoryDraft = "";
-        }
-
-        function recallCommandHistory(direction) {
-            if (!commandHistory.length) return;
-            if (commandHistoryIndex === -1) {
-                commandHistoryDraft = cmdInput.value;
-                commandHistoryIndex = commandHistory.length;
-            }
-
-            commandHistoryIndex += direction;
-            if (commandHistoryIndex < 0) commandHistoryIndex = 0;
-            if (commandHistoryIndex >= commandHistory.length) {
-                commandHistoryIndex = -1;
-                cmdInput.value = commandHistoryDraft;
-            } else {
-                cmdInput.value = commandHistory[commandHistoryIndex];
-            }
-
-            setTimeout(function () {
-                var end = cmdInput.value.length;
-                cmdInput.setSelectionRange(end, end);
-            }, 0);
-        }
 
         // ==================== 房间检测与地图 ====================
         function detectAndUpdateRoom(text) {
