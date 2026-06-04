@@ -18,6 +18,7 @@
 
 import net from 'node:net';
 import fs from 'node:fs/promises';
+import fsSync from 'node:fs';
 import path from 'node:path';
 import {
   createAgentSession,
@@ -340,9 +341,9 @@ const state = {
     active: false,
     mode: 'idle',
     stage: 'idle',
-    targetMaster: 'qingshan biqiu',
+    targetMaster: 'qingshan',
     targetSkill: '',
-    skillPlan: ['buddhism', 'literate', 'force', 'dodge', 'parry', 'cuff', 'blade', 'strike', 'sword'],
+    skillPlan: ['buddhism', 'literate', 'force', 'dodge', 'parry', 'cuff', 'strike', 'sword'],
     skillIndex: 0,
     learnTimes: 10,
     minPotential: 8,
@@ -496,7 +497,7 @@ const KNOWN_ROUTES: Record<string, KnownRoute> = {
     from: '少林厨房 /d/shaolin/chufang',
     to: '清善比丘处 /d/shaolin/guangchang2',
     commands: ['south', 'south', 'east', 'south'],
-    notes: '厨房到寺内广场，清善比丘在此。当前角色 master_id=qingshan biqiu 时可优先向他学习基础技能。',
+    notes: '厨房到寺内广场，清善比丘在此。当前角色可用 alias qingshan 向他学习基础技能。',
   },
   shaolin_qingshan_biqiu_to_chufang: {
     from: '清善比丘处 /d/shaolin/guangchang2',
@@ -716,6 +717,116 @@ function normalizeDirection(raw: unknown): string {
   return DIRECTION_ALIASES[dir] || dir;
 }
 
+// ---------------------------------------------------------------------------
+// KB (skills/xkx2001-knowledge/data/map.json) — used to:
+//   1) validate parsed room shorts (rejects junk like "<!" from prompt/chat lines),
+//   2) resolve location.room_id from (short, exits),
+//   3) precompute each fixed-route's expected room_id sequence by BFS-walking the
+//      route's command list through the live room graph — so route-deviation
+//      checks become exact (room_id == expected) instead of fuzzy keyword match.
+// Loaded sync once at startup; if file missing we degrade gracefully.
+// ---------------------------------------------------------------------------
+
+type KbRoom = { room_id: string; short?: string; area?: string; exits?: Record<string, string>; npcs?: string[] };
+type KbIndex = {
+  byId: Map<string, KbRoom>;
+  byShort: Map<string, string[]>; // short -> room_ids[]
+  knownShorts: Set<string>;
+};
+
+function loadKbIndex(): KbIndex | null {
+  try {
+    const p = path.resolve(SKILLS_DIR, 'xkx2001-knowledge', 'data', 'map.json');
+    const raw = fsSync.readFileSync(p, 'utf-8');
+    const data = JSON.parse(raw) as { rooms?: KbRoom[] };
+    const idx: KbIndex = { byId: new Map(), byShort: new Map(), knownShorts: new Set() };
+    for (const r of data.rooms || []) {
+      if (!r.room_id) continue;
+      idx.byId.set(r.room_id, r);
+      if (r.short) {
+        idx.knownShorts.add(r.short);
+        const arr = idx.byShort.get(r.short) || [];
+        arr.push(r.room_id);
+        idx.byShort.set(r.short, arr);
+      }
+    }
+    console.log(`[KB] loaded map.json: ${idx.byId.size} rooms, ${idx.byShort.size} distinct shorts`);
+    return idx;
+  } catch (err) {
+    console.warn(`[KB] map.json not loaded; room_id resolution disabled (${(err as Error)?.message})`);
+    return null;
+  }
+}
+const KB = loadKbIndex();
+
+// Extract a /d/... room_id embedded in a label string (e.g. "汉水岸边 /d/shaolin/riverbank").
+function extractRoomIdFromLabel(label: string | undefined): string | undefined {
+  if (!label) return undefined;
+  const m = label.match(/(\/d\/[a-z0-9_/\-]+)/i);
+  return m ? m[1] : undefined;
+}
+
+// Resolve a room_id given a parsed short name and (optionally) parsed exits.
+// Returns undefined if KB not loaded, short unknown, or ambiguous (>1 candidate).
+function resolveRoomIdByShortExits(short: string | undefined, exits: string[] | undefined): string | undefined {
+  if (!KB || !short) return undefined;
+  const cands = KB.byShort.get(short);
+  if (!cands || cands.length === 0) return undefined;
+  if (cands.length === 1) return cands[0];
+  // Multiple rooms share this short — disambiguate by exit set.
+  if (!exits || exits.length === 0) return undefined;
+  const exitSet = new Set(exits);
+  const matches = cands.filter((rid) => {
+    const r = KB.byId.get(rid);
+    if (!r?.exits) return false;
+    const kbDirs = Object.keys(r.exits);
+    // require parsed exits be a subset of KB exits (parsed exits sometimes miss specials)
+    return [...exitSet].every((d) => kbDirs.includes(d));
+  });
+  return matches.length === 1 ? matches[0] : undefined;
+}
+
+// Walk a route's command list through KB.byId; returns the expected room_id at the
+// START of each step (i.e. expected[i] is where the agent should be BEFORE issuing
+// commands[i]). null entries = unknown (off-map / non-direction / random exit).
+function precomputeRouteExpectedRoomIds(routeName: string, route: KnownRoute): (string | null)[] {
+  const cmds: RouteStep[] = route.commands || (route.directions || []);
+  if (!KB) return cmds.map(() => null);
+  const startId = extractRoomIdFromLabel(route.from);
+  const seq: (string | null)[] = [];
+  let cur: string | null = startId && KB.byId.has(startId) ? startId : null;
+  for (const step of cmds) {
+    seq.push(cur);
+    const cmd = routeStepCommand(step).trim().toLowerCase();
+    if (!cur) continue;
+    const dir = DIRECTION_ALIASES[cmd];
+    if (!dir) continue; // non-direction (knock gate, give, look, etc.) — stay in same room
+    const r = KB.byId.get(cur);
+    const next = r?.exits?.[dir];
+    cur = next && KB.byId.has(next) ? next : null;
+  }
+  return seq;
+}
+
+const ROUTE_EXPECTED_ROOM_IDS: Map<string, (string | null)[]> = (() => {
+  const m = new Map<string, (string | null)[]>();
+  for (const [name, route] of Object.entries(KNOWN_ROUTES)) {
+    m.set(name, precomputeRouteExpectedRoomIds(name, route));
+  }
+  if (KB) {
+    const resolved = [...m.values()].reduce((acc, arr) => acc + arr.filter((x) => x).length, 0);
+    const total = [...m.values()].reduce((acc, arr) => acc + arr.length, 0);
+    console.log(`[KB] precomputed expected room_ids for ${m.size} routes: ${resolved}/${total} steps resolved`);
+  }
+  return m;
+})();
+
+function expectedRoomIdAtStep(routeName: string, stepIndex: number): string | null {
+  const seq = ROUTE_EXPECTED_ROOM_IDS.get(routeName);
+  if (!seq) return null;
+  return seq[stepIndex] ?? null;
+}
+
 function summarizeEvents(events: Array<{ type: string; content: string; timestamp: number }>, limit = 8) {
   return events.slice(-limit).map((e) => e.content).join('\n');
 }
@@ -786,7 +897,21 @@ function expectedWaterStage(routeName: string, stepNo: number, total: number, cm
   return { label: '', keywords: [] as string[] };
 }
 
-function waterRouteDeviation(expected: { label: string; keywords: string[] }, actualRoom: string) {
+// 路线偏离判定（优先 room_id 精确比对，回退到关键字模糊匹配）
+// 调用方传入 expectedRoomId（来自 ROUTE_EXPECTED_ROOM_IDS 预计算）和当前 location.room_id。
+// 若两个都有：直接比 room_id（最权威）。任一缺失：回退到旧的 keyword∈actualRoom 检查。
+function waterRouteDeviation(
+  expected: { label: string; keywords: string[] },
+  actualRoom: string,
+  expectedRoomId?: string | null,
+  actualRoomId?: string | null,
+) {
+  // 优先 room_id 精确比对（KB 已加载且本步有预期 + 当前已解析）
+  if (expectedRoomId && actualRoomId) {
+    if (expectedRoomId === actualRoomId) return '';
+    return `route偏离: 期望房间 ${expectedRoomId} (${expected.label})，实际 ${actualRoomId}${actualRoom ? ' ' + actualRoom : ''}`;
+  }
+  // 回退：关键字模糊匹配
   if (!expected.keywords.length || !actualRoom) return '';
   return expected.keywords.some((k) => actualRoom.includes(k))
     ? ''
@@ -800,6 +925,8 @@ function classifyRouteDeviation(
   actualRoom: string,
   events: Array<{ type: string; content: string; timestamp: number }>,
   stopReason?: string | null,
+  expectedRoomId?: string | null,
+  actualRoomId?: string | null,
 ) {
   const c = cmd.trim().toLowerCase();
   const text = summarizeEvents(events, 20);
@@ -809,7 +936,7 @@ function classifyRouteDeviation(
   if ((c === 'south' || c === 'north') && routeName.includes('shaolin') && stopReason === 'blocked_exit') return 'gate_blocked';
   if (/正忙|busy|现在不能/.test(text) || stopReason === 'blocked_or_busy') return 'busy_or_blocked';
   if (stopReason === 'blocked_exit') return 'blocked_exit';
-  if (waterRouteDeviation(expected, actualRoom)) return 'room_mismatch';
+  if (waterRouteDeviation(expected, actualRoom, expectedRoomId, actualRoomId)) return 'room_mismatch';
   return '';
 }
 
@@ -855,21 +982,19 @@ function appendRecentWaterRoom(actualRoom: string) {
 }
 
 const PROGRESS_MASTER_BY_SKILL: Record<string, string> = {
-  buddhism: 'qingshan biqiu',
-  literate: 'qingshan biqiu',
-  force: 'qingshan biqiu',
-  dodge: 'qingshan biqiu',
-  parry: 'qingshan biqiu',
-  cuff: 'qingshan biqiu',
-  blade: 'qingwu biqiu',
-  strike: 'qingshan biqiu',
-  sword: 'qingshan biqiu',
+  buddhism: 'qingshan',
+  literate: 'qingshan',
+  force: 'qingshan',
+  dodge: 'qingshan',
+  parry: 'qingshan',
+  cuff: 'qingshan',
+  blade: 'qingshan',
+  strike: 'qingshan',
+  sword: 'qingshan',
 };
 
 const PROGRESS_MASTER_ROUTE_SUFFIX: Record<string, string> = {
-  'qingshan biqiu': 'qingshan_biqiu',
-  'qingwu biqiu': 'qingwu_biqiu',
-  'qingfa biqiu': 'qingfa_biqiu',
+  qingshan: 'qingshan_biqiu',
 };
 
 function progressRoomKey() {
@@ -905,7 +1030,7 @@ function progressLearnOutcome(events: Array<{ type: string; content: string; tim
 }
 
 function chooseProgressSkill(loop: ProgressLoopState) {
-  const plan = loop.skillPlan.length ? loop.skillPlan : ['buddhism', 'literate', 'force', 'dodge', 'parry', 'cuff', 'blade'];
+  const plan = loop.skillPlan.length ? loop.skillPlan : ['buddhism', 'literate', 'force', 'dodge', 'parry', 'cuff', 'strike', 'sword'];
   for (let offset = 0; offset < plan.length; offset += 1) {
     const idx = (loop.skillIndex + offset) % plan.length;
     const skill = plan[idx];
@@ -939,16 +1064,20 @@ function updateProgressLoop(patch: Partial<ProgressLoopState>) {
   };
 }
 
-function detectStopReason(events: Array<{ type: string; content: string; timestamp: number }>): string | null {
+function detectStopReason(
+  events: Array<{ type: string; content: string; timestamp: number }>,
+  currentCommand = '',
+): string | null {
+  const currentIsInfo = currentCommand ? isInfoCommand(currentCommand) : false;
   const qi = state.world.player.hp;
   const qiMax = state.world.player.hp_max;
-  if (typeof qi === 'number' && typeof qiMax === 'number' && qiMax > 0 && qi / qiMax < 0.3) {
+  if (!currentIsInfo && typeof qi === 'number' && typeof qiMax === 'number' && qiMax > 0 && qi / qiMax < 0.3) {
     return 'low_qi';
   }
 
   const jing = state.world.player.jing;
   const jingMax = state.world.player.jing_max;
-  if (typeof jing === 'number' && typeof jingMax === 'number' && jingMax > 0 && jing / jingMax < 0.3) {
+  if (!currentIsInfo && typeof jing === 'number' && typeof jingMax === 'number' && jingMax > 0 && jing / jingMax < 0.3) {
     return 'low_jing';
   }
 
@@ -959,6 +1088,14 @@ function detectStopReason(events: Array<{ type: string; content: string; timesta
   if (/你必须先把|这个方向没有门|没有这个方向|不能往那个方向|那里没有|无法往|不能这样走/.test(text)) return 'blocked_exit';
   if (/拦住|挡住|不让你|正忙|busy|现在不能/.test(text)) return 'blocked_or_busy';
   return null;
+}
+
+function shouldStopBeforeNextCommand(stop: string | null, nextCommand = '') {
+  if (!stop || stop === 'combat_or_damage') return false;
+  if ((stop === 'low_qi' || stop === 'low_jing') && nextCommand && isInfoCommand(nextCommand)) {
+    return false;
+  }
+  return true;
 }
 
 function safeJsonParse<T>(s: string, fallback: T): T {
@@ -1248,29 +1385,76 @@ function parseFluffosText(raw: string) {
   const text = raw.replace(/\r/g, '').replace(/\[[0-9;]*m/g, '');
   const lines = text.split('\n').map((s) => s.trim()).filter(Boolean);
 
-  // 房间标题启发
-  for (const line of lines) {
-    const m = line.match(/^(.+?)\s*[-－]\s*(.+)$/);
-    if (m) {
-      state.world.location.name = m[1].trim();
-      state.world.location.area = m[2].trim();
-      break;
+  // 出口（先定出口行，标题行就在出口行所属 look 块的最上方）
+  const exitsLineIdx = lines.findIndex((l) =>
+    /这里(?:明显的出口|唯一的出口)是|这里没有任何明显的出路|(?:明显的出口|出口)[有是]?[:：]/.test(l)
+  );
+  let parsedExits: string[] | undefined;
+  if (exitsLineIdx >= 0) {
+    const exitsLine = lines[exitsLineIdx];
+    if (/这里没有任何明显的出路/.test(exitsLine)) {
+      parsedExits = [];
+    } else {
+      const m =
+        exitsLine.match(/这里(?:明显的出口|唯一的出口)是\s*(.+?)(?:。|$)/) ||
+        exitsLine.match(/(?:明显的出口|出口)[有是]?[:：]\s*(.+)$/);
+      if (m) {
+        const exitText = m[1].replace(/和/g, '、').replace(/[。；;]/g, '');
+        parsedExits = Array.from(
+          new Set(exitText.split(/[、,，\s]+/).map(normalizeDirection).filter(Boolean))
+        );
+      }
     }
+    if (parsedExits) state.world.location.exits = parsedExits;
   }
 
-  // 出口
-  const exitsLine = lines.find((l) => /这里(?:明显的出口|唯一的出口)是|(?:明显的出口|出口)[有是]?[:：]/.test(l));
-  if (exitsLine) {
-    const m =
-      exitsLine.match(/这里(?:明显的出口|唯一的出口)是\s*(.+?)(?:。|$)/) ||
-      exitsLine.match(/(?:明显的出口|出口)[有是]?[:：]\s*(.+)$/);
+  // 房间标题：用 KB 校验过的格式 "短名 - filename"（非巫师 filename 常为空 → 破折号后允许为空），
+  // 并以 KB 已知房间短名 (KB.knownShorts) 作白名单——避免把 prompt/聊天/旁白行误判成房间标题
+  // （此前导致 location.name 被覆盖为 "<!" 之类垃圾值的 bug）。
+  // 搜索范围：仅在出口行**之前**的若干行里找；若 KB 未加载，则只用更严格的正则形态守门。
+  const titleSearchEnd = exitsLineIdx >= 0 ? exitsLineIdx : Math.min(lines.length, 8);
+  const TITLE_RE = /^(.+?)\s*[-－]\s*(\S*)\s*$/;
+  // 一些应当过滤的行特征：以 < / > / 【 / 】 / : / ： / 》 / 《 等"非房间字"开头，
+  // 或包含明显的对话/系统/计时/聊天/prompt 标记。
+  const looksLikeNonTitle = (s: string): boolean => {
+    if (!s) return true;
+    if (/^[<>【】「」《》（）()\[\]]/.test(s)) return true; // prompt/chat brackets
+    if (/[:：][^-]*$/.test(s) && !/[一-鿿]\s*[-－]/.test(s)) return true; // "xxx: ..." 对话行（无破折号配对）
+    if (/^(对|你说|你对|你大喊|你嘟囔|说道|笑道|喊道)/.test(s)) return true;
+    if (s.length > 30) return true; // 房间名通常 ≤ 10 汉字
+    return false;
+  };
+  const tryAcceptTitle = (raw: string): { name: string; area: string } | null => {
+    const m = raw.match(TITLE_RE);
     if (m) {
-      const exitText = m[1].replace(/和/g, '、').replace(/[。；;]/g, '');
-      state.world.location.exits = Array.from(
-        new Set(exitText.split(/[、,，\s]+/).map(normalizeDirection).filter(Boolean))
-      );
+      const name = m[1].trim();
+      const area = m[2].trim();
+      if (!name || looksLikeNonTitle(name)) return null;
+      // KB 已加载 → 必须是已知房间短名才接受
+      if (KB && !KB.knownShorts.has(name)) return null;
+      return { name, area };
     }
+    // 简洁模式：单行就是房间短名，没有破折号
+    if (KB && KB.knownShorts.has(raw.trim()) && !looksLikeNonTitle(raw.trim())) {
+      return { name: raw.trim(), area: '' };
+    }
+    return null;
+  };
+
+  let titleFound: { name: string; area: string } | null = null;
+  // 优先从上往下找，命中第一个有效标题即可；典型 look 输出标题就在最上。
+  for (let i = 0; i < titleSearchEnd; i++) {
+    const cand = tryAcceptTitle(lines[i]);
+    if (cand) { titleFound = cand; break; }
   }
+  if (titleFound) {
+    state.world.location.name = titleFound.name;
+    if (titleFound.area) state.world.location.area = titleFound.area;
+    // 解析 room_id（短名 + 出口集合 → KB 唯一房间），用于精确路线偏离判定
+    const rid = resolveRoomIdByShortExits(titleFound.name, state.world.location.exits);
+    if (rid) state.world.location.room_id = rid;
+  }
+  // 若 titleFound===null，**保留**上一次的 location.name（不要被无关文本覆盖）。
 
   // 战斗状态机（combat 默认 false；进战斗/脱战斗都靠文案切换）
   // 模式来源：skills/xkx2001-knowledge/references/status-patterns.json（已对 mudlib 源码核对）。
@@ -1442,7 +1626,7 @@ function buildSystemPrompt(config: GatewayConfig): string {
 12) 若 execute_route_skill 返回 deviationKind/recoveryHint，立刻停止长路线；下一轮只允许用 execute_command_sequence 发送2-3条纠错命令，或重新进入最近的稳定 route skill。
 13) 山门特殊规则：寺内山门殿出寺使用 ["open gate","south","look"]；寺外广场回寺使用 ["knock gate","north","look"]。
 14) 若短纠错序列必须包含 yao shui / dao shui to shui tong，Gateway 会自动加长这些命令的等待；不要把五轮打水压成一条人工长字符串。
-15) 少林新手成长循环（吃喝恢复 -> 找清善/清无/清法学习 -> 潜能不足挑水 -> 回来继续学）优先调用 execute_progress_loop_step；不要让 LLM 自己长篇拼接 learn/tiaoshui 路线。
+15) 少林新手成长循环（吃喝恢复 -> 只找清善 qingshan 学习 -> 潜能不足挑水 -> 回来继续学）优先调用 execute_progress_loop_step；不要让 LLM 自己长篇拼接 learn/tiaoshui 路线。
 `.trim();
 }
 
@@ -2149,7 +2333,8 @@ async function main() {
 
         const events = [...state.eventQueue];
         state.eventQueue.length = 0;
-        const stop = detectStopReason(events);
+        const stop = detectStopReason(events, cmd);
+        const stopAfterStep = shouldStopBeforeNextCommand(stop, commands[index + 1] || '');
         const rawEvents = events.map((e) => e.content);
         steps.push({
           step: index + 1,
@@ -2157,14 +2342,14 @@ async function main() {
           waitMs: actualStepWaitMs,
           rawEvents,
           rawText: rawEvents.join('\n'),
-          ...(stop ? { stopReason: stop } : {}),
+          ...(stopAfterStep ? { stopReason: stop || undefined } : {}),
         });
         emitTrace({
           phase: 'progress',
           kind: 'command_sequence',
           name: 'execute_command_sequence',
-          outputSummary: { step: index + 1, cmd, waitMs: actualStepWaitMs, stopReason: stop || null, ...summarizeEvents(events) },
-          status: stop && stop !== 'combat_or_damage' ? 'stopped' : 'ok',
+          outputSummary: { step: index + 1, cmd, waitMs: actualStepWaitMs, stopReason: stopAfterStep ? stop || null : null, resourceWarning: stop && !stopAfterStep ? stop : null, ...summarizeEvents(events) },
+          status: stopAfterStep ? 'stopped' : 'ok',
         });
 
         state.world.events.recent = events.slice(-config.agent.maxRecentEvents).map((e) => ({
@@ -2173,8 +2358,8 @@ async function main() {
           timestamp: e.timestamp,
         }));
 
-        if (stop && stop !== 'combat_or_damage') {
-          stopReason = stop;
+        if (stopAfterStep) {
+          stopReason = stop || '';
           break;
         }
       }
@@ -2367,7 +2552,10 @@ async function main() {
         const expected = expectedWaterStage(name, index + 1, maxSteps, cmd);
         const preActualRoom = state.world.location.name || '';
         const preActualExits = state.world.location.exits || [];
-        const preDeviation = waterRouteDeviation(expected, preActualRoom);
+        const preActualRoomId = state.world.location.room_id || null;
+        // 本步开始前 agent 应在的 KB room_id（来自预计算的路线序列）
+        const expectedRoomIdHere = expectedRoomIdAtStep(name, index);
+        const preDeviation = waterRouteDeviation(expected, preActualRoom, expectedRoomIdHere, preActualRoomId);
         if (isShaolinWaterRoute(name) && preDeviation) {
           stopReason = 'room_mismatch';
           const recoveryHint = routeRecoveryHint(name, cmd, stopReason, preActualRoom, preActualExits);
@@ -2433,12 +2621,15 @@ async function main() {
 
         const events = [...state.eventQueue];
         state.eventQueue.length = 0;
-        const stop = detectStopReason(events);
+        const stop = detectStopReason(events, cmd);
         const rawEvents = events.map((e) => e.content);
         const actualRoom = state.world.location.name || '';
-        const deviation = waterRouteDeviation(expected, actualRoom);
+        const actualRoomId = state.world.location.room_id || null;
+        // 本步执行后 agent 应到达的 KB room_id（= 下一步开始时的预期房间）
+        const expectedRoomIdNext = expectedRoomIdAtStep(name, index + 1);
+        const deviation = waterRouteDeviation(expected, actualRoom, expectedRoomIdNext, actualRoomId);
         const deviationKind = isShaolinWaterRoute(name)
-          ? classifyRouteDeviation(name, cmd, expected, actualRoom, events, stop)
+          ? classifyRouteDeviation(name, cmd, expected, actualRoom, events, stop, expectedRoomIdNext, actualRoomId)
           : '';
         const routeStopReason = deviationKind || stop || '';
         const recoveryHint = isShaolinWaterRoute(name)
@@ -2637,7 +2828,7 @@ async function main() {
 
         const events = [...state.eventQueue];
         state.eventQueue.length = 0;
-        const stop = detectStopReason(events);
+        const stop = detectStopReason(events, direction);
         const rawEvents = events.map((e) => e.content);
         steps.push({
           step: steps.length + 1,
@@ -2718,7 +2909,7 @@ async function main() {
         skillPlan: {
           type: 'array',
           items: { type: 'string' },
-          description: '可选技能顺序，默认 buddhism,literate,force,dodge,parry,cuff,blade,strike,sword。',
+          description: '可选技能顺序，默认 buddhism,literate,force,dodge,parry,cuff,strike,sword；成长循环只向 qingshan 学习。',
         },
         learnTimes: { type: 'number', description: '每次 learn 的次数，默认10，会被当前潜能限制。' },
         minPotential: { type: 'number', description: '低于该潜能就转挑水，默认8。' },
@@ -2850,7 +3041,7 @@ async function main() {
 
       const chosen = chooseProgressSkill(loop);
       const skill = chosen.skill;
-      const master = PROGRESS_MASTER_BY_SKILL[skill] || loop.targetMaster || 'qingshan biqiu';
+      const master = PROGRESS_MASTER_BY_SKILL[skill] || loop.targetMaster || 'qingshan';
       const targetKey = PROGRESS_MASTER_ROUTE_SUFFIX[master] || 'qingshan_biqiu';
       if (roomKey !== targetKey) {
         let routeName = progressRouteName(roomKey, targetKey);
@@ -3147,7 +3338,7 @@ async function main() {
         `第 ${state.turn} 回合：先观察（wait_event/get_world_summary）。`,
         '若目标是少林/扬州往返或其它已知路线，调用 get_known_routes() 后只调用一次 execute_route_skill()。',
         '若上一轮 route 返回 deviationKind/recoveryHint，按 recoveryHint 用 execute_command_sequence 发送2-3条纠错命令，不要继续硬跑长 route。',
-        '若目标是少林新手成长循环：吃喝恢复、找清善/清无/清法学习、潜能不足挑水、交任务后继续学习，优先调用 execute_progress_loop_step(action=start/step)。',
+        '若目标是少林新手成长循环：吃喝恢复、只找清善 qingshan 学习、潜能不足挑水、交任务后继续学习，优先调用 execute_progress_loop_step(action=start/step)。',
         '若只是局部探索，再只调用一次 execute_command_sequence()，一次性提交2到3条命令。',
         '命令序列不要反复 look；只有位置/出口未知或路线结束校验时才 look。不要逐条调用 send_command。',
       ].join('\n');
