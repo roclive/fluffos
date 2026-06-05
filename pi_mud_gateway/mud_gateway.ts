@@ -243,6 +243,9 @@ type ProgressLoopState = {
   lastAction: string;
   lastReason: string;
   lastResult: string;
+  waterTaskState: string;
+  waterTaskReason: string;
+  waterTaskAction: string;
   blockedSkills: Record<string, string>;
   updatedAt: number;
 };
@@ -343,13 +346,16 @@ const state = {
     stage: 'idle',
     targetMaster: 'qingshan',
     targetSkill: '',
-    skillPlan: ['buddhism', 'literate', 'force', 'dodge', 'parry', 'cuff', 'strike', 'sword'],
+    skillPlan: ['buddhism', 'literate', 'shaolinshenfa', 'buddhism', 'parry', 'hunyuan-yiqi', 'hunyuan-yiqi', 'shaolin-shenfa'],
     skillIndex: 0,
-    learnTimes: 10,
+    learnTimes: 5,
     minPotential: 8,
     lastAction: '',
     lastReason: '',
     lastResult: '',
+    waterTaskState: 'idle',
+    waterTaskReason: '',
+    waterTaskAction: '',
     blockedSkills: {} as Record<string, string>,
     updatedAt: 0,
   } as ProgressLoopState,
@@ -590,6 +596,15 @@ const KNOWN_ROUTES: Record<string, KnownRoute> = {
     requirements: ['必须先领取挑水任务。'],
     notes: '烧饭僧在厨房。水桶只能领一次；水瓢丢失后可再次问水瓢。',
   },
+  shaolin_fzlou_abandon_water_job: {
+    from: '少林方丈楼 /d/shaolin/fzlou',
+    to: '已放弃少林挑水任务',
+    commands: [
+      'ask zhike seng about abandon',
+    ],
+    requirements: ['当前在方丈楼；挑水工具或任务状态不可恢复时使用。'],
+    notes: '知客僧会清除 job_asked/tool_assigned/tiaoshui，并进入短暂 pending；之后成长循环重新判断。',
+  },
   shaolin_chufang_to_riverbank_for_water_job: {
     from: '少林厨房 /d/shaolin/chufang',
     to: '汉水岸边 /d/shaolin/riverbank',
@@ -632,6 +647,13 @@ const KNOWN_ROUTES: Record<string, KnownRoute> = {
     commands: ['northup'],
     requirements: ['水桶已满并 carry 在身上。'],
     notes: '进入山路后出口随机为 up / westup / northwest 之一；执行后先观察出口，再选择对应后续 return variant。',
+  },
+  shaolin_water_shanlu_to_riverbank_for_refill: {
+    from: '挑水山路 /d/shaolin/shanlu*',
+    to: '汉水岸边 /d/shaolin/riverbank',
+    commands: ['southdown'],
+    requirements: ['水桶仍在，但水不满；回汉水重新舀水加满。'],
+    notes: '桶没碎只是水洒了时，不放弃任务，先回河边 refill。',
   },
   shaolin_water_return_shanlu_to_chufang_via_up: {
     from: '挑水山路第一段 /d/shaolin/shanlu',
@@ -853,9 +875,11 @@ function isShaolinWaterRoute(name: string) {
     'shaolin_fzlou_accept_water_job',
     'shaolin_fzlou_to_chufang',
     'shaolin_chufang_prepare_water_tools',
+    'shaolin_fzlou_abandon_water_job',
     'shaolin_chufang_to_riverbank_for_water_job',
     'shaolin_water_fill_bucket_at_riverbank',
     'shaolin_water_return_riverbank_to_shanlu_probe',
+    'shaolin_water_shanlu_to_riverbank_for_refill',
     'shaolin_water_return_shanlu_to_chufang_via_up',
     'shaolin_water_return_shanlu_to_chufang_via_westup',
     'shaolin_water_return_shanlu_to_chufang_via_northwest',
@@ -882,6 +906,9 @@ function expectedWaterStage(routeName: string, stepNo: number, total: number, cm
   if (routeName === 'shaolin_water_return_riverbank_to_shanlu_probe') {
     return { label: '河边进入随机山路', keywords: ['山路'] };
   }
+  if (routeName === 'shaolin_water_shanlu_to_riverbank_for_refill') {
+    return { label: '山路返回汉水补水', keywords: ['汉水', '河边'] };
+  }
   if (routeName === 'shaolin_water_fill_bucket_at_riverbank') {
     return { label: '汉水岸边打水', keywords: ['汉水', '河边'] };
   }
@@ -890,6 +917,9 @@ function expectedWaterStage(routeName: string, stepNo: number, total: number, cm
   }
   if (routeName === 'shaolin_fzlou_accept_water_job') {
     return { label: '方丈楼接任务', keywords: ['方丈楼'] };
+  }
+  if (routeName === 'shaolin_fzlou_abandon_water_job') {
+    return { label: '方丈楼放弃挑水任务', keywords: ['方丈楼'] };
   }
   if (routeName === 'shaolin_fzlou_to_chufang') {
     return { label: '寺内方丈楼到厨房', keywords: [] as string[] };
@@ -1027,6 +1057,81 @@ function progressLearnOutcome(events: Array<{ type: string; content: string; tim
   if (/必须找别人学|不愿意教|程度已经不输|没有办法学习/.test(text)) return 'skill_blocked';
   if (/有些心得|有所提高|请教有关/.test(text)) return 'learned';
   return '';
+}
+
+function toolResultText(result: any) {
+  const details = result?.details || result || {};
+  const steps = Array.isArray(details.steps) ? details.steps : [];
+  const texts: string[] = [];
+  for (const step of steps) {
+    if (Array.isArray(step?.rawEvents)) texts.push(...step.rawEvents.map((e: unknown) => String(e || '')));
+    if (step?.rawText) texts.push(String(step.rawText));
+  }
+  if (details.msg) texts.push(String(details.msg));
+  if (details.stopReason) texts.push(String(details.stopReason));
+  return texts.filter(Boolean).join('\n');
+}
+
+function waterTaskOutcome(routeName: string, text: string, intendedStage: string) {
+  if (!text) return null;
+  const abandon = (stateName: string, reason: string, action = 'abandon_at_fzlou') => ({
+    stage: 'water_abandon_needed',
+    state: stateName,
+    reason,
+    action,
+  });
+  if (/下去好好反思|并没有任务在身/.test(text)) {
+    return { stage: 'need_status', state: 'abandoned', reason: 'water job abandoned or already absent', action: 'resume_progress_loop' };
+  }
+  if (/目前还找不到什么活儿|找不到什么活/.test(text)) {
+    return { stage: 'need_status', state: 'pending', reason: 'water job pending cooldown', action: 'recover_or_learn_until_available' };
+  }
+  if (/你不是已经领到工具了吗/.test(text)) {
+    return abandon('tools_assigned_but_bucket_missing', 'shaofan says tools already assigned but bucket was not obtained');
+  }
+  if (/你现在没有领任务|你要瓢来干什么|你又没有领任务|已经有别人抢先挑好了水|你怎么现在才回来/.test(text)) {
+    return abandon('job_missing_or_expired', 'water job missing or expired during tool/fill/turn-in stage');
+  }
+  if (/水桶不小心.*粉碎|你的水桶呢|身上没有这样东西|这里附近没有这样东西|并没有挑着任何东西/.test(text)) {
+    return abandon('bucket_missing', 'water bucket missing or destroyed before turn-in');
+  }
+  if (/没有水瓢|要用什么倒水|把瓢掉到河里/.test(text)) {
+    return abandon('piao_missing', 'water piao missing during fill/turn-in flow');
+  }
+  if (/这不是你的水桶|不是你的水桶/.test(text)) {
+    return abandon('wrong_bucket', 'current bucket does not belong to this job');
+  }
+  if (/桶还没满|结果桶里的水全部洒|水桶里没有水/.test(text)) {
+    return {
+      stage: 'water_refill_needed',
+      state: 'bucket_not_full',
+      reason: 'bucket still exists but is not full; return to riverbank and refill',
+      action: 'go_to_riverbank_refill',
+    };
+  }
+  if (routeName === 'shaolin_fzlou_accept_water_job' && /不是问过了吗|怎么还在这里偷懒/.test(text)) {
+    return { stage: 'water_job_accepted', state: 'job_already_accepted', reason: 'zhike says water job is already accepted', action: 'go_get_tools' };
+  }
+  if (routeName === 'shaolin_fzlou_accept_water_job' && /先去找烧饭僧|早去早回|厨房.*缺水|找烧饭僧.*工具/.test(text)) {
+    return { stage: 'water_job_accepted', state: 'job_accepted', reason: 'water job accepted', action: 'go_get_tools' };
+  }
+  if (routeName === 'shaolin_chufang_prepare_water_tools') {
+    const bucketOk = /交给.*水桶|身上不是有水桶|地上不是有你的水桶/.test(text);
+    const piaoOk = /给.*水瓢|身上不是有水瓢|刚刚要过瓢|记得用完后还回来/.test(text);
+    if (bucketOk && piaoOk) {
+      return { stage: intendedStage, state: 'tools_ready', reason: 'bucket and piao are available', action: 'go_to_riverbank' };
+    }
+  }
+  if (routeName === 'shaolin_water_fill_bucket_at_riverbank') {
+    return { stage: intendedStage, state: 'bucket_filled', reason: 'fill route completed without detected tool failure', action: 'return_to_kitchen' };
+  }
+  if (routeName.startsWith('shaolin_water_return_')) {
+    return { stage: intendedStage, state: 'returning', reason: 'return route completed without detected tool failure', action: 'turn_in_or_continue_return' };
+  }
+  if (routeName === 'shaolin_chufang_finish_water_job' && /辛苦你了|下去休息一下|奖励/.test(text)) {
+    return { stage: 'need_status', state: 'completed', reason: 'water job completed', action: 'refresh_status' };
+  }
+  return null;
 }
 
 function chooseProgressSkill(loop: ProgressLoopState) {
@@ -1219,6 +1324,9 @@ function mergePersistentMemoryFromWorld(events: Array<{ type?: string; content?:
     lastAction: state.progressLoop.lastAction,
     lastReason: state.progressLoop.lastReason,
     lastResult: state.progressLoop.lastResult,
+    waterTaskState: state.progressLoop.waterTaskState,
+    waterTaskReason: state.progressLoop.waterTaskReason,
+    waterTaskAction: state.progressLoop.waterTaskAction,
     blockedSkills: { ...state.progressLoop.blockedSkills },
     updatedAt: state.progressLoop.updatedAt,
   };
@@ -1613,20 +1721,20 @@ function buildSystemPrompt(config: GatewayConfig): string {
 强制策略：
 1) 每回合先调用 wait_event() 或 get_world_summary() 观察环境。
 2) 若目标是跨区域移动或已知路线，先调用 get_known_routes()，再优先调用 execute_route_skill()，不要自己逐步推路。
-3) 普通局部行动或探索回合才调用 execute_command_sequence()，一次提交 2-3 条命令，让 Gateway 本地循环快速执行。
+3) 普通局部行动或探索回合才调用 execute_command_sequence()，一次提交 2-5 条命令，让 Gateway 本地循环快速执行。
 3) 遇到战斗或低血（HP < 30%），优先保命：恢复/撤离/防御。
-4) 关键转折时调用 save_checkpoint()。
-5) 小步快跑策略：观察 → 稳定 route 用 execute_route_skill；普通探索/局部行动用 execute_command_sequence(2-3条) → 再观察。
+4) 关键转折时调用 save_checkpoint()。s
+5) 小步快跑策略：观察 → 稳定 route 用 execute_route_skill；普通探索/局部行动用 execute_command_sequence(2-3条);快速探索用 execute_command_sequence(3-5条) → 再观察。
 6) 探图时优先调用 get_known_routes()；有 commands 的路线用 execute_route_skill，有 directions 的路线再用 follow_path。
 7) 不要在命令序列里反复 look；只在当前位置未知、出口未知、或路线结束后需要校验时使用 look。
 8) 不要用 send_command 连续单发代替 execute_command_sequence；除非只需要一条信息命令。
 9) 普通观察调用 wait_event() 时不要传 timeoutMs，使用默认短等待；除非刚执行了明确需要长等待的动作，否则不要传 1000ms 这类长等待。
-10) 少林挑水任务优先读取 skill shaolin-water-carrying；执行时使用 shaolin_fzlou_accept_water_job / shaolin_chufang_prepare_water_tools / shaolin_chufang_to_riverbank_for_water_job / shaolin_water_fill_bucket_at_riverbank / shaolin_water_return_* / shaolin_chufang_finish_water_job。
+10) 少林挑水任务优先读取 skill shaolin-water-carrying；执行时使用 shaolin_fzlou_accept_water_job / shaolin_chufang_prepare_water_tools / shaolin_chufang_to_riverbank_for_water_job / shaolin_water_fill_bucket_at_riverbank / shaolin_water_return_* / shaolin_chufang_finish_water_job。若知客僧说“不是问过了吗”，视为任务已接并继续领工具；若桶还在但水不满或水洒了，切到 water_refill_* 回汉水 yao/dao 加满再回厨房交任务；若烧饭僧说“不是已经领到工具了吗”但没有水桶、或桶/瓢丢失、任务过期，切到 water_abandon_* 并用 shaolin_fzlou_abandon_water_job 放弃后重启判断。
 11) 长渡船、busy、挑水 yao/dao 等等待必须放进 execute_route_skill 的 per-step waitMs，不要用 wait_event 长等。
 12) 若 execute_route_skill 返回 deviationKind/recoveryHint，立刻停止长路线；下一轮只允许用 execute_command_sequence 发送2-3条纠错命令，或重新进入最近的稳定 route skill。
 13) 山门特殊规则：寺内山门殿出寺使用 ["open gate","south","look"]；寺外广场回寺使用 ["knock gate","north","look"]。
 14) 若短纠错序列必须包含 yao shui / dao shui to shui tong，Gateway 会自动加长这些命令的等待；不要把五轮打水压成一条人工长字符串。
-15) 少林新手成长循环（吃喝恢复 -> 只找清善 qingshan 学习 -> 潜能不足挑水 -> 回来继续学）优先调用 execute_progress_loop_step；不要让 LLM 自己长篇拼接 learn/tiaoshui 路线。
+15) 少林新手成长循环（吃喝恢复 -> 只找清善 qingshan 学习 -> 潜能不足挑水 -> 工具/交付异常找知客僧放弃 -> 回来继续学）优先调用 execute_progress_loop_step；不要让 LLM 自己长篇拼接 learn/tiaoshui 路线。
 `.trim();
 }
 
@@ -2901,7 +3009,7 @@ async function main() {
   const executeProgressLoopStepTool: Tool = {
     name: 'execute_progress_loop_step',
     label: 'execute_progress_loop_step',
-    description: '推进少林新手“恢复吃喝 -> 找师父学技能 -> 潜能不足挑水 -> 回来继续学”的确定性状态机。每次只执行一个稳定阶段；偏差时停止并交给Pi用短序列恢复。',
+    description: '推进少林新手“恢复吃喝 -> 只找清善 qingshan 学技能 -> 潜能不足挑水 -> 工具/交付异常则找知客僧放弃 -> 回来继续学”的确定性状态机。在每一个turn里多次调用工具。但偏差时停止并交给Pi用短序列恢复。',
     parameters: {
       type: 'object',
       properties: {
@@ -2909,9 +3017,9 @@ async function main() {
         skillPlan: {
           type: 'array',
           items: { type: 'string' },
-          description: '可选技能顺序，默认 buddhism,literate,force,dodge,parry,cuff,strike,sword；成长循环只向 qingshan 学习。',
+          description: '可选技能顺序，默认 buddhism,literate,buddhism,shaolinshenfa,hunyuan-yiqi,shaolin-shenfa,parry,hunyuan-yiqi,shaolin-shenfa；成长循环只向 qingshan 学习。',
         },
-        learnTimes: { type: 'number', description: '每次 learn 的次数，默认10，会被当前潜能限制。' },
+        learnTimes: { type: 'number', description: '每次 learn 的次数，默认5，会被当前潜能限制。' },
         minPotential: { type: 'number', description: '低于该潜能就转挑水，默认8。' },
       },
       required: [],
@@ -2937,6 +3045,9 @@ async function main() {
           lastAction: 'start',
           lastReason: 'progress loop enabled',
           lastResult: '',
+          waterTaskState: 'idle',
+          waterTaskReason: '',
+          waterTaskAction: '',
         });
       }
 
@@ -2976,6 +3087,32 @@ async function main() {
         return result;
       };
 
+      const runWaterRoute = async (name: string, reason: string, stage: string) => {
+        const result = await runRoute(name, reason, stage);
+        const outcome = waterTaskOutcome(name, toolResultText(result), stage);
+        if (outcome) {
+          updateProgressLoop({
+            stage: outcome.stage,
+            waterTaskState: outcome.state,
+            waterTaskReason: outcome.reason,
+            waterTaskAction: outcome.action,
+            lastResult: outcome.reason,
+          });
+          sendStateSnapshot();
+        }
+        return result;
+      };
+
+      const setWaterTask = (stage: string, stateName: string, reason: string, actionName: string) => {
+        updateProgressLoop({
+          stage,
+          waterTaskState: stateName,
+          waterTaskReason: reason,
+          waterTaskAction: actionName,
+          lastResult: reason,
+        });
+      };
+
       const p = state.world.player;
       const potential = typeof p.potential === 'number' ? p.potential : 0;
       const foodLow = typeof p.food === 'number' && p.food < 80;
@@ -2993,11 +3130,62 @@ async function main() {
       }
 
       if (potential < loop.minPotential || loop.stage.startsWith('water_')) {
+        if (loop.stage.startsWith('water_abandon')) {
+          if (roomKey === 'fzlou') {
+            return runWaterRoute('shaolin_fzlou_abandon_water_job', 'abandon inconsistent Shaolin water job before restarting loop', 'water_abandoning');
+          }
+          if (roomKey === 'chufang') {
+            return runWaterRoute('shaolin_chufang_to_fzlou', 'go to zhike to abandon inconsistent water job', 'water_abandon_at_fzlou');
+          }
+          if (roomKey === 'riverbank') {
+            return runWaterRoute('shaolin_water_return_riverbank_to_shanlu_probe', 'leave riverbank before abandoning inconsistent water job', 'water_abandon_on_shanlu');
+          }
+          if (roomKey === 'shanlu') {
+            const exits = new Set((state.world.location.exits || []).map(normalizeDirection));
+            const variant = exits.has('up')
+              ? 'shaolin_water_return_shanlu_to_chufang_via_up'
+              : exits.has('westup')
+                ? 'shaolin_water_return_shanlu_to_chufang_via_westup'
+                : exits.has('northwest')
+                  ? 'shaolin_water_return_shanlu_to_chufang_via_northwest'
+                  : '';
+            if (variant) return runWaterRoute(variant, 'return from mountain path before abandoning inconsistent water job', 'water_abandon_to_chufang');
+          }
+          const toKitchenForAbandon = progressRouteName(roomKey, 'chufang');
+          if (toKitchenForAbandon) {
+            return runWaterRoute(toKitchenForAbandon, 'return to kitchen/fzlou path before abandoning inconsistent water job', 'water_abandon_to_chufang');
+          }
+          setWaterTask('water_abandon_needed', 'abandon_blocked', `need abandon but no route from ${roomKey || 'unknown'} to fzlou`, 'manual_relocate_to_fzlou');
+          sendStateSnapshot();
+          return { content: [{ type: 'text', text: JSON.stringify(state.progressLoop) }], details: state.progressLoop };
+        }
+        if (loop.stage === 'water_refill_needed' || loop.stage === 'water_refill_to_riverbank' || loop.stage === 'water_refill_to_chufang') {
+          if (roomKey === 'riverbank') {
+            return runWaterRoute('shaolin_water_fill_bucket_at_riverbank', 'refill not-full bucket at riverbank', 'water_filled');
+          }
+          if (roomKey === 'shanlu') {
+            return runWaterRoute('shaolin_water_shanlu_to_riverbank_for_refill', 'bucket not full: go back down to riverbank', 'water_refill_to_riverbank');
+          }
+          if (roomKey === 'chufang') {
+            setWaterTask('water_refill_to_riverbank', 'returning_to_refill', 'bucket not full; returning to riverbank before turn-in', 'go_to_riverbank_refill');
+            return runWaterRoute('shaolin_chufang_to_riverbank_for_water_job', 'bucket not full: return to riverbank to refill', 'water_refill_to_riverbank');
+          }
+          if (roomKey === 'fzlou') {
+            return runWaterRoute('shaolin_fzlou_to_chufang', 'bucket not full: go through kitchen before returning to riverbank', 'water_refill_to_chufang');
+          }
+          const toKitchenForRefill = progressRouteName(roomKey, 'chufang');
+          if (toKitchenForRefill) {
+            return runWaterRoute(toKitchenForRefill, 'bucket not full: return to kitchen before riverbank refill', 'water_refill_to_chufang');
+          }
+          setWaterTask('water_refill_needed', 'refill_blocked', `need refill but no route from ${roomKey || 'unknown'} to riverbank`, 'manual_relocate_to_riverbank');
+          sendStateSnapshot();
+          return { content: [{ type: 'text', text: JSON.stringify(state.progressLoop) }], details: state.progressLoop };
+        }
         if (roomKey === 'riverbank') {
           if (loop.stage === 'water_filled') {
-            return runRoute('shaolin_water_return_riverbank_to_shanlu_probe', 'full bucket: enter random water-carrying mountain path', 'water_on_shanlu');
+            return runWaterRoute('shaolin_water_return_riverbank_to_shanlu_probe', 'full bucket: enter random water-carrying mountain path', 'water_on_shanlu');
           }
-          return runRoute('shaolin_water_fill_bucket_at_riverbank', 'fill bucket because potential is low', 'water_filled');
+          return runWaterRoute('shaolin_water_fill_bucket_at_riverbank', 'fill bucket because potential is low', 'water_filled');
         }
         if (roomKey === 'shanlu') {
           const exits = new Set((state.world.location.exits || []).map(normalizeDirection));
@@ -3008,32 +3196,33 @@ async function main() {
               : exits.has('northwest')
                 ? 'shaolin_water_return_shanlu_to_chufang_via_northwest'
                 : '';
-          if (variant) return runRoute(variant, 'return from random mountain path to kitchen', 'water_returning');
+          if (variant) return runWaterRoute(variant, 'return from random mountain path to kitchen', 'water_returning');
           updateProgressLoop({ lastAction: 'pause', lastReason: 'shanlu branch unknown; need Pi short recovery/look' });
           sendStateSnapshot();
           return { content: [{ type: 'text', text: JSON.stringify(state.progressLoop) }], details: state.progressLoop };
         }
         if (roomKey === 'fzlou') {
           if (loop.stage === 'water_need_job' || loop.stage === 'water_at_fzlou') {
-            return runRoute('shaolin_fzlou_accept_water_job', 'accept Shaolin water job for potential', 'water_job_accepted');
+            return runWaterRoute('shaolin_fzlou_accept_water_job', 'accept Shaolin water job for potential', 'water_job_accepted');
           }
-          return runRoute('shaolin_fzlou_to_chufang', 'go to kitchen after accepting water job', 'water_at_chufang');
+          return runWaterRoute('shaolin_fzlou_to_chufang', 'go to kitchen after accepting water job', 'water_at_chufang');
         }
         if (roomKey === 'chufang') {
           if (loop.stage === 'water_returning') {
-            return runRoute('shaolin_chufang_finish_water_job', 'turn in full bucket for reward/potential', 'need_status');
+            return runWaterRoute('shaolin_chufang_finish_water_job', 'turn in full bucket for reward/potential', 'need_status');
           }
           if (loop.stage === 'water_job_accepted' || loop.stage === 'water_at_chufang') {
-            return runRoute('shaolin_chufang_prepare_water_tools', 'get bucket and piao before water run', 'water_tools_done');
+            return runWaterRoute('shaolin_chufang_prepare_water_tools', 'get bucket and piao before water run', 'water_tools_done');
           }
           if (loop.stage === 'water_tools_done') {
-            return runRoute('shaolin_chufang_to_riverbank_for_water_job', 'go to riverbank for water job', 'water_at_river');
+            setWaterTask('water_at_river', 'traveling_to_riverbank', 'tools prepared; going to riverbank', 'go_to_riverbank');
+            return runWaterRoute('shaolin_chufang_to_riverbank_for_water_job', 'go to riverbank for water job', 'water_at_river');
           }
-          return runRoute('shaolin_chufang_to_fzlou', 'potential low: go to fzlou to accept water job', 'water_at_fzlou');
+          return runWaterRoute('shaolin_chufang_to_fzlou', 'potential low: go to fzlou to accept water job', 'water_at_fzlou');
         }
 
         const toKitchen = progressRouteName(roomKey, 'chufang');
-        if (toKitchen) return runRoute(toKitchen, 'potential low: return to kitchen before water loop', 'water_need_job');
+        if (toKitchen) return runWaterRoute(toKitchen, 'potential low: return to kitchen before water loop', 'water_need_job');
         updateProgressLoop({ lastAction: 'pause', lastReason: `potential low but no route from ${roomKey || 'unknown'} to kitchen` });
         sendStateSnapshot();
         return { content: [{ type: 'text', text: JSON.stringify(state.progressLoop) }], details: state.progressLoop };
@@ -3338,7 +3527,7 @@ async function main() {
         `第 ${state.turn} 回合：先观察（wait_event/get_world_summary）。`,
         '若目标是少林/扬州往返或其它已知路线，调用 get_known_routes() 后只调用一次 execute_route_skill()。',
         '若上一轮 route 返回 deviationKind/recoveryHint，按 recoveryHint 用 execute_command_sequence 发送2-3条纠错命令，不要继续硬跑长 route。',
-        '若目标是少林新手成长循环：吃喝恢复、只找清善 qingshan 学习、潜能不足挑水、交任务后继续学习，优先调用 execute_progress_loop_step(action=start/step)。',
+        '若目标是少林新手成长循环：吃喝恢复、只找清善 qingshan 学习、潜能不足挑水、工具/交付异常找知客僧放弃、回来继续学，优先调用 execute_progress_loop_step(action=start/step)。',
         '若只是局部探索，再只调用一次 execute_command_sequence()，一次性提交2到3条命令。',
         '命令序列不要反复 look；只有位置/出口未知或路线结束校验时才 look。不要逐条调用 send_command。',
       ].join('\n');

@@ -51,8 +51,8 @@
             display: grid;
             grid-template-columns: minmax(220px, 0.95fr) minmax(280px, 1.05fr);
             gap: 8px;
-            min-height: 92px;
-            max-height: 132px;
+            min-height: 112px;
+            max-height: 152px;
             overflow: hidden;
             font-size: 11px;
         }
@@ -824,6 +824,8 @@
                     <div id="loop-monitor-target" class="loop-line">目标：--</div>
                     <div id="loop-monitor-action" class="loop-line">最近动作：--</div>
                     <div id="loop-monitor-result" class="loop-line">结果：--</div>
+                    <div id="loop-monitor-water-state" class="loop-line">挑水：--</div>
+                    <div id="loop-monitor-water-action" class="loop-line">挑水动作：--</div>
                 </div>
                 <div id="loop-monitor-resources">
                     <div class="loop-stat"><span class="loop-stat-label">潜能</span><span class="loop-stat-value">--</span></div>
@@ -941,6 +943,7 @@
         var agentTurnCards = {};
         var agentTurnOrder = [];
         var seenAgentTraceIds = {};
+        var pendingOneShotMessageEl = null;
         var commandHistory = [];
         var commandHistoryIndex = -1;
         var commandHistoryDraft = "";
@@ -1144,7 +1147,9 @@
 
             if (ws && ws.readyState === WebSocket.OPEN) {
                 ws.send(JSON.stringify({ type: "prompt", prompt: prompt, oneShot: true }));
-                appendAgentChatMessage("human", prompt, "Pi one-shot");
+                clearOneShotPromptUI(false);
+                pendingOneShotMessageEl = appendAgentChatMessage("human", prompt, "Pi one-shot");
+                if (pendingOneShotMessageEl) pendingOneShotMessageEl.dataset.oneShotPrompt = "true";
                 agentChatInput.value = "";
                 setAgentChatStatus("Pi agent 一次性策略已排队");
             } else {
@@ -1168,6 +1173,20 @@
                 agentChatLog.removeChild(agentChatLog.firstChild);
             }
             agentChatLog.scrollTop = agentChatLog.scrollHeight;
+            return div;
+        }
+
+        function clearOneShotPromptUI(markConsumed) {
+            if (pendingOneShotMessageEl && pendingOneShotMessageEl.parentNode) {
+                pendingOneShotMessageEl.parentNode.removeChild(pendingOneShotMessageEl);
+            }
+            pendingOneShotMessageEl = null;
+            if (agentChatLog) {
+                Array.prototype.slice.call(agentChatLog.querySelectorAll('[data-one-shot-prompt="true"]')).forEach(function (el) {
+                    if (el.parentNode) el.parentNode.removeChild(el);
+                });
+            }
+            setAgentChatStatus(markConsumed ? "Pi one-shot instruction queue" : "");
         }
 
         function shortAgentText(value, maxLen) {
@@ -1302,6 +1321,10 @@
             if (!data) return;
             if (data.id && seenAgentTraceIds[data.id]) return;
             if (data.id) seenAgentTraceIds[data.id] = true;
+            if (data.kind === "series" && data.name === "one_shot_prompt") {
+                if (data.phase === "end") clearOneShotPromptUI(true);
+                return;
+            }
             var model = getAgentTurnModel(data);
             if (data.seriesId) model.seriesIds[data.seriesId] = true;
             model.updatedAt = data.ts || Date.now();
@@ -1447,6 +1470,12 @@
                 + (loop.lastReason ? " / " + loop.lastReason : "")
             );
             setText("loop-monitor-result", "结果：" + formatLoopValue(loop.lastResult));
+            setText(
+                "loop-monitor-water-state",
+                "挑水：" + formatLoopValue(loop.waterTaskState)
+                + (loop.waterTaskReason ? " / " + loop.waterTaskReason : "")
+            );
+            setText("loop-monitor-water-action", "挑水动作：" + formatLoopValue(loop.waterTaskAction));
 
             var statusFlags = [];
             if (player.combat) statusFlags.push("战斗");
@@ -1593,7 +1622,7 @@
 
                 case 'prompt_cleared':
                     if (msg.data && msg.data.oneShot) {
-                        setAgentChatStatus("Pi agent 一次性策略已消费");
+                        clearOneShotPromptUI(true);
                     }
                     break;
 

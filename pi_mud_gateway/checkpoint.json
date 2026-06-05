@@ -1,15 +1,16 @@
 {
   "agent_id": "pi-mud-agent-v2.5",
   "phase": "OBSERVE",
-  "turn": 3270,
+  "turn": 7600,
   "world": {
-    "hp": 218,
+    "room_id": "/d/shaolin/fzlou",
+    "hp": 193,
     "combat": true
   },
   "scheduler": {
     "pending_actions": []
   },
   "memory_summary": "",
-  "last_tick": 54374,
-  "updated_at": 1780445599157
+  "last_tick": 154860,
+  "updated_at": 1780669707397
 }

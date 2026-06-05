@@ -1,7 +1,7 @@
 Your locale 'c/utf-8/c/c/c/c' is not UTF8 compliant, you will likely run into issues.
 ========================================================================
 Full Command Line: ../build/bin/driver config.cfg 
-Boot Time: Tue Jun  2 22:14:51 2026
+Boot Time: Thu Jun  4 22:22:04 2026
 Version: fluffos 20240714-4a59909c-ee813760 (Mac OS X)
 jemalloc Version: 5.3.0-0-g54eaed1d8b56b1aa528be3bdd1877e59c56fa90c
 ICU Version: 78.2
@@ -490,16 +490,23 @@ Initializations complete.
 /cmds/std/look.c line 197: Warning: Unused local variable 'limb_status'
   }
    ^
-/cmds/usr/score.c line 145: Warning: Unused local variable 'str'
+/kungfu/condition/tiaoshui.c line 23: Warning: Unused local variable 'obj'
   }
+void let_know(object me
    ^
-/adm/daemons/combatd.c line 333: Warning: Unused local variable 'status'
+/kungfu/condition/tiaoshui.c line 23: Warning: Unused local variable 'inv'
   }
+void let_know(object me
    ^
-/adm/daemons/combatd.c line 845: Warning: Unused local variable 'ob'
+/kungfu/condition/tiaoshui.c line 23: Warning: Unused local variable 'i'
   }
+void let_know(object me
    ^
-/cmds/usr/inventory.c line 33: Warning: Unused local variable 'i'
+/kungfu/condition/tiaoshui.c line 23: Warning: Unused local variable 'found'
+  }
+void let_know(object me
+   ^
+/cmds/std/get.c line 122: Warning: Unused local variable 'enemy'
   }
    ^
 /inherit/char/npc.c line 185: Warning: Unused local variable 'weapon'
@@ -509,138 +516,51 @@ Initializations complete.
 
   #define SURCOAT		"/inherit/armor/surcoat
   ^
-/cmds/std/ask.c line 134: Warning: Unused local variable 'inquiry'
+/feature/dealer.c line 22: Warning: Unused local variable 'ob'
+  }
+   ^
+/feature/dealer.c line 281: Warning: Unused local variable 'value'
+  }
+   ^
+/d/shaolin/shanmen.c line 67: Warning: Unused local variable 'mygen'
   }
    ^
 /include/armor.h line 9: Warning: redefinition of #define ARMOR
 
   #define SURCOAT		"/inherit/armor/surcoat
   ^
-/d/shaolin/npc/mu-ren.c line 184: Warning: clean_up() inherited from both /feature/clean_up.c and /feature/clean_up.c (via /inherit/char/npc.c); using the definition in /feature/clean_up.c.
-/d/shaolin/npc/mu-ren.c line 184: Warning: clean_up() inherited from both /feature/clean_up.c and /feature/clean_up.c (via /inherit/char/npc.c); using the definition in /feature/clean_up.c.
-/include/armor.h line 9: Warning: redefinition of #define ARMOR
-
-  #define SURCOAT		"/inherit/armor/surcoat
-  ^
-/kungfu/class/shaolin/xuan-ku.h line 322: Warning: Unused local variable 'my_fam'
-  }
-   ^
-/include/armor.h line 9: Warning: redefinition of #define ARMOR
-
-  #define SURCOAT		"/inherit/armor/surcoat
-  ^
-/include/armor.h line 9: Warning: redefinition of #define ARMOR
-
-  #define SURCOAT		"/inherit/armor/surcoat
-  ^
-/d/shaolin/obj/shanhu-baicai.c line 21: Warning: short() inherited from both /feature/food.c and /feature/name.c (via /inherit/item/item.c); using the definition in /feature/food.c.
-/feature/liquid.c line 29: Warning: Unknown \ escape.
-  str = "里面装了少许\的" + query("liquid/name") + "。\n"
-                                ^
-/d/shaolin/obj/bocai-fentiao.c line 21: Warning: short() inherited from both /feature/food.c and /feature/name.c (via /inherit/item/item.c); using the definition in /feature/food.c.
-/d/shaolin/obj/mizhi-tianou.c line 21: Warning: short() inherited from both /feature/food.c and /feature/name.c (via /inherit/item/item.c); using the definition in /feature/food.c.
-/include/armor.h line 9: Warning: redefinition of #define ARMOR
-
-  #define SURCOAT		"/inherit/armor/surcoat
-  ^
-/kungfu/condition/ts_pending.c line 23: Warning: Unused local variable 'obj'
-  }
-   ^
-/kungfu/condition/ts_pending.c line 23: Warning: Unused local variable 'inv'
-  }
-   ^
-/kungfu/condition/ts_pending.c line 23: Warning: Unused local variable 'i'
-  }
-   ^
-/kungfu/condition/ts_pending.c line 23: Warning: Unused local variable 'found'
-  }
-   ^
-/d/shaolin/npc/mu-ren.c line 184: Warning: clean_up() inherited from both /feature/clean_up.c and /feature/clean_up.c (via /inherit/char/npc.c); using the definition in /feature/clean_up.c.
-/kungfu/skill/force.c line 8: Warning: Number of arguments disagrees with previous definition.
-  int valid_learn() { return 1;
+/d/shaolin/guangchang1.c line 10: Warning: Number of arguments disagrees with previous definition.
+  int valid_leave()
                    ^
-/cmds/skill/xue.c line 151: Warning: Unused local variable 'master'
-  }
-   ^
-/inherit/room/room.c line 7: Warning: Unknown #pragma, ignored.
-  #include <dbase.h
-  ^
-/inherit/room/room.c line 257: Warning: Unused local variable 'item_desc'
-  }
-   ^
-/inherit/char/npc.c line 185: Warning: Unused local variable 'weapon'
-  }
-   ^
-/kungfu/class/shaolin/qing.h line 161: Warning: Unused local variable 'name'
-  }
-   ^
-/kungfu/class/shaolin/qing.h line 161: Warning: Unused local variable 'new_name'
+/d/shaolin/guangchang1.c line 65: Warning: Previous function prototype for close_gate does not match current function in return type ( void vs int )
+  int close_gate()
+                  ^
+/kungfu/class/shaolin/qing-fa.c line 168: Warning: Unused local variable 'fam'
   }
    ^
 /include/armor.h line 9: Warning: redefinition of #define ARMOR
 
   #define SURCOAT		"/inherit/armor/surcoat
   ^
-/include/armor.h line 9: Warning: redefinition of #define ARMOR
-
-  #define SURCOAT		"/inherit/armor/surcoat
-  ^
-/include/armor.h line 9: Warning: redefinition of #define ARMOR
-
-  #define SURCOAT		"/inherit/armor/surcoat
-  ^
-/include/armor.h line 9: Warning: redefinition of #define ARMOR
-
-  #define SURCOAT		"/inherit/armor/surcoat
-  ^
-/kungfu/skill/hunyuan-yiqi.c line 59: Warning: Unused local variable 'i'
+/inherit/misc/bboard.c line 71: Warning: Unused local variable 'i'
   }
    ^
-/kungfu/skill/hunyuan-yiqi.c line 59: Warning: Unused local variable 'ts'
+/inherit/misc/bboard.c line 71: Warning: Unused local variable 'last_time_read'
   }
    ^
-/include/armor.h line 9: Warning: redefinition of #define ARMOR
-
-  #define SURCOAT		"/inherit/armor/surcoat
-  ^
-/include/armor.h line 9: Warning: redefinition of #define ARMOR
-
-  #define SURCOAT		"/inherit/armor/surcoat
-  ^
-/include/armor.h line 9: Warning: redefinition of #define ARMOR
-
-  #define SURCOAT		"/inherit/armor/surcoat
-  ^
-/include/armor.h line 9: Warning: redefinition of #define ARMOR
-
-  #define SURCOAT		"/inherit/armor/surcoat
-  ^
-
-执行时段错误：*Bad argument 1 to EFUN call_other()
-Expected: object, string, array,  Got: int(0).
-
-程式：/adm/single/simul_efun.c 第 11 行
-物件: /adm/single/simul_efun
-呼叫来自：/d/shaolin/gulou1.c 的 make_juexin() 第 73 行，物件： /d/shaolin/gulou1
-呼叫来自：/adm/single/simul_efun.c 的 message_vision() 第 11 行，物件： /adm/single/simul_efun
-/cmds/usr/inventory.c line 33: Warning: Unused local variable 'i'
+/inherit/misc/bboard.c line 71: Warning: Unused local variable 'myid'
   }
    ^
-/cmds/skill/learn.c line 151: Warning: Unused local variable 'master'
+/inherit/misc/bboard.c line 93: Warning: Unused local variable 'myid'
   }
    ^
-/cmds/std/ask.c line 134: Warning: Unused local variable 'inquiry'
+/cmds/usr/quit.c line 110: Warning: Unused local variable 'stage'
   }
    ^
-/d/shaolin/npc/mu-ren.c line 184: Warning: clean_up() inherited from both /feature/clean_up.c and /feature/clean_up.c (via /inherit/char/npc.c); using the definition in /feature/clean_up.c.
-/inherit/room/room.c line 7: Warning: Unknown #pragma, ignored.
-  #include <dbase.h
-  ^
-/inherit/room/room.c line 257: Warning: Unused local variable 'item_desc'
+/cmds/std/drop.c line 87: Warning: Unused local variable 'str'
   }
    ^
-/d/shaolin/obj/furong-huagu.c line 21: Warning: short() inherited from both /feature/food.c and /feature/name.c (via /inherit/item/item.c); using the definition in /feature/food.c.
-/inherit/char/npc.c line 185: Warning: Unused local variable 'weapon'
+/cmds/std/look.c line 197: Warning: Unused local variable 'limb_status'
   }
    ^
 /kungfu/condition/tiaoshui.c line 23: Warning: Unused local variable 'obj'
@@ -659,41 +579,22 @@ void let_know(object me
   }
 void let_know(object me
    ^
-/d/shaolin/obj/tong.c line 28: Warning: Unused local variable 'water_level'
-  }
-string long_desc(
-   ^
-/d/shaolin/obj/tong.c line 144: Warning: Unused local variable 'water_level'
-  }
-   ^
-/d/shaolin/obj/tong.c line 144: Warning: Unused local variable 'max'
+/inherit/room/room.c line 7: Warning: Unknown #pragma, ignored.
+  #include <dbase.h
+  ^
+/inherit/room/room.c line 257: Warning: Unused local variable 'item_desc'
   }
    ^
-/d/shaolin/beilin2.c line 156: Warning: Unused local variable 'dir'
+/inherit/char/npc.c line 185: Warning: Unused local variable 'weapon'
   }
    ^
-/d/shaolin/guangchang1.c line 10: Warning: Number of arguments disagrees with previous definition.
-  int valid_leave()
-                   ^
-/d/shaolin/guangchang1.c line 65: Warning: Previous function prototype for close_gate does not match current function in return type ( void vs int )
-  int close_gate()
-                  ^
-/kungfu/class/shaolin/qing-fa.c line 168: Warning: Unused local variable 'fam'
+/cmds/usr/score.c line 145: Warning: Unused local variable 'str'
   }
    ^
-/inherit/misc/bboard.c line 71: Warning: Unused local variable 'i'
+/adm/daemons/combatd.c line 333: Warning: Unused local variable 'status'
   }
    ^
-/inherit/misc/bboard.c line 71: Warning: Unused local variable 'last_time_read'
-  }
-   ^
-/inherit/misc/bboard.c line 71: Warning: Unused local variable 'myid'
-  }
-   ^
-/inherit/misc/bboard.c line 93: Warning: Unused local variable 'myid'
-  }
-   ^
-/d/shaolin/shanmen.c line 67: Warning: Unused local variable 'mygen'
+/adm/daemons/combatd.c line 845: Warning: Unused local variable 'ob'
   }
    ^
 /include/armor.h line 9: Warning: redefinition of #define ARMOR
@@ -708,16 +609,217 @@ string long_desc(
 
   #define SURCOAT		"/inherit/armor/surcoat
   ^
+/d/city/guangchang.c line 133: Warning: Unused local variable 'obj2'
+  }
+private int is_suitable(o
+   ^
+/d/city/guangchang.c line 133: Warning: Unused local variable 'maskman'
+  }
+private int is_suitable(o
+   ^
+/d/city/guangchang.c line 133: Warning: Unused local variable 'me'
+  }
+private int is_suitable(o
+   ^
+/d/city/guangchang.c line 133: Warning: Unused local variable 'level'
+  }
+private int is_suitable(o
+   ^
+/d/city/guangchang.c line 300: Warning: Unused local variable 'j'
+  }
+   ^
+/include/ansi.h line 13: Warning: redefinition of #define BLK
+
+  #define RED ESC+"[31m"          /* Red      *
+  ^
+/include/ansi.h line 14: Warning: redefinition of #define RED
+
+  #define GRN ESC+"[32m"          /* Green    *
+  ^
+/include/ansi.h line 15: Warning: redefinition of #define GRN
+
+  #define YEL ESC+"[33m"          /* Yellow   *
+  ^
+/include/ansi.h line 16: Warning: redefinition of #define YEL
+
+  #define BLU ESC+"[34m"          /* Blue     *
+  ^
+/include/ansi.h line 17: Warning: redefinition of #define BLU
+
+  #define MAG ESC+"[35m"          /* Magenta  *
+  ^
+/include/ansi.h line 18: Warning: redefinition of #define MAG
+
+  #define CYN ESC+"[36m"          /* Cyan     *
+  ^
+/include/ansi.h line 19: Warning: redefinition of #define CYN
+
+  #define WHT ESC+"[37m"          /* White    *
+  ^
+/include/ansi.h line 20: Warning: redefinition of #define WHT
+
+/include/ansi.h line 24: Warning: redefinition of #define HIR
+
+  #define HIG ESC+"[1;32m"        /* Green    *
+  ^
+/include/ansi.h line 25: Warning: redefinition of #define HIG
+
+  #define HIY ESC+"[1;33m"        /* Yellow   *
+  ^
+/include/ansi.h line 26: Warning: redefinition of #define HIY
+
+  #define HIB ESC+"[1;34m"        /* Blue     *
+  ^
+/include/ansi.h line 27: Warning: redefinition of #define HIB
+
+  #define HIM ESC+"[1;35m"        /* Magenta  *
+  ^
+/include/ansi.h line 28: Warning: redefinition of #define HIM
+
+  #define HIC ESC+"[1;36m"        /* Cyan     *
+  ^
+/include/ansi.h line 29: Warning: redefinition of #define HIC
+
+  #define HIW ESC+"[1;37m"        /* White    *
+  ^
+/include/ansi.h line 30: Warning: redefinition of #define HIW
+
+  /* High Intensity Background Colors  *
+  ^
+/include/ansi.h line 34: Warning: redefinition of #define HBRED
+
+  #define HBGRN ESC+"[42;1m"       /* Green    *
+  ^
+/include/ansi.h line 35: Warning: redefinition of #define HBGRN
+
+  #define HBYEL ESC+"[43;1m"       /* Yellow   *
+  ^
+/include/ansi.h line 36: Warning: redefinition of #define HBYEL
+
+  #define HBBLU ESC+"[44;1m"       /* Blue     *
+  ^
+/include/ansi.h line 37: Warning: redefinition of #define HBBLU
+
+  #define HBMAG ESC+"[45;1m"       /* Magenta  *
+  ^
+/include/ansi.h line 38: Warning: redefinition of #define HBMAG
+
+  #define HBCYN ESC+"[46;1m"       /* Cyan     *
+  ^
+/include/ansi.h line 39: Warning: redefinition of #define HBCYN
+
+  #define HBWHT ESC+"[47;1m"       /* White    *
+  ^
+/include/ansi.h line 40: Warning: redefinition of #define HBWHT
+
+/include/ansi.h line 44: Warning: redefinition of #define BBLK
+
+  #define BRED ESC+"[41m"          /* Red      *
+  ^
+/include/ansi.h line 45: Warning: redefinition of #define BRED
+
+  #define BGRN ESC+"[42m"          /* Green    *
+  ^
+/include/ansi.h line 46: Warning: redefinition of #define BGRN
+
+  #define BYEL ESC+"[43m"          /* Yellow   *
+  ^
+/include/ansi.h line 47: Warning: redefinition of #define BYEL
+
+  #define BBLU ESC+"[44m"          /* Blue     *
+  ^
+/include/ansi.h line 48: Warning: redefinition of #define BBLU
+
+  #define BMAG ESC+"[45m"          /* Magenta  *
+  ^
+/include/ansi.h line 49: Warning: redefinition of #define BMAG
+
+  #define BCYN ESC+"[46m"          /* Cyan     *
+  ^
+/include/ansi.h line 50: Warning: redefinition of #define BCYN
+
+  // #define BWHT ESC+"[47m"          /* White    *
+  ^
+/include/ansi.h line 54: Warning: redefinition of #define NOR
+
+/include/ansi.h line 60: Warning: redefinition of #define BOLD
+
+  #define CLR ESC+"[2J"           /* Clear the screen  *
+  ^
+/include/ansi.h line 61: Warning: redefinition of #define CLR
+
+  #define HOME ESC+"[H"           /* Send cursor to home position *
+  ^
+/include/ansi.h line 62: Warning: redefinition of #define HOME
+
+  #define REF CLR+HOME            /* Clear screen and home cursor *
+  ^
+/include/ansi.h line 63: Warning: redefinition of #define REF
+
+  #define BIGTOP ESC+"#3"         /* Dbl height characters, top half *
+  ^
+/include/ansi.h line 64: Warning: redefinition of #define BIGTOP
+
+  #define BIGBOT ESC+"#4"         /* Dbl height characters, bottem half *
+  ^
+/include/ansi.h line 65: Warning: redefinition of #define BIGBOT
+
+  #define SAVEC ESC+"[s"           /* Save cursor position *
+  ^
+/include/ansi.h line 66: Warning: redefinition of #define SAVEC
+
+  #define REST ESC+"[u"            /* Restore cursor to saved position *
+  ^
+/include/ansi.h line 67: Warning: redefinition of #define REST
+
+  //#define REVINDEX ESC+"M"        /* Scroll screen in opposite direction *
+  ^
+/include/ansi.h line 69: Warning: redefinition of #define SINGW
+
+  #define DBL ESC+"#6"            /* Creates double-width characters *
+  ^
+/include/ansi.h line 70: Warning: redefinition of #define DBL
+
+  #define FRTOP ESC+"[2;25r"      /* Freeze top line *
+  ^
+/include/ansi.h line 71: Warning: redefinition of #define FRTOP
+
+  #define FRBOT ESC+"[1;24r"      /* Freeze bottom line *
+  ^
+/include/ansi.h line 72: Warning: redefinition of #define FRBOT
+
+  #define UNFR ESC+"[r"           /* Unfreeze top and bottom lines *
+  ^
+/include/ansi.h line 73: Warning: redefinition of #define UNFR
+
+  #define BLINK ESC+"[5m"         /* Initialize blink mode *
+  ^
+/include/ansi.h line 74: Warning: redefinition of #define BLINK
+
+  #define U ESC+"[4m"             /* Initialize underscore mode *
+  ^
+/include/ansi.h line 75: Warning: redefinition of #define U
+
+  #define REV ESC+"[7m"           /* Turns reverse video mode on *
+  ^
+/include/ansi.h line 76: Warning: redefinition of #define REV
+
+  #define HIREV ESC+"[1,7m"       /* Hi intensity reverse video  *
+  ^
+/include/ansi.h line 77: Warning: redefinition of #define HIREV
+
 /include/armor.h line 9: Warning: redefinition of #define ARMOR
 
   #define SURCOAT		"/inherit/armor/surcoat
   ^
-/feature/dealer.c line 22: Warning: Unused local variable 'ob'
-  }
-   ^
-/feature/dealer.c line 281: Warning: Unused local variable 'value'
-  }
-   ^
+/include/armor.h line 9: Warning: redefinition of #define ARMOR
+
+  #define SURCOAT		"/inherit/armor/surcoat
+  ^
+/include/armor.h line 9: Warning: redefinition of #define ARMOR
+
+  #define SURCOAT		"/inherit/armor/surcoat
+  ^
 /include/armor.h line 9: Warning: redefinition of #define ARMOR
 
   #define SURCOAT		"/inherit/armor/surcoat
@@ -754,112 +856,557 @@ string long_desc(
 
   #define SURCOAT		"/inherit/armor/surcoat
   ^
-/inherit/char/trainee.c line 104: Warning: Unused local variable 'vc'
-  }
-   ^
-/inherit/char/trainee.c line 137: Warning: Unused local variable 'vc'
-  }
-   ^
-/inherit/char/trainee.c line 194: Warning: Unused local variable 'atk'
-  }
-   ^
-/clone/horse/horse.h line 41: Warning: Unused local variable 'i'
-  }
-void init(
-   ^
-/clone/horse/horse.h line 65: Warning: Unused local variable 'i'
-  }
-int do_look(string arg
-   ^
-/clone/horse/horse.h line 41: Warning: Unused local variable 'i'
-  }
-void init(
-   ^
-/clone/horse/horse.h line 65: Warning: Unused local variable 'i'
-  }
-int do_look(string arg
-   ^
-/d/shaolin/obj/caoliao.c line 22: Warning: short() inherited from both /feature/food.c and /feature/name.c (via /inherit/item/item.c); using the definition in /feature/food.c.
-/d/shaolin/npc/ma-fu.c line 98: Warning: Unused local variable 'dirs'
-  }
-   ^
-/d/shaolin/npc/ma-fu.c line 128: Warning: Unused local variable 'dirs'
-  }
-   ^
-/d/shaolin/npc/ma-fu.c line 203: Warning: Unused local variable 'name'
-  }
-   ^
-/d/shaolin/npc/ma-fu.c line 243: Warning: Unused local variable 'xunbu1'
-  }
-   ^
-/d/shaolin/npc/ma-fu.c line 243: Warning: Unused local variable 'xunbu2'
-  }
-   ^
-/d/shaolin/npc/ma-fu.c line 243: Warning: Unused local variable 'butou'
-  }
-   ^
-/d/shaolin/npc/ma-fu.c line 286: Warning: Unused local variable 'name'
-  }
-   ^
-/d/shaolin/npc/ma-fu.c line 286: Warning: Unused local variable 'value'
-  }
-   ^
-/d/shaolin/npc/ma-fu.c line 377: Warning: Unused local variable 'xunbu1'
-  }
-void unconcious(
-   ^
-/d/shaolin/npc/ma-fu.c line 377: Warning: Unused local variable 'xunbu2'
-  }
-void unconcious(
-   ^
-/d/shaolin/npc/ma-fu.c line 377: Warning: Unused local variable 'butou'
-  }
-void unconcious(
-   ^
 /inherit/room/ferry.c line 53: Warning: Unused local variable 'dir'
   }
    ^
-/cmds/usr/score.c line 145: Warning: Unused local variable 'str'
+/d/shaolin/hanshui1.c line 42: Warning: Unused local variable 'room'
   }
    ^
-/inherit/room/room.c line 7: Warning: Unknown #pragma, ignored.
-  #include <dbase.h
+/include/armor.h line 9: Warning: redefinition of #define ARMOR
+
+  #define SURCOAT		"/inherit/armor/surcoat
   ^
-/inherit/room/room.c line 257: Warning: Unused local variable 'item_desc'
+/include/armor.h line 9: Warning: redefinition of #define ARMOR
+
+  #define SURCOAT		"/inherit/armor/surcoat
+  ^
+/include/armor.h line 9: Warning: redefinition of #define ARMOR
+
+  #define SURCOAT		"/inherit/armor/surcoat
+  ^
+/d/gaibang/obj/budai.c line 8: syntax error, unexpected L_BASIC_TYPE, expecting L_ASSIGN or ';' or '(' or ','
+  static int amount
+            ^
+
+执行时段错误：*Error in loading object '/d/gaibang/obj/budai'
+
+程式：/inherit/char/npc.c 第 14 行
+物件: /kungfu/class/gaibang/jiang-shangyou ("江上游")
+呼叫来自：/feature/command.c 的 command_hook() 第 57 行，物件： /clone/user/user#32 ("空青岚")
+呼叫来自：/cmds/std/go.c 的 main() 第 90 行，物件： /cmds/std/go
+呼叫来自：/d/shaolin/hanshui1.c 的 create() 第 41 行，物件： /d/shaolin/hanshui1
+呼叫来自：/inherit/room/ferry.c 的 setup() 第 17 行，物件： /d/shaolin/hanshui1
+呼叫来自：/inherit/room/room.c 的 setup() 第 280 行，物件： /d/shaolin/hanshui1
+呼叫来自：/inherit/room/room.c 的 reset() 第 124 行，物件： /d/shaolin/hanshui1
+呼叫来自：/inherit/room/room.c 的 make_inventory() 第 56 行，物件： /d/shaolin/hanshui1
+呼叫来自：/kungfu/class/gaibang/jiang-shangyou.c 的 create() 第 50 行，物件： /kungfu/class/gaibang/jiang-shangyou ("江上游")
+呼叫来自：/inherit/char/npc.c 的 carry_object() 第 14 行，物件： /kungfu/class/gaibang/jiang-shangyou ("江上游")
+/clone/npc/fa-e.c line 108: Warning: Unused local variable 'ob'
   }
    ^
-/d/shaolin/shanlu1.c line 51: Warning: Unused local variable 'current_dodge'
+/clone/npc/fa-e.c line 108: Warning: Unused local variable 'i'
   }
    ^
-/cmds/std/get.c line 122: Warning: Unused local variable 'enemy'
+/clone/npc/fa-e.c line 373: Warning: Unused local variable 'new1'
   }
    ^
-/inherit/char/npc.c line 185: Warning: Unused local variable 'weapon'
+/include/armor.h line 9: Warning: redefinition of #define ARMOR
+
+  #define SURCOAT		"/inherit/armor/surcoat
+  ^
+/clone/weapon/edge_weapon.h line 2: Warning: Number of arguments disagrees with previous definition.
+  mixed hit_ob(object me, object victim, object weapon, int damage_bonus, int factor)
+                                                                                     ^
+/clone/npc/meng-zhu.c line 114: Warning: Unused local variable 'ob'
+  }
+int accept_fight(object ob
+   ^
+/clone/npc/meng-zhu.c line 114: Warning: Unused local variable 'i'
+  }
+int accept_fight(object ob
+   ^
+/clone/npc/meng-zhu.c line 150: Warning: Unused local variable 'cangku'
+  }
+   ^
+/clone/npc/meng-zhu.c line 150: Warning: Unused local variable 'pkjob'
+  }
+   ^
+/clone/npc/meng-zhu.c line 380: Warning: Unused local variable 'new1'
+  }
+   ^
+/clone/npc/meng-zhu.c line 482: Warning: Unused local variable 'hp_status'
+  }
+   ^
+/clone/npc/meng-zhu.c line 482: Warning: Unused local variable 'prepare_status'
+  }
+   ^
+/clone/npc/meng-zhu.c line 482: Warning: Unused local variable 'pname'
+  }
+   ^
+/clone/npc/meng-zhu.c line 485: Warning: clean_up() inherited from both /feature/clean_up.c and /feature/clean_up.c (via /inherit/char/npc.c); using the definition in /feature/clean_up.c.
+/clone/npc/shang-shan.c line 107: Warning: Unused local variable 'ob'
+  }
+   ^
+/clone/npc/shang-shan.c line 107: Warning: Unused local variable 'i'
+  }
+   ^
+/clone/npc/shang-shan.c line 377: Warning: Unused local variable 'new1'
+  }
+   ^
+/clone/misc/bandage.c line 102: Warning: Unused local variable 'i'
+  }
+   ^
+/kungfu/skill/pixie-jian.c line 311: Warning: Unknown \ escape.
+  ""+"[1;36m""guimei_start\ ap=%d\tdp=%d\t\n",ap,dp)
+                             ^
+/kungfu/skill/pixie-jian.c line 357: Warning: Unused local variable 'level'
+  }
+   ^
+/kungfu/skill/hamagong.c line 323: Warning: NewRandom() inherited from both /inherit/skill/skill.c and /inherit/skill/skill.c (via /inherit/skill/force.c); using the definition in /inherit/skill/skill.c.
+/kungfu/skill/hamagong.c line 323: Warning: scribe_spell() inherited from both /inherit/skill/skill.c and /inherit/skill/skill.c (via /inherit/skill/force.c); using the definition in /inherit/skill/skill.c.
+/kungfu/skill/hamagong.c line 323: Warning: conjure_magic() inherited from both /inherit/skill/skill.c and /inherit/skill/skill.c (via /inherit/skill/force.c); using the definition in /inherit/skill/skill.c.
+/kungfu/skill/hamagong.c line 323: Warning: perform_action() inherited from both /inherit/skill/skill.c and /inherit/skill/skill.c (via /inherit/skill/force.c); using the definition in /inherit/skill/skill.c.
+/kungfu/skill/hamagong.c line 323: Warning: cast_spell() inherited from both /inherit/skill/skill.c and /inherit/skill/skill.c (via /inherit/skill/force.c); using the definition in /inherit/skill/skill.c.
+/kungfu/skill/hamagong.c line 323: Warning: exert_function() inherited from both /inherit/skill/skill.c and /inherit/skill/skill.c (via /inherit/skill/force.c); using the definition in /inherit/skill/skill.c.
+/kungfu/skill/hamagong.c line 323: Warning: valid_effect() inherited from both /inherit/skill/skill.c and /inherit/skill/skill.c (via /inherit/skill/force.c); using the definition in /inherit/skill/skill.c.
+/kungfu/skill/hamagong.c line 323: Warning: skill_improved() inherited from both /inherit/skill/skill.c and /inherit/skill/skill.c (via /inherit/skill/force.c); using the definition in /inherit/skill/skill.c.
+/kungfu/skill/hamagong.c line 323: Warning: sum() inherited from both /inherit/skill/skill.c and /inherit/skill/skill.c (via /inherit/skill/force.c); using the definition in /inherit/skill/skill.c.
+/kungfu/skill/hamagong.c line 323: Warning: type() inherited from both /inherit/skill/skill.c and /inherit/skill/skill.c (via /inherit/skill/force.c); using the definition in /inherit/skill/skill.c.
+/kungfu/skill/hamagong.c line 323: Warning: create() inherited from both /inherit/skill/skill.c and /inherit/skill/skill.c (via /inherit/skill/force.c); using the definition in /inherit/skill/skill.c.
+/kungfu/skill/hamagong.c line 323: Warning: clean_up() inherited from both /feature/clean_up.c (via /inherit/skill/skill.c) and /feature/clean_up.c (via /inherit/skill/force.c); using the definition in /inherit/skill/skill.c.
+/d/emei/leidong.c line 61: Warning: Previous function prototype for do_say does not match current function in return type ( void vs int )
+  int do_say(string arg)
+                        ^
+/d/emei/leidong.c line 92: Warning: Unused local variable 'dir'
+  }
+   ^
+/d/zhongnan/xuanya4.c line 239: Warning: Unused local variable 'where'
+  }
+   ^
+/kungfu/skill/hunyuan-yiqi.c line 59: Warning: Unused local variable 'i'
+  }
+   ^
+/kungfu/skill/hunyuan-yiqi.c line 59: Warning: Unused local variable 'ts'
+  }
+   ^
+/d/shaolin/npc/mu-ren.c line 184: Warning: clean_up() inherited from both /feature/clean_up.c and /feature/clean_up.c (via /inherit/char/npc.c); using the definition in /feature/clean_up.c.
+/kungfu/class/shaolin/xuan-bei.c line 123: Warning: Unused local variable 'new_name'
+  }
+   ^
+/include/armor.h line 9: Warning: redefinition of #define ARMOR
+
+  #define SURCOAT		"/inherit/armor/surcoat
+  ^
+/d/taohua/guanchao.c line 202: Warning: Unused local variable 'where'
+  }
+   ^
+/d/zhongnan/fengdong.c line 55: Warning: Previous function prototype for blow does not match current function in return type ( void vs int )
+  int blow()
+            ^
+/d/zhongnan/fengdong.c line 78: Warning: Unused local variable 'ob'
+  }
+   ^
+/d/zhongnan/fengdong.c line 78: Warning: Unused local variable 'me'
+  }
+   ^
+/d/zhongnan/fengdong.c line 135: Warning: Unused local variable 'str'
+  }
+   ^
+/d/zhongnan/fengdong.c line 135: Warning: Unused local variable 'limb'
+  }
+   ^
+/d/zhongnan/fengdong.c line 135: Warning: Unused local variable 'result'
+  }
+   ^
+/d/zhongnan/fengdong.c line 135: Warning: Unused local variable 'damage'
+  }
+   ^
+/d/zhongnan/fengdong.c line 181: Warning: Unused local variable 'inv'
+  }
+   ^
+/d/zhongnan/fengdong.c line 181: Warning: Unused local variable 'j'
   }
    ^
 /kungfu/skill/force.c line 8: Warning: Number of arguments disagrees with previous definition.
   int valid_learn() { return 1;
                    ^
-/cmds/skill/xue.c line 151: Warning: Unused local variable 'master'
+/d/shaolin/shanmen.c line 67: Warning: Unused local variable 'mygen'
+  }
+   ^
+/d/shaolin/guangchang1.c line 10: Warning: Number of arguments disagrees with previous definition.
+  int valid_leave()
+                   ^
+/d/shaolin/guangchang1.c line 65: Warning: Previous function prototype for close_gate does not match current function in return type ( void vs int )
+  int close_gate()
+                  ^
+/kungfu/class/shaolin/qing-fa.c line 168: Warning: Unused local variable 'fam'
+  }
+   ^
+/inherit/misc/bboard.c line 71: Warning: Unused local variable 'i'
+  }
+   ^
+/inherit/misc/bboard.c line 71: Warning: Unused local variable 'last_time_read'
+  }
+   ^
+/inherit/misc/bboard.c line 71: Warning: Unused local variable 'myid'
+  }
+   ^
+/inherit/misc/bboard.c line 93: Warning: Unused local variable 'myid'
+  }
+   ^
+/include/armor.h line 9: Warning: redefinition of #define ARMOR
+
+  #define SURCOAT		"/inherit/armor/surcoat
+  ^
+/include/armor.h line 9: Warning: redefinition of #define ARMOR
+
+  #define SURCOAT		"/inherit/armor/surcoat
+  ^
+/kungfu/class/shaolin/qing.h line 161: Warning: Unused local variable 'name'
+  }
+   ^
+/kungfu/class/shaolin/qing.h line 161: Warning: Unused local variable 'new_name'
   }
    ^
 /d/shaolin/obj/mala-doufu.c line 21: Warning: short() inherited from both /feature/food.c and /feature/name.c (via /inherit/item/item.c); using the definition in /feature/food.c.
+/feature/liquid.c line 29: Warning: Unknown \ escape.
+  str = "里面装了少许\的" + query("liquid/name") + "。\n"
+                                ^
+/d/shaolin/obj/bocai-fentiao.c line 21: Warning: short() inherited from both /feature/food.c and /feature/name.c (via /inherit/item/item.c); using the definition in /feature/food.c.
+/d/shaolin/obj/jiaxin-biji.c line 21: Warning: short() inherited from both /feature/food.c and /feature/name.c (via /inherit/item/item.c); using the definition in /feature/food.c.
+/d/shaolin/obj/furong-huagu.c line 21: Warning: short() inherited from both /feature/food.c and /feature/name.c (via /inherit/item/item.c); using the definition in /feature/food.c.
+/include/armor.h line 9: Warning: redefinition of #define ARMOR
+
+  #define SURCOAT		"/inherit/armor/surcoat
+  ^
+/include/armor.h line 9: Warning: redefinition of #define ARMOR
+
+  #define SURCOAT		"/inherit/armor/surcoat
+  ^
 /cmds/std/ask.c line 134: Warning: Unused local variable 'inquiry'
   }
    ^
+/cmds/usr/inventory.c line 33: Warning: Unused local variable 'i'
+  }
+   ^
+/include/armor.h line 9: Warning: redefinition of #define ARMOR
+
+  #define SURCOAT		"/inherit/armor/surcoat
+  ^
+/include/armor.h line 9: Warning: redefinition of #define ARMOR
+
+  #define SURCOAT		"/inherit/armor/surcoat
+  ^
+/include/armor.h line 9: Warning: redefinition of #define ARMOR
+
+  #define SURCOAT		"/inherit/armor/surcoat
+  ^
+/d/gaibang/obj/budai.c line 8: syntax error, unexpected L_BASIC_TYPE, expecting L_ASSIGN or ';' or '(' or ','
+  static int amount
+            ^
+
+执行时段错误：*Error in loading object '/d/gaibang/obj/budai'
+
+程式：/inherit/char/npc.c 第 14 行
+物件: /kungfu/class/gaibang/jiang-shangyou ("江上游")
+呼叫来自：/inherit/room/room.c 的 reset() 第 124 行，物件： /d/shaolin/hanshui1
+呼叫来自：/inherit/room/room.c 的 make_inventory() 第 56 行，物件： /d/shaolin/hanshui1
+呼叫来自：/kungfu/class/gaibang/jiang-shangyou.c 的 create() 第 50 行，物件： /kungfu/class/gaibang/jiang-shangyou ("江上游")
+呼叫来自：/inherit/char/npc.c 的 carry_object() 第 14 行，物件： /kungfu/class/gaibang/jiang-shangyou ("江上游")
+/include/ansi.h line 13: Warning: redefinition of #define BLK
+
+  #define RED ESC+"[31m"          /* Red      *
+  ^
+/include/ansi.h line 14: Warning: redefinition of #define RED
+
+  #define GRN ESC+"[32m"          /* Green    *
+  ^
+/include/ansi.h line 15: Warning: redefinition of #define GRN
+
+  #define YEL ESC+"[33m"          /* Yellow   *
+  ^
+/include/ansi.h line 16: Warning: redefinition of #define YEL
+
+  #define BLU ESC+"[34m"          /* Blue     *
+  ^
+/include/ansi.h line 17: Warning: redefinition of #define BLU
+
+  #define MAG ESC+"[35m"          /* Magenta  *
+  ^
+/include/ansi.h line 18: Warning: redefinition of #define MAG
+
+  #define CYN ESC+"[36m"          /* Cyan     *
+  ^
+/include/ansi.h line 19: Warning: redefinition of #define CYN
+
+  #define WHT ESC+"[37m"          /* White    *
+  ^
+/include/ansi.h line 20: Warning: redefinition of #define WHT
+
+/include/ansi.h line 24: Warning: redefinition of #define HIR
+
+  #define HIG ESC+"[1;32m"        /* Green    *
+  ^
+/include/ansi.h line 25: Warning: redefinition of #define HIG
+
+  #define HIY ESC+"[1;33m"        /* Yellow   *
+  ^
+/include/ansi.h line 26: Warning: redefinition of #define HIY
+
+  #define HIB ESC+"[1;34m"        /* Blue     *
+  ^
+/include/ansi.h line 27: Warning: redefinition of #define HIB
+
+  #define HIM ESC+"[1;35m"        /* Magenta  *
+  ^
+/include/ansi.h line 28: Warning: redefinition of #define HIM
+
+  #define HIC ESC+"[1;36m"        /* Cyan     *
+  ^
+/include/ansi.h line 29: Warning: redefinition of #define HIC
+
+  #define HIW ESC+"[1;37m"        /* White    *
+  ^
+/include/ansi.h line 30: Warning: redefinition of #define HIW
+
+  /* High Intensity Background Colors  *
+  ^
+/include/ansi.h line 34: Warning: redefinition of #define HBRED
+
+  #define HBGRN ESC+"[42;1m"       /* Green    *
+  ^
+/include/ansi.h line 35: Warning: redefinition of #define HBGRN
+
+  #define HBYEL ESC+"[43;1m"       /* Yellow   *
+  ^
+/include/ansi.h line 36: Warning: redefinition of #define HBYEL
+
+  #define HBBLU ESC+"[44;1m"       /* Blue     *
+  ^
+/include/ansi.h line 37: Warning: redefinition of #define HBBLU
+
+  #define HBMAG ESC+"[45;1m"       /* Magenta  *
+  ^
+/include/ansi.h line 38: Warning: redefinition of #define HBMAG
+
+  #define HBCYN ESC+"[46;1m"       /* Cyan     *
+  ^
+/include/ansi.h line 39: Warning: redefinition of #define HBCYN
+
+  #define HBWHT ESC+"[47;1m"       /* White    *
+  ^
+/include/ansi.h line 40: Warning: redefinition of #define HBWHT
+
+/include/ansi.h line 44: Warning: redefinition of #define BBLK
+
+  #define BRED ESC+"[41m"          /* Red      *
+  ^
+/include/ansi.h line 45: Warning: redefinition of #define BRED
+
+  #define BGRN ESC+"[42m"          /* Green    *
+  ^
+/include/ansi.h line 46: Warning: redefinition of #define BGRN
+
+  #define BYEL ESC+"[43m"          /* Yellow   *
+  ^
+/include/ansi.h line 47: Warning: redefinition of #define BYEL
+
+  #define BBLU ESC+"[44m"          /* Blue     *
+  ^
+/include/ansi.h line 48: Warning: redefinition of #define BBLU
+
+  #define BMAG ESC+"[45m"          /* Magenta  *
+  ^
+/include/ansi.h line 49: Warning: redefinition of #define BMAG
+
+  #define BCYN ESC+"[46m"          /* Cyan     *
+  ^
+/include/ansi.h line 50: Warning: redefinition of #define BCYN
+
+  // #define BWHT ESC+"[47m"          /* White    *
+  ^
+/include/ansi.h line 54: Warning: redefinition of #define NOR
+
+/include/ansi.h line 60: Warning: redefinition of #define BOLD
+
+  #define CLR ESC+"[2J"           /* Clear the screen  *
+  ^
+/include/ansi.h line 61: Warning: redefinition of #define CLR
+
+  #define HOME ESC+"[H"           /* Send cursor to home position *
+  ^
+/include/ansi.h line 62: Warning: redefinition of #define HOME
+
+  #define REF CLR+HOME            /* Clear screen and home cursor *
+  ^
+/include/ansi.h line 63: Warning: redefinition of #define REF
+
+  #define BIGTOP ESC+"#3"         /* Dbl height characters, top half *
+  ^
+/include/ansi.h line 64: Warning: redefinition of #define BIGTOP
+
+  #define BIGBOT ESC+"#4"         /* Dbl height characters, bottem half *
+  ^
+/include/ansi.h line 65: Warning: redefinition of #define BIGBOT
+
+  #define SAVEC ESC+"[s"           /* Save cursor position *
+  ^
+/include/ansi.h line 66: Warning: redefinition of #define SAVEC
+
+  #define REST ESC+"[u"            /* Restore cursor to saved position *
+  ^
+/include/ansi.h line 67: Warning: redefinition of #define REST
+
+  //#define REVINDEX ESC+"M"        /* Scroll screen in opposite direction *
+  ^
+/include/ansi.h line 69: Warning: redefinition of #define SINGW
+
+  #define DBL ESC+"#6"            /* Creates double-width characters *
+  ^
+/include/ansi.h line 70: Warning: redefinition of #define DBL
+
+  #define FRTOP ESC+"[2;25r"      /* Freeze top line *
+  ^
+/include/ansi.h line 71: Warning: redefinition of #define FRTOP
+
+  #define FRBOT ESC+"[1;24r"      /* Freeze bottom line *
+  ^
+/include/ansi.h line 72: Warning: redefinition of #define FRBOT
+
+  #define UNFR ESC+"[r"           /* Unfreeze top and bottom lines *
+  ^
+/include/ansi.h line 73: Warning: redefinition of #define UNFR
+
+  #define BLINK ESC+"[5m"         /* Initialize blink mode *
+  ^
+/include/ansi.h line 74: Warning: redefinition of #define BLINK
+
+  #define U ESC+"[4m"             /* Initialize underscore mode *
+  ^
+/include/ansi.h line 75: Warning: redefinition of #define U
+
+  #define REV ESC+"[7m"           /* Turns reverse video mode on *
+  ^
+/include/ansi.h line 76: Warning: redefinition of #define REV
+
+  #define HIREV ESC+"[1,7m"       /* Hi intensity reverse video  *
+  ^
+/include/ansi.h line 77: Warning: redefinition of #define HIREV
+
+/cmds/usr/quit.c line 110: Warning: Unused local variable 'stage'
+  }
+   ^
+/cmds/std/drop.c line 87: Warning: Unused local variable 'str'
+  }
+   ^
+/include/armor.h line 9: Warning: redefinition of #define ARMOR
+
+  #define SURCOAT		"/inherit/armor/surcoat
+  ^
+/include/armor.h line 9: Warning: redefinition of #define ARMOR
+
+  #define SURCOAT		"/inherit/armor/surcoat
+  ^
+/include/armor.h line 9: Warning: redefinition of #define ARMOR
+
+  #define SURCOAT		"/inherit/armor/surcoat
+  ^
+/include/armor.h line 9: Warning: redefinition of #define ARMOR
+
+  #define SURCOAT		"/inherit/armor/surcoat
+  ^
 /inherit/room/room.c line 7: Warning: Unknown #pragma, ignored.
   #include <dbase.h
   ^
 /inherit/room/room.c line 257: Warning: Unused local variable 'item_desc'
   }
    ^
-/d/shaolin/beilin2.c line 156: Warning: Unused local variable 'dir'
+/cmds/std/look.c line 197: Warning: Unused local variable 'limb_status'
+  }
+   ^
+/kungfu/condition/tiaoshui.c line 23: Warning: Unused local variable 'obj'
+  }
+void let_know(object me
+   ^
+/kungfu/condition/tiaoshui.c line 23: Warning: Unused local variable 'inv'
+  }
+void let_know(object me
+   ^
+/kungfu/condition/tiaoshui.c line 23: Warning: Unused local variable 'i'
+  }
+void let_know(object me
+   ^
+/kungfu/condition/tiaoshui.c line 23: Warning: Unused local variable 'found'
+  }
+void let_know(object me
+   ^
+/cmds/usr/score.c line 145: Warning: Unused local variable 'str'
+  }
+   ^
+/kungfu/skill/force.c line 8: Warning: Number of arguments disagrees with previous definition.
+  int valid_learn() { return 1;
+                   ^
+/kungfu/skill/hunyuan-yiqi.c line 59: Warning: Unused local variable 'i'
+  }
+   ^
+/kungfu/skill/hunyuan-yiqi.c line 59: Warning: Unused local variable 'ts'
+  }
+   ^
+/d/shaolin/guangchang1.c line 10: Warning: Number of arguments disagrees with previous definition.
+  int valid_leave()
+                   ^
+/d/shaolin/guangchang1.c line 65: Warning: Previous function prototype for close_gate does not match current function in return type ( void vs int )
+  int close_gate()
+                  ^
+/inherit/char/npc.c line 185: Warning: Unused local variable 'weapon'
+  }
+   ^
+/kungfu/class/shaolin/qing-fa.c line 168: Warning: Unused local variable 'fam'
+  }
+   ^
+/inherit/misc/bboard.c line 71: Warning: Unused local variable 'i'
+  }
+   ^
+/inherit/misc/bboard.c line 71: Warning: Unused local variable 'last_time_read'
+  }
+   ^
+/inherit/misc/bboard.c line 71: Warning: Unused local variable 'myid'
+  }
+   ^
+/inherit/misc/bboard.c line 93: Warning: Unused local variable 'myid'
+  }
+   ^
+/kungfu/class/shaolin/qing.h line 161: Warning: Unused local variable 'name'
+  }
+   ^
+/kungfu/class/shaolin/qing.h line 161: Warning: Unused local variable 'new_name'
+  }
+   ^
+/cmds/std/ask.c line 134: Warning: Unused local variable 'inquiry'
+  }
+   ^
+/cmds/usr/inventory.c line 33: Warning: Unused local variable 'i'
+  }
+   ^
+/kungfu/condition/ts_pending.c line 23: Warning: Unused local variable 'obj'
+  }
+   ^
+/kungfu/condition/ts_pending.c line 23: Warning: Unused local variable 'inv'
+  }
+   ^
+/kungfu/condition/ts_pending.c line 23: Warning: Unused local variable 'i'
+  }
+   ^
+/kungfu/condition/ts_pending.c line 23: Warning: Unused local variable 'found'
+  }
+   ^
+/cmds/skill/learn.c line 151: Warning: Unused local variable 'master'
+  }
+   ^
+/cmds/skill/xue.c line 151: Warning: Unused local variable 'master'
+  }
+   ^
+/d/shaolin/obj/tong.c line 28: Warning: Unused local variable 'water_level'
+  }
+string long_desc(
+   ^
+/d/shaolin/obj/tong.c line 144: Warning: Unused local variable 'water_level'
+  }
+   ^
+/d/shaolin/obj/tong.c line 144: Warning: Unused local variable 'max'
   }
    ^
 /d/shaolin/shanmen.c line 67: Warning: Unused local variable 'mygen'
-  }
-   ^
-/inherit/char/npc.c line 185: Warning: Unused local variable 'weapon'
   }
    ^
 /d/city/npc/wujiang.c line 7: Warning: Redeclaration of global variable 'skills'.
@@ -893,28 +1440,91 @@ void unconcious(
 /d/shaolin/shanlu1.c line 51: Warning: Unused local variable 'current_dodge'
   }
    ^
+/cmds/skill/yun.c line 42: Warning: Unused local variable 'result'
+  }
+   ^
+/inherit/room/room.c line 7: Warning: Unknown #pragma, ignored.
+  #include <dbase.h
+  ^
 /inherit/room/room.c line 7: Warning: Unknown #pragma, ignored.
   #include <dbase.h
   ^
 /inherit/room/room.c line 257: Warning: Unused local variable 'item_desc'
   }
    ^
-/kungfu/skill/force.c line 8: Warning: Number of arguments disagrees with previous definition.
-  int valid_learn() { return 1;
+/inherit/char/npc.c line 185: Warning: Unused local variable 'weapon'
+  }
+   ^
+/cmds/std/ask.c line 134: Warning: Unused local variable 'inquiry'
+  }
+   ^
+/d/shaolin/guangchang1.c line 10: Warning: Number of arguments disagrees with previous definition.
+  int valid_leave()
                    ^
-/cmds/skill/practice.c line 69: Warning: Expression has no side effects, and the value is unused
-  for(times; times > 0; times--)
-                                 ^
-/cmds/skill/practice.c line 81: Warning: Unused local variable 'qi'
+/d/shaolin/guangchang1.c line 65: Warning: Previous function prototype for close_gate does not match current function in return type ( void vs int )
+  int close_gate()
+                  ^
+/kungfu/class/shaolin/qing-fa.c line 168: Warning: Unused local variable 'fam'
   }
    ^
-/kungfu/class/shaolin/qing.h line 161: Warning: Unused local variable 'name'
+/inherit/misc/bboard.c line 71: Warning: Unused local variable 'i'
   }
    ^
-/kungfu/class/shaolin/qing.h line 161: Warning: Unused local variable 'new_name'
+/inherit/misc/bboard.c line 71: Warning: Unused local variable 'last_time_read'
   }
    ^
-/d/shaolin/obj/jiaxin-biji.c line 21: Warning: short() inherited from both /feature/food.c and /feature/name.c (via /inherit/item/item.c); using the definition in /feature/food.c.
+/inherit/misc/bboard.c line 71: Warning: Unused local variable 'myid'
+  }
+   ^
+/inherit/misc/bboard.c line 93: Warning: Unused local variable 'myid'
+  }
+   ^
+/d/shaolin/shanmen.c line 67: Warning: Unused local variable 'mygen'
+  }
+   ^
+/d/city/npc/wujiang.c line 7: Warning: Redeclaration of global variable 'skills'.
+  #include <a"/inherit/char/npc"/feature/skill.c";
+                                                  ^
+/d/city/npc/wujiang.c line 7: Warning: Redeclaration of global variable 'learned'.
+  #include <a"/inherit/char/npc"/feature/skill.c";
+                                                  ^
+/d/city/npc/wujiang.c line 7: Warning: Redeclaration of global variable 'skill_map'.
+  #include <a"/inherit/char/npc"/feature/skill.c";
+                                                  ^
+/d/city/npc/wujiang.c line 7: Warning: Redeclaration of global variable 'skill_prepare'.
+  #include <a"/inherit/char/npc"/feature/skill.c";
+                                                  ^
+/d/city/npc/wujiang.c line 67: Warning: skill_death_penalty() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: query_skill_map() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: query_skill_prepared() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: query_skills() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: query_learned() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: set_skill() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: prepare_skill() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: delete_skill() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: map_skill() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: improve_skill() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: query_skill_prepare() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: query_skill_mapped() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: query_skill() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/inherit/room/ferry.c line 53: Warning: Unused local variable 'dir'
+  }
+   ^
+/cmds/usr/inventory.c line 33: Warning: Unused local variable 'i'
+  }
+   ^
+/inherit/room/room.c line 7: Warning: Unknown #pragma, ignored.
+  #include <dbase.h
+  ^
+/inherit/room/room.c line 7: Warning: Unknown #pragma, ignored.
+  #include <dbase.h
+  ^
+/inherit/room/room.c line 257: Warning: Unused local variable 'item_desc'
+  }
+   ^
+/d/shaolin/shanlu1.c line 51: Warning: Unused local variable 'current_dodge'
+  }
+   ^
 /kungfu/condition/ts_pending.c line 23: Warning: Unused local variable 'obj'
   }
    ^
@@ -927,10 +1537,485 @@ void unconcious(
 /kungfu/condition/ts_pending.c line 23: Warning: Unused local variable 'found'
   }
    ^
-/cmds/skill/xue.c line 151: Warning: Unused local variable 'master'
+/cmds/skill/learn.c line 151: Warning: Unused local variable 'master'
+  }
+   ^
+/cmds/skill/exert.c line 42: Warning: Unused local variable 'result'
   }
    ^
 /inherit/char/npc.c line 185: Warning: Unused local variable 'weapon'
+  }
+   ^
+/cmds/std/ask.c line 134: Warning: Unused local variable 'inquiry'
+  }
+   ^
+/d/shaolin/obj/tong.c line 28: Warning: Unused local variable 'water_level'
+  }
+string long_desc(
+   ^
+/d/shaolin/obj/tong.c line 144: Warning: Unused local variable 'water_level'
+  }
+   ^
+/d/shaolin/obj/tong.c line 144: Warning: Unused local variable 'max'
+  }
+   ^
+/inherit/room/room.c line 7: Warning: Unknown #pragma, ignored.
+  #include <dbase.h
+  ^
+/inherit/room/room.c line 257: Warning: Unused local variable 'item_desc'
+  }
+   ^
+/d/shaolin/shanmen.c line 67: Warning: Unused local variable 'mygen'
+  }
+   ^
+/d/city/npc/wujiang.c line 7: Warning: Redeclaration of global variable 'skills'.
+  #include <a"/inherit/char/npc"/feature/skill.c";
+                                                  ^
+/d/city/npc/wujiang.c line 7: Warning: Redeclaration of global variable 'learned'.
+  #include <a"/inherit/char/npc"/feature/skill.c";
+                                                  ^
+/d/city/npc/wujiang.c line 7: Warning: Redeclaration of global variable 'skill_map'.
+  #include <a"/inherit/char/npc"/feature/skill.c";
+                                                  ^
+/d/city/npc/wujiang.c line 7: Warning: Redeclaration of global variable 'skill_prepare'.
+  #include <a"/inherit/char/npc"/feature/skill.c";
+                                                  ^
+/d/city/npc/wujiang.c line 67: Warning: skill_death_penalty() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: query_skill_map() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: query_skill_prepared() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: query_skills() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: query_learned() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: set_skill() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: prepare_skill() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: delete_skill() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: map_skill() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: improve_skill() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: query_skill_prepare() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: query_skill_mapped() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: query_skill() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/inherit/room/ferry.c line 53: Warning: Unused local variable 'dir'
+  }
+   ^
+/d/shaolin/shanlu1.c line 51: Warning: Unused local variable 'current_dodge'
+  }
+   ^
+/kungfu/condition/ts_pending.c line 23: Warning: Unused local variable 'obj'
+  }
+   ^
+/kungfu/condition/ts_pending.c line 23: Warning: Unused local variable 'inv'
+  }
+   ^
+/kungfu/condition/ts_pending.c line 23: Warning: Unused local variable 'i'
+  }
+   ^
+/kungfu/condition/ts_pending.c line 23: Warning: Unused local variable 'found'
+  }
+   ^
+/kungfu/skill/force.c line 8: Warning: Number of arguments disagrees with previous definition.
+  int valid_learn() { return 1;
+                   ^
+/kungfu/skill/hunyuan-yiqi.c line 59: Warning: Unused local variable 'i'
+  }
+   ^
+/kungfu/skill/hunyuan-yiqi.c line 59: Warning: Unused local variable 'ts'
+  }
+   ^
+/cmds/skill/learn.c line 151: Warning: Unused local variable 'master'
+  }
+   ^
+/cmds/skill/yun.c line 42: Warning: Unused local variable 'result'
+  }
+   ^
+/cmds/std/get.c line 122: Warning: Unused local variable 'enemy'
+  }
+   ^
+/inherit/room/room.c line 7: Warning: Unknown #pragma, ignored.
+  #include <dbase.h
+  ^
+/inherit/room/room.c line 257: Warning: Unused local variable 'item_desc'
+  }
+   ^
+/inherit/char/npc.c line 185: Warning: Unused local variable 'weapon'
+  }
+   ^
+/cmds/std/ask.c line 134: Warning: Unused local variable 'inquiry'
+  }
+   ^
+/kungfu/condition/tiaoshui.c line 23: Warning: Unused local variable 'obj'
+  }
+void let_know(object me
+   ^
+/kungfu/condition/tiaoshui.c line 23: Warning: Unused local variable 'inv'
+  }
+void let_know(object me
+   ^
+/kungfu/condition/tiaoshui.c line 23: Warning: Unused local variable 'i'
+  }
+void let_know(object me
+   ^
+/kungfu/condition/tiaoshui.c line 23: Warning: Unused local variable 'found'
+  }
+void let_know(object me
+   ^
+/d/shaolin/guangchang1.c line 10: Warning: Number of arguments disagrees with previous definition.
+  int valid_leave()
+                   ^
+/d/shaolin/guangchang1.c line 65: Warning: Previous function prototype for close_gate does not match current function in return type ( void vs int )
+  int close_gate()
+                  ^
+/kungfu/class/shaolin/qing-fa.c line 168: Warning: Unused local variable 'fam'
+  }
+   ^
+/inherit/misc/bboard.c line 71: Warning: Unused local variable 'i'
+  }
+   ^
+/inherit/misc/bboard.c line 71: Warning: Unused local variable 'last_time_read'
+  }
+   ^
+/inherit/misc/bboard.c line 71: Warning: Unused local variable 'myid'
+  }
+   ^
+/inherit/misc/bboard.c line 93: Warning: Unused local variable 'myid'
+  }
+   ^
+/d/shaolin/shanmen.c line 67: Warning: Unused local variable 'mygen'
+  }
+   ^
+/d/city/npc/wujiang.c line 7: Warning: Redeclaration of global variable 'skills'.
+  #include <a"/inherit/char/npc"/feature/skill.c";
+                                                  ^
+/d/city/npc/wujiang.c line 7: Warning: Redeclaration of global variable 'learned'.
+  #include <a"/inherit/char/npc"/feature/skill.c";
+                                                  ^
+/d/city/npc/wujiang.c line 7: Warning: Redeclaration of global variable 'skill_map'.
+  #include <a"/inherit/char/npc"/feature/skill.c";
+                                                  ^
+/d/city/npc/wujiang.c line 7: Warning: Redeclaration of global variable 'skill_prepare'.
+  #include <a"/inherit/char/npc"/feature/skill.c";
+                                                  ^
+/d/city/npc/wujiang.c line 67: Warning: skill_death_penalty() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: query_skill_map() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: query_skill_prepared() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: query_skills() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: query_learned() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: set_skill() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: prepare_skill() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: delete_skill() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: map_skill() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: improve_skill() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: query_skill_prepare() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: query_skill_mapped() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: query_skill() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/inherit/room/ferry.c line 53: Warning: Unused local variable 'dir'
+  }
+   ^
+/cmds/usr/inventory.c line 33: Warning: Unused local variable 'i'
+  }
+   ^
+/d/shaolin/shanlu1.c line 51: Warning: Unused local variable 'current_dodge'
+  }
+   ^
+/kungfu/condition/ts_pending.c line 23: Warning: Unused local variable 'obj'
+  }
+   ^
+/kungfu/condition/ts_pending.c line 23: Warning: Unused local variable 'inv'
+  }
+   ^
+/kungfu/condition/ts_pending.c line 23: Warning: Unused local variable 'i'
+  }
+   ^
+/kungfu/condition/ts_pending.c line 23: Warning: Unused local variable 'found'
+  }
+   ^
+/cmds/skill/drop.c line 87: Warning: Unused local variable 'str'
+  }
+   ^
+/cmds/std/get.c line 122: Warning: Unused local variable 'enemy'
+  }
+   ^
+/kungfu/condition/tiaoshui.c line 23: Warning: Unused local variable 'obj'
+  }
+void let_know(object me
+   ^
+/kungfu/condition/tiaoshui.c line 23: Warning: Unused local variable 'inv'
+  }
+void let_know(object me
+   ^
+/kungfu/condition/tiaoshui.c line 23: Warning: Unused local variable 'i'
+  }
+void let_know(object me
+   ^
+/kungfu/condition/tiaoshui.c line 23: Warning: Unused local variable 'found'
+  }
+void let_know(object me
+   ^
+/inherit/room/room.c line 7: Warning: Unknown #pragma, ignored.
+  #include <dbase.h
+  ^
+/inherit/room/room.c line 257: Warning: Unused local variable 'item_desc'
+  }
+   ^
+/inherit/char/npc.c line 185: Warning: Unused local variable 'weapon'
+  }
+   ^
+/kungfu/class/shaolin/qing.h line 161: Warning: Unused local variable 'name'
+  }
+   ^
+/kungfu/class/shaolin/qing.h line 161: Warning: Unused local variable 'new_name'
+  }
+   ^
+/d/shaolin/guangchang1.c line 10: Warning: Number of arguments disagrees with previous definition.
+  int valid_leave()
+                   ^
+/d/shaolin/guangchang1.c line 65: Warning: Previous function prototype for close_gate does not match current function in return type ( void vs int )
+  int close_gate()
+                  ^
+/kungfu/class/shaolin/qing-fa.c line 168: Warning: Unused local variable 'fam'
+  }
+   ^
+/inherit/misc/bboard.c line 71: Warning: Unused local variable 'i'
+  }
+   ^
+/inherit/misc/bboard.c line 71: Warning: Unused local variable 'last_time_read'
+  }
+   ^
+/inherit/misc/bboard.c line 71: Warning: Unused local variable 'myid'
+  }
+   ^
+/inherit/misc/bboard.c line 93: Warning: Unused local variable 'myid'
+  }
+   ^
+/d/shaolin/shanmen.c line 67: Warning: Unused local variable 'mygen'
+  }
+   ^
+/d/city/npc/wujiang.c line 7: Warning: Redeclaration of global variable 'skills'.
+  #include <a"/inherit/char/npc"/feature/skill.c";
+                                                  ^
+/d/city/npc/wujiang.c line 7: Warning: Redeclaration of global variable 'learned'.
+  #include <a"/inherit/char/npc"/feature/skill.c";
+                                                  ^
+/d/city/npc/wujiang.c line 7: Warning: Redeclaration of global variable 'skill_map'.
+  #include <a"/inherit/char/npc"/feature/skill.c";
+                                                  ^
+/d/city/npc/wujiang.c line 7: Warning: Redeclaration of global variable 'skill_prepare'.
+  #include <a"/inherit/char/npc"/feature/skill.c";
+                                                  ^
+/d/city/npc/wujiang.c line 67: Warning: skill_death_penalty() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: query_skill_map() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: query_skill_prepared() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: query_skills() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: query_learned() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: set_skill() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: prepare_skill() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: delete_skill() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: map_skill() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: improve_skill() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: query_skill_prepare() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: query_skill_mapped() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: query_skill() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/inherit/room/ferry.c line 53: Warning: Unused local variable 'dir'
+  }
+   ^
+/cmds/usr/inventory.c line 33: Warning: Unused local variable 'i'
+  }
+   ^
+/d/shaolin/shanlu1.c line 51: Warning: Unused local variable 'current_dodge'
+  }
+   ^
+/kungfu/condition/ts_pending.c line 23: Warning: Unused local variable 'obj'
+  }
+   ^
+/kungfu/condition/ts_pending.c line 23: Warning: Unused local variable 'inv'
+  }
+   ^
+/kungfu/condition/ts_pending.c line 23: Warning: Unused local variable 'i'
+  }
+   ^
+/kungfu/condition/ts_pending.c line 23: Warning: Unused local variable 'found'
+  }
+   ^
+/cmds/skill/drop.c line 87: Warning: Unused local variable 'str'
+  }
+   ^
+/inherit/room/room.c line 7: Warning: Unknown #pragma, ignored.
+  #include <dbase.h
+  ^
+/inherit/room/room.c line 257: Warning: Unused local variable 'item_desc'
+  }
+   ^
+/inherit/char/npc.c line 185: Warning: Unused local variable 'weapon'
+  }
+   ^
+/d/shaolin/obj/shanhu-baicai.c line 21: Warning: short() inherited from both /feature/food.c and /feature/name.c (via /inherit/item/item.c); using the definition in /feature/food.c.
+/cmds/usr/quit.c line 110: Warning: Unused local variable 'stage'
+  }
+   ^
+/cmds/std/drop.c line 87: Warning: Unused local variable 'str'
+  }
+   ^
+/cmds/std/look.c line 197: Warning: Unused local variable 'limb_status'
+  }
+   ^
+/kungfu/skill/force.c line 8: Warning: Number of arguments disagrees with previous definition.
+  int valid_learn() { return 1;
+                   ^
+/kungfu/skill/hunyuan-yiqi.c line 59: Warning: Unused local variable 'i'
+  }
+   ^
+/kungfu/skill/hunyuan-yiqi.c line 59: Warning: Unused local variable 'ts'
+  }
+   ^
+/cmds/usr/quit.c line 110: Warning: Unused local variable 'stage'
+  }
+   ^
+/cmds/std/drop.c line 87: Warning: Unused local variable 'str'
+  }
+   ^
+/cmds/std/look.c line 197: Warning: Unused local variable 'limb_status'
+  }
+   ^
+/cmds/usr/quit.c line 110: Warning: Unused local variable 'stage'
+  }
+   ^
+/cmds/std/drop.c line 87: Warning: Unused local variable 'str'
+  }
+   ^
+/cmds/std/look.c line 197: Warning: Unused local variable 'limb_status'
+  }
+   ^
+/kungfu/skill/force.c line 8: Warning: Number of arguments disagrees with previous definition.
+  int valid_learn() { return 1;
+                   ^
+/kungfu/skill/hunyuan-yiqi.c line 59: Warning: Unused local variable 'i'
+  }
+   ^
+/kungfu/skill/hunyuan-yiqi.c line 59: Warning: Unused local variable 'ts'
+  }
+   ^
+/cmds/usr/inventory.c line 33: Warning: Unused local variable 'i'
+  }
+   ^
+/cmds/std/look.c line 197: Warning: Unused local variable 'limb_status'
+  }
+   ^
+/cmds/std/get.c line 122: Warning: Unused local variable 'enemy'
+  }
+   ^
+/inherit/room/room.c line 7: Warning: Unknown #pragma, ignored.
+  #include <dbase.h
+  ^
+/inherit/room/room.c line 257: Warning: Unused local variable 'item_desc'
+  }
+   ^
+/inherit/char/npc.c line 185: Warning: Unused local variable 'weapon'
+  }
+   ^
+/kungfu/class/shaolin/qing.h line 161: Warning: Unused local variable 'name'
+  }
+   ^
+/kungfu/class/shaolin/qing.h line 161: Warning: Unused local variable 'new_name'
+  }
+   ^
+/cmds/skill/learn.c line 151: Warning: Unused local variable 'master'
+  }
+   ^
+/cmds/std/ask.c line 134: Warning: Unused local variable 'inquiry'
+  }
+   ^
+/kungfu/condition/tiaoshui.c line 23: Warning: Unused local variable 'obj'
+  }
+void let_know(object me
+   ^
+/kungfu/condition/tiaoshui.c line 23: Warning: Unused local variable 'inv'
+  }
+void let_know(object me
+   ^
+/kungfu/condition/tiaoshui.c line 23: Warning: Unused local variable 'i'
+  }
+void let_know(object me
+   ^
+/kungfu/condition/tiaoshui.c line 23: Warning: Unused local variable 'found'
+  }
+void let_know(object me
+   ^
+/d/shaolin/obj/basi-shanyao.c line 21: Warning: short() inherited from both /feature/food.c and /feature/name.c (via /inherit/item/item.c); using the definition in /feature/food.c.
+/d/shaolin/guangchang1.c line 10: Warning: Number of arguments disagrees with previous definition.
+  int valid_leave()
+                   ^
+/d/shaolin/guangchang1.c line 65: Warning: Previous function prototype for close_gate does not match current function in return type ( void vs int )
+  int close_gate()
+                  ^
+/kungfu/class/shaolin/qing-fa.c line 168: Warning: Unused local variable 'fam'
+  }
+   ^
+/inherit/misc/bboard.c line 71: Warning: Unused local variable 'i'
+  }
+   ^
+/inherit/misc/bboard.c line 71: Warning: Unused local variable 'last_time_read'
+  }
+   ^
+/inherit/misc/bboard.c line 71: Warning: Unused local variable 'myid'
+  }
+   ^
+/inherit/misc/bboard.c line 93: Warning: Unused local variable 'myid'
+  }
+   ^
+/d/shaolin/shanmen.c line 67: Warning: Unused local variable 'mygen'
+  }
+   ^
+/d/city/npc/wujiang.c line 7: Warning: Redeclaration of global variable 'skills'.
+  #include <a"/inherit/char/npc"/feature/skill.c";
+                                                  ^
+/d/city/npc/wujiang.c line 7: Warning: Redeclaration of global variable 'learned'.
+  #include <a"/inherit/char/npc"/feature/skill.c";
+                                                  ^
+/d/city/npc/wujiang.c line 7: Warning: Redeclaration of global variable 'skill_map'.
+  #include <a"/inherit/char/npc"/feature/skill.c";
+                                                  ^
+/d/city/npc/wujiang.c line 7: Warning: Redeclaration of global variable 'skill_prepare'.
+  #include <a"/inherit/char/npc"/feature/skill.c";
+                                                  ^
+/d/city/npc/wujiang.c line 67: Warning: skill_death_penalty() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: query_skill_map() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: query_skill_prepared() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: query_skills() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: query_learned() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: set_skill() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: prepare_skill() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: delete_skill() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: map_skill() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: improve_skill() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: query_skill_prepare() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: query_skill_mapped() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: query_skill() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/inherit/room/ferry.c line 53: Warning: Unused local variable 'dir'
+  }
+   ^
+/d/shaolin/shanlu1.c line 51: Warning: Unused local variable 'current_dodge'
+  }
+   ^
+/cmds/std/get.c line 122: Warning: Unused local variable 'enemy'
+  }
+   ^
+/cmds/usr/inventory.c line 33: Warning: Unused local variable 'i'
+  }
+   ^
+/kungfu/condition/ts_pending.c line 23: Warning: Unused local variable 'obj'
+  }
+   ^
+/kungfu/condition/ts_pending.c line 23: Warning: Unused local variable 'inv'
+  }
+   ^
+/kungfu/condition/ts_pending.c line 23: Warning: Unused local variable 'i'
+  }
+   ^
+/kungfu/condition/ts_pending.c line 23: Warning: Unused local variable 'found'
+  }
+   ^
+/cmds/skill/learn.c line 151: Warning: Unused local variable 'master'
+  }
+   ^
+/cmds/skill/yun.c line 42: Warning: Unused local variable 'result'
   }
    ^
 /kungfu/skill/hunyuan-yiqi.c line 59: Warning: Unused local variable 'i'
@@ -939,347 +2024,15 @@ void unconcious(
 /kungfu/skill/hunyuan-yiqi.c line 59: Warning: Unused local variable 'ts'
   }
    ^
-
-执行时段错误：*Bad argument 1 to EFUN call_other()
-Expected: object, string, array,  Got: int(0).
-
-程式：/adm/single/simul_efun.c 第 11 行
-物件: /adm/single/simul_efun
-呼叫来自：/d/shaolin/gulou1.c 的 make_juexin() 第 73 行，物件： /d/shaolin/gulou1
-呼叫来自：/adm/single/simul_efun.c 的 message_vision() 第 11 行，物件： /adm/single/simul_efun
-/cmds/skill/yun.c line 42: Warning: Unused local variable 'result'
-  }
-   ^
-/cmds/usr/score.c line 145: Warning: Unused local variable 'str'
-  }
-   ^
-/cmds/std/ask.c line 134: Warning: Unused local variable 'inquiry'
-  }
-   ^
-/inherit/room/room.c line 7: Warning: Unknown #pragma, ignored.
-  #include <dbase.h
-  ^
-/inherit/room/room.c line 257: Warning: Unused local variable 'item_desc'
-  }
-   ^
-/d/shaolin/guangchang1.c line 10: Warning: Number of arguments disagrees with previous definition.
-  int valid_leave()
+/kungfu/skill/force.c line 8: Warning: Number of arguments disagrees with previous definition.
+  int valid_learn() { return 1;
                    ^
-/d/shaolin/guangchang1.c line 65: Warning: Previous function prototype for close_gate does not match current function in return type ( void vs int )
-  int close_gate()
-                  ^
-/kungfu/class/shaolin/qing-fa.c line 168: Warning: Unused local variable 'fam'
-  }
-   ^
-/inherit/misc/bboard.c line 71: Warning: Unused local variable 'i'
-  }
-   ^
-/inherit/misc/bboard.c line 71: Warning: Unused local variable 'last_time_read'
-  }
-   ^
-/inherit/misc/bboard.c line 71: Warning: Unused local variable 'myid'
-  }
-   ^
-/inherit/misc/bboard.c line 93: Warning: Unused local variable 'myid'
-  }
-   ^
-/d/shaolin/obj/basi-shanyao.c line 21: Warning: short() inherited from both /feature/food.c and /feature/name.c (via /inherit/item/item.c); using the definition in /feature/food.c.
-/inherit/char/npc.c line 185: Warning: Unused local variable 'weapon'
-  }
-   ^
-/inherit/room/room.c line 7: Warning: Unknown #pragma, ignored.
-  #include <dbase.h
-  ^
-/inherit/room/room.c line 257: Warning: Unused local variable 'item_desc'
+/cmds/std/get.c line 122: Warning: Unused local variable 'enemy'
   }
    ^
 /cmds/usr/inventory.c line 33: Warning: Unused local variable 'i'
   }
    ^
-/cmds/std/ask.c line 134: Warning: Unused local variable 'inquiry'
-  }
-   ^
-/kungfu/condition/tiaoshui.c line 23: Warning: Unused local variable 'obj'
-  }
-void let_know(object me
-   ^
-/kungfu/condition/tiaoshui.c line 23: Warning: Unused local variable 'inv'
-  }
-void let_know(object me
-   ^
-/kungfu/condition/tiaoshui.c line 23: Warning: Unused local variable 'i'
-  }
-void let_know(object me
-   ^
-/kungfu/condition/tiaoshui.c line 23: Warning: Unused local variable 'found'
-  }
-void let_know(object me
-   ^
-/d/shaolin/obj/tong.c line 28: Warning: Unused local variable 'water_level'
-  }
-string long_desc(
-   ^
-/d/shaolin/obj/tong.c line 144: Warning: Unused local variable 'water_level'
-  }
-   ^
-/d/shaolin/obj/tong.c line 144: Warning: Unused local variable 'max'
-  }
-   ^
-/d/shaolin/guangchang1.c line 10: Warning: Number of arguments disagrees with previous definition.
-  int valid_leave()
-                   ^
-/d/shaolin/guangchang1.c line 65: Warning: Previous function prototype for close_gate does not match current function in return type ( void vs int )
-  int close_gate()
-                  ^
-/kungfu/class/shaolin/qing-fa.c line 168: Warning: Unused local variable 'fam'
-  }
-   ^
-/inherit/misc/bboard.c line 71: Warning: Unused local variable 'i'
-  }
-   ^
-/inherit/misc/bboard.c line 71: Warning: Unused local variable 'last_time_read'
-  }
-   ^
-/inherit/misc/bboard.c line 71: Warning: Unused local variable 'myid'
-  }
-   ^
-/inherit/misc/bboard.c line 93: Warning: Unused local variable 'myid'
-  }
-   ^
-/d/shaolin/shanmen.c line 67: Warning: Unused local variable 'mygen'
-  }
-   ^
-/d/city/npc/wujiang.c line 7: Warning: Redeclaration of global variable 'skills'.
-  #include <a"/inherit/char/npc"/feature/skill.c";
-                                                  ^
-/d/city/npc/wujiang.c line 7: Warning: Redeclaration of global variable 'learned'.
-  #include <a"/inherit/char/npc"/feature/skill.c";
-                                                  ^
-/d/city/npc/wujiang.c line 7: Warning: Redeclaration of global variable 'skill_map'.
-  #include <a"/inherit/char/npc"/feature/skill.c";
-                                                  ^
-/d/city/npc/wujiang.c line 7: Warning: Redeclaration of global variable 'skill_prepare'.
-  #include <a"/inherit/char/npc"/feature/skill.c";
-                                                  ^
-/d/city/npc/wujiang.c line 67: Warning: skill_death_penalty() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
-/d/city/npc/wujiang.c line 67: Warning: query_skill_map() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
-/d/city/npc/wujiang.c line 67: Warning: query_skill_prepared() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
-/d/city/npc/wujiang.c line 67: Warning: query_skills() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
-/d/city/npc/wujiang.c line 67: Warning: query_learned() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
-/d/city/npc/wujiang.c line 67: Warning: set_skill() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
-/d/city/npc/wujiang.c line 67: Warning: prepare_skill() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
-/d/city/npc/wujiang.c line 67: Warning: delete_skill() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
-/d/city/npc/wujiang.c line 67: Warning: map_skill() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
-/d/city/npc/wujiang.c line 67: Warning: improve_skill() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
-/d/city/npc/wujiang.c line 67: Warning: query_skill_prepare() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
-/d/city/npc/wujiang.c line 67: Warning: query_skill_mapped() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
-/d/city/npc/wujiang.c line 67: Warning: query_skill() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
-/inherit/room/ferry.c line 53: Warning: Unused local variable 'dir'
-  }
-   ^
-/d/shaolin/shanlu1.c line 51: Warning: Unused local variable 'current_dodge'
-  }
-   ^
-/kungfu/condition/ts_pending.c line 23: Warning: Unused local variable 'obj'
-  }
-   ^
-/kungfu/condition/ts_pending.c line 23: Warning: Unused local variable 'inv'
-  }
-   ^
-/kungfu/condition/ts_pending.c line 23: Warning: Unused local variable 'i'
-  }
-   ^
-/kungfu/condition/ts_pending.c line 23: Warning: Unused local variable 'found'
-  }
-   ^
-/cmds/skill/learn.c line 151: Warning: Unused local variable 'master'
-  }
-   ^
-/cmds/std/get.c line 122: Warning: Unused local variable 'enemy'
-  }
-   ^
-/inherit/room/room.c line 7: Warning: Unknown #pragma, ignored.
-  #include <dbase.h
-  ^
-/inherit/room/room.c line 257: Warning: Unused local variable 'item_desc'
-  }
-   ^
-/inherit/char/npc.c line 185: Warning: Unused local variable 'weapon'
-  }
-   ^
-/cmds/std/ask.c line 134: Warning: Unused local variable 'inquiry'
-  }
-   ^
-/d/shaolin/obj/tong.c line 28: Warning: Unused local variable 'water_level'
-  }
-string long_desc(
-   ^
-/d/shaolin/obj/tong.c line 144: Warning: Unused local variable 'water_level'
-  }
-   ^
-/d/shaolin/obj/tong.c line 144: Warning: Unused local variable 'max'
-  }
-   ^
-/d/city/npc/wujiang.c line 7: Warning: Redeclaration of global variable 'skills'.
-  #include <a"/inherit/char/npc"/feature/skill.c";
-                                                  ^
-/d/city/npc/wujiang.c line 7: Warning: Redeclaration of global variable 'learned'.
-  #include <a"/inherit/char/npc"/feature/skill.c";
-                                                  ^
-/d/city/npc/wujiang.c line 7: Warning: Redeclaration of global variable 'skill_map'.
-  #include <a"/inherit/char/npc"/feature/skill.c";
-                                                  ^
-/d/city/npc/wujiang.c line 7: Warning: Redeclaration of global variable 'skill_prepare'.
-  #include <a"/inherit/char/npc"/feature/skill.c";
-                                                  ^
-/d/city/npc/wujiang.c line 67: Warning: skill_death_penalty() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
-/d/city/npc/wujiang.c line 67: Warning: query_skill_map() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
-/d/city/npc/wujiang.c line 67: Warning: query_skill_prepared() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
-/d/city/npc/wujiang.c line 67: Warning: query_skills() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
-/d/city/npc/wujiang.c line 67: Warning: query_learned() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
-/d/city/npc/wujiang.c line 67: Warning: set_skill() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
-/d/city/npc/wujiang.c line 67: Warning: prepare_skill() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
-/d/city/npc/wujiang.c line 67: Warning: delete_skill() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
-/d/city/npc/wujiang.c line 67: Warning: map_skill() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
-/d/city/npc/wujiang.c line 67: Warning: improve_skill() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
-/d/city/npc/wujiang.c line 67: Warning: query_skill_prepare() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
-/d/city/npc/wujiang.c line 67: Warning: query_skill_mapped() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
-/d/city/npc/wujiang.c line 67: Warning: query_skill() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
-/inherit/room/ferry.c line 53: Warning: Unused local variable 'dir'
-  }
-   ^
-/cmds/usr/inventory.c line 33: Warning: Unused local variable 'i'
-  }
-   ^
-/cmds/usr/score.c line 145: Warning: Unused local variable 'str'
-  }
-   ^
-/d/shaolin/shanlu1.c line 51: Warning: Unused local variable 'current_dodge'
-  }
-   ^
-/kungfu/skill/force.c line 8: Warning: Number of arguments disagrees with previous definition.
-  int valid_learn() { return 1;
-                   ^
-/cmds/skill/learn.c line 151: Warning: Unused local variable 'master'
-  }
-   ^
-/kungfu/condition/ts_pending.c line 23: Warning: Unused local variable 'obj'
-  }
-   ^
-/kungfu/condition/ts_pending.c line 23: Warning: Unused local variable 'inv'
-  }
-   ^
-/kungfu/condition/ts_pending.c line 23: Warning: Unused local variable 'i'
-  }
-   ^
-/kungfu/condition/ts_pending.c line 23: Warning: Unused local variable 'found'
-  }
-   ^
-/inherit/room/room.c line 7: Warning: Unknown #pragma, ignored.
-  #include <dbase.h
-  ^
-/inherit/room/room.c line 257: Warning: Unused local variable 'item_desc'
-  }
-   ^
-/inherit/char/npc.c line 185: Warning: Unused local variable 'weapon'
-  }
-   ^
-/d/shaolin/guangchang1.c line 10: Warning: Number of arguments disagrees with previous definition.
-  int valid_leave()
-                   ^
-/d/shaolin/guangchang1.c line 65: Warning: Previous function prototype for close_gate does not match current function in return type ( void vs int )
-  int close_gate()
-                  ^
-/kungfu/class/shaolin/qing-fa.c line 168: Warning: Unused local variable 'fam'
-  }
-   ^
-/inherit/misc/bboard.c line 71: Warning: Unused local variable 'i'
-  }
-   ^
-/inherit/misc/bboard.c line 71: Warning: Unused local variable 'last_time_read'
-  }
-   ^
-/inherit/misc/bboard.c line 71: Warning: Unused local variable 'myid'
-  }
-   ^
-/inherit/misc/bboard.c line 93: Warning: Unused local variable 'myid'
-  }
-   ^
-/d/shaolin/shanmen.c line 67: Warning: Unused local variable 'mygen'
-  }
-   ^
-/d/city/npc/wujiang.c line 7: Warning: Redeclaration of global variable 'skills'.
-  #include <a"/inherit/char/npc"/feature/skill.c";
-                                                  ^
-/d/city/npc/wujiang.c line 7: Warning: Redeclaration of global variable 'learned'.
-  #include <a"/inherit/char/npc"/feature/skill.c";
-                                                  ^
-/d/city/npc/wujiang.c line 7: Warning: Redeclaration of global variable 'skill_map'.
-  #include <a"/inherit/char/npc"/feature/skill.c";
-                                                  ^
-/d/city/npc/wujiang.c line 7: Warning: Redeclaration of global variable 'skill_prepare'.
-  #include <a"/inherit/char/npc"/feature/skill.c";
-                                                  ^
-/d/city/npc/wujiang.c line 67: Warning: skill_death_penalty() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
-/d/city/npc/wujiang.c line 67: Warning: query_skill_map() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
-/d/city/npc/wujiang.c line 67: Warning: query_skill_prepared() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
-/d/city/npc/wujiang.c line 67: Warning: query_skills() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
-/d/city/npc/wujiang.c line 67: Warning: query_learned() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
-/d/city/npc/wujiang.c line 67: Warning: set_skill() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
-/d/city/npc/wujiang.c line 67: Warning: prepare_skill() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
-/d/city/npc/wujiang.c line 67: Warning: delete_skill() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
-/d/city/npc/wujiang.c line 67: Warning: map_skill() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
-/d/city/npc/wujiang.c line 67: Warning: improve_skill() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
-/d/city/npc/wujiang.c line 67: Warning: query_skill_prepare() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
-/d/city/npc/wujiang.c line 67: Warning: query_skill_mapped() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
-/d/city/npc/wujiang.c line 67: Warning: query_skill() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
-/inherit/room/ferry.c line 53: Warning: Unused local variable 'dir'
-  }
-   ^
-/d/shaolin/shanlu1.c line 51: Warning: Unused local variable 'current_dodge'
-  }
-   ^
-/cmds/usr/score.c line 145: Warning: Unused local variable 'str'
-  }
-   ^
-/cmds/skill/learn.c line 151: Warning: Unused local variable 'master'
-  }
-   ^
-/kungfu/skill/force.c line 8: Warning: Number of arguments disagrees with previous definition.
-  int valid_learn() { return 1;
-                   ^
-/kungfu/condition/ts_pending.c line 23: Warning: Unused local variable 'obj'
-  }
-   ^
-/kungfu/condition/ts_pending.c line 23: Warning: Unused local variable 'inv'
-  }
-   ^
-/kungfu/condition/ts_pending.c line 23: Warning: Unused local variable 'i'
-  }
-   ^
-/kungfu/condition/ts_pending.c line 23: Warning: Unused local variable 'found'
-  }
-   ^
-/cmds/std/get.c line 122: Warning: Unused local variable 'enemy'
-  }
-   ^
-/cmds/skill/xue.c line 151: Warning: Unused local variable 'master'
-  }
-   ^
-/d/shaolin/obj/basi-shanyao.c line 21: Warning: short() inherited from both /feature/food.c and /feature/name.c (via /inherit/item/item.c); using the definition in /feature/food.c.
-/cmds/skill/learn.c line 151: Warning: Unused local variable 'master'
-  }
-   ^
-/cmds/skill/yun.c line 42: Warning: Unused local variable 'result'
-  }
-   ^
-/cmds/skill/enable.c line 128: Warning: Unused local variable 'types'
-  }
-int help(object me
-   ^
-/inherit/room/room.c line 7: Warning: Unknown #pragma, ignored.
-  #include <dbase.h
-  ^
 /inherit/room/room.c line 7: Warning: Unknown #pragma, ignored.
   #include <dbase.h
   ^
@@ -1308,14 +2061,224 @@ void let_know(object me
   }
 void let_know(object me
    ^
-/d/shaolin/obj/tong.c line 28: Warning: Unused local variable 'water_level'
+/d/shaolin/guangchang1.c line 10: Warning: Number of arguments disagrees with previous definition.
+  int valid_leave()
+                   ^
+/d/shaolin/guangchang1.c line 65: Warning: Previous function prototype for close_gate does not match current function in return type ( void vs int )
+  int close_gate()
+                  ^
+/kungfu/class/shaolin/qing-fa.c line 168: Warning: Unused local variable 'fam'
   }
-string long_desc(
    ^
-/d/shaolin/obj/tong.c line 144: Warning: Unused local variable 'water_level'
+/inherit/misc/bboard.c line 71: Warning: Unused local variable 'i'
   }
    ^
-/d/shaolin/obj/tong.c line 144: Warning: Unused local variable 'max'
+/inherit/misc/bboard.c line 71: Warning: Unused local variable 'last_time_read'
+  }
+   ^
+/inherit/misc/bboard.c line 71: Warning: Unused local variable 'myid'
+  }
+   ^
+/inherit/misc/bboard.c line 93: Warning: Unused local variable 'myid'
+  }
+   ^
+/d/shaolin/shanmen.c line 67: Warning: Unused local variable 'mygen'
+  }
+   ^
+/d/city/npc/wujiang.c line 7: Warning: Redeclaration of global variable 'skills'.
+  #include <a"/inherit/char/npc"/feature/skill.c";
+                                                  ^
+/d/city/npc/wujiang.c line 7: Warning: Redeclaration of global variable 'learned'.
+  #include <a"/inherit/char/npc"/feature/skill.c";
+                                                  ^
+/d/city/npc/wujiang.c line 7: Warning: Redeclaration of global variable 'skill_map'.
+  #include <a"/inherit/char/npc"/feature/skill.c";
+                                                  ^
+/d/city/npc/wujiang.c line 7: Warning: Redeclaration of global variable 'skill_prepare'.
+  #include <a"/inherit/char/npc"/feature/skill.c";
+                                                  ^
+/d/city/npc/wujiang.c line 67: Warning: skill_death_penalty() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: query_skill_map() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: query_skill_prepared() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: query_skills() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: query_learned() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: set_skill() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: prepare_skill() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: delete_skill() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: map_skill() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: improve_skill() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: query_skill_prepare() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: query_skill_mapped() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: query_skill() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/inherit/room/ferry.c line 53: Warning: Unused local variable 'dir'
+  }
+   ^
+/d/shaolin/shanlu1.c line 51: Warning: Unused local variable 'current_dodge'
+  }
+   ^
+/kungfu/condition/ts_pending.c line 23: Warning: Unused local variable 'obj'
+  }
+   ^
+/kungfu/condition/ts_pending.c line 23: Warning: Unused local variable 'inv'
+  }
+   ^
+/kungfu/condition/ts_pending.c line 23: Warning: Unused local variable 'i'
+  }
+   ^
+/kungfu/condition/ts_pending.c line 23: Warning: Unused local variable 'found'
+  }
+   ^
+/cmds/usr/score.c line 145: Warning: Unused local variable 'str'
+  }
+   ^
+/cmds/usr/inventory.c line 33: Warning: Unused local variable 'i'
+  }
+   ^
+/cmds/skill/yun.c line 42: Warning: Unused local variable 'result'
+  }
+   ^
+/kungfu/skill/hunyuan-yiqi.c line 59: Warning: Unused local variable 'i'
+  }
+   ^
+/kungfu/skill/hunyuan-yiqi.c line 59: Warning: Unused local variable 'ts'
+  }
+   ^
+/kungfu/skill/force.c line 8: Warning: Number of arguments disagrees with previous definition.
+  int valid_learn() { return 1;
+                   ^
+/inherit/room/room.c line 7: Warning: Unknown #pragma, ignored.
+  #include <dbase.h
+  ^
+/inherit/room/room.c line 257: Warning: Unused local variable 'item_desc'
+  }
+   ^
+/inherit/char/npc.c line 185: Warning: Unused local variable 'weapon'
+  }
+   ^
+/cmds/std/ask.c line 134: Warning: Unused local variable 'inquiry'
+  }
+   ^
+/kungfu/condition/tiaoshui.c line 23: Warning: Unused local variable 'obj'
+  }
+void let_know(object me
+   ^
+/kungfu/condition/tiaoshui.c line 23: Warning: Unused local variable 'inv'
+  }
+void let_know(object me
+   ^
+/kungfu/condition/tiaoshui.c line 23: Warning: Unused local variable 'i'
+  }
+void let_know(object me
+   ^
+/kungfu/condition/tiaoshui.c line 23: Warning: Unused local variable 'found'
+  }
+void let_know(object me
+   ^
+/d/shaolin/guangchang1.c line 10: Warning: Number of arguments disagrees with previous definition.
+  int valid_leave()
+                   ^
+/d/shaolin/guangchang1.c line 65: Warning: Previous function prototype for close_gate does not match current function in return type ( void vs int )
+  int close_gate()
+                  ^
+/kungfu/class/shaolin/qing-fa.c line 168: Warning: Unused local variable 'fam'
+  }
+   ^
+/inherit/misc/bboard.c line 71: Warning: Unused local variable 'i'
+  }
+   ^
+/inherit/misc/bboard.c line 71: Warning: Unused local variable 'last_time_read'
+  }
+   ^
+/inherit/misc/bboard.c line 71: Warning: Unused local variable 'myid'
+  }
+   ^
+/inherit/misc/bboard.c line 93: Warning: Unused local variable 'myid'
+  }
+   ^
+/d/shaolin/shanmen.c line 67: Warning: Unused local variable 'mygen'
+  }
+   ^
+/d/city/npc/wujiang.c line 7: Warning: Redeclaration of global variable 'skills'.
+  #include <a"/inherit/char/npc"/feature/skill.c";
+                                                  ^
+/d/city/npc/wujiang.c line 7: Warning: Redeclaration of global variable 'learned'.
+  #include <a"/inherit/char/npc"/feature/skill.c";
+                                                  ^
+/d/city/npc/wujiang.c line 7: Warning: Redeclaration of global variable 'skill_map'.
+  #include <a"/inherit/char/npc"/feature/skill.c";
+                                                  ^
+/d/city/npc/wujiang.c line 7: Warning: Redeclaration of global variable 'skill_prepare'.
+  #include <a"/inherit/char/npc"/feature/skill.c";
+                                                  ^
+/d/city/npc/wujiang.c line 67: Warning: skill_death_penalty() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: query_skill_map() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: query_skill_prepared() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: query_skills() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: query_learned() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: set_skill() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: prepare_skill() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: delete_skill() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: map_skill() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: improve_skill() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: query_skill_prepare() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: query_skill_mapped() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: query_skill() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/inherit/room/ferry.c line 53: Warning: Unused local variable 'dir'
+  }
+   ^
+/d/shaolin/shanlu1.c line 51: Warning: Unused local variable 'current_dodge'
+  }
+   ^
+/cmds/usr/score.c line 145: Warning: Unused local variable 'str'
+  }
+   ^
+/kungfu/condition/ts_pending.c line 23: Warning: Unused local variable 'obj'
+  }
+   ^
+/kungfu/condition/ts_pending.c line 23: Warning: Unused local variable 'inv'
+  }
+   ^
+/kungfu/condition/ts_pending.c line 23: Warning: Unused local variable 'i'
+  }
+   ^
+/kungfu/condition/ts_pending.c line 23: Warning: Unused local variable 'found'
+  }
+   ^
+/cmds/std/get.c line 122: Warning: Unused local variable 'enemy'
+  }
+   ^
+/inherit/room/room.c line 7: Warning: Unknown #pragma, ignored.
+  #include <dbase.h
+  ^
+/inherit/room/room.c line 7: Warning: Unknown #pragma, ignored.
+  #include <dbase.h
+  ^
+/inherit/room/room.c line 257: Warning: Unused local variable 'item_desc'
+  }
+   ^
+/inherit/char/npc.c line 185: Warning: Unused local variable 'weapon'
+  }
+   ^
+/kungfu/condition/tiaoshui.c line 23: Warning: Unused local variable 'obj'
+  }
+void let_know(object me
+   ^
+/kungfu/condition/tiaoshui.c line 23: Warning: Unused local variable 'inv'
+  }
+void let_know(object me
+   ^
+/kungfu/condition/tiaoshui.c line 23: Warning: Unused local variable 'i'
+  }
+void let_know(object me
+   ^
+/kungfu/condition/tiaoshui.c line 23: Warning: Unused local variable 'found'
+  }
+void let_know(object me
+   ^
+/cmds/usr/inventory.c line 33: Warning: Unused local variable 'i'
+  }
+   ^
+/cmds/skill/drop.c line 87: Warning: Unused local variable 'str'
   }
    ^
 /d/shaolin/guangchang1.c line 10: Warning: Number of arguments disagrees with previous definition.
@@ -1370,195 +2333,12 @@ string long_desc(
 /inherit/room/ferry.c line 53: Warning: Unused local variable 'dir'
   }
    ^
-/cmds/usr/inventory.c line 33: Warning: Unused local variable 'i'
-  }
-   ^
 /d/shaolin/shanlu1.c line 51: Warning: Unused local variable 'current_dodge'
   }
    ^
-/kungfu/skill/force.c line 8: Warning: Number of arguments disagrees with previous definition.
-  int valid_learn() { return 1;
-                   ^
-/cmds/skill/learn.c line 151: Warning: Unused local variable 'master'
-  }
-   ^
-/cmds/std/look.c line 197: Warning: Unused local variable 'limb_status'
-  }
-   ^
-/cmds/usr/quit.c line 110: Warning: Unused local variable 'stage'
-  }
-   ^
-/cmds/std/drop.c line 87: Warning: Unused local variable 'str'
-  }
-   ^
-/cmds/std/look.c line 197: Warning: Unused local variable 'limb_status'
-  }
-   ^
-/cmds/usr/quit.c line 110: Warning: Unused local variable 'stage'
-  }
-   ^
-/cmds/std/drop.c line 87: Warning: Unused local variable 'str'
-  }
-   ^
-/cmds/std/look.c line 197: Warning: Unused local variable 'limb_status'
-  }
-   ^
-/cmds/usr/quit.c line 110: Warning: Unused local variable 'stage'
-  }
-   ^
-/cmds/std/drop.c line 87: Warning: Unused local variable 'str'
-  }
-   ^
-/cmds/std/look.c line 197: Warning: Unused local variable 'limb_status'
-  }
-   ^
-/cmds/usr/quit.c line 110: Warning: Unused local variable 'stage'
-  }
-   ^
-/cmds/std/drop.c line 87: Warning: Unused local variable 'str'
-  }
-   ^
-/cmds/std/look.c line 197: Warning: Unused local variable 'limb_status'
-  }
-   ^
-/cmds/usr/quit.c line 110: Warning: Unused local variable 'stage'
-  }
-   ^
-/cmds/std/drop.c line 87: Warning: Unused local variable 'str'
-  }
-   ^
-/cmds/std/look.c line 197: Warning: Unused local variable 'limb_status'
-  }
-   ^
-/cmds/usr/quit.c line 110: Warning: Unused local variable 'stage'
-  }
-   ^
-/cmds/std/drop.c line 87: Warning: Unused local variable 'str'
-  }
-   ^
-/cmds/std/look.c line 197: Warning: Unused local variable 'limb_status'
-  }
-   ^
-/cmds/usr/quit.c line 110: Warning: Unused local variable 'stage'
-  }
-   ^
-/cmds/std/drop.c line 87: Warning: Unused local variable 'str'
-  }
-   ^
-/cmds/std/look.c line 197: Warning: Unused local variable 'limb_status'
-  }
-   ^
-/cmds/usr/quit.c line 110: Warning: Unused local variable 'stage'
-  }
-   ^
-/cmds/std/drop.c line 87: Warning: Unused local variable 'str'
-  }
-   ^
-/cmds/std/look.c line 197: Warning: Unused local variable 'limb_status'
-  }
-   ^
-/cmds/usr/quit.c line 110: Warning: Unused local variable 'stage'
-  }
-   ^
-/cmds/std/drop.c line 87: Warning: Unused local variable 'str'
-  }
-   ^
-/cmds/std/look.c line 197: Warning: Unused local variable 'limb_status'
-  }
-   ^
-/cmds/usr/quit.c line 110: Warning: Unused local variable 'stage'
-  }
-   ^
-/cmds/std/drop.c line 87: Warning: Unused local variable 'str'
-  }
-   ^
-/cmds/std/look.c line 197: Warning: Unused local variable 'limb_status'
-  }
-   ^
-/cmds/usr/quit.c line 110: Warning: Unused local variable 'stage'
-  }
-   ^
-/cmds/std/drop.c line 87: Warning: Unused local variable 'str'
-  }
-   ^
-/cmds/std/look.c line 197: Warning: Unused local variable 'limb_status'
-  }
-   ^
-/cmds/usr/quit.c line 110: Warning: Unused local variable 'stage'
-  }
-   ^
-/cmds/std/drop.c line 87: Warning: Unused local variable 'str'
-  }
-   ^
-/cmds/std/look.c line 197: Warning: Unused local variable 'limb_status'
-  }
-   ^
-/cmds/usr/quit.c line 110: Warning: Unused local variable 'stage'
-  }
-   ^
-/cmds/std/drop.c line 87: Warning: Unused local variable 'str'
-  }
-   ^
-/cmds/std/look.c line 197: Warning: Unused local variable 'limb_status'
-  }
-   ^
-/cmds/usr/quit.c line 110: Warning: Unused local variable 'stage'
-  }
-   ^
-/cmds/std/drop.c line 87: Warning: Unused local variable 'str'
-  }
-   ^
-/cmds/std/look.c line 197: Warning: Unused local variable 'limb_status'
-  }
-   ^
-/cmds/usr/quit.c line 110: Warning: Unused local variable 'stage'
-  }
-   ^
-/cmds/std/drop.c line 87: Warning: Unused local variable 'str'
-  }
-   ^
-/cmds/std/look.c line 197: Warning: Unused local variable 'limb_status'
-  }
-   ^
-/cmds/usr/quit.c line 110: Warning: Unused local variable 'stage'
-  }
-   ^
-/cmds/std/drop.c line 87: Warning: Unused local variable 'str'
-  }
-   ^
-/cmds/std/look.c line 197: Warning: Unused local variable 'limb_status'
-  }
-   ^
-/cmds/usr/quit.c line 110: Warning: Unused local variable 'stage'
-  }
-   ^
-/cmds/std/drop.c line 87: Warning: Unused local variable 'str'
-  }
-   ^
-/cmds/std/look.c line 197: Warning: Unused local variable 'limb_status'
-  }
-   ^
-/cmds/usr/quit.c line 110: Warning: Unused local variable 'stage'
-  }
-   ^
-/cmds/std/drop.c line 87: Warning: Unused local variable 'str'
-  }
-   ^
-/cmds/std/look.c line 197: Warning: Unused local variable 'limb_status'
-  }
-   ^
-/cmds/usr/quit.c line 110: Warning: Unused local variable 'stage'
-  }
-   ^
-/cmds/std/drop.c line 87: Warning: Unused local variable 'str'
-  }
-   ^
-/cmds/std/look.c line 197: Warning: Unused local variable 'limb_status'
-  }
-   ^
-/kungfu/skill/force.c line 8: Warning: Number of arguments disagrees with previous definition.
-  int valid_learn() { return 1;
-                   ^
+/inherit/room/room.c line 7: Warning: Unknown #pragma, ignored.
+  #include <dbase.h
+  ^
 /inherit/room/room.c line 7: Warning: Unknown #pragma, ignored.
   #include <dbase.h
   ^
@@ -1568,26 +2348,896 @@ string long_desc(
 /inherit/char/npc.c line 185: Warning: Unused local variable 'weapon'
   }
    ^
+/cmds/usr/quit.c line 110: Warning: Unused local variable 'stage'
+  }
+   ^
+/cmds/std/drop.c line 87: Warning: Unused local variable 'str'
+  }
+   ^
+/cmds/std/look.c line 197: Warning: Unused local variable 'limb_status'
+  }
+   ^
+/cmds/usr/quit.c line 110: Warning: Unused local variable 'stage'
+  }
+   ^
+/cmds/std/drop.c line 87: Warning: Unused local variable 'str'
+  }
+   ^
+/cmds/std/look.c line 197: Warning: Unused local variable 'limb_status'
+  }
+   ^
+/cmds/usr/quit.c line 110: Warning: Unused local variable 'stage'
+  }
+   ^
+/cmds/std/drop.c line 87: Warning: Unused local variable 'str'
+  }
+   ^
+/cmds/std/look.c line 197: Warning: Unused local variable 'limb_status'
+  }
+   ^
+/cmds/usr/quit.c line 110: Warning: Unused local variable 'stage'
+  }
+   ^
+/cmds/std/drop.c line 87: Warning: Unused local variable 'str'
+  }
+   ^
+/cmds/std/look.c line 197: Warning: Unused local variable 'limb_status'
+  }
+   ^
+/cmds/usr/quit.c line 110: Warning: Unused local variable 'stage'
+  }
+   ^
+/cmds/std/drop.c line 87: Warning: Unused local variable 'str'
+  }
+   ^
+/cmds/std/look.c line 197: Warning: Unused local variable 'limb_status'
+  }
+   ^
+/cmds/usr/quit.c line 110: Warning: Unused local variable 'stage'
+  }
+   ^
+/cmds/std/drop.c line 87: Warning: Unused local variable 'str'
+  }
+   ^
+/cmds/std/look.c line 197: Warning: Unused local variable 'limb_status'
+  }
+   ^
+/cmds/usr/quit.c line 110: Warning: Unused local variable 'stage'
+  }
+   ^
+/cmds/std/drop.c line 87: Warning: Unused local variable 'str'
+  }
+   ^
+/cmds/std/look.c line 197: Warning: Unused local variable 'limb_status'
+  }
+   ^
+/cmds/usr/quit.c line 110: Warning: Unused local variable 'stage'
+  }
+   ^
+/cmds/std/drop.c line 87: Warning: Unused local variable 'str'
+  }
+   ^
+/cmds/std/look.c line 197: Warning: Unused local variable 'limb_status'
+  }
+   ^
+/cmds/usr/quit.c line 110: Warning: Unused local variable 'stage'
+  }
+   ^
+/cmds/std/drop.c line 87: Warning: Unused local variable 'str'
+  }
+   ^
+/cmds/std/look.c line 197: Warning: Unused local variable 'limb_status'
+  }
+   ^
+/cmds/usr/quit.c line 110: Warning: Unused local variable 'stage'
+  }
+   ^
+/cmds/std/drop.c line 87: Warning: Unused local variable 'str'
+  }
+   ^
+/cmds/std/look.c line 197: Warning: Unused local variable 'limb_status'
+  }
+   ^
+/kungfu/skill/force.c line 8: Warning: Number of arguments disagrees with previous definition.
+  int valid_learn() { return 1;
+                   ^
+/kungfu/skill/hunyuan-yiqi.c line 59: Warning: Unused local variable 'i'
+  }
+   ^
+/kungfu/skill/hunyuan-yiqi.c line 59: Warning: Unused local variable 'ts'
+  }
+   ^
 /cmds/usr/inventory.c line 33: Warning: Unused local variable 'i'
+  }
+   ^
+/cmds/std/get.c line 122: Warning: Unused local variable 'enemy'
+  }
+   ^
+/inherit/room/room.c line 7: Warning: Unknown #pragma, ignored.
+  #include <dbase.h
+  ^
+/inherit/room/room.c line 257: Warning: Unused local variable 'item_desc'
+  }
+   ^
+/inherit/char/npc.c line 185: Warning: Unused local variable 'weapon'
   }
    ^
 /kungfu/class/shaolin/qing.h line 161: Warning: Unused local variable 'name'
   }
    ^
 /kungfu/class/shaolin/qing.h line 161: Warning: Unused local variable 'new_name'
+  }
+   ^
+/d/shaolin/obj/shanhu-baicai.c line 21: Warning: short() inherited from both /feature/food.c and /feature/name.c (via /inherit/item/item.c); using the definition in /feature/food.c.
+/d/shaolin/obj/mizhi-tianou.c line 21: Warning: short() inherited from both /feature/food.c and /feature/name.c (via /inherit/item/item.c); using the definition in /feature/food.c.
+/cmds/skill/learn.c line 151: Warning: Unused local variable 'master'
+  }
+   ^
+/cmds/skill/exert.c line 42: Warning: Unused local variable 'result'
+  }
+   ^
+/cmds/std/ask.c line 134: Warning: Unused local variable 'inquiry'
+  }
+   ^
+/kungfu/condition/ts_pending.c line 23: Warning: Unused local variable 'obj'
+  }
+   ^
+/kungfu/condition/ts_pending.c line 23: Warning: Unused local variable 'inv'
+  }
+   ^
+/kungfu/condition/ts_pending.c line 23: Warning: Unused local variable 'i'
+  }
+   ^
+/kungfu/condition/ts_pending.c line 23: Warning: Unused local variable 'found'
+  }
+   ^
+/cmds/usr/inventory.c line 33: Warning: Unused local variable 'i'
+  }
+   ^
+/inherit/room/room.c line 7: Warning: Unknown #pragma, ignored.
+  #include <dbase.h
+  ^
+/inherit/room/room.c line 257: Warning: Unused local variable 'item_desc'
+  }
+   ^
+/d/shaolin/shanmen.c line 67: Warning: Unused local variable 'mygen'
+  }
+   ^
+/inherit/char/npc.c line 185: Warning: Unused local variable 'weapon'
+  }
+   ^
+/d/city/npc/wujiang.c line 7: Warning: Redeclaration of global variable 'skills'.
+  #include <a"/inherit/char/npc"/feature/skill.c";
+                                                  ^
+/d/city/npc/wujiang.c line 7: Warning: Redeclaration of global variable 'learned'.
+  #include <a"/inherit/char/npc"/feature/skill.c";
+                                                  ^
+/d/city/npc/wujiang.c line 7: Warning: Redeclaration of global variable 'skill_map'.
+  #include <a"/inherit/char/npc"/feature/skill.c";
+                                                  ^
+/d/city/npc/wujiang.c line 7: Warning: Redeclaration of global variable 'skill_prepare'.
+  #include <a"/inherit/char/npc"/feature/skill.c";
+                                                  ^
+/d/city/npc/wujiang.c line 67: Warning: skill_death_penalty() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: query_skill_map() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: query_skill_prepared() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: query_skills() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: query_learned() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: set_skill() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: prepare_skill() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: delete_skill() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: map_skill() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: improve_skill() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: query_skill_prepare() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: query_skill_mapped() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: query_skill() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/inherit/room/ferry.c line 53: Warning: Unused local variable 'dir'
+  }
+   ^
+/d/shaolin/shanlu1.c line 51: Warning: Unused local variable 'current_dodge'
+  }
+   ^
+/kungfu/condition/ts_pending.c line 23: Warning: Unused local variable 'obj'
+  }
+   ^
+/kungfu/condition/ts_pending.c line 23: Warning: Unused local variable 'inv'
+  }
+   ^
+/kungfu/condition/ts_pending.c line 23: Warning: Unused local variable 'i'
+  }
+   ^
+/kungfu/condition/ts_pending.c line 23: Warning: Unused local variable 'found'
+  }
+   ^
+/kungfu/skill/force.c line 8: Warning: Number of arguments disagrees with previous definition.
+  int valid_learn() { return 1;
+                   ^
+/kungfu/skill/hunyuan-yiqi.c line 59: Warning: Unused local variable 'i'
+  }
+   ^
+/kungfu/skill/hunyuan-yiqi.c line 59: Warning: Unused local variable 'ts'
+  }
+   ^
+/cmds/skill/learn.c line 151: Warning: Unused local variable 'master'
+  }
+   ^
+/cmds/skill/yun.c line 42: Warning: Unused local variable 'result'
+  }
+   ^
+/kungfu/skill/force.c line 8: Warning: Number of arguments disagrees with previous definition.
+  int valid_learn() { return 1;
+                   ^
+/inherit/room/room.c line 7: Warning: Unknown #pragma, ignored.
+  #include <dbase.h
+  ^
+/inherit/room/room.c line 257: Warning: Unused local variable 'item_desc'
+  }
+   ^
+/inherit/char/npc.c line 185: Warning: Unused local variable 'weapon'
+  }
+   ^
+/cmds/std/ask.c line 134: Warning: Unused local variable 'inquiry'
+  }
+   ^
+/kungfu/condition/tiaoshui.c line 23: Warning: Unused local variable 'obj'
+  }
+void let_know(object me
+   ^
+/kungfu/condition/tiaoshui.c line 23: Warning: Unused local variable 'inv'
+  }
+void let_know(object me
+   ^
+/kungfu/condition/tiaoshui.c line 23: Warning: Unused local variable 'i'
+  }
+void let_know(object me
+   ^
+/kungfu/condition/tiaoshui.c line 23: Warning: Unused local variable 'found'
+  }
+void let_know(object me
+   ^
+/d/shaolin/guangchang1.c line 10: Warning: Number of arguments disagrees with previous definition.
+  int valid_leave()
+                   ^
+/d/shaolin/guangchang1.c line 65: Warning: Previous function prototype for close_gate does not match current function in return type ( void vs int )
+  int close_gate()
+                  ^
+/kungfu/class/shaolin/qing-fa.c line 168: Warning: Unused local variable 'fam'
+  }
+   ^
+/inherit/misc/bboard.c line 71: Warning: Unused local variable 'i'
+  }
+   ^
+/inherit/misc/bboard.c line 71: Warning: Unused local variable 'last_time_read'
+  }
+   ^
+/inherit/misc/bboard.c line 71: Warning: Unused local variable 'myid'
+  }
+   ^
+/inherit/misc/bboard.c line 93: Warning: Unused local variable 'myid'
+  }
+   ^
+/d/shaolin/shanmen.c line 67: Warning: Unused local variable 'mygen'
+  }
+   ^
+/d/city/npc/wujiang.c line 7: Warning: Redeclaration of global variable 'skills'.
+  #include <a"/inherit/char/npc"/feature/skill.c";
+                                                  ^
+/d/city/npc/wujiang.c line 7: Warning: Redeclaration of global variable 'learned'.
+  #include <a"/inherit/char/npc"/feature/skill.c";
+                                                  ^
+/d/city/npc/wujiang.c line 7: Warning: Redeclaration of global variable 'skill_map'.
+  #include <a"/inherit/char/npc"/feature/skill.c";
+                                                  ^
+/d/city/npc/wujiang.c line 7: Warning: Redeclaration of global variable 'skill_prepare'.
+  #include <a"/inherit/char/npc"/feature/skill.c";
+                                                  ^
+/d/city/npc/wujiang.c line 67: Warning: skill_death_penalty() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: query_skill_map() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: query_skill_prepared() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: query_skills() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: query_learned() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: set_skill() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: prepare_skill() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: delete_skill() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: map_skill() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: improve_skill() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: query_skill_prepare() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: query_skill_mapped() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: query_skill() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/inherit/room/ferry.c line 53: Warning: Unused local variable 'dir'
+  }
+   ^
+/kungfu/condition/ts_pending.c line 23: Warning: Unused local variable 'obj'
+  }
+   ^
+/kungfu/condition/ts_pending.c line 23: Warning: Unused local variable 'inv'
+  }
+   ^
+/kungfu/condition/ts_pending.c line 23: Warning: Unused local variable 'i'
+  }
+   ^
+/kungfu/condition/ts_pending.c line 23: Warning: Unused local variable 'found'
+  }
+   ^
+/cmds/usr/score.c line 145: Warning: Unused local variable 'str'
+  }
+   ^
+/cmds/std/get.c line 122: Warning: Unused local variable 'enemy'
+  }
+   ^
+/inherit/room/room.c line 7: Warning: Unknown #pragma, ignored.
+  #include <dbase.h
+  ^
+/inherit/room/room.c line 7: Warning: Unknown #pragma, ignored.
+  #include <dbase.h
+  ^
+/inherit/room/room.c line 257: Warning: Unused local variable 'item_desc'
+  }
+   ^
+/inherit/char/npc.c line 185: Warning: Unused local variable 'weapon'
+  }
+   ^
+/cmds/std/ask.c line 134: Warning: Unused local variable 'inquiry'
+  }
+   ^
+/kungfu/condition/tiaoshui.c line 23: Warning: Unused local variable 'obj'
+  }
+void let_know(object me
+   ^
+/kungfu/condition/tiaoshui.c line 23: Warning: Unused local variable 'inv'
+  }
+void let_know(object me
+   ^
+/kungfu/condition/tiaoshui.c line 23: Warning: Unused local variable 'i'
+  }
+void let_know(object me
+   ^
+/kungfu/condition/tiaoshui.c line 23: Warning: Unused local variable 'found'
+  }
+void let_know(object me
+   ^
+/d/shaolin/guangchang1.c line 10: Warning: Number of arguments disagrees with previous definition.
+  int valid_leave()
+                   ^
+/d/shaolin/guangchang1.c line 65: Warning: Previous function prototype for close_gate does not match current function in return type ( void vs int )
+  int close_gate()
+                  ^
+/kungfu/class/shaolin/qing-fa.c line 168: Warning: Unused local variable 'fam'
+  }
+   ^
+/inherit/misc/bboard.c line 71: Warning: Unused local variable 'i'
+  }
+   ^
+/inherit/misc/bboard.c line 71: Warning: Unused local variable 'last_time_read'
+  }
+   ^
+/inherit/misc/bboard.c line 71: Warning: Unused local variable 'myid'
+  }
+   ^
+/inherit/misc/bboard.c line 93: Warning: Unused local variable 'myid'
+  }
+   ^
+/cmds/usr/inventory.c line 33: Warning: Unused local variable 'i'
+  }
+   ^
+/d/shaolin/shanmen.c line 67: Warning: Unused local variable 'mygen'
+  }
+   ^
+/d/city/npc/wujiang.c line 7: Warning: Redeclaration of global variable 'skills'.
+  #include <a"/inherit/char/npc"/feature/skill.c";
+                                                  ^
+/d/city/npc/wujiang.c line 7: Warning: Redeclaration of global variable 'learned'.
+  #include <a"/inherit/char/npc"/feature/skill.c";
+                                                  ^
+/d/city/npc/wujiang.c line 7: Warning: Redeclaration of global variable 'skill_map'.
+  #include <a"/inherit/char/npc"/feature/skill.c";
+                                                  ^
+/d/city/npc/wujiang.c line 7: Warning: Redeclaration of global variable 'skill_prepare'.
+  #include <a"/inherit/char/npc"/feature/skill.c";
+                                                  ^
+/d/city/npc/wujiang.c line 67: Warning: skill_death_penalty() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: query_skill_map() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: query_skill_prepared() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: query_skills() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: query_learned() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: set_skill() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: prepare_skill() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: delete_skill() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: map_skill() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: improve_skill() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: query_skill_prepare() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: query_skill_mapped() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: query_skill() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/inherit/room/ferry.c line 53: Warning: Unused local variable 'dir'
+  }
+   ^
+/d/shaolin/shanlu1.c line 51: Warning: Unused local variable 'current_dodge'
+  }
+   ^
+/kungfu/condition/ts_pending.c line 23: Warning: Unused local variable 'obj'
+  }
+   ^
+/kungfu/condition/ts_pending.c line 23: Warning: Unused local variable 'inv'
+  }
+   ^
+/kungfu/condition/ts_pending.c line 23: Warning: Unused local variable 'i'
+  }
+   ^
+/kungfu/condition/ts_pending.c line 23: Warning: Unused local variable 'found'
+  }
+   ^
+/cmds/skill/learn.c line 151: Warning: Unused local variable 'master'
+  }
+   ^
+/cmds/skill/yun.c line 42: Warning: Unused local variable 'result'
+  }
+   ^
+/kungfu/condition/tiaoshui.c line 23: Warning: Unused local variable 'obj'
+  }
+void let_know(object me
+   ^
+/kungfu/condition/tiaoshui.c line 23: Warning: Unused local variable 'inv'
+  }
+void let_know(object me
+   ^
+/kungfu/condition/tiaoshui.c line 23: Warning: Unused local variable 'i'
+  }
+void let_know(object me
+   ^
+/kungfu/condition/tiaoshui.c line 23: Warning: Unused local variable 'found'
+  }
+void let_know(object me
+   ^
+/cmds/usr/score.c line 145: Warning: Unused local variable 'str'
+  }
+   ^
+/inherit/room/room.c line 7: Warning: Unknown #pragma, ignored.
+  #include <dbase.h
+  ^
+/inherit/room/room.c line 257: Warning: Unused local variable 'item_desc'
+  }
+   ^
+/inherit/char/npc.c line 185: Warning: Unused local variable 'weapon'
+  }
+   ^
+/d/shaolin/guangchang1.c line 10: Warning: Number of arguments disagrees with previous definition.
+  int valid_leave()
+                   ^
+/d/shaolin/guangchang1.c line 65: Warning: Previous function prototype for close_gate does not match current function in return type ( void vs int )
+  int close_gate()
+                  ^
+/kungfu/class/shaolin/qing-fa.c line 168: Warning: Unused local variable 'fam'
+  }
+   ^
+/inherit/misc/bboard.c line 71: Warning: Unused local variable 'i'
+  }
+   ^
+/inherit/misc/bboard.c line 71: Warning: Unused local variable 'last_time_read'
+  }
+   ^
+/inherit/misc/bboard.c line 71: Warning: Unused local variable 'myid'
+  }
+   ^
+/inherit/misc/bboard.c line 93: Warning: Unused local variable 'myid'
+  }
+   ^
+/d/shaolin/shanmen.c line 67: Warning: Unused local variable 'mygen'
+  }
+   ^
+/d/city/npc/wujiang.c line 7: Warning: Redeclaration of global variable 'skills'.
+  #include <a"/inherit/char/npc"/feature/skill.c";
+                                                  ^
+/d/city/npc/wujiang.c line 7: Warning: Redeclaration of global variable 'learned'.
+  #include <a"/inherit/char/npc"/feature/skill.c";
+                                                  ^
+/d/city/npc/wujiang.c line 7: Warning: Redeclaration of global variable 'skill_map'.
+  #include <a"/inherit/char/npc"/feature/skill.c";
+                                                  ^
+/d/city/npc/wujiang.c line 7: Warning: Redeclaration of global variable 'skill_prepare'.
+  #include <a"/inherit/char/npc"/feature/skill.c";
+                                                  ^
+/d/city/npc/wujiang.c line 67: Warning: skill_death_penalty() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: query_skill_map() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: query_skill_prepared() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: query_skills() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: query_learned() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: set_skill() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: prepare_skill() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: delete_skill() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: map_skill() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: improve_skill() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: query_skill_prepare() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: query_skill_mapped() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: query_skill() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/inherit/room/ferry.c line 53: Warning: Unused local variable 'dir'
+  }
+   ^
+/d/shaolin/shanlu1.c line 51: Warning: Unused local variable 'current_dodge'
+  }
+   ^
+/cmds/usr/inventory.c line 33: Warning: Unused local variable 'i'
+  }
+   ^
+/d/shaolin/obj/shanhu-baicai.c line 21: Warning: short() inherited from both /feature/food.c and /feature/name.c (via /inherit/item/item.c); using the definition in /feature/food.c.
+/cmds/usr/quit.c line 110: Warning: Unused local variable 'stage'
+  }
+   ^
+/cmds/std/drop.c line 87: Warning: Unused local variable 'str'
+  }
+   ^
+/cmds/std/look.c line 197: Warning: Unused local variable 'limb_status'
+  }
+   ^
+/cmds/usr/score.c line 145: Warning: Unused local variable 'str'
+  }
+   ^
+/kungfu/skill/force.c line 8: Warning: Number of arguments disagrees with previous definition.
+  int valid_learn() { return 1;
+                   ^
+/kungfu/skill/hunyuan-yiqi.c line 59: Warning: Unused local variable 'i'
+  }
+   ^
+/kungfu/skill/hunyuan-yiqi.c line 59: Warning: Unused local variable 'ts'
+  }
+   ^
+/inherit/room/room.c line 7: Warning: Unknown #pragma, ignored.
+  #include <dbase.h
+  ^
+/inherit/room/room.c line 257: Warning: Unused local variable 'item_desc'
   }
    ^
 /d/shaolin/obj/liuli-qiezi.c line 21: Warning: short() inherited from both /feature/food.c and /feature/name.c (via /inherit/item/item.c); using the definition in /feature/food.c.
+/inherit/char/npc.c line 185: Warning: Unused local variable 'weapon'
+  }
+   ^
 /cmds/std/get.c line 122: Warning: Unused local variable 'enemy'
   }
    ^
-/cmds/skill/learn.c line 151: Warning: Unused local variable 'master'
+/cmds/usr/quit.c line 110: Warning: Unused local variable 'stage'
+  }
+   ^
+/cmds/std/drop.c line 87: Warning: Unused local variable 'str'
+  }
+   ^
+/cmds/std/look.c line 197: Warning: Unused local variable 'limb_status'
+  }
+   ^
+/cmds/usr/quit.c line 110: Warning: Unused local variable 'stage'
+  }
+   ^
+/cmds/std/drop.c line 87: Warning: Unused local variable 'str'
+  }
+   ^
+/cmds/std/look.c line 197: Warning: Unused local variable 'limb_status'
+  }
+   ^
+/cmds/usr/quit.c line 110: Warning: Unused local variable 'stage'
+  }
+   ^
+/cmds/std/drop.c line 87: Warning: Unused local variable 'str'
+  }
+   ^
+/cmds/std/look.c line 197: Warning: Unused local variable 'limb_status'
+  }
+   ^
+/kungfu/skill/force.c line 8: Warning: Number of arguments disagrees with previous definition.
+  int valid_learn() { return 1;
+                   ^
+/kungfu/skill/hunyuan-yiqi.c line 59: Warning: Unused local variable 'i'
+  }
+   ^
+/kungfu/skill/hunyuan-yiqi.c line 59: Warning: Unused local variable 'ts'
+  }
+   ^
+/cmds/std/look.c line 197: Warning: Unused local variable 'limb_status'
+  }
+   ^
+/inherit/room/room.c line 7: Warning: Unknown #pragma, ignored.
+  #include <dbase.h
+  ^
+/inherit/room/room.c line 257: Warning: Unused local variable 'item_desc'
+  }
+   ^
+/inherit/char/npc.c line 185: Warning: Unused local variable 'weapon'
   }
    ^
 /cmds/usr/score.c line 145: Warning: Unused local variable 'str'
   }
    ^
+/kungfu/class/shaolin/qing.h line 161: Warning: Unused local variable 'name'
+  }
+   ^
+/kungfu/class/shaolin/qing.h line 161: Warning: Unused local variable 'new_name'
+  }
+   ^
+/cmds/skill/learn.c line 151: Warning: Unused local variable 'master'
+  }
+   ^
+/cmds/skill/yun.c line 42: Warning: Unused local variable 'result'
+  }
+   ^
 /cmds/std/ask.c line 134: Warning: Unused local variable 'inquiry'
+  }
+   ^
+/kungfu/condition/tiaoshui.c line 23: Warning: Unused local variable 'obj'
+  }
+void let_know(object me
+   ^
+/kungfu/condition/tiaoshui.c line 23: Warning: Unused local variable 'inv'
+  }
+void let_know(object me
+   ^
+/kungfu/condition/tiaoshui.c line 23: Warning: Unused local variable 'i'
+  }
+void let_know(object me
+   ^
+/kungfu/condition/tiaoshui.c line 23: Warning: Unused local variable 'found'
+  }
+void let_know(object me
+   ^
+/d/shaolin/guangchang1.c line 10: Warning: Number of arguments disagrees with previous definition.
+  int valid_leave()
+                   ^
+/d/shaolin/guangchang1.c line 65: Warning: Previous function prototype for close_gate does not match current function in return type ( void vs int )
+  int close_gate()
+                  ^
+/kungfu/class/shaolin/qing-fa.c line 168: Warning: Unused local variable 'fam'
+  }
+   ^
+/inherit/misc/bboard.c line 71: Warning: Unused local variable 'i'
+  }
+   ^
+/inherit/misc/bboard.c line 71: Warning: Unused local variable 'last_time_read'
+  }
+   ^
+/inherit/misc/bboard.c line 71: Warning: Unused local variable 'myid'
+  }
+   ^
+/inherit/misc/bboard.c line 93: Warning: Unused local variable 'myid'
+  }
+   ^
+/d/shaolin/shanmen.c line 67: Warning: Unused local variable 'mygen'
+  }
+   ^
+/d/city/npc/wujiang.c line 7: Warning: Redeclaration of global variable 'skills'.
+  #include <a"/inherit/char/npc"/feature/skill.c";
+                                                  ^
+/d/city/npc/wujiang.c line 7: Warning: Redeclaration of global variable 'learned'.
+  #include <a"/inherit/char/npc"/feature/skill.c";
+                                                  ^
+/d/city/npc/wujiang.c line 7: Warning: Redeclaration of global variable 'skill_map'.
+  #include <a"/inherit/char/npc"/feature/skill.c";
+                                                  ^
+/d/city/npc/wujiang.c line 7: Warning: Redeclaration of global variable 'skill_prepare'.
+  #include <a"/inherit/char/npc"/feature/skill.c";
+                                                  ^
+/d/city/npc/wujiang.c line 67: Warning: skill_death_penalty() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: query_skill_map() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: query_skill_prepared() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: query_skills() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: query_learned() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: set_skill() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: prepare_skill() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: delete_skill() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: map_skill() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: improve_skill() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: query_skill_prepare() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: query_skill_mapped() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: query_skill() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/inherit/room/ferry.c line 53: Warning: Unused local variable 'dir'
+  }
+   ^
+/inherit/room/room.c line 7: Warning: Unknown #pragma, ignored.
+  #include <dbase.h
+  ^
+/inherit/room/room.c line 257: Warning: Unused local variable 'item_desc'
+  }
+   ^
+/d/shaolin/shanlu1.c line 51: Warning: Unused local variable 'current_dodge'
+  }
+   ^
+/inherit/char/npc.c line 185: Warning: Unused local variable 'weapon'
+  }
+   ^
+/kungfu/condition/ts_pending.c line 23: Warning: Unused local variable 'obj'
+  }
+   ^
+/kungfu/condition/ts_pending.c line 23: Warning: Unused local variable 'inv'
+  }
+   ^
+/kungfu/condition/ts_pending.c line 23: Warning: Unused local variable 'i'
+  }
+   ^
+/kungfu/condition/ts_pending.c line 23: Warning: Unused local variable 'found'
+  }
+   ^
+/cmds/skill/xue.c line 151: Warning: Unused local variable 'master'
+  }
+   ^
+/d/city/npc/wujiang.c line 7: Warning: Redeclaration of global variable 'skills'.
+  #include <a"/inherit/char/npc"/feature/skill.c";
+                                                  ^
+/d/city/npc/wujiang.c line 7: Warning: Redeclaration of global variable 'learned'.
+  #include <a"/inherit/char/npc"/feature/skill.c";
+                                                  ^
+/d/city/npc/wujiang.c line 7: Warning: Redeclaration of global variable 'skill_map'.
+  #include <a"/inherit/char/npc"/feature/skill.c";
+                                                  ^
+/d/city/npc/wujiang.c line 7: Warning: Redeclaration of global variable 'skill_prepare'.
+  #include <a"/inherit/char/npc"/feature/skill.c";
+                                                  ^
+/d/city/npc/wujiang.c line 67: Warning: skill_death_penalty() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: query_skill_map() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: query_skill_prepared() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: query_skills() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: query_learned() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: set_skill() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: prepare_skill() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: delete_skill() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: map_skill() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: improve_skill() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: query_skill_prepare() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: query_skill_mapped() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: query_skill() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/inherit/room/ferry.c line 53: Warning: Unused local variable 'dir'
+  }
+   ^
+/cmds/usr/inventory.c line 33: Warning: Unused local variable 'i'
+  }
+   ^
+/inherit/room/room.c line 7: Warning: Unknown #pragma, ignored.
+  #include <dbase.h
+  ^
+/inherit/room/room.c line 257: Warning: Unused local variable 'item_desc'
+  }
+   ^
+/inherit/char/npc.c line 185: Warning: Unused local variable 'weapon'
+  }
+   ^
+/cmds/usr/score.c line 145: Warning: Unused local variable 'str'
+  }
+   ^
+/d/city/npc/wujiang.c line 7: Warning: Redeclaration of global variable 'skills'.
+  #include <a"/inherit/char/npc"/feature/skill.c";
+                                                  ^
+/d/city/npc/wujiang.c line 7: Warning: Redeclaration of global variable 'learned'.
+  #include <a"/inherit/char/npc"/feature/skill.c";
+                                                  ^
+/d/city/npc/wujiang.c line 7: Warning: Redeclaration of global variable 'skill_map'.
+  #include <a"/inherit/char/npc"/feature/skill.c";
+                                                  ^
+/d/city/npc/wujiang.c line 7: Warning: Redeclaration of global variable 'skill_prepare'.
+  #include <a"/inherit/char/npc"/feature/skill.c";
+                                                  ^
+/d/city/npc/wujiang.c line 67: Warning: skill_death_penalty() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: query_skill_map() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: query_skill_prepared() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: query_skills() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: query_learned() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: set_skill() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: prepare_skill() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: delete_skill() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: map_skill() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: improve_skill() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: query_skill_prepare() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: query_skill_mapped() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/d/city/npc/wujiang.c line 67: Warning: query_skill() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
+/kungfu/condition/ts_pending.c line 23: Warning: Unused local variable 'obj'
+  }
+   ^
+/kungfu/condition/ts_pending.c line 23: Warning: Unused local variable 'inv'
+  }
+   ^
+/kungfu/condition/ts_pending.c line 23: Warning: Unused local variable 'i'
+  }
+   ^
+/kungfu/condition/ts_pending.c line 23: Warning: Unused local variable 'found'
+  }
+   ^
+/cmds/skill/xue.c line 151: Warning: Unused local variable 'master'
+  }
+   ^
+/cmds/skill/yun.c line 42: Warning: Unused local variable 'result'
+  }
+   ^
+/inherit/room/room.c line 7: Warning: Unknown #pragma, ignored.
+  #include <dbase.h
+  ^
+/inherit/room/room.c line 257: Warning: Unused local variable 'item_desc'
+  }
+   ^
+/inherit/char/npc.c line 185: Warning: Unused local variable 'weapon'
+  }
+   ^
+/cmds/std/ask.c line 134: Warning: Unused local variable 'inquiry'
+  }
+   ^
+/cmds/skill/yun.c line 42: Warning: Unused local variable 'result'
+  }
+   ^
+/cmds/usr/quit.c line 110: Warning: Unused local variable 'stage'
+  }
+   ^
+/cmds/std/drop.c line 87: Warning: Unused local variable 'str'
+  }
+   ^
+/cmds/usr/quit.c line 110: Warning: Unused local variable 'stage'
+  }
+   ^
+/cmds/std/drop.c line 87: Warning: Unused local variable 'str'
+  }
+   ^
+/cmds/std/look.c line 197: Warning: Unused local variable 'limb_status'
+  }
+   ^
+/cmds/usr/quit.c line 110: Warning: Unused local variable 'stage'
+  }
+   ^
+/cmds/std/drop.c line 87: Warning: Unused local variable 'str'
+  }
+   ^
+/cmds/std/look.c line 197: Warning: Unused local variable 'limb_status'
+  }
+   ^
+/kungfu/skill/force.c line 8: Warning: Number of arguments disagrees with previous definition.
+  int valid_learn() { return 1;
+                   ^
+/kungfu/skill/hunyuan-yiqi.c line 59: Warning: Unused local variable 'i'
+  }
+   ^
+/kungfu/skill/hunyuan-yiqi.c line 59: Warning: Unused local variable 'ts'
+  }
+   ^
+/inherit/room/room.c line 7: Warning: Unknown #pragma, ignored.
+  #include <dbase.h
+  ^
+/inherit/room/room.c line 257: Warning: Unused local variable 'item_desc'
+  }
+   ^
+/cmds/skill/learn.c line 151: Warning: Unused local variable 'master'
+  }
+   ^
+/cmds/std/ask.c line 134: Warning: Unused local variable 'inquiry'
+  }
+   ^
+/inherit/char/npc.c line 185: Warning: Unused local variable 'weapon'
+  }
+   ^
+/kungfu/condition/tiaoshui.c line 23: Warning: Unused local variable 'obj'
+  }
+void let_know(object me
+   ^
+/kungfu/condition/tiaoshui.c line 23: Warning: Unused local variable 'inv'
+  }
+void let_know(object me
+   ^
+/kungfu/condition/tiaoshui.c line 23: Warning: Unused local variable 'i'
+  }
+void let_know(object me
+   ^
+/kungfu/condition/tiaoshui.c line 23: Warning: Unused local variable 'found'
+  }
+void let_know(object me
+   ^
+/d/shaolin/guangchang1.c line 10: Warning: Number of arguments disagrees with previous definition.
+  int valid_leave()
+                   ^
+/d/shaolin/guangchang1.c line 65: Warning: Previous function prototype for close_gate does not match current function in return type ( void vs int )
+  int close_gate()
+                  ^
+/kungfu/class/shaolin/qing-fa.c line 168: Warning: Unused local variable 'fam'
+  }
+   ^
+/inherit/misc/bboard.c line 71: Warning: Unused local variable 'i'
+  }
+   ^
+/inherit/misc/bboard.c line 71: Warning: Unused local variable 'last_time_read'
+  }
+   ^
+/inherit/misc/bboard.c line 71: Warning: Unused local variable 'myid'
+  }
+   ^
+/inherit/misc/bboard.c line 93: Warning: Unused local variable 'myid'
   }
    ^
 /d/shaolin/shanmen.c line 67: Warning: Unused local variable 'mygen'
@@ -1636,75 +3286,31 @@ string long_desc(
 /kungfu/condition/ts_pending.c line 23: Warning: Unused local variable 'found'
   }
    ^
-/kungfu/condition/tiaoshui.c line 23: Warning: Unused local variable 'obj'
-  }
-void let_know(object me
-   ^
-/kungfu/condition/tiaoshui.c line 23: Warning: Unused local variable 'inv'
-  }
-void let_know(object me
-   ^
-/kungfu/condition/tiaoshui.c line 23: Warning: Unused local variable 'i'
-  }
-void let_know(object me
-   ^
-/kungfu/condition/tiaoshui.c line 23: Warning: Unused local variable 'found'
-  }
-void let_know(object me
-   ^
-/inherit/room/room.c line 7: Warning: Unknown #pragma, ignored.
-  #include <dbase.h
-  ^
-/inherit/room/room.c line 257: Warning: Unused local variable 'item_desc'
+/cmds/skill/yun.c line 42: Warning: Unused local variable 'result'
   }
    ^
-/inherit/char/npc.c line 185: Warning: Unused local variable 'weapon'
+/cmds/usr/quit.c line 110: Warning: Unused local variable 'stage'
   }
    ^
-/d/city/npc/wujiang.c line 7: Warning: Redeclaration of global variable 'skills'.
-  #include <a"/inherit/char/npc"/feature/skill.c";
-                                                  ^
-/d/city/npc/wujiang.c line 7: Warning: Redeclaration of global variable 'learned'.
-  #include <a"/inherit/char/npc"/feature/skill.c";
-                                                  ^
-/d/city/npc/wujiang.c line 7: Warning: Redeclaration of global variable 'skill_map'.
-  #include <a"/inherit/char/npc"/feature/skill.c";
-                                                  ^
-/d/city/npc/wujiang.c line 7: Warning: Redeclaration of global variable 'skill_prepare'.
-  #include <a"/inherit/char/npc"/feature/skill.c";
-                                                  ^
-/d/city/npc/wujiang.c line 67: Warning: skill_death_penalty() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
-/d/city/npc/wujiang.c line 67: Warning: query_skill_map() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
-/d/city/npc/wujiang.c line 67: Warning: query_skill_prepared() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
-/d/city/npc/wujiang.c line 67: Warning: query_skills() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
-/d/city/npc/wujiang.c line 67: Warning: query_learned() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
-/d/city/npc/wujiang.c line 67: Warning: set_skill() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
-/d/city/npc/wujiang.c line 67: Warning: prepare_skill() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
-/d/city/npc/wujiang.c line 67: Warning: delete_skill() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
-/d/city/npc/wujiang.c line 67: Warning: map_skill() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
-/d/city/npc/wujiang.c line 67: Warning: improve_skill() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
-/d/city/npc/wujiang.c line 67: Warning: query_skill_prepare() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
-/d/city/npc/wujiang.c line 67: Warning: query_skill_mapped() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
-/d/city/npc/wujiang.c line 67: Warning: query_skill() inherited from both /feature/skill.c and /feature/skill.c (via /inherit/char/npc.c); using the definition in /feature/skill.c.
-/inherit/room/ferry.c line 53: Warning: Unused local variable 'dir'
+/cmds/std/drop.c line 87: Warning: Unused local variable 'str'
   }
    ^
-/d/shaolin/shanlu1.c line 51: Warning: Unused local variable 'current_dodge'
+/cmds/std/look.c line 197: Warning: Unused local variable 'limb_status'
   }
    ^
 /kungfu/skill/force.c line 8: Warning: Number of arguments disagrees with previous definition.
   int valid_learn() { return 1;
                    ^
-/cmds/skill/learn.c line 151: Warning: Unused local variable 'master'
-  }
-   ^
 /kungfu/skill/hunyuan-yiqi.c line 59: Warning: Unused local variable 'i'
   }
    ^
 /kungfu/skill/hunyuan-yiqi.c line 59: Warning: Unused local variable 'ts'
   }
    ^
-/cmds/usr/score.c line 145: Warning: Unused local variable 'str'
+/cmds/std/get.c line 122: Warning: Unused local variable 'enemy'
+  }
+   ^
+/cmds/usr/inventory.c line 33: Warning: Unused local variable 'i'
   }
    ^
 /inherit/room/room.c line 7: Warning: Unknown #pragma, ignored.
@@ -1714,5 +3320,35 @@ void let_know(object me
   }
    ^
 /inherit/char/npc.c line 185: Warning: Unused local variable 'weapon'
+  }
+   ^
+/kungfu/class/shaolin/qing.h line 161: Warning: Unused local variable 'name'
+  }
+   ^
+/kungfu/class/shaolin/qing.h line 161: Warning: Unused local variable 'new_name'
+  }
+   ^
+/cmds/skill/learn.c line 151: Warning: Unused local variable 'master'
+  }
+   ^
+/cmds/skill/xue.c line 151: Warning: Unused local variable 'master'
+  }
+   ^
+/cmds/skill/exert.c line 42: Warning: Unused local variable 'result'
+  }
+   ^
+/cmds/std/ask.c line 134: Warning: Unused local variable 'inquiry'
+  }
+   ^
+/kungfu/condition/ts_pending.c line 23: Warning: Unused local variable 'obj'
+  }
+   ^
+/kungfu/condition/ts_pending.c line 23: Warning: Unused local variable 'inv'
+  }
+   ^
+/kungfu/condition/ts_pending.c line 23: Warning: Unused local variable 'i'
+  }
+   ^
+/kungfu/condition/ts_pending.c line 23: Warning: Unused local variable 'found'
   }
    ^
