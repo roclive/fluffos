@@ -45,7 +45,7 @@
 
         #panel-loop-monitor {
             flex: 0 0 auto;
-            border-top: 1px solid #1a2030;
+            border-bottom: 1px solid #1a2030;
             background: #0b1118;
             padding: 7px 8px;
             display: grid;
@@ -158,11 +158,11 @@
         }
 
         #panel-route-monitor {
-            border-bottom: 1px solid #1a2030;
+            border-top: 1px solid #1a2030;
             background: #0d1117;
             padding: 7px 8px;
             display: grid;
-            grid-template-columns: minmax(170px, 0.85fr) minmax(220px, 1.15fr);
+            grid-template-columns: minmax(260px, 1.35fr) minmax(140px, 0.65fr);
             gap: 8px;
             max-height: 178px;
             min-height: 118px;
@@ -198,6 +198,14 @@
             white-space: nowrap;
         }
 
+        #route-monitor-deviation,
+        #route-monitor-recovery,
+        #route-monitor-last {
+            white-space: normal;
+            overflow-wrap: anywhere;
+            line-height: 1.35;
+        }
+
         #route-monitor-deviation.warn {
             color: #f85149;
         }
@@ -210,7 +218,7 @@
             min-width: 0;
             overflow-y: auto;
             border-left: 1px solid #1a2030;
-            padding-left: 8px;
+            padding-left: 6px;
         }
 
         .route-step {
@@ -218,7 +226,8 @@
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
-            line-height: 1.35;
+            line-height: 1.2;
+            font-size: 10px;
         }
 
         .route-step.active {
@@ -798,6 +807,53 @@
                 <button id="auto-btn" onclick="toggleAutoExplore()"
                     style="padding:10px 14px;background:#1f6feb;color:#fff;border:none;cursor:pointer;border-radius:4px;font-size:12px;font-weight:bold;">自动探索</button>
             </div>
+            <div id="panel-loop-monitor">
+                <div id="loop-monitor-main">
+                    <div id="loop-monitor-header">
+                        <span id="loop-monitor-title">大循环状态机</span>
+                        <span id="loop-active-pill">idle</span>
+                        <span style="margin-left:auto;display:flex;gap:4px;">
+                            <button id="loop-stop-btn" onclick="sendLoopControl('stop')"
+                                style="padding:2px 8px;background:#b62324;color:#fff;border:none;border-radius:3px;cursor:pointer;font-size:11px;font-weight:bold;" title="停止大循环 (LLM 不再自动推进)">⏹ 停</button>
+                            <button id="loop-start-btn" onclick="sendLoopControl('start')"
+                                style="padding:2px 8px;background:#238636;color:#fff;border:none;border-radius:3px;cursor:pointer;font-size:11px;font-weight:bold;" title="重启大循环">▶ 启</button>
+                        </span>
+                    </div>
+                    <div id="loop-monitor-state" class="loop-line">mode: -- / stage: -- / phase: -- / turn: --</div>
+                    <div id="loop-monitor-target" class="loop-line">目标：--</div>
+                    <div id="loop-monitor-action" class="loop-line">最近动作：--</div>
+                    <div id="loop-monitor-result" class="loop-line">结果：--</div>
+                    <div id="loop-monitor-water-state" class="loop-line" style="color:#ff6b6b;font-weight:bold;">挑水：--</div>
+                    <div id="loop-monitor-water-action" class="loop-line" style="color:#ffa07a;">挑水动作：--</div>
+                    <div id="water-correct-panel" style="margin-top:6px;display:flex;gap:4px;align-items:center;flex-wrap:wrap;">
+                        <span style="font-size:10px;color:#8b949e;white-space:nowrap;">挑水校正→</span>
+                        <select id="water-state-select" style="font-size:11px;padding:2px 4px;background:#161b22;color:#e6e6e6;border:1px solid #30363d;border-radius:3px;flex:1;min-width:0;">
+                            <option value="">-- 选择状态 --</option>
+                            <option value="bucket_filled">✓ 桶满回程(交任务)</option>
+                            <option value="bucket_not_full">↩ 未满(回河边)</option>
+                            <option value="job_accepted">任务已接(领工具)</option>
+                            <option value="tools_ready">工具就绪(去河边)</option>
+                            <option value="returning">回程中</option>
+                            <option value="completed">任务完成</option>
+                            <option value="abandoned">已放弃</option>
+                            <option value="bucket_missing">桶丢失(可放弃)</option>
+                            <option value="piao_missing">瓢丢失(可放弃)</option>
+                            <option value="job_missing_or_expired">任务过期(可放弃)</option>
+                        </select>
+                        <button onclick="sendWaterStateCorrection()"
+                            style="padding:2px 8px;background:#7928b5;color:#fff;border:none;border-radius:3px;cursor:pointer;font-size:11px;font-weight:bold;white-space:nowrap;">校正</button>
+                    </div>
+                </div>
+                <div id="loop-monitor-resources">
+                    <div class="loop-stat"><span class="loop-stat-label">潜能</span><span class="loop-stat-value">--</span></div>
+                    <div class="loop-stat"><span class="loop-stat-label">精</span><span class="loop-stat-value">--</span></div>
+                    <div class="loop-stat"><span class="loop-stat-label">精力</span><span class="loop-stat-value">--</span></div>
+                    <div class="loop-stat"><span class="loop-stat-label">气</span><span class="loop-stat-value">--</span></div>
+                    <div class="loop-stat"><span class="loop-stat-label">内力</span><span class="loop-stat-value">--</span></div>
+                    <div class="loop-stat"><span class="loop-stat-label">状态</span><span class="loop-stat-value">--</span></div>
+                </div>
+            </div>
+            <div id="terminal-output"></div>
             <div id="panel-route-monitor">
                 <div id="route-monitor-summary">
                     <div id="route-monitor-title">少林挑水 Route</div>
@@ -811,29 +867,6 @@
                 </div>
                 <div id="route-monitor-plan">
                     <div class="route-step">route plan 会在 execute_route_skill 开始后显示</div>
-                </div>
-            </div>
-            <div id="terminal-output"></div>
-            <div id="panel-loop-monitor">
-                <div id="loop-monitor-main">
-                    <div id="loop-monitor-header">
-                        <span id="loop-monitor-title">大循环状态机</span>
-                        <span id="loop-active-pill">idle</span>
-                    </div>
-                    <div id="loop-monitor-state" class="loop-line">mode: -- / stage: -- / phase: -- / turn: --</div>
-                    <div id="loop-monitor-target" class="loop-line">目标：--</div>
-                    <div id="loop-monitor-action" class="loop-line">最近动作：--</div>
-                    <div id="loop-monitor-result" class="loop-line">结果：--</div>
-                    <div id="loop-monitor-water-state" class="loop-line">挑水：--</div>
-                    <div id="loop-monitor-water-action" class="loop-line">挑水动作：--</div>
-                </div>
-                <div id="loop-monitor-resources">
-                    <div class="loop-stat"><span class="loop-stat-label">潜能</span><span class="loop-stat-value">--</span></div>
-                    <div class="loop-stat"><span class="loop-stat-label">精</span><span class="loop-stat-value">--</span></div>
-                    <div class="loop-stat"><span class="loop-stat-label">精力</span><span class="loop-stat-value">--</span></div>
-                    <div class="loop-stat"><span class="loop-stat-label">气</span><span class="loop-stat-value">--</span></div>
-                    <div class="loop-stat"><span class="loop-stat-label">内力</span><span class="loop-stat-value">--</span></div>
-                    <div class="loop-stat"><span class="loop-stat-label">状态</span><span class="loop-stat-value">--</span></div>
                 </div>
             </div>
             <div id="terminal-input-area">
@@ -1120,6 +1153,24 @@
             } else {
                 showToast("请先连接监测服务器");
             }
+        }
+
+        // 大循环 停/启 按钮
+        function sendLoopControl(action) {
+            if (!ws || ws.readyState !== WebSocket.OPEN) { showToast("请先连接监测服务器"); return; }
+            ws.send(JSON.stringify({ type: "loop_control", action: action }));
+            showToast(action === "stop" ? "⏹ 大循环已停止" : "▶ 大循环已启动");
+        }
+
+        // 挑水状态手动校正
+        function sendWaterStateCorrection() {
+            var sel = document.getElementById("water-state-select");
+            var st = sel ? sel.value : "";
+            if (!st) { showToast("请先选择要校正的挑水状态"); return; }
+            if (!ws || ws.readyState !== WebSocket.OPEN) { showToast("请先连接监测服务器"); return; }
+            ws.send(JSON.stringify({ type: "water_state", state: st, reason: "UI 手动校正" }));
+            showToast("挑水状态已校正 → " + st);
+            if (sel) sel.value = "";
         }
 
         function escapeHtml(str) {
@@ -1448,6 +1499,11 @@
                 pill.classList.toggle("active", Boolean(loop.active));
                 pill.classList.toggle("warn", Boolean(player.busy || player.combat || blockedCount));
             }
+            // 停/启按钮高亮反映当前状态
+            var stopBtn = document.getElementById("loop-stop-btn");
+            var startBtn = document.getElementById("loop-start-btn");
+            if (stopBtn) stopBtn.style.opacity = loop.active ? "1" : "0.45";
+            if (startBtn) startBtn.style.opacity = loop.active ? "0.45" : "1";
 
             setText(
                 "loop-monitor-state",
@@ -1470,12 +1526,23 @@
                 + (loop.lastReason ? " / " + loop.lastReason : "")
             );
             setText("loop-monitor-result", "结果：" + formatLoopValue(loop.lastResult));
-            setText(
-                "loop-monitor-water-state",
-                "挑水：" + formatLoopValue(loop.waterTaskState)
-                + (loop.waterTaskReason ? " / " + loop.waterTaskReason : "")
-            );
-            setText("loop-monitor-water-action", "挑水动作：" + formatLoopValue(loop.waterTaskAction));
+            var waterStateEl = document.getElementById("loop-monitor-water-state");
+            var waterActionEl = document.getElementById("loop-monitor-water-action");
+            var wst = loop.waterTaskState || "";
+            var FAILED_STATES = ["bucket_missing","piao_missing","wrong_bucket","job_missing_or_expired","tools_assigned_but_bucket_missing","abandon_blocked"];
+            var FULL_STATES = ["bucket_filled","returning"];
+            var wIsFailed = FAILED_STATES.indexOf(wst) >= 0;
+            var wIsFull = FULL_STATES.indexOf(wst) >= 0 || ["water_filled","water_on_shanlu","water_returning"].indexOf(loop.stage || "") >= 0;
+            var wIsIdle = !wst || wst === "idle";
+            if (waterStateEl) {
+                waterStateEl.textContent = "挑水：" + (wIsIdle ? "idle" : wst) + (loop.waterTaskReason ? " / " + loop.waterTaskReason : "");
+                waterStateEl.style.color = wIsFailed ? "#ff4444" : wIsFull ? "#56d364" : wIsIdle ? "#555" : "#ff8c69";
+                waterStateEl.style.fontWeight = wIsIdle ? "normal" : "bold";
+            }
+            if (waterActionEl) {
+                waterActionEl.textContent = "挑水动作：" + formatLoopValue(loop.waterTaskAction);
+                waterActionEl.style.color = wIsIdle ? "#555" : "#ffa07a";
+            }
 
             var statusFlags = [];
             if (player.combat) statusFlags.push("战斗");

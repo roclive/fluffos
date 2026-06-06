@@ -2334,6 +2334,43 @@ async function main() {
           return;
         }
 
+        // 大循环手动控制（stop / start）
+        if (m.type === 'loop_control') {
+          const action = String(m.action || '').trim();
+          if (action === 'stop') {
+            updateProgressLoop({ active: false, mode: 'idle', stage: 'idle', lastAction: 'stop', lastReason: 'human_stop_button' });
+            broadcast({ type: 'log', data: '[大循环] 人工停止大循环' });
+            sendStateSnapshot();
+          } else if (action === 'start') {
+            updateProgressLoop({ active: true, mode: 'learn_then_water', stage: 'need_status', lastAction: 'start', lastReason: 'human_start_button' });
+            broadcast({ type: 'log', data: '[大循环] 人工启动大循环' });
+            sendStateSnapshot();
+          }
+          return;
+        }
+
+        // 挑水状态机手动校正（来自 UI 面板）
+        if (m.type === 'water_state') {
+          const st = String(m.state || '').trim();
+          if (st) {
+            const stage = String(m.stage || '').trim() || WATER_STATE_DEFAULT_STAGE[st] || state.progressLoop.stage;
+            const action = String(m.action || '').trim()
+              || (st === 'bucket_filled' || st === 'returning' ? 'turn_in_or_continue_return'
+                : st === 'bucket_not_full' ? 'go_to_riverbank_refill' : '');
+            updateProgressLoop({
+              stage,
+              waterTaskState: st,
+              waterTaskReason: String(m.reason || `UI 手动校正挑水状态为 ${st}`),
+              waterTaskAction: action,
+              lastAction: 'set_water_task_state',
+              lastReason: `UI manual water-state correction -> ${st}`,
+            });
+            broadcast({ type: 'log', data: `[挑水] UI 校正状态 → ${st} (${action})` });
+            sendStateSnapshot();
+          }
+          return;
+        }
+
         // 人类设置 steering prompt
         if (m.type === 'prompt') {
           const prompt = String(m.prompt || '').trim();
