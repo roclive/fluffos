@@ -1189,6 +1189,60 @@ function waterBucketLikelyFull(loop: ProgressLoopState) {
   );
 }
 
+// 真正“任务已失败”的水任务状态：桶/瓢丢失、任务过期、桶非本人、放弃受阻。
+// 只有这些状态才允许走放弃流程；其它情况（尤其桶满回程）绝不放弃。
+const WATER_FAILED_STATES = new Set([
+  'tools_assigned_but_bucket_missing',
+  'job_missing_or_expired',
+  'bucket_missing',
+  'piao_missing',
+  'wrong_bucket',
+  'abandon_blocked',
+]);
+
+function waterTaskFailed(loop: ProgressLoopState) {
+  return WATER_FAILED_STATES.has(loop.waterTaskState || '');
+}
+
+const ANSI_RED_BOLD = '\x1b[1;31m';
+const ANSI_RESET = '\x1b[0m';
+
+// 结构化的“挑水状态”徽标，随 state 快照广播给 TUI 做红色显示。
+function waterTaskBadge(loop: ProgressLoopState) {
+  const st = loop.waterTaskState || '';
+  const stage = loop.stage || '';
+  const inWater = Boolean(st && st !== 'idle') || stage.startsWith('water_');
+  if (!inWater) return null;
+  return {
+    color: 'red' as const,
+    state: st || 'active',
+    action: loop.waterTaskAction || '',
+    reason: loop.waterTaskReason || '',
+    stage,
+    bucketLikelyFull: waterBucketLikelyFull(loop),
+    failed: waterTaskFailed(loop),
+    label: `挑水 ${st || 'active'}${waterBucketLikelyFull(loop) ? ' · 桶满回程' : ''}${waterTaskFailed(loop) ? ' · 任务失败' : ''}`,
+  };
+}
+
+let lastWaterTaskLogKey = '';
+function logWaterTaskState(loop: ProgressLoopState) {
+  const st = loop.waterTaskState || '';
+  const stage = loop.stage || '';
+  if ((!st || st === 'idle') && !stage.startsWith('water_')) {
+    lastWaterTaskLogKey = '';
+    return;
+  }
+  const key = `${st}|${loop.waterTaskAction || ''}|${stage}`;
+  if (key === lastWaterTaskLogKey) return;
+  lastWaterTaskLogKey = key;
+  const full = waterBucketLikelyFull(loop) ? ' 桶满↩回程' : '';
+  const failed = waterTaskFailed(loop) ? ' 任务已失败' : '';
+  console.log(
+    `${ANSI_RED_BOLD}[挑水] state=${st || 'active'} action=${loop.waterTaskAction || '-'} stage=${stage || '-'}${full}${failed} :: ${loop.waterTaskReason || ''}${ANSI_RESET}`,
+  );
+}
+
 function waterAbandonHoldMs(config: GatewayConfig) {
   return Math.max(0, Math.min(10 * 60_000, Number(config.runtime.waterAbandonHoldMs ?? DEFAULT_CONFIG.runtime.waterAbandonHoldMs)));
 }
@@ -1226,6 +1280,7 @@ function updateProgressLoop(patch: Partial<ProgressLoopState>) {
     ...patch,
     updatedAt: Date.now(),
   };
+  logWaterTaskState(state.progressLoop);
 }
 
 function detectStopReason(
@@ -1824,7 +1879,11 @@ function buildSystemPrompt(config: GatewayConfig): string {
 7) 不要在命令序列里反复 look；只在当前位置未知、出口未知、或路线结束后需要校验时使用 look。
 8) 不要用 send_command 连续单发代替 execute_command_sequence；除非只需要一条信息命令。
 9) 普通观察调用 wait_event() 时不要传 timeoutMs，使用默认短等待；除非刚执行了明确需要长等待的动作，否则不要传 1000ms 这类长等待。
-10) 少林挑水任务优先读取 skill shaolin-water-carrying；执行时使用 shaolin_fzlou_accept_water_job / shaolin_chufang_prepare_water_tools / shaolin_chufang_to_riverbank_for_water_job / shaolin_water_fill_bucket_at_riverbank / shaolin_water_return_* / shaolin_chufang_finish_water_job。在厨房/烧饭僧处处理挑水前，先用 get_runtime_state 检查 progressLoop.stage/waterTaskState/waterTaskAction：若处于 water_filled/water_on_shanlu/water_returning、bucket_filled/returning 或 action=turn_in_or_continue_return，说明水桶很可能已满并在回程，必须交给烧饭僧，不要再回河边重复 yao/dao。若知客僧说“不是问过了吗”，视为任务已接并继续领工具；若桶还在但水不满或水洒了，切到 water_refill_* 回汉水 yao/dao 加满再回厨房交任务；若烧饭僧说“不是已经领到工具了吗”但没有水桶、或桶/瓢丢失、任务过期，切到 water_abandon_* 并用 shaolin_fzlou_abandon_water_job 放弃。放弃成功后 Gateway 会在同一次工具调用内原地等待冷却，不要新开下一轮专门等待。
+10) 少林挑水任务优先读取 skill shaolin-water-carrying；执行时使用 shaolin_fzlou_accept_water_job / shaolin_chufang_prepare_water_tools / shaolin_chufang_to_riverbank_for_water_job / shaolin_water_fill_bucket_at_riverbank / shaolin_water_return_* / shaolin_chufang_finish_water_job。挑水状态存在 progressLoop.waterTaskState / waterTaskReason / waterTaskAction（配合 stage），快照里 waterTaskBadge 是其红色显示徽标。**在“烧饭僧(厨房 chufang)”和“知客僧(方丈楼 fzlou/zhike seng)”两处动作前都必须先 get_runtime_state 读这三项**再决定：
+  - 若 waterTaskState ∈ {bucket_filled, returning} 或 stage ∈ {water_filled, water_on_shanlu, water_returning} 或 action=turn_in_or_continue_return：水桶已满正在回程，**只允许交任务**——在厨房 give 给烧饭僧（shaolin_chufang_finish_water_job），严禁回河边重复 yao/dao，严禁去知客僧放弃。
+  - 桶在身上回程时**绝不放弃任务**；只有当 waterTaskState ∈ {bucket_missing, piao_missing, wrong_bucket, job_missing_or_expired, tools_assigned_but_bucket_missing}（即任务确已失败）才允许到知客僧 shaolin_fzlou_abandon_water_job 放弃。
+  - 知客僧说“不是问过了吗”→ 视为任务已接，继续去厨房领工具；桶还在但水不满/水洒了 → 切 water_refill_* 回汉水 yao/dao 加满再回厨房交任务。
+  放弃成功后 Gateway 会在同一次工具调用内原地等待冷却，不要新开下一轮专门等待。
 11) 长渡船、busy、挑水 yao/dao 等等待必须放进 execute_route_skill 的 per-step waitMs，不要用 wait_event 长等。
 12) 若 execute_route_skill 返回 deviationKind/recoveryHint，立刻停止长路线；下一轮只允许用 execute_command_sequence 发送2-3条纠错命令，或重新进入最近的稳定 route skill。
 13) 山门特殊规则：寺内山门殿出寺使用 ["open gate","south","look"]；寺外广场回寺使用 ["knock gate","north","look"]。
@@ -2109,6 +2168,7 @@ async function main() {
         recentTraces: state.recentTraces.slice(-50),
         waterRoute: state.waterRoute,
         progressLoop: state.progressLoop,
+        waterTaskBadge: waterTaskBadge(state.progressLoop),
         fastExplore: {
           enabled: fastExplore.enabled,
           intervalMs: config.agent.fastExploreIntervalMs,
@@ -3280,6 +3340,18 @@ async function main() {
 
       if (potential < loop.minPotential || loop.stage.startsWith('water_')) {
         if (loop.stage.startsWith('water_abandon')) {
+          // (e) 桶在身上且可能已满、任务尚未真正失败时，绝不放弃：改为回厨房交给烧饭僧。
+          if (!waterTaskFailed(loop) && waterBucketLikelyFull(loop)) {
+            if (roomKey === 'chufang') {
+              setWaterTask('water_returning', 'returning', 'bucket appears full and task not failed; turn in to shaofan instead of abandoning', 'turn_in_or_continue_return');
+              return runWaterRoute('shaolin_chufang_finish_water_job', 'full bucket present and task not failed; turn in instead of abandoning', 'need_status');
+            }
+            const toKitchenTurnIn = roomKey === 'fzlou' ? 'shaolin_fzlou_to_chufang' : progressRouteName(roomKey, 'chufang');
+            if (toKitchenTurnIn) {
+              setWaterTask('water_returning', 'returning', 'bucket appears full and task not failed; head to kitchen to turn in instead of abandoning', 'turn_in_or_continue_return');
+              return runWaterRoute(toKitchenTurnIn, 'full bucket present and task not failed; return to kitchen to turn in instead of abandoning', 'water_returning');
+            }
+          }
           if (roomKey === 'fzlou') {
             return runWaterRoute('shaolin_fzlou_abandon_water_job', 'abandon inconsistent Shaolin water job before restarting loop', 'water_abandoning');
           }

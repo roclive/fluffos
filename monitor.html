@@ -239,6 +239,53 @@
             display: block;
         }
 
+        #water-status-panel {
+            display: none;
+            margin-top: 7px;
+            padding: 7px;
+            border: 1px solid #da3633;
+            border-radius: 4px;
+            background: #2b0f12;
+            color: #ffb4b4;
+            box-shadow: inset 3px 0 0 #f85149;
+        }
+
+        #water-status-panel.visible {
+            display: block;
+        }
+
+        #water-status-title {
+            display: flex;
+            justify-content: space-between;
+            gap: 8px;
+            font-size: 11px;
+            font-weight: bold;
+            color: #ff7b72;
+            margin-bottom: 5px;
+        }
+
+        #water-status-main,
+        #water-status-detail {
+            font-size: 10px;
+            line-height: 1.35;
+            overflow-wrap: anywhere;
+        }
+
+        #water-status-detail {
+            color: #f0a2a0;
+            margin-top: 3px;
+        }
+
+        .water-pill {
+            color: #fff;
+            background: #da3633;
+            border: 1px solid #f85149;
+            border-radius: 3px;
+            padding: 1px 4px;
+            font-size: 10px;
+            white-space: nowrap;
+        }
+
         /* 右下: Agent Chat */
         #panel-agent-chat {
             flex: 1;
@@ -589,6 +636,14 @@
                         <div id="bar-enemy-qi" class="bar bar-enemy" style="width: 0%"></div>
                         <span id="text-enemy-qi" class="bar-text">0/0</span>
                     </div>
+                </div>
+                <div id="water-status-panel">
+                    <div id="water-status-title">
+                        <span>挑水状态</span>
+                        <span id="water-status-badge" class="water-pill">idle</span>
+                    </div>
+                    <div id="water-status-main">未进入挑水任务</div>
+                    <div id="water-status-detail"></div>
                 </div>
             </div>
             <!-- 中间: 策略面板 -->
@@ -1062,6 +1117,8 @@
                 setAgentChatStatus("一次性策略等待下一轮");
             }
 
+            updateWaterStatus(data.progressLoop, data.waterRoute, data.waterTaskBadge);
+
             // 更新世界状态
             if (data.world) {
                 var w = data.world;
@@ -1107,6 +1164,85 @@
 
             // 触发心跳动画
             onHeartbeat();
+        }
+
+        function updateWaterStatus(progressLoop, waterRoute, waterBadge) {
+            var panel = document.getElementById("water-status-panel");
+            var badge = document.getElementById("water-status-badge");
+            var main = document.getElementById("water-status-main");
+            var detail = document.getElementById("water-status-detail");
+            if (!panel || !badge || !main || !detail) return;
+
+            var loop = progressLoop || {};
+            var route = waterRoute || {};
+            var stage = loop.stage || "";
+            var waterState = loop.waterTaskState || "";
+            var action = loop.waterTaskAction || "";
+            var routeName = route.routeName || "";
+            var show = Boolean(
+                (waterBadge && waterBadge.state) ||
+                route.active ||
+                routeName ||
+                stage.indexOf("water_") === 0 ||
+                waterState && waterState !== "idle" ||
+                action
+            );
+
+            if (!show) {
+                panel.classList.remove("visible", "water-failed", "water-full");
+                badge.textContent = "idle";
+                badge.style.color = "";
+                badge.style.background = "";
+                main.textContent = "未进入挑水任务";
+                main.style.color = "";
+                detail.textContent = "";
+                return;
+            }
+
+            panel.classList.add("visible");
+
+            var fullLikely = waterBadge ? !!waterBadge.bucketLikelyFull : isFullWaterReturnState(loop);
+            var failed = waterBadge ? !!waterBadge.failed : false;
+
+            // 红色显示：失败=亮红描边，普通挑水=红字，满桶回程=红底白字强提醒
+            var RED = "#ff5555";
+            badge.textContent = waterState || stage || routeName || "water";
+            badge.style.color = "#fff";
+            badge.style.background = failed ? "#b30000" : (fullLikely ? "#c0392b" : "#7a1f1f");
+            panel.classList.toggle("water-failed", failed);
+            panel.classList.toggle("water-full", fullLikely);
+
+            var mainParts = [];
+            if (failed) mainParts.push("⚠ 任务已失败：可去知客僧 abandon 放弃");
+            else if (fullLikely) mainParts.push("✓ 满桶/回程：到烧饭僧处交任务，勿重复舀水、勿放弃");
+            if (stage) mainParts.push("stage=" + stage);
+            if (waterState) mainParts.push("task=" + waterState);
+            if (action) mainParts.push("action=" + action);
+            main.textContent = mainParts.join(" | ");
+            main.style.color = RED;
+            main.style.fontWeight = "bold";
+
+            var detailParts = [];
+            if (routeName) detailParts.push("route=" + routeName);
+            if (route.step || route.total) detailParts.push("step=" + (route.step || 0) + "/" + (route.total || 0));
+            if (route.actualRoom) detailParts.push("room=" + route.actualRoom);
+            if (route.deviationKind) detailParts.push("deviation=" + route.deviationKind);
+            if (loop.waterTaskReason) detailParts.push("reason=" + loop.waterTaskReason);
+            detail.textContent = detailParts.join(" | ");
+            detail.style.color = "#ff9b9b";
+        }
+
+        function isFullWaterReturnState(loop) {
+            var stage = loop && loop.stage || "";
+            var waterState = loop && loop.waterTaskState || "";
+            var action = loop && loop.waterTaskAction || "";
+            return stage === "water_filled" ||
+                stage === "water_on_shanlu" ||
+                stage === "water_returning" ||
+                waterState === "bucket_filled" ||
+                waterState === "returning" ||
+                action === "return_to_kitchen" ||
+                action === "turn_in_or_continue_return";
         }
 
         // 添加日志消息到终端
