@@ -25,6 +25,7 @@
     "runtime": {
         "clearInitialNoiseMs": 1800,
         "monitorPort": 8081,
-        "manualHoldMs": 1500
+        "manualHoldMs": 1500,
+        "waterAbandonHoldMs": 180000
     }
 }

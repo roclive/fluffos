@@ -210,6 +210,7 @@ type GatewayConfig = {
     clearInitialNoiseMs: number;
     monitorPort: number;
     manualHoldMs: number;
+    waterAbandonHoldMs: number;
   };
 };
 
@@ -302,6 +303,7 @@ const DEFAULT_CONFIG: GatewayConfig = {
     clearInitialNoiseMs: 1800,
     monitorPort: 8099,
     manualHoldMs: 1_500,
+    waterAbandonHoldMs: 180_000,
   },
 };
 
@@ -1134,6 +1136,10 @@ function waterTaskOutcome(routeName: string, text: string, intendedStage: string
   return null;
 }
 
+function waterAbandonHoldMs(config: GatewayConfig) {
+  return Math.max(0, Math.min(10 * 60_000, Number(config.runtime.waterAbandonHoldMs ?? DEFAULT_CONFIG.runtime.waterAbandonHoldMs)));
+}
+
 function chooseProgressSkill(loop: ProgressLoopState) {
   const plan = loop.skillPlan.length ? loop.skillPlan : ['buddhism', 'literate', 'force', 'dodge', 'parry', 'cuff', 'strike', 'sword'];
   for (let offset = 0; offset < plan.length; offset += 1) {
@@ -1729,7 +1735,7 @@ function buildSystemPrompt(config: GatewayConfig): string {
 7) 不要在命令序列里反复 look；只在当前位置未知、出口未知、或路线结束后需要校验时使用 look。
 8) 不要用 send_command 连续单发代替 execute_command_sequence；除非只需要一条信息命令。
 9) 普通观察调用 wait_event() 时不要传 timeoutMs，使用默认短等待；除非刚执行了明确需要长等待的动作，否则不要传 1000ms 这类长等待。
-10) 少林挑水任务优先读取 skill shaolin-water-carrying；执行时使用 shaolin_fzlou_accept_water_job / shaolin_chufang_prepare_water_tools / shaolin_chufang_to_riverbank_for_water_job / shaolin_water_fill_bucket_at_riverbank / shaolin_water_return_* / shaolin_chufang_finish_water_job。若知客僧说“不是问过了吗”，视为任务已接并继续领工具；若桶还在但水不满或水洒了，切到 water_refill_* 回汉水 yao/dao 加满再回厨房交任务；若烧饭僧说“不是已经领到工具了吗”但没有水桶、或桶/瓢丢失、任务过期，切到 water_abandon_* 并用 shaolin_fzlou_abandon_water_job 放弃后重启判断。
+10) 少林挑水任务优先读取 skill shaolin-water-carrying；执行时使用 shaolin_fzlou_accept_water_job / shaolin_chufang_prepare_water_tools / shaolin_chufang_to_riverbank_for_water_job / shaolin_water_fill_bucket_at_riverbank / shaolin_water_return_* / shaolin_chufang_finish_water_job。若知客僧说“不是问过了吗”，视为任务已接并继续领工具；若桶还在但水不满或水洒了，切到 water_refill_* 回汉水 yao/dao 加满再回厨房交任务；若烧饭僧说“不是已经领到工具了吗”但没有水桶、或桶/瓢丢失、任务过期，切到 water_abandon_* 并用 shaolin_fzlou_abandon_water_job 放弃。放弃成功后 Gateway 会在同一次工具调用内原地等待冷却，不要新开下一轮专门等待。
 11) 长渡船、busy、挑水 yao/dao 等等待必须放进 execute_route_skill 的 per-step waitMs，不要用 wait_event 长等。
 12) 若 execute_route_skill 返回 deviationKind/recoveryHint，立刻停止长路线；下一轮只允许用 execute_command_sequence 发送2-3条纠错命令，或重新进入最近的稳定 route skill。
 13) 山门特殊规则：寺内山门殿出寺使用 ["open gate","south","look"]；寺外广场回寺使用 ["knock gate","north","look"]。
@@ -3089,7 +3095,8 @@ async function main() {
 
       const runWaterRoute = async (name: string, reason: string, stage: string) => {
         const result = await runRoute(name, reason, stage);
-        const outcome = waterTaskOutcome(name, toolResultText(result), stage);
+        const text = toolResultText(result);
+        const outcome = waterTaskOutcome(name, text, stage);
         if (outcome) {
           updateProgressLoop({
             stage: outcome.stage,
@@ -3099,6 +3106,59 @@ async function main() {
             lastResult: outcome.reason,
           });
           sendStateSnapshot();
+        }
+        if (name === 'shaolin_fzlou_abandon_water_job' && /下去好好反思/.test(text)) {
+          const waitMs = waterAbandonHoldMs(config);
+          if (waitMs > 0) {
+            const waitReason = `water job abandoned; wait ${Math.round(waitMs / 1000)}s in place before the next decision`;
+            updateProgressLoop({
+              stage: 'water_abandon_cooldown',
+              waterTaskState: 'abandon_cooldown',
+              waterTaskReason: waitReason,
+              waterTaskAction: 'wait_in_place',
+              lastAction: 'wait_after_water_abandon',
+              lastReason: waitReason,
+              lastResult: 'waiting_after_water_abandon',
+            });
+            state.phase = 'WAIT';
+            broadcast({ type: 'log', data: `water abandon cooldown: waiting ${Math.round(waitMs / 1000)}s in place` });
+            emitTrace({
+              phase: 'progress',
+              kind: 'state_machine',
+              name: 'progress_loop',
+              input: { stage: 'water_abandon_cooldown', waitMs, route: name },
+              keywords: ['skill', 'progress_loop', 'water_abandon_cooldown'],
+              resources: [{ type: 'skill', name: 'shaolin water abandon cooldown', query: 'wait in place after abandon' }],
+              status: 'ok',
+            });
+            sendStateSnapshot();
+            await sleep(waitMs);
+            state.phase = 'OBSERVE';
+            updateProgressLoop({
+              stage: outcome?.stage || 'need_status',
+              waterTaskState: 'abandon_cooldown_done',
+              waterTaskReason: `waited ${Math.round(waitMs / 1000)}s after water job abandon`,
+              waterTaskAction: outcome?.action || 'resume_progress_loop',
+              lastAction: 'wait_after_water_abandon',
+              lastReason: 'water job abandon cooldown finished',
+              lastResult: outcome?.reason || 'water job abandoned',
+            });
+            const details = {
+              ...(result.details || {}),
+              postActionWait: {
+                reason: 'water_abandon_cooldown',
+                waitMs,
+                finishedAt: Date.now(),
+              },
+              progressLoop: state.progressLoop,
+            };
+            sendStateSnapshot();
+            return {
+              ...result,
+              content: [{ type: 'text', text: JSON.stringify(details) }],
+              details,
+            };
+          }
         }
         return result;
       };

@@ -43,3 +43,4 @@ Failure notes:
 - On the mountain path the player can slip, spill water, or lose the bucket. If the bucket is no longer full, return to riverbank and run `shaolin_water_fill_bucket_at_riverbank` again.
 - If `shui piao` is lost, return to kitchen and ask shaofan seng about `水瓢`.
 - If route trace shows a gate deviation, stop using ad-hoc movement. Re-observe the current room, then re-enter the nearest stable route segment: inside 山门殿 uses `open gate` -> `south`; outside 广场 uses `knock gate` -> `north`.
+- If `shaolin_fzlou_abandon_water_job` actually abandons the job (`下去好好反思一下吧。`), the gateway enforces an in-place cooldown wait in the same tool call via `runtime.waterAbandonHoldMs`; do not spend another turn just waiting.
