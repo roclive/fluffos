@@ -1300,38 +1300,77 @@ const WATER_STATE_DEFAULT_STAGE: Record<string, string> = {
   tools_assigned_but_bucket_missing: 'water_abandon_needed',
 };
 
-// 通过游戏文本自动同步挑水状态机：当 LLM/路线发出 `look tong`（看水桶）时，
-// 桶的 long_desc（run/d/shaolin/obj/tong.c）会明确显示水位，据此校正状态，
-// 避免“正则没匹配上→状态机停在 idle/错档”。这就是“send command 触发正确状态切换”的落点。
+// 通过游戏文本自动同步挑水状态机：不依赖“是不是 progress loop 在驱动”，
+// 任何来源（progress loop / LLM execute_command_sequence / 人工 send_command）
+// 发出的命令产生的 MUD 文本，只要命中少林挑水任务的关键台词就实时校正状态。
+// 这样“领了任务但 stage 停在 idle”不再发生。台词全部对 run/d/shaolin/npc/tiaoshui*.h
+// 与 obj/tong.c 源码核对过。这就是“send command 触发正确状态切换”的落点。
 function syncWaterTaskFromText(text: string) {
   if (!text) return;
   const loop = state.progressLoop;
   const stage = loop.stage || '';
   const inWater = Boolean(loop.waterTaskState && loop.waterTaskState !== 'idle') || stage.startsWith('water_');
+  const set = (stageName: string, stateName: string, reason: string, action: string) => {
+    if (loop.waterTaskState === stateName && loop.stage === stageName) return;
+    updateProgressLoop({ stage: stageName, waterTaskState: stateName, waterTaskReason: reason, waterTaskAction: action });
+  };
 
-  // water_level==5：桶满（立不稳）——禁止再舀水，应回程交任务。
+  // ---- 交付结果（最高优先级）----
+  // 交付成功 (tiaoshui2.h reward_dest)
+  if (/辛苦你了，下去休息一下|下去休息一下吧/.test(text)) {
+    set('need_status', 'completed', '烧饭僧收下满桶并奖励潜能：任务完成', 'refresh_status');
+    return;
+  }
+  // 回来太晚/被人抢先 (tiaoshui2.h line 76) —— 任务失败
+  if (/已经有别人抢先挑好了水|你怎么现在才回来/.test(text)) {
+    set('water_abandon_needed', 'job_missing_or_expired', '任务过期/被抢先：已失败，需重新接或放弃', 'abandon_at_fzlou');
+    return;
+  }
+  // 桶不是本人的 (line 68) —— 失败
+  if (/这不是你的水桶呀|不是你的水桶/.test(text)) {
+    set('water_abandon_needed', 'wrong_bucket', '水桶不属于本任务：已失败', 'abandon_at_fzlou');
+    return;
+  }
+  // 桶还没满就来交 (line 88)
+  if (/桶还没满呢，怎么就拿来给我|桶还没满/.test(text)) {
+    set('water_refill_needed', 'bucket_not_full', '烧饭僧说桶没满：回河边继续 yao/dao 加满', 'go_to_riverbank_refill');
+    return;
+  }
+
+  // ---- 水桶水位 (obj/tong.c long_desc，look tong) ----
   if (/水满了，有些立不稳|里面的水满了/.test(text)) {
-    if (loop.waterTaskState !== 'bucket_filled' || !waterBucketLikelyFull(loop)) {
-      updateProgressLoop({
-        stage: stage === 'need_status' || stage === 'water_at_chufang' ? stage : 'water_returning',
-        waterTaskState: 'bucket_filled',
-        waterTaskReason: 'look 水桶 显示已满(water_level=5)：禁止再舀水，回程交烧饭僧',
-        waterTaskAction: 'turn_in_or_continue_return',
-      });
+    set(stage === 'need_status' || stage === 'water_at_chufang' ? stage : 'water_returning',
+      'bucket_filled', 'look 水桶 显示已满(water_level=5)：禁止再舀水，回程交烧饭僧', 'turn_in_or_continue_return');
+    return;
+  }
+  if (inWater && /里面的水快满了|里面有半桶水|里面有一点点水|桶里面一滴水都没有/.test(text)) {
+    if (waterBucketLikelyFull(loop) || loop.waterTaskState === 'bucket_filled') {
+      set('water_refill_needed', 'bucket_not_full', 'look 水桶 显示未满：回河边继续 yao/dao 加满后再交任务', 'go_to_riverbank_refill');
     }
     return;
   }
 
-  // 桶里仍未满（含空桶）：仅在挑水语境内、且此前误判为“满/回程”时纠正回补水。
-  if (inWater && /里面的水快满了|里面有半桶水|里面有一点点水|桶里面一滴水都没有/.test(text)) {
-    if (waterBucketLikelyFull(loop) || loop.waterTaskState === 'bucket_filled') {
-      updateProgressLoop({
-        stage: 'water_refill_needed',
-        waterTaskState: 'bucket_not_full',
-        waterTaskReason: 'look 水桶 显示未满：回河边继续 yao/dao 加满后再交任务',
-        waterTaskAction: 'go_to_riverbank_refill',
-      });
-    }
+  // ---- 领工具 (tiaoshui2.h ask_tong/ask_piao) ----
+  if (/这是挑水用的水桶，你拿去用吧|交给.{0,4}一个水桶|你身上不是有水桶|地上不是有你的水桶|你不是已经领到工具了吗/.test(text)) {
+    set('water_tools_done', 'tools_ready', '已从烧饭僧处领到水桶/工具：前往河边打水', 'go_to_riverbank');
+    return;
+  }
+  if (/你现在没有领任务，要什么工具|你要瓢来干什么/.test(text)) {
+    set('water_need_job', 'job_not_accepted', '烧饭僧说没领任务：先回方丈楼找知客僧接挑水', 'go_to_fzlou_accept');
+    return;
+  }
+
+  // ---- 接任务 (tiaoshui1.h ask_tiaoshui) ----
+  if (/厨房里正缺水呢|先去找烧饭僧要上挑水的工具|早去早回，厨房里还等着用水/.test(text)) {
+    set('water_job_accepted', 'job_accepted', '知客僧已派挑水任务：去厨房找烧饭僧领工具', 'go_get_tools');
+    return;
+  }
+  if (/不是问过了吗，怎么还在这里偷懒/.test(text)) {
+    set('water_job_accepted', 'job_already_accepted', '知客僧说任务已接：去厨房领工具', 'go_get_tools');
+    return;
+  }
+  if (/目前还找不到什么活儿/.test(text)) {
+    set('need_status', 'pending', '挑水任务冷却中(ts_pending)：先恢复/学习，过会再接', 'recover_or_learn_until_available');
     return;
   }
 }
