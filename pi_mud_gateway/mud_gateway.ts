@@ -790,6 +790,17 @@ function extractRoomIdFromLabel(label: string | undefined): string | undefined {
   return m ? m[1] : undefined;
 }
 
+function kbRoomShort(roomId: string | null | undefined): string {
+  if (!roomId || !KB) return '';
+  return KB.byId.get(roomId)?.short || '';
+}
+
+function describeRoomForDeviation(roomId: string | null | undefined, fallbackShort: string): string {
+  if (!roomId) return fallbackShort || '未知房间';
+  const short = kbRoomShort(roomId) || fallbackShort;
+  return `${roomId}${short ? ' ' + short : ''}`;
+}
+
 // Resolve a room_id given a parsed short name and (optionally) parsed exits.
 // Returns undefined if KB not loaded, short unknown, or ambiguous (>1 candidate).
 function resolveRoomIdByShortExits(short: string | undefined, exits: string[] | undefined): string | undefined {
@@ -938,12 +949,26 @@ function waterRouteDeviation(
   expectedRoomId?: string | null,
   actualRoomId?: string | null,
 ) {
-  // 优先 room_id 精确比对（KB 已加载且本步有预期 + 当前已解析）
+  // 1) 双方 room_id 都有 → 精确比对
   if (expectedRoomId && actualRoomId) {
     if (expectedRoomId === actualRoomId) return '';
-    return `route偏离: 期望房间 ${expectedRoomId} (${expected.label})，实际 ${actualRoomId}${actualRoom ? ' ' + actualRoom : ''}`;
+    const expectedRoom = describeRoomForDeviation(expectedRoomId, expected.label);
+    const actual = describeRoomForDeviation(actualRoomId, actualRoom);
+    return `route偏离: 期望房间 ${expectedRoom}，实际 ${actual}`;
   }
-  // 回退：关键字模糊匹配
+  // 2) 期望 room_id 已知，但本帧 actual_room_id 因同名多房间歧义未能解析：
+  //    如果实际房间的中文短名 == 期望房间在 KB 里的中文短名，视为"在路上"
+  //    （wuchang/wuchang1/wuchang2 短名都是"练武场"；路线后续步骤如果选错具体房间，
+  //     自然会在下一步出口走不通时再报错）。
+  if (expectedRoomId && !actualRoomId && actualRoom) {
+    const expectedShort = kbRoomShort(expectedRoomId);
+    if (expectedShort && expectedShort === actualRoom) return '';
+    if (expectedShort) {
+      const expectedRoom = describeRoomForDeviation(expectedRoomId, expected.label);
+      return `route偏离: 期望房间 ${expectedRoom}，实际 ${actualRoom}`;
+    }
+  }
+  // 3) 回退：关键字模糊匹配
   if (!expected.keywords.length || !actualRoom) return '';
   return expected.keywords.some((k) => actualRoom.includes(k))
     ? ''
@@ -1134,6 +1159,34 @@ function waterTaskOutcome(routeName: string, text: string, intendedStage: string
     return { stage: 'need_status', state: 'completed', reason: 'water job completed', action: 'refresh_status' };
   }
   return null;
+}
+
+function waterBucketLikelyFull(loop: ProgressLoopState) {
+  const stage = loop.stage || '';
+  const taskState = loop.waterTaskState || '';
+  const taskAction = loop.waterTaskAction || '';
+  const lastAction = loop.lastAction || '';
+
+  if (
+    stage.startsWith('water_refill') ||
+    stage.startsWith('water_abandon') ||
+    taskState === 'bucket_not_full' ||
+    taskState.includes('refill') ||
+    taskAction.includes('refill')
+  ) {
+    return false;
+  }
+
+  return (
+    stage === 'water_filled' ||
+    stage === 'water_on_shanlu' ||
+    stage === 'water_returning' ||
+    taskState === 'bucket_filled' ||
+    taskState === 'returning' ||
+    taskAction === 'return_to_kitchen' ||
+    taskAction === 'turn_in_or_continue_return' ||
+    lastAction.includes('shaolin_water_return_')
+  );
 }
 
 function waterAbandonHoldMs(config: GatewayConfig) {
@@ -1494,10 +1547,35 @@ function parseStatusLine(text: string) {
   if ((m = text.match(STATUS_RE.combat_exp))) p.combat_exp = Number(m[1]);
 }
 
-function parseFluffosText(raw: string) {
-  // 先剥离 ANSI 颜色码（hp/score 数值外包 HIC/HIG/HIY… 颜色，不剥离会破坏数字正则）
-  const text = raw.replace(/\r/g, '').replace(/\[[0-9;]*m/g, '');
-  const lines = text.split('\n').map((s) => s.trim()).filter(Boolean);
+const ANSI_ESCAPE_RE = /\x1B\[[0-9;]*[A-Za-z]/g;
+const ANSI_OSC_RE = /\x1B\][^\x07\x1B]*?(?:\x07|\x1B\\)/g;
+const MUD_METADATA_RE = /<!--[\s\S]*?-->/g;
+const DECORATIVE_LINE_RE = /^[\s`~!@#$%^&*()_+\-=\[\]{}|\\:;'",.<>/?，。、；：！？【】《》“”‘’（）【】…*·]+$/u;
+const SEMANTIC_CHAR_RE = /[A-Za-z0-9\u4E00-\u9FFF]/;
+
+function cleanMudText(raw: string) {
+  return String(raw || '')
+    .replace(MUD_METADATA_RE, '')
+    .replace(ANSI_OSC_RE, '')
+    .replace(ANSI_ESCAPE_RE, '')
+    .replace(/\r/g, '');
+}
+
+function splitCleanMudLines(raw: string) {
+  return cleanMudText(raw)
+    .split('\n')
+    .map((line) => line.trim())
+    .filter((line) => {
+      if (!line) return false;
+      if (DECORATIVE_LINE_RE.test(line)) return false;
+      // 去掉无可读内容的装饰行（如纯标点、纯空白）
+      return SEMANTIC_CHAR_RE.test(line);
+    });
+}
+
+function parseFluffosText(raw: string): string[] {
+  const text = cleanMudText(raw);
+  const lines = splitCleanMudLines(raw);
 
   // 出口（先定出口行，标题行就在出口行所属 look 块的最上方）
   const exitsLineIdx = lines.findIndex((l) =>
@@ -1562,11 +1640,20 @@ function parseFluffosText(raw: string) {
     if (cand) { titleFound = cand; break; }
   }
   if (titleFound) {
+    const previousName = state.world.location.name || '';
     state.world.location.name = titleFound.name;
     if (titleFound.area) state.world.location.area = titleFound.area;
     // 解析 room_id（短名 + 出口集合 → KB 唯一房间），用于精确路线偏离判定
     const rid = resolveRoomIdByShortExits(titleFound.name, state.world.location.exits);
-    if (rid) state.world.location.room_id = rid;
+    if (rid) {
+      state.world.location.room_id = rid;
+    } else {
+      const currentRoomId = state.world.location.room_id || '';
+      const currentShort = kbRoomShort(currentRoomId);
+      if ((currentShort && currentShort !== titleFound.name) || (!currentShort && previousName && previousName !== titleFound.name)) {
+        state.world.location.room_id = '';
+      }
+    }
   }
   // 若 titleFound===null，**保留**上一次的 location.name（不要被无关文本覆盖）。
 
@@ -1590,6 +1677,8 @@ function parseFluffosText(raw: string) {
     state.world.events.recent = state.world.events.recent.slice(-MAX_EVENTS_IN_WORLD);
   }
   mergePersistentMemoryFromWorld(lines.map((line) => ({ type: 'text', text: line, timestamp: Date.now() })));
+
+  return lines;
 }
 
 // ---------------------------------------------------------------------------
@@ -1735,7 +1824,7 @@ function buildSystemPrompt(config: GatewayConfig): string {
 7) 不要在命令序列里反复 look；只在当前位置未知、出口未知、或路线结束后需要校验时使用 look。
 8) 不要用 send_command 连续单发代替 execute_command_sequence；除非只需要一条信息命令。
 9) 普通观察调用 wait_event() 时不要传 timeoutMs，使用默认短等待；除非刚执行了明确需要长等待的动作，否则不要传 1000ms 这类长等待。
-10) 少林挑水任务优先读取 skill shaolin-water-carrying；执行时使用 shaolin_fzlou_accept_water_job / shaolin_chufang_prepare_water_tools / shaolin_chufang_to_riverbank_for_water_job / shaolin_water_fill_bucket_at_riverbank / shaolin_water_return_* / shaolin_chufang_finish_water_job。若知客僧说“不是问过了吗”，视为任务已接并继续领工具；若桶还在但水不满或水洒了，切到 water_refill_* 回汉水 yao/dao 加满再回厨房交任务；若烧饭僧说“不是已经领到工具了吗”但没有水桶、或桶/瓢丢失、任务过期，切到 water_abandon_* 并用 shaolin_fzlou_abandon_water_job 放弃。放弃成功后 Gateway 会在同一次工具调用内原地等待冷却，不要新开下一轮专门等待。
+10) 少林挑水任务优先读取 skill shaolin-water-carrying；执行时使用 shaolin_fzlou_accept_water_job / shaolin_chufang_prepare_water_tools / shaolin_chufang_to_riverbank_for_water_job / shaolin_water_fill_bucket_at_riverbank / shaolin_water_return_* / shaolin_chufang_finish_water_job。在厨房/烧饭僧处处理挑水前，先用 get_runtime_state 检查 progressLoop.stage/waterTaskState/waterTaskAction：若处于 water_filled/water_on_shanlu/water_returning、bucket_filled/returning 或 action=turn_in_or_continue_return，说明水桶很可能已满并在回程，必须交给烧饭僧，不要再回河边重复 yao/dao。若知客僧说“不是问过了吗”，视为任务已接并继续领工具；若桶还在但水不满或水洒了，切到 water_refill_* 回汉水 yao/dao 加满再回厨房交任务；若烧饭僧说“不是已经领到工具了吗”但没有水桶、或桶/瓢丢失、任务过期，切到 water_abandon_* 并用 shaolin_fzlou_abandon_water_job 放弃。放弃成功后 Gateway 会在同一次工具调用内原地等待冷却，不要新开下一轮专门等待。
 11) 长渡船、busy、挑水 yao/dao 等等待必须放进 execute_route_skill 的 per-step waitMs，不要用 wait_event 长等。
 12) 若 execute_route_skill 返回 deviationKind/recoveryHint，立刻停止长路线；下一轮只允许用 execute_command_sequence 发送2-3条纠错命令，或重新进入最近的稳定 route skill。
 13) 山门特殊规则：寺内山门殿出寺使用 ["open gate","south","look"]；寺外广场回寺使用 ["knock gate","north","look"]。
@@ -2003,6 +2092,7 @@ async function main() {
         phase: state.phase,
         turn: state.turn,
         world: state.world,
+        recentOutput: state.world.events.recent.map((e) => e.text),
         memorySummaryLen: state.memorySummary.length,
         persistentMemory: {
           summaryLen: state.persistentMemory.summary.length,
@@ -2126,12 +2216,11 @@ async function main() {
 
     sock.on('data', (buf) => {
       const raw = buf.toString(config.mud.encoding);
-      parseFluffosText(raw);
-      broadcast({ type: 'mud_data', data: raw });
+      const cleanLines = parseFluffosText(raw);
+      const cleanRaw = cleanLines.join('\n');
+      broadcast({ type: 'mud_data', data: cleanRaw });
 
-      for (const line0 of raw.split('\n')) {
-        const line = line0.trim();
-        if (!line) continue;
+      for (const line of cleanLines) {
         state.eventQueue.push({ type: 'text', content: line, timestamp: Date.now() });
       }
 
@@ -3268,6 +3357,10 @@ async function main() {
           return runWaterRoute('shaolin_fzlou_to_chufang', 'go to kitchen after accepting water job', 'water_at_chufang');
         }
         if (roomKey === 'chufang') {
+          if (waterBucketLikelyFull(state.progressLoop)) {
+            setWaterTask('water_returning', 'returning', 'full bucket is at shaofan/kitchen; turn in before any refill route', 'turn_in_or_continue_return');
+            return runWaterRoute('shaolin_chufang_finish_water_job', 'full bucket reached shaofan; turn in water job before any refill', 'need_status');
+          }
           if (loop.stage === 'water_returning') {
             return runWaterRoute('shaolin_chufang_finish_water_job', 'turn in full bucket for reward/potential', 'need_status');
           }
