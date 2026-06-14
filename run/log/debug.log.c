@@ -260,3 +260,4 @@ scout: go up in /d/city/zuixianlou
 scout: north in /d/shaolin/yidao2
 scout: n in /d/shaolin/yidao2
 scout: n in /d/shaolin/yidao2
+scout: north in /d/shaolin/yidao2

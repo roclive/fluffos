@@ -8,7 +8,7 @@
  * 4. 保留全部 v2 特性：WorldSummary / AgentPhase / Checkpoint / 人类协作
  * 5. CompactMemory 本身的 token 消耗最小化（专用短 system prompt）
  * 6. 增加 fast_explore：LLM 暂停，每 150ms 按既定方向走一步，观察并累计停机原因，解决 LLM 决策间隔过长导致反复“决策-等待-决策”的浪费。
- * 7. 增加 execute_command_sequence：LLM 一次生成 2-3 条命令，Gateway TS 本地按 150ms 间隔执行。
+ * 7. 增加 execute_command_sequence：LLM 一次生成 2-5 条命令，Gateway TS 本地按 150ms 间隔执行。
  *
  * Token 模型：
  *   - 每 COMPACT_EVERY_TURNS 轮，session 被销毁重建
@@ -902,6 +902,7 @@ function commandSequenceWaitMs(cmd: string, defaultWaitMs: number) {
   const c = cmd.trim().toLowerCase();
   if (/^(yao|舀)\s+(shui|water|水)$/.test(c)) return Math.max(defaultWaitMs, 4_000);
   if (/^(dao|倒)\s+(shui|water|水)\s+to\s+/.test(c)) return Math.max(defaultWaitMs, 3_500);
+  if (/^(dazuo|exercise|tuna|respirate)\b/.test(c)) return Math.max(defaultWaitMs, 3_000);
   if (/^(putdown|fang|放)\s+/.test(c)) return Math.max(defaultWaitMs, 1_000);
   if (/^(carry|tiao|挑)\s+/.test(c)) return Math.max(defaultWaitMs, 1_000);
   return defaultWaitMs;
@@ -1024,13 +1025,20 @@ function classifyRouteDeviation(
   const c = cmd.trim().toLowerCase();
   const text = summarizeEvents(events, 20);
   if (stopReason === 'manual_control_active') return 'manual_control_active';
-  if (stopReason === 'low_qi' || stopReason === 'low_jing') return stopReason;
+  if (stopReason === 'low_qi') return stopReason;
   if (/门|gate/.test(text) && /关|必须先|打不开|不能|没有门|阻|拦|挡/.test(text)) return 'gate_blocked';
   if ((c === 'south' || c === 'north') && routeName.includes('shaolin') && stopReason === 'blocked_exit') return 'gate_blocked';
   if (/正忙|busy|现在不能/.test(text) || stopReason === 'blocked_or_busy') return 'busy_or_blocked';
   if (stopReason === 'blocked_exit') return 'blocked_exit';
   if (waterRouteDeviation(expected, actualRoom, expectedRoomId, actualRoomId)) return 'room_mismatch';
   return '';
+}
+
+function shouldStopRouteForDeviation(deviationKind: string) {
+  // room_mismatch is often caused by ambiguous room-name resolution while a known route is still
+  // making forward progress. Show it in the monitor, but let the long route finish unless a hard
+  // command failure such as gate/busy/blocked/low-qi is detected.
+  return Boolean(deviationKind && deviationKind !== 'room_mismatch');
 }
 
 function routeRecoveryHint(
@@ -1045,7 +1053,6 @@ function routeRecoveryHint(
   if (!deviationKind) return '';
   if (deviationKind === 'manual_control_active') return '人类刚输入了命令；等待约1.5秒后先 look/hp 重新定位，再继续最近的 route skill。';
   if (deviationKind === 'low_qi') return '气太低；先 yun recover 或撤到安全地点，恢复后再继续挑水 route。';
-  if (deviationKind === 'low_jing') return '精太低；先 yun regenerate 或等待恢复，恢复后再继续挑水 route。';
   if (deviationKind === 'busy_or_blocked') return '角色 busy 或被阻挡；下一轮先 wait_event/get_world_summary，必要时只用2-3条 execute_command_sequence 纠错。';
   if (deviationKind === 'gate_blocked') {
     if (place.includes('山门殿') || cmd.trim().toLowerCase() === 'south') {
@@ -1396,14 +1403,24 @@ function progressRecoveryCommands() {
   const waterLow = typeof p.water === 'number' && p.water < 80;
   const jingLow = typeof p.jing === 'number' && typeof p.jing_max === 'number' && p.jing_max > 0 && p.jing / p.jing_max < 0.55;
   const qiLow = typeof p.hp === 'number' && typeof p.hp_max === 'number' && p.hp_max > 0 && p.hp / p.hp_max < 0.7;
+  const jingliLow = typeof p.mp === 'number' && typeof p.mp_max === 'number' && p.mp_max > 0 && p.mp / p.mp_max < 0.7;
+  const neiliLow = typeof p.neili === 'number' && typeof p.neili_max === 'number' && p.neili_max > 0 && p.neili / p.neili_max < 0.7;
+  const jingRatio = typeof p.jing === 'number' && typeof p.jing_max === 'number' && p.jing_max > 0 ? p.jing / p.jing_max : 0;
+  const qiRatio = typeof p.hp === 'number' && typeof p.hp_max === 'number' && p.hp_max > 0 ? p.hp / p.hp_max : 0;
+  const jingliReady = typeof p.mp === 'number' && typeof p.mp_max === 'number' && p.mp_max > 0 && p.mp >= 30 && p.mp / p.mp_max >= 0.3;
+  const canDazuo = neiliLow && jingliReady && qiRatio >= 0.75 && jingRatio >= 0.7 && typeof p.hp === 'number' && p.hp >= 20;
+  const canTuna = jingliLow && jingliReady && qiRatio >= 0.7 && typeof p.jing === 'number' && p.jing >= 20;
 
   if (foodLow) commands.push('eat biji');
   if (waterLow) commands.push('drink hulu');
-  if (jingLow && commands.length < 2) commands.push('yun regenerate');
-  if (qiLow && commands.length < 2) commands.push('yun recover');
+  if (jingLow && commands.length < 5) commands.push('yun regenerate');
+  if (qiLow && commands.length < 5) commands.push('yun recover');
+  if (jingliLow && commands.length < 5) commands.push('yun refresh');
+  if (canDazuo && commands.length < 5) commands.push('dazuo 10');
+  if (canTuna && commands.length < 5) commands.push('tuna 10');
   if (commands.length < 2) commands.push('hp');
   if (commands.length < 2) commands.push('skills');
-  return commands.slice(0, 3);
+  return commands.slice(0, 5);
 }
 
 function updateProgressLoop(patch: Partial<ProgressLoopState>) {
@@ -1442,12 +1459,6 @@ function detectStopReason(
     return 'low_qi';
   }
 
-  const jing = state.world.player.jing;
-  const jingMax = state.world.player.jing_max;
-  if (!currentIsInfo && typeof jing === 'number' && typeof jingMax === 'number' && jingMax > 0 && jing / jingMax < 0.3) {
-    return 'low_jing';
-  }
-
   const text = summarizeEvents(events, 20);
   if (!text) return null;
   if (/蛇毒|中毒|毒发|疼痛|四肢发麻/.test(text)) return 'poison_or_poison_damage';
@@ -1459,7 +1470,7 @@ function detectStopReason(
 
 function shouldStopBeforeNextCommand(stop: string | null, nextCommand = '') {
   if (!stop || stop === 'combat_or_damage') return false;
-  if ((stop === 'low_qi' || stop === 'low_jing') && nextCommand && isInfoCommand(nextCommand)) {
+  if (stop === 'low_qi' && nextCommand && isInfoCommand(nextCommand)) {
     return false;
   }
   return true;
@@ -1868,8 +1879,9 @@ function parseFluffosText(raw: string): string[] {
   // 状态资源（精/气/精力/内力/食物/饮水/潜能/经验）——查 KB 校验过的正则
   parseStatusLine(text);
 
-  // 挑水状态机自动同步：`look tong` 等文本里桶的水位描述会直接校正状态（满→交任务，未满→补水）。
-  syncWaterTaskFromText(text);
+  // 挑水状态机自动同步只在路线空闲时运行。长 route skill 执行期间先让 known route
+  // 跑完整段，结束后由 waterTaskOutcome 统一结算，避免中途频繁纠偏。
+  if (!state.waterRoute.active) syncWaterTaskFromText(text);
 
   state.world.meta.tick += 1;
   state.world.meta.timestamp = Date.now();
@@ -2025,7 +2037,7 @@ function buildSystemPrompt(config: GatewayConfig): string {
 3) 普通局部行动或探索回合才调用 execute_command_sequence()，一次提交 2-5 条命令，让 Gateway 本地循环快速执行。
 3) 遇到战斗或低血（HP < 30%），优先保命：恢复/撤离/防御。
 4) 关键转折时调用 save_checkpoint()。s
-5) 小步快跑策略：观察 → 稳定 route 用 execute_route_skill；普通探索/局部行动用 execute_command_sequence(2-3条);快速探索用 execute_command_sequence(3-5条) → 再观察。
+5) 小步快跑策略：观察 → 稳定 route 用 execute_route_skill；普通探索/局部行动用 execute_command_sequence(2-5条);快速探索用 execute_command_sequence(3-5条) → 再观察。
 6) 探图时优先调用 get_known_routes()；有 commands 的路线用 execute_route_skill，有 directions 的路线再用 follow_path。
 7) 不要在命令序列里反复 look；只在当前位置未知、出口未知、或路线结束后需要校验时使用 look。
 8) 不要用 send_command 连续单发代替 execute_command_sequence；除非只需要一条信息命令。
@@ -2742,12 +2754,12 @@ async function main() {
   };
 
   /**
-   * execute_command_sequence: LLM 一次生成 2-3 条命令，Gateway 本地快速执行
+   * execute_command_sequence: LLM 一次生成 2-5 条命令，Gateway 本地快速执行
    */
   const executeCommandSequenceTool: Tool = {
     name: 'execute_command_sequence',
     label: 'execute_command_sequence',
-    description: '一次提交2到3条MUD命令，Gateway会按150ms左右间隔本地执行；yao/dao/fang/tiao等busy命令会自动使用更长等待；每步直接返回MUD原文rawText/rawEvents。稳定长路线必须改用execute_route_skill。',
+    description: '一次提交2到5条MUD命令，Gateway会按150ms左右间隔本地执行；yao/dao/dazuo/tuna/fang/tiao等busy命令会自动使用更长等待；每步直接返回MUD原文rawText/rawEvents。稳定长路线必须改用execute_route_skill。',
     parameters: {
       type: 'object',
       properties: {
@@ -2755,8 +2767,8 @@ async function main() {
           type: 'array',
           items: { type: 'string' },
           minItems: 2,
-          maxItems: 3,
-          description: '2到3条命令，例如 ["hp", "east"] 或 ["east", "southeast", "hp"]。除稳定route skill外，探索均用2-3步。',
+          maxItems: 5,
+          description: '2到5条命令，例如 ["hp", "east"] 或 ["east", "southeast", "hp"]。除稳定route skill外，探索均用2-5步。',
         },
         stepWaitMs: {
           type: 'number',
@@ -2776,11 +2788,11 @@ async function main() {
       const commands = (Array.isArray(params?.commands) ? params.commands : [])
         .map((cmd: unknown) => String(cmd || '').trim())
         .filter(Boolean)
-        .slice(0, 3);
+        .slice(0, 5);
 
       if (commands.length < 2) {
         return {
-          content: [{ type: 'text', text: 'Error: commands must contain 2 to 3 non-empty commands. Use execute_route_skill for stable long routes.' }],
+          content: [{ type: 'text', text: 'Error: commands must contain 2 to 5 non-empty commands. Use execute_route_skill for stable long routes.' }],
           details: { commands },
         };
       }
@@ -3050,36 +3062,6 @@ async function main() {
         // 本步开始前 agent 应在的 KB room_id（来自预计算的路线序列）
         const expectedRoomIdHere = expectedRoomIdAtStep(name, index);
         const preDeviation = waterRouteDeviation(expected, preActualRoom, expectedRoomIdHere, preActualRoomId);
-        if (isShaolinWaterRoute(name) && preDeviation) {
-          stopReason = 'room_mismatch';
-          const recoveryHint = routeRecoveryHint(name, cmd, stopReason, preActualRoom, preActualExits);
-          state.waterRoute = {
-            ...state.waterRoute,
-            active: false,
-            routeName: name,
-            step: index + 1,
-            total: maxSteps,
-            currentCmd: cmd,
-            expectedStage: expected.label || `${route.from} -> ${route.to}`,
-            expectedCommand: cmd,
-            actualRoom: preActualRoom,
-            actualExits: preActualExits,
-            deviation: preDeviation,
-            deviationKind: stopReason,
-            recoveryHint,
-            recentActualRooms: appendRecentWaterRoom(preActualRoom),
-            updatedAt: Date.now(),
-          };
-          sendStateSnapshot();
-          emitTrace({
-            phase: 'progress',
-            kind: 'route',
-            name,
-            outputSummary: { step: index + 1, cmd, expectedStage: expected.label || null, actualRoom: preActualRoom, deviation: preDeviation, deviationKind: stopReason, recoveryHint, stopReason },
-            status: 'stopped',
-          });
-          break;
-        }
         if (isShaolinWaterRoute(name)) {
           state.waterRoute = {
             ...state.waterRoute,
@@ -3092,8 +3074,8 @@ async function main() {
             expectedStage: expected.label || `${route.from} -> ${route.to}`,
             actualRoom: preActualRoom,
             actualExits: preActualExits,
-            deviation: '',
-            deviationKind: '',
+            deviation: preDeviation,
+            deviationKind: preDeviation ? 'room_mismatch' : '',
             recoveryHint: '',
             recentActualRooms: appendRecentWaterRoom(preActualRoom),
             updatedAt: Date.now(),
@@ -3125,7 +3107,7 @@ async function main() {
         const deviationKind = isShaolinWaterRoute(name)
           ? classifyRouteDeviation(name, cmd, expected, actualRoom, events, stop, expectedRoomIdNext, actualRoomId)
           : '';
-        const routeStopReason = deviationKind || stop || '';
+        const routeStopReason = (deviationKind && shouldStopRouteForDeviation(deviationKind)) ? deviationKind : (stop || '');
         const recoveryHint = isShaolinWaterRoute(name)
           ? routeRecoveryHint(name, cmd, deviationKind || stop || '', actualRoom, state.world.location.exits || [])
           : '';
@@ -3248,7 +3230,7 @@ async function main() {
   const followPathTool: Tool = {
     name: 'follow_path',
     label: 'follow_path',
-    description: '按方向数组连续探图。普通探索最多 3 步，每步等待 MUD 输出并直接返回原文rawText/rawEvents；稳定长路线请用execute_route_skill。',
+    description: '按方向数组连续探图。普通探索最多 5 步，每步等待 MUD 输出并直接返回原文rawText/rawEvents；稳定长路线请用execute_route_skill。',
     parameters: {
       type: 'object',
       properties: {
@@ -3259,7 +3241,7 @@ async function main() {
         },
         maxSteps: {
           type: 'number',
-          description: '最多执行步数，默认 3，硬上限 3；稳定route不走此工具。',
+          description: '最多执行步数，默认 3，硬上限 5；稳定route不走此工具。',
         },
         stepWaitMs: {
           type: 'number',
@@ -3282,7 +3264,7 @@ async function main() {
         return { content: [{ type: 'text', text: 'Error: directions must be a non-empty array.' }], details: {} };
       }
 
-      const maxSteps = Math.max(1, Math.min(3, Number(params?.maxSteps || 3)));
+      const maxSteps = Math.max(1, Math.min(5, Number(params?.maxSteps || 3)));
       const stepWaitMs = Math.max(80, Math.min(300, Number(params?.stepWaitMs || config.agent.followPathStepWaitMs)));
       const steps: Array<{ step: number; direction: string; rawEvents: string[]; rawText: string; stopReason?: string }> = [];
       let stopReason = '';
@@ -3437,7 +3419,7 @@ async function main() {
         });
       }
 
-      const loop = state.progressLoop;
+      let loop = state.progressLoop;
       if (!state.connected) {
         updateProgressLoop({ lastAction: 'pause', lastReason: 'MUD not connected' });
         return { content: [{ type: 'text', text: JSON.stringify(state.progressLoop) }], details: state.progressLoop };
@@ -3553,6 +3535,7 @@ async function main() {
           waterTaskAction: actionName,
           lastResult: reason,
         });
+        loop = state.progressLoop;
       };
 
       const p = state.world.player;
@@ -3561,14 +3544,16 @@ async function main() {
       const waterLow = typeof p.water === 'number' && p.water < 80;
       const jingLow = typeof p.jing === 'number' && typeof p.jing_max === 'number' && p.jing_max > 0 && p.jing / p.jing_max < 0.55;
       const qiLow = typeof p.hp === 'number' && typeof p.hp_max === 'number' && p.hp_max > 0 && p.hp / p.hp_max < 0.7;
+      const jingliLow = typeof p.mp === 'number' && typeof p.mp_max === 'number' && p.mp_max > 0 && p.mp / p.mp_max < 0.7;
+      const neiliLow = typeof p.neili === 'number' && typeof p.neili_max === 'number' && p.neili_max > 0 && p.neili / p.neili_max < 0.7;
       const roomKey = progressRoomKey();
 
       if (loop.stage === 'need_status') {
         return runSeq(['hp', 'skills'], 'refresh hp/skills before deciding learn vs water', 'observing_status');
       }
 
-      if (foodLow || waterLow || jingLow || qiLow) {
-        return runSeq(progressRecoveryCommands(), 'food/water/jing/qi below progress thresholds', 'recovering');
+      if (foodLow || waterLow || jingLow || qiLow || jingliLow || neiliLow) {
+        return runSeq(progressRecoveryCommands(), 'food/water/jing/qi/jingli/neili below progress thresholds', 'recovering');
       }
 
       if (potential < loop.minPotential || loop.stage.startsWith('water_')) {
@@ -3877,6 +3862,7 @@ async function main() {
     state.world.location.room_id = old.world.room_id;
     state.pendingActions = old.scheduler.pending_actions || [];
     state.memorySummary = old.memory_summary || ''; // ← v2.5 恢复记忆摘要
+    state.world.player.combat = false; // Always start from safe non-combat state
     console.log(`[Gateway] Checkpoint restored: phase=${old.phase} turn=${old.turn}`);
     if (state.memorySummary) {
       console.log(`[Gateway] Memory summary restored (${state.memorySummary.length} chars).`);
@@ -4005,7 +3991,7 @@ async function main() {
         prompt = [
           formatPersistentMemoryForPrompt(),
           '',
-          '连接已建立。先调用 wait_event() 观察初始环境；若要去少林/扬州等已知地点，调用 get_known_routes() 后用 execute_route_skill()。局部行动/探索才调用一次 execute_command_sequence()，只提交2到3条命令。',
+          '连接已建立。先调用 wait_event() 观察初始环境；若要去少林/扬州等已知地点，调用 get_known_routes() 后用 execute_route_skill()。局部行动/探索才调用一次 execute_command_sequence()，只提交2到5条命令。',
         ].join('\n');
       }
     } else {
@@ -4016,7 +4002,7 @@ async function main() {
         '若目标是少林/扬州往返或其它已知路线，调用 get_known_routes() 后只调用一次 execute_route_skill()。',
         '若上一轮 route 返回 deviationKind/recoveryHint，按 recoveryHint 用 execute_command_sequence 发送2-3条纠错命令，不要继续硬跑长 route。',
         '若目标是少林新手成长循环：吃喝恢复、只找清善 qingshan 学习、潜能不足挑水、工具/交付异常找知客僧放弃、回来继续学，优先调用 execute_progress_loop_step(action=start/step)。',
-        '若只是局部探索，再只调用一次 execute_command_sequence()，一次性提交2到3条命令。',
+        '若只是局部探索，再只调用一次 execute_command_sequence()，一次性提交2到5条命令。',
         '命令序列不要反复 look；只有位置/出口未知或路线结束校验时才 look。不要逐条调用 send_command。',
       ].join('\n');
     }

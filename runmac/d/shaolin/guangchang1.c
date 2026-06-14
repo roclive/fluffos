@@ -92,8 +92,8 @@ int do_knock(string arg)
 
     if (!arg || (arg != "gate" && arg != "north"))
 	     return notify_fail("你要敲什么？\n");
-	if (event == "event_night"  || event == "event_midnight")
-         return notify_fail("大门天亮前不开，怎么敲也没用。\n");
+	if (event == "event_night")
+	    return notify_fail("大门子时前不开，怎么敲也没用。\n");
 
     if(!( room = find_object(__DIR__"smdian")) )
         room = load_object(__DIR__"smdian");

@@ -386,7 +386,6 @@ void data_write_callback( int fd )
 {
 	int pos, length, ret_val;
 	buffer tmp;
-	string s;
 
 	if ( socket_info[fd][TYPE] == DOWNLOAD ) return;
 
@@ -1577,4 +1576,3 @@ void remove()
 	&&	wizhood(this_player()) != "(admin)" )
 	  error( "Cannot destruct while there are active ftp sessions.\n" );
 }
-

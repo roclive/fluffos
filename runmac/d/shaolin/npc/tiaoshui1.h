@@ -55,8 +55,7 @@ string ask_abandon()
 		if (inv[i]->query("id") == "shui tong")
 			destruct("shui tong");
 	}
-    busy = 20+random(8);
+	busy = 2;
 	ob->apply_condition("ts_pending", busy );
 	return "下去好好反思一下吧。";
 }
-

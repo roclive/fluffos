@@ -1,11 +1,11 @@
-beijing 0 122
+beijing 0 0
 gaibang 0 0
 wizard 0 0
-city 0 914
+city 0 894
 xiakedao 0 0
 dali 0 0
 village 0 0
-shaolin 295 103768
+shaolin 709 111032
 emei 0 0
 taihu 0 0
 wudang 0 0
@@ -13,8 +13,8 @@ taohua 0 0
 xixia 0 0
 huashan 0 0
 zhongnan 0 0
-taishan 0 0
-changbai 0 11
+taishan 0 30
+changbai 0 0
 forest 0 0
 xingxiu 0 0
 quanzhou 0 0
@@ -23,4 +23,4 @@ xueshan 0 0
 qilian 0 0
 foshan 0 0
 Root 0 0
-NONAME 10525 36417
+NONAME 14847 22113

@@ -599,7 +599,47 @@
         </div>
         <!-- 右栏 -->
         <div id="panel-right">
-            <!-- 右上: 状态面板 -->
+            <!-- 中间: 策略面板 -->
+            <div id="panel-strategy" style="padding: 12px; border-bottom: 1px solid #1a2030; background: #0d1117;">
+                <div class="label" style="margin-bottom: 8px; color: #58a6ff; font-weight: bold;">🎯 Agent 策略下发</div>
+                <textarea id="strategy-input" class="input-field"
+                    style="width: 100%; height: 60px; resize: none; margin-bottom: 8px; background: #161b22; color: #e6e6e6; border: 1px solid #30363d; border-radius: 4px; padding: 6px; font-family: inherit; font-size: 12px;"
+                    placeholder="例如：多练功，经验值优先，force超过50..."></textarea>
+                <button onclick="sendStrategy()"
+                    style="width: 100%; padding: 8px; background: #1f6feb; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; transition: background 0.2s;">下发新策略</button>
+            </div>
+            <!-- 右上: Agent Chat -->
+            <div id="panel-agent-chat">
+                <div id="agent-chat-header">
+                    <span id="agent-chat-title">Agent Chat</span>
+                    <span id="agent-chat-status">待连接</span>
+                    <span id="agent-current-room"></span>
+                </div>
+                <div id="agent-chat-log">
+                    <div class="agent-chat-message system">
+                        <div class="agent-chat-meta">system</div>
+                        <div class="agent-chat-body">输入只影响下一轮 agent action series，不会保存。</div>
+                    </div>
+                </div>
+                <div id="agent-chat-input-area">
+                    <textarea id="agent-chat-input" class="input-field"
+                        placeholder="例如：下一轮只执行 hp/score，不要移动"></textarea>
+                    <button id="agent-chat-send" onclick="sendAgentChat()">发送</button>
+                </div>
+                <div id="panel-map-hidden">
+                    <div id="map-toolbar">
+                        <span class="label">地图</span>
+                        <span id="map-room-count" style="color:#8b949e">(0)</span>
+                        <button class="map-btn" onclick="exportMap()" title="导出地图记忆到JSON文件">导出</button>
+                        <button class="map-btn" onclick="importMap()" title="导入地图记忆JSON文件">导入</button>
+                        <button class="map-btn" onclick="clearMap()" title="清空地图">清空</button>
+                    <span id="map-room-name"></span>
+                </div>
+                <div id="map-canvas-wrap">
+                    <canvas id="map-canvas"></canvas>
+                </div>
+            </div>
+            <!-- 右下: 状态面板 -->
             <div id="panel-status">
                 <div id="hb-section">
                     <span class="label">❤ 心跳</span>
@@ -646,48 +686,8 @@
                     <div id="water-status-detail"></div>
                 </div>
             </div>
-            <!-- 中间: 策略面板 -->
-            <div id="panel-strategy" style="padding: 12px; border-bottom: 1px solid #1a2030; background: #0d1117;">
-                <div class="label" style="margin-bottom: 8px; color: #58a6ff; font-weight: bold;">🎯 Agent 策略下发</div>
-                <textarea id="strategy-input" class="input-field"
-                    style="width: 100%; height: 60px; resize: none; margin-bottom: 8px; background: #161b22; color: #e6e6e6; border: 1px solid #30363d; border-radius: 4px; padding: 6px; font-family: inherit; font-size: 12px;"
-                    placeholder="例如：多练功，经验值优先，force超过50..."></textarea>
-                <button onclick="sendStrategy()"
-                    style="width: 100%; padding: 8px; background: #1f6feb; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; transition: background 0.2s;">下发新策略</button>
-            </div>
-            <!-- 右下: Agent Chat -->
-            <div id="panel-agent-chat">
-                <div id="agent-chat-header">
-                    <span id="agent-chat-title">Agent Chat</span>
-                    <span id="agent-chat-status">待连接</span>
-                    <span id="agent-current-room"></span>
-                </div>
-                <div id="agent-chat-log">
-                    <div class="agent-chat-message system">
-                        <div class="agent-chat-meta">system</div>
-                        <div class="agent-chat-body">输入只影响下一轮 agent action series，不会保存。</div>
-                    </div>
-                </div>
-                <div id="agent-chat-input-area">
-                    <textarea id="agent-chat-input" class="input-field"
-                        placeholder="例如：下一轮只执行 hp/score，不要移动"></textarea>
-                    <button id="agent-chat-send" onclick="sendAgentChat()">发送</button>
-                </div>
-                <div id="panel-map-hidden">
-                    <div id="map-toolbar">
-                        <span class="label">地图</span>
-                        <span id="map-room-count" style="color:#8b949e">(0)</span>
-                        <button class="map-btn" onclick="exportMap()" title="导出地图记忆到JSON文件">导出</button>
-                        <button class="map-btn" onclick="importMap()" title="导入地图记忆JSON文件">导入</button>
-                        <button class="map-btn" onclick="clearMap()" title="清空地图">清空</button>
-                        <span id="map-room-name"></span>
-                    </div>
-                    <div id="map-canvas-wrap">
-                        <canvas id="map-canvas"></canvas>
-                    </div>
-                </div>
-            </div>
         </div>
+    </div>
     </div>
 
     <div id="toast"></div>

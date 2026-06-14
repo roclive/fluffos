@@ -131,7 +131,6 @@ int query_prevent_shadow(object ob)
 varargs string query_hostname(int fd, int t)
 {
 	mapping entry;
-	string name;
 
 	entry = sockets[fd];
 	if (!undefinedp(entry)) {
@@ -384,8 +383,6 @@ protected void close_callback(int fd)
 
 void resolve_callback(string theName, string theAddr, int slot)
 {
-	int *fds;
-	int i;
 	int fd;
 
 	fd = resolve_pending[slot];

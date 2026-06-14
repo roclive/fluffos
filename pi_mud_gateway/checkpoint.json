@@ -1,16 +1,19 @@
 {
   "agent_id": "pi-mud-agent-v2.5",
   "phase": "OBSERVE",
-  "turn": 7610,
+  "turn": 8531,
   "world": {
-    "room_id": "/d/shaolin/fzlou",
+    "room_id": "/d/shaolin/guangchang2",
     "hp": 193,
     "combat": true
   },
   "scheduler": {
-    "pending_actions": []
+    "pending_actions": [
+      "human:yun regenerate",
+      "human:hp"
+    ]
   },
   "memory_summary": "",
-  "last_tick": 155210,
-  "updated_at": 1780733449316
+  "last_tick": 191568,
+  "updated_at": 1781430015796
 }
