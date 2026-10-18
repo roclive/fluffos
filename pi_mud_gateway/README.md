@@ -117,6 +117,18 @@ High-level decisions consume one-shot input before calling the provider. WAIT an
 
 The production `loadConfig()` now delegates to `lib/gateway_config.mjs`, which merges all five supported sections, including `decision`. A file-backed regression test verifies that an enabled gateway provider retains its configured endpoint and model while inheriting omitted decision defaults. This prevents startup from receiving an undefined `config.decision` and ensures operator-selected local provider settings reach `main()`.
 
-Verification commands: `node --test pi_mud_gateway/tests/*.test.mjs` (35/35 pass) and `git diff --check` (pass). Tests use temporary files and fake providers only. No live Ollama/GW/MUD smoke test was run, no service was started, and free quota remains `unknown`.
+Verification commands: `node --test pi_mud_gateway/tests/*.test.mjs` (36/36 pass) and `git diff --check` (pass). Tests use temporary files and fake providers only. No live Ollama/GW/MUD smoke test was run, no service was started, and free quota remains `unknown`.
 
 Review-fix artifacts are under `/Users/zhangdapeng/Desktop/ai-agent-manager/.aam/worktrees/MUD/MUD-4/pi_mud_gateway`: `lib/gateway_config.mjs`, `mud_gateway.ts`, `tests/production_build.test.mjs`, and this README.
+
+The progress-loop pause guard now recognizes the production tool result shape,
+`details.lastAction === "pause"`, as well as the nested recovery shape. The regression
+test uses the production shape and verifies the boundary returns `WAIT` with
+`execution_uncertain` after exactly one fake-provider call, preventing an automatic
+`skill_complete` model-call loop. Targeted verification was
+`node --test pi_mud_gateway/tests/high_level_decider.test.mjs` (11/11 pass).
+
+Pause-fix artifacts are `lib/high_level_decider.mjs`,
+`tests/high_level_decider.test.mjs`, and this README under the absolute artifact root
+above. This remains an offline structural regression; no live provider or game smoke
+test was run.

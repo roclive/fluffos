@@ -134,7 +134,7 @@ export function parseJsonObject(text) {
 function executionUncertain(output) {
   if (!output || typeof output !== 'object') return false;
   const d = output.details || output;
-  if (output.isError || d.error || d.stopReason || d.deviationKind || d.deviation || d.progressLoop?.lastAction === 'pause') return true;
+  if (output.isError || d.error || d.stopReason || d.deviationKind || d.deviation || d.lastAction === 'pause' || d.progressLoop?.lastAction === 'pause') return true;
   if (typeof d.msg === 'string' && /^(stopped|error|paused)/i.test(d.msg)) return true;
   if (d.status && ['stopped', 'failed', 'error', 'WAIT'].includes(d.status)) return true;
   if (output.content?.some(item => item.type === 'text' && /^(Error:|Paused:|stopped:)/i.test(item.text || ''))) return true;

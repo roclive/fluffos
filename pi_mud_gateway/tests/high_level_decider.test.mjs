@@ -157,6 +157,35 @@ test('stopped and nested recovery tool results never count as completed', async 
   }
 });
 
+test('production progress-loop pause details stop at recovery_uncertain', async () => {
+  let providerCalls = 0;
+  const controller = new HighLevelDecisionController({
+    provider: {
+      async completeJson() {
+        providerCalls++;
+        return { id: 'skill.shaolin_progress', params: { action: 'step' }, reason: 'advance', confidence: 1 };
+      },
+    },
+    candidates: [{
+      id: 'skill.shaolin_progress',
+      paramsSchema: {
+        properties: { action: { type: 'string', enum: ['start', 'step'] } },
+        required: ['action'],
+      },
+      execute: async () => ({
+        content: [{ type: 'text', text: '{"lastAction":"pause"}' }],
+        details: { lastAction: 'pause', lastReason: 'no deterministic route' },
+      }),
+    }],
+  });
+
+  const result = await controller.run('skill_complete', {});
+
+  assert.equal(result.status, 'WAIT');
+  assert.equal(result.reason, 'execution_uncertain');
+  assert.equal(providerCalls, 1);
+});
+
 test('one-shot intent is consumed and stale persistent steering cannot wake a paused decision', async () => {
   const {takeOperatorIntent,waitForFreshIntent} = await import('../lib/high_level_decider.mjs');
   const collab={oneShotPrompt:'once',oneShotPromptId:1,steeringPrompt:'persistent',steeringPromptId:1};
