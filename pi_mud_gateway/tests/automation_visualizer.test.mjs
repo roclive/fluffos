@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import {
   applyAutomationEvent,
   applyControlEvent,
+  automationDecisionFromTrace,
   automationEventFromTrace,
   automationInterruption,
   automationSnapshot,
@@ -92,6 +93,33 @@ test('Pi turn_start events count every model request across tool-call turns', ()
     { type: 'agent_end' },
   ];
   assert.equal(fakeEvents.filter(isPiModelRequestEvent).length, 3);
+});
+
+test('default Pi traces publish the actual skill or route and a decision reason', () => {
+  const route = automationDecisionFromTrace({
+    phase: 'start', kind: 'route', name: 'shaolin_to_river', input: {},
+  });
+  assert.deepEqual(route, {
+    type: 'decision', countCall: false, route: 'shaolin_to_river',
+    reason: 'Pi selected route shaolin_to_river', trigger: 'pi_tool_trace',
+  });
+
+  const progress = automationDecisionFromTrace({
+    phase: 'progress', kind: 'state_machine', name: 'progress_loop',
+    input: {stage: 'water_need_job', route: 'to_riverbank', reason: 'potential is low'},
+    resources: [{type: 'skill', name: 'shaolin progress loop'}],
+  });
+  assert.deepEqual(progress, {
+    type: 'decision', countCall: false, skill: 'shaolin progress loop', route: 'to_riverbank',
+    reason: 'potential is low', trigger: 'pi_tool_trace',
+  });
+
+  const lookup = automationDecisionFromTrace({
+    phase: 'start', kind: 'skill', name: 'skill_lookup', input: {},
+    resources: [{type: 'skill', name: 'shaolin-water-carrying'}],
+  });
+  assert.equal(lookup.skill, 'shaolin-water-carrying');
+  assert.equal(lookup.reason, 'Pi loaded instructions for skill shaolin-water-carrying');
 });
 
 test('localized visualization text preserves Chinese skill, reason and room confirmation', () => {

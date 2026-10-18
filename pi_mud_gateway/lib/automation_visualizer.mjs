@@ -130,6 +130,35 @@ export function automationEventFromTrace(patch, location = {}, previous = {}) {
   };
 }
 
+export function automationDecisionFromTrace(patch) {
+  if (!patch || !['start', 'progress'].includes(patch.phase)) return null;
+  const input = patch.input || {};
+  if (patch.kind === 'route') {
+    const route = cleanOptional(patch.name);
+    if (!route) return null;
+    return {
+      type: 'decision', countCall: false, route,
+      reason: traceReason(input.reason, `Pi selected route ${route}`),
+      trigger: 'pi_tool_trace',
+    };
+  }
+  if (patch.kind === 'skill' || patch.kind === 'state_machine') {
+    const resourceSkill = patch.resources?.find((resource) => resource?.type === 'skill')?.name;
+    const skill = cleanOptional(resourceSkill || patch.name);
+    if (!skill) return null;
+    const fallback = patch.name === 'skill_lookup'
+      ? `Pi loaded instructions for skill ${skill}`
+      : `Pi selected skill ${skill}`;
+    return {
+      type: 'decision', countCall: false, skill,
+      route: cleanOptional(input.route),
+      reason: traceReason(input.reason, fallback),
+      trigger: 'pi_tool_trace',
+    };
+  }
+  return null;
+}
+
 export function validateControlEvent(input, context) {
   if (!input || typeof input !== 'object' || Array.isArray(input)) return reject('invalid_schema');
   if (Object.keys(input).some((key) => !CONTROL_KEYS.has(key))) return reject('unknown_field');
@@ -195,6 +224,7 @@ function boundedInteger(value, min, max) {
   return Number.isSafeInteger(value) ? Math.max(min, Math.min(max, value)) : 0;
 }
 function cleanOptional(value) { return value == null || value === '' ? null : cleanText(value); }
+function traceReason(value, fallback) { return cleanText(value) || fallback; }
 function cleanText(value) {
   return String(value ?? '')
     .replace(/[\r\n\0]/g, ' ')

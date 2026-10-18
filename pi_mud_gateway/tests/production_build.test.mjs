@@ -34,6 +34,11 @@ test('legacy Pi mode counts Pi turn_start events instead of prompt calls', async
   assert.doesNotMatch(source, /updateAutomation\(\{ type: 'model_call', trigger: 'agent_action_series' \}\)/);
 });
 
+test('legacy Pi mode publishes skill and decision metadata from tool traces', async () => {
+  const source = await readFile(new URL('../mud_gateway.ts', import.meta.url), 'utf8');
+  assert.match(source, /const automationDecision = automationDecisionFromTrace\(patch\);\s*if \(automationDecision\) updateAutomation\(automationDecision\);/);
+});
+
 test('high-level WAIT distinguishes automation resume from fresh operator intent', async () => {
   const source = await readFile(new URL('../mud_gateway.ts', import.meta.url), 'utf8');
   assert.match(source, /const waitRequirement = decisionWaitRequirement\(automationState\);\s*if \(waitRequirement === 'automation_resume'\) \{\s*await awaitAutomationPermission\(\)/);

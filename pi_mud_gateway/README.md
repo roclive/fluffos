@@ -1,5 +1,39 @@
 # Pi MUD Gateway：离线回放与高层本地决策
 
+## MUD-5 review fixes: default Pi metadata and local HTTP monitor
+
+Default Pi mode now derives the active skill/route and decision reason from production
+tool traces. Progress-loop traces expose `shaolin progress loop` plus their stage reason;
+route traces expose the selected route; loading a `SKILL.md` resolves its actual skill
+resource name instead of leaving the generic `skill_lookup` label on screen. These
+derived decision events do not increment the model counter; Pi `turn_start` remains the
+only model-request counter in legacy mode.
+
+Serve the monitor from loopback HTTP so the browser supplies an Origin accepted by the
+strict WebSocket check (do not open the HTML with `file://`):
+
+```sh
+npm --prefix pi_mud_gateway run monitor
+# open http://127.0.0.1:4173/
+# optional: PI_MUD_MONITOR_HTTP_PORT=4180 npm --prefix pi_mud_gateway run monitor
+```
+
+The server binds only `127.0.0.1`, serves only `/` and `/automation-monitor.html`, and
+does not start the Gateway, connect a MUD account, or call a provider. The page defaults
+to WebSocket port 8081; use
+`http://127.0.0.1:4173/?ws=ws://127.0.0.1:8099` when the configured monitor port is 8099.
+Opaque `null`, missing, non-HTTP(S), and non-loopback origins remain rejected.
+
+Offline verification: `node --test pi_mud_gateway/tests/*.test.mjs` and
+`npm --prefix pi_mud_gateway test` both passed 65/65 with no skips;
+`git diff --check` passed. Tests used fake traces/providers/runners and an ephemeral
+loopback HTTP server only. No live MUD/account/provider smoke test was run, no persistent
+service was started, and no cloud or coding-tool quota was consumed. Real smoke result:
+not run. Free quota: `unknown`. The artifact root is
+`/Users/zhangdapeng/Desktop/ai-agent-manager/.aam/worktrees/MUD/MUD-5/pi_mud_gateway`.
+`pi/` belongs to the same top-level repository, so no independent-repository patch was
+needed.
+
 ## MUD-5 review follow-up (2026-10-19)
 
 The four review findings are covered by offline regressions. WebSocket clients must now

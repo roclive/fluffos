@@ -23,7 +23,7 @@ import { loadGatewayConfig } from './lib/gateway_config.mjs';
 import { shouldStopRouteForDeviation } from './lib/route_logic.mjs';
 import { precomputeFixedRouteRoomIds, resolveGatewayRoute, routeLocationError, routeStartMatches } from './lib/pathfinder.mjs';
 import { sendMudCommand, collectMudEvents } from './lib/transport.mjs';
-import { applyAutomationEvent, applyControlEvent, automationEventFromTrace, automationInterruption, automationSnapshot, createAutomationState, decisionWaitRequirement, isPiModelRequestEvent, isTrustedWebSocketRequest, validateLegacyControlEvent } from './lib/automation_visualizer.mjs';
+import { applyAutomationEvent, applyControlEvent, automationDecisionFromTrace, automationEventFromTrace, automationInterruption, automationSnapshot, createAutomationState, decisionWaitRequirement, isPiModelRequestEvent, isTrustedWebSocketRequest, validateLegacyControlEvent } from './lib/automation_visualizer.mjs';
 import net from 'node:net';
 import fs from 'node:fs/promises';
 import fsSync from 'node:fs';
@@ -1690,6 +1690,8 @@ async function main() {
       state.recentTraces.splice(0, state.recentTraces.length - 200);
     }
     broadcast({ type: 'agent_trace', data });
+    const automationDecision = automationDecisionFromTrace(patch);
+    if (automationDecision) updateAutomation(automationDecision);
     const automationEvent = automationEventFromTrace(patch, state.world.location, automationState.confirmation);
     if (automationEvent) updateAutomation(automationEvent);
   };
