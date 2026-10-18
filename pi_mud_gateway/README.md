@@ -200,3 +200,27 @@ free quota remains `unknown`. Artifacts are
 `/Users/zhangdapeng/Desktop/ai-agent-manager/.aam/worktrees/MUD/MUD-4/pi_mud_gateway/mud_gateway.ts`,
 `/Users/zhangdapeng/Desktop/ai-agent-manager/.aam/worktrees/MUD/MUD-4/pi_mud_gateway/tests/replay.test.mjs`,
 and this README.
+
+### MUD-4 blocked water-state review fix
+
+The two deterministic progress-loop dead ends now explicitly set `lastAction: pause`:
+`abandon_blocked` requires manual relocation to fzlou, and `refill_blocked` requires
+manual relocation to the riverbank. The high-level controller also treats any
+structured `waterTaskState` ending in `_blocked` as execution uncertainty. This keeps
+both current production results and older/restored result shapes at `WAIT` until fresh
+operator input, instead of reporting `COMPLETED` and immediately requesting another
+model decision.
+
+Two fake-provider regressions reproduce the production `details: state.progressLoop`
+shape for each blocked state and verify `WAIT / execution_uncertain` after exactly one
+provider call. Verification commands were
+`node --test pi_mud_gateway/tests/high_level_decider.test.mjs` (15/15 pass),
+`node --test pi_mud_gateway/tests/*.test.mjs` (46/46 pass), and
+`git diff --check` (pass). No live Ollama/GW/MUD smoke test was run, no service was
+started, and no real provider or cloud quota was consumed; free quota remains
+`unknown`.
+
+Changed artifacts are under
+`/Users/zhangdapeng/Desktop/ai-agent-manager/.aam/worktrees/MUD/MUD-4/pi_mud_gateway`:
+`lib/high_level_decider.mjs`, `mud_gateway.ts`,
+`tests/high_level_decider.test.mjs`, and this README.

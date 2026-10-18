@@ -3108,6 +3108,7 @@ async function main() {
             return runWaterRoute(toKitchenForAbandon, 'return to kitchen/fzlou path before abandoning inconsistent water job', 'water_abandon_to_chufang');
           }
           setWaterTask('water_abandon_needed', 'abandon_blocked', `need abandon but no route from ${roomKey || 'unknown'} to fzlou`, 'manual_relocate_to_fzlou');
+          updateProgressLoop({ lastAction: 'pause', lastReason: 'water abandon blocked; manual relocation to fzlou required' });
           sendStateSnapshot();
           return { content: [{ type: 'text', text: JSON.stringify(state.progressLoop) }], details: state.progressLoop };
         }
@@ -3130,6 +3131,7 @@ async function main() {
             return runWaterRoute(toKitchenForRefill, 'bucket not full: return to kitchen before riverbank refill', 'water_refill_to_chufang');
           }
           setWaterTask('water_refill_needed', 'refill_blocked', `need refill but no route from ${roomKey || 'unknown'} to riverbank`, 'manual_relocate_to_riverbank');
+          updateProgressLoop({ lastAction: 'pause', lastReason: 'water refill blocked; manual relocation to riverbank required' });
           sendStateSnapshot();
           return { content: [{ type: 'text', text: JSON.stringify(state.progressLoop) }], details: state.progressLoop };
         }

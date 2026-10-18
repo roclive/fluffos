@@ -223,6 +223,50 @@ test('production progress-loop pause details stop at recovery_uncertain', async 
   assert.equal(providerCalls, 1);
 });
 
+for (const blocked of [
+  {
+    waterTaskState: 'abandon_blocked',
+    stage: 'water_abandon_needed',
+    waterTaskReason: 'need abandon but no route from unknown to fzlou',
+    waterTaskAction: 'manual_relocate_to_fzlou',
+  },
+  {
+    waterTaskState: 'refill_blocked',
+    stage: 'water_refill_needed',
+    waterTaskReason: 'need refill but no route from unknown to riverbank',
+    waterTaskAction: 'manual_relocate_to_riverbank',
+  },
+]) {
+  test(`production ${blocked.waterTaskState} result waits after one model call`, async () => {
+    let providerCalls = 0;
+    const controller = new HighLevelDecisionController({
+      provider: {
+        async completeJson() {
+          providerCalls++;
+          return { id: 'skill.shaolin_progress', params: { action: 'step' }, reason: 'advance', confidence: 1 };
+        },
+      },
+      candidates: [{
+        id: 'skill.shaolin_progress',
+        paramsSchema: {
+          properties: { action: { type: 'string', enum: ['start', 'step'] } },
+          required: ['action'],
+        },
+        execute: async () => ({
+          content: [{ type: 'text', text: JSON.stringify(blocked) }],
+          details: blocked,
+        }),
+      }],
+    });
+
+    const result = await controller.run('skill_complete', {});
+
+    assert.equal(result.status, 'WAIT');
+    assert.equal(result.reason, 'execution_uncertain');
+    assert.equal(providerCalls, 1);
+  });
+}
+
 test('one-shot intent is consumed and stale persistent steering cannot wake a paused decision', async () => {
   const {takeOperatorIntent,waitForFreshIntent} = await import('../lib/high_level_decider.mjs');
   const collab={oneShotPrompt:'once',oneShotPromptId:1,steeringPrompt:'persistent',steeringPromptId:1};
