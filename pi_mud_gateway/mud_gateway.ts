@@ -23,6 +23,7 @@ import { loadGatewayConfig } from './lib/gateway_config.mjs';
 import { shouldStopRouteForDeviation } from './lib/route_logic.mjs';
 import { precomputeFixedRouteRoomIds, resolveGatewayRoute, routeLocationError, routeStartMatches } from './lib/pathfinder.mjs';
 import { sendMudCommand, collectMudEvents } from './lib/transport.mjs';
+import { applyAutomationEvent, applyControlEvent, automationSnapshot, createAutomationState, isTrustedWebSocketRequest } from './lib/automation_visualizer.mjs';
 import net from 'node:net';
 import fs from 'node:fs/promises';
 import fsSync from 'node:fs';
@@ -1631,6 +1632,7 @@ async function createSession(config: GatewayConfig, tools: Tool[], onNativeToolT
 
 async function main() {
   const config = await loadConfig();
+  let automationState = createAutomationState();
   state.persistentMemory = await loadPersistentMemory(config);
   console.log(`[Gateway] Persistent memory loaded (${Object.keys(state.persistentMemory.visited_rooms).length} rooms, ${Object.keys(state.persistentMemory.known_npcs).length} NPCs).`);
 
@@ -1654,6 +1656,15 @@ async function main() {
       if ((client as any).readyState === 1) (client as any).send(msg);
     }
   };
+  const publishAutomation = () => broadcast(automationSnapshot(automationState));
+  const updateAutomation = (event: any) => {
+    automationState = applyAutomationEvent(automationState, event);
+    publishAutomation();
+  };
+  const awaitAutomationPermission = async () => {
+    while (automationState.status === 'paused') await sleep(100);
+    return automationState.status !== 'cancelled';
+  };
   monitorLog = (msg: string) => broadcast({ type: 'log', data: msg });
 
   const emitTrace = (patch: Omit<AgentTraceData, 'id' | 'turn' | 'seriesId' | 'ts'>) => {
@@ -1669,6 +1680,20 @@ async function main() {
       state.recentTraces.splice(0, state.recentTraces.length - 200);
     }
     broadcast({ type: 'agent_trace', data });
+    if ((patch.kind === 'route' || patch.kind === 'skill') && patch.phase !== 'error') {
+      const input = patch.input || patch.outputSummary || {};
+      updateAutomation({
+        type: 'step',
+        skill: patch.kind === 'skill' ? patch.name : undefined,
+        route: patch.kind === 'route' ? patch.name : undefined,
+        step: input.step || 0,
+        total: input.total || 0,
+        command: input.cmd || '',
+        expectedRoom: input.expectedRoom || input.expectedStage || '',
+        actualRoom: input.actualRoom || state.world.location.room_id || state.world.location.name || '',
+        confirmed: patch.status === 'ok' ? true : patch.status === 'stopped' ? false : null,
+      });
+    }
   };
 
   const summarizeEvents = (events: Array<{ content: string }>) => ({
@@ -1843,14 +1868,28 @@ async function main() {
     });
   };
 
-  wss.on('connection', (ws) => {
+  wss.on('connection', (ws, request) => {
+    const trustedControlSource = isTrustedWebSocketRequest(request);
     ws.send(JSON.stringify({ type: 'hello', version: '2.5' }));
+    ws.send(JSON.stringify(automationSnapshot(automationState)));
     sendStateSnapshot();
 
     ws.on('message', (raw) => {
       try {
         const m = safeJsonParse<any>(String(raw), null);
         if (!m?.type) return;
+
+        if (m.type === 'automation_control') {
+          const result = applyControlEvent(automationState, m, { isTrustedSource: trustedControlSource });
+          if (!result.ok) {
+            ws.send(JSON.stringify({ type: 'automation_control_result', ok: false, error: result.error }));
+            return;
+          }
+          automationState = result.state;
+          publishAutomation();
+          ws.send(JSON.stringify({ type: 'automation_control_result', ok: true, action: result.action, sequence: automationState.control.lastSequence }));
+          return;
+        }
 
         // 人类发命令
         if (m.type === 'cmd') {
@@ -3405,6 +3444,16 @@ async function main() {
       const route = KNOWN_ROUTES[routeName];
       return Boolean(route && routeStartMatches(route.from, state.world.location.room_id));
     },
+    onModelCall: ({ trigger }: any) => updateAutomation({ type: 'model_call', trigger }),
+    onDecision: ({ trigger, decision, reason }: any) => updateAutomation({
+      type: 'decision',
+      countCall: false,
+      route: decision?.id?.startsWith('route.') ? decision.id.slice(6) : null,
+      skill: decision?.id?.startsWith('skill.') ? decision.id.slice(6) : null,
+      reason: decision?.reason || reason || '',
+      confidence: decision?.confidence,
+      trigger,
+    }),
   });
   let decisionTrigger: 'task_start' | 'skill_complete' | 'recovery_uncertain' = 'task_start';
 
@@ -3412,6 +3461,10 @@ async function main() {
   // executes fully in deterministic code; the model is consulted only here at
   // task start, skill completion, or an explicitly uncertain recovery boundary.
   while (true) {
+    if (!await awaitAutomationPermission()) {
+      await sleep(100);
+      continue;
+    }
     const intent = takeOperatorIntent(collab);
     broadcast({type: 'prompt_cleared', data: {oneShot: true, id: collab.oneShotPromptId}});
     const decisionState = {
@@ -3468,6 +3521,10 @@ async function main() {
   // ---------------------------------------------------------------------------
 
   while (true) {
+    if (!await awaitAutomationPermission()) {
+      await sleep(100);
+      continue;
+    }
     // 等待 session 空闲（流式响应结束）
     while (session.isStreaming) {
       await sleep(100);

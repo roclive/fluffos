@@ -1,5 +1,40 @@
 # Pi MUD Gateway：离线回放与高层本地决策
 
+## MUD-5：Pi / Web 自动化可视化
+
+新增 `lib/automation_visualizer.mjs` 作为 Pi 与 Web 客户端之间的适配层，生产入口会
+通过既有 monitor WebSocket 发布 `automation_state`。状态包含当前 skill/route、决策
+原因与置信度、步骤和预期/实际房间确认、适配层观察到的高层模型调用数，以及
+`idle/running/paused/cancelled/completed/error` 生命周期。独立页面位于
+`web/automation-monitor.html`；默认连接 `ws://127.0.0.1:8081`，也可使用
+`?ws=ws://127.0.0.1:8099` 指定现有 monitor 端口。页面不发送 MUD 命令。
+
+控制事件使用严格 schema v1：`type/version/sessionId/source/sequence/action` 是唯一允许
+字段，action 仅允许 `pause/resume/cancel`。Gateway 同时校验随机运行会话 ID、来源标识、
+单调递增序号、WebSocket 对端地址与 Origin；monitor 仍只监听 loopback。非法、跨会话、
+重放或非本机控制事件会返回拒绝结果。暂停/取消只在自动化循环边界生效，不中断正在
+执行的单条游戏命令；继续可重新开放循环。现存旧 monitor 控制协议为兼容保留，新的
+自动化页面只使用 schema v1。
+
+离线测试以合成 decision/step 和 fake runner/provider 边界驱动，不连接 MUD、不启动
+Gateway、不登录账号，也不调用真实模型。真实冒烟未运行；本机 provider 可用模型未在
+本任务中猜测或变更，免费额度为 `unknown`。`pi/` 经检查不是独立 Git repository，
+因此无需外部 repo patch；`run*/web-client` 原始素材未修改。
+
+MUD-5 验收命令：
+
+```sh
+node --test pi_mud_gateway/tests/*.test.mjs
+npm --prefix pi_mud_gateway test
+git diff --check
+```
+
+结果：51 tests / 51 pass，无 skip；两种 Node 测试入口及 `git diff --check` 均通过。
+生产 bundle 回归包含新适配层，但不会导入运行 Gateway 或连接服务。
+
+产物绝对根路径：
+`/Users/zhangdapeng/Desktop/ai-agent-manager/.aam/worktrees/MUD/MUD-5/pi_mud_gateway`。
+
 ## MUD-4：本地模型决策边界
 
 新增 `lib/high_level_decider.mjs` 与 `lib/local_model_provider.mjs`。本地模型只在

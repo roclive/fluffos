@@ -132,19 +132,24 @@ export function projectDecisionState(state) {
 }
 
 export class HighLevelDecisionController {
-  constructor({ provider, candidates, minimumConfidence = 0.7, executionPolicy = () => true }) {
+  constructor({ provider, candidates, minimumConfidence = 0.7, executionPolicy = () => true, onModelCall = () => {}, onDecision = () => {} }) {
     this.provider = provider;
     this.candidates = candidates;
     this.minimumConfidence = minimumConfidence;
     this.executionPolicy = executionPolicy;
+    this.onModelCall = onModelCall;
+    this.onDecision = onDecision;
     this.calls = 0;
   }
 
   async decide(trigger, state) {
     const prompt = buildDecisionPrompt({ trigger, state, candidates: this.candidates });
     this.calls += 1;
+    await this.onModelCall({ trigger, calls: this.calls });
     const raw = await this.provider.completeJson(prompt);
-    return validateDecision(raw, this.candidates, this.minimumConfidence);
+    const result = validateDecision(raw, this.candidates, this.minimumConfidence);
+    await this.onDecision({ trigger, ...result });
+    return result;
   }
 
   async run(trigger, state) {
