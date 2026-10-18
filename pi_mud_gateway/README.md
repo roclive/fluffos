@@ -1,0 +1,70 @@
+# Pi MUD Gateway：拆分与离线回放基线（MUD-1）
+
+本目录生产入口是 `mud_gateway.ts`；`mud_gateway_verysilly.ts` 和 `gateway2_5 copy.ts` 是另存版本，启动脚本不使用它们，本轮未修改。仓库根 README 描述 FluffOS 的 CMake 构建，不是 Gateway 的 Node 测试流程。
+
+## 验收与依赖
+
+在工作树根目录执行，只有 Node 内置模块，无需安装依赖、凭据或 MUD 服务：
+
+```sh
+node --test pi_mud_gateway/tests/*.test.mjs
+```
+
+`package.json` 的 placeholder test 已替换为上述真实套件的目录内等价命令：`npm --prefix pi_mud_gateway test`。验收记录使用直接 `node --test` 命令，不以 placeholder 或空测试代替。
+
+本轮基线：Node v26.5.0，11 tests / 11 pass，无 skip。还执行了 `git diff --check`，以及以下纯转译语法检查（不执行 Gateway，不加载账号）：
+
+```sh
+pi/node_modules/.bin/esbuild pi_mud_gateway/mud_gateway.ts --format=esm --platform=node --outfile=pi_mud_gateway/tests/.gateway-syntax-check.mjs
+node --check pi_mud_gateway/tests/.gateway-syntax-check.mjs
+rm pi_mud_gateway/tests/.gateway-syntax-check.mjs
+```
+
+没有安装新依赖，没有执行启动／重启脚本，没有修改 checkpoint、游戏素材或服务。
+
+## 启动与依赖映射
+
+| 入口／资源 | 行为／依赖 |
+| --- | --- |
+| `run_gateway.sh` | 用 `nc` 检查本机 5555，切到 `../pi/packages/coding-agent`，通过 `npx tsx` 运行主入口；npx 本地缺包时可能联网，离线验收不使用此脚本 |
+| `restart_gateway.sh` | **删除本目录 checkpoint.json** 后启动；不是测试命令 |
+| `mud_gateway.ts` | Node net/fs/path；`ws` 提供监控 WebSocket；`@mariozechner/pi-coding-agent` 提供 session、resource loader、内存 session manager |
+| `package.json` | 仅声明 ws / @types/ws；没有独立声明 tsx 或 coding-agent，生产仍依赖旁边 pi 工作区的安装／解析环境，尚非独立可发布包 |
+| `gateway.config.json` | 配置加载后合并默认值；默认 MUD TCP 127.0.0.1:5555、UTF-8，默认 monitor 127.0.0.1:8099；实际运行以配置为准 |
+| `skills/` | DefaultResourceLoader 的 additionalSkillPaths；系统 prompt 引导先查已知路线再执行 route skill |
+| `checkpoint.json` / 运行时 memory 文件 | 轮次／状态恢复和长期记忆；路径由 config 与 ROOT_DIR 解析，离线回放不读写 |
+
+主入口顶层调用 main，导入它会创建真实运行环境；测试只导入下列无启动副作用模块。
+
+## 决策、skills、routes 边界
+
+| 模块／位置 | 职责与保持的行为 |
+| --- | --- |
+| `lib/core.mjs` | 从原入口搬移的固定 KNOWN_ROUTES、方向别名、路线步骤读取、busy 等待、skill 轮转、文本清理与资源字段解析、stop 判定。无文件／网络／provider 依赖 |
+| `parseStatusLine(text, player)` | 显式传入可更新的 player；原先隐式读写全局状态，现在由主入口传入原对象 |
+| `detectStopReason(events, command, player)` | 显式注入当前资源；低气血阈值严格 `< 0.3`，查询命令豁免；中毒优先于战斗，再检查堵路／busy |
+| `lib/transport.mjs` | sendMudCommand 保持末尾换行；collectMudEvents 注入 wait，等待后复制并清空队列。生产短序列和 route 均使用它，日志／trace 顺序保持 |
+| `mud_gateway.ts` | 保留配置、socket 生命周期、房间／KB 解析、全局状态机、工具编排、route 偏离恢复、session、持久化和监控 |
+| `skills/shaolin-water-carrying/SKILL.md` | 接活→取工具→出南门→河边灌水→随机山路分支→厨房交付；明确 gate 顺序和 busy 等待 |
+| `skills/xkx2001-knowledge/` | map/NPC/master/skill/quest 静态数据，ontology 和 status-patterns；route.py 用图查询，不替代固定路线执行器 |
+
+原行为有意保留：战斗提示通常继续；低气血如下一步是 hp 等信息命令可继续；固定路线中的模糊房名偏离规则仍在原入口，未在本轮调整。
+
+## 回放设计与覆盖限制
+
+`tests/fixtures/transcripts.json` 是依据已提交 `status-patterns.json` 和原停机文案构造的**合成离线文本**，不是声称来自真实账号的录制。它包含 ANSI、CRLF、状态资源和失败文案。固定挑水路线直接从生产 KNOWN_ROUTES 读取，避免测试另存路线漂移。
+
+`tests/helpers/replay.mjs` 的 fake runner 用固定命令替代 agent/provider；MockTransport 严格核对每条命令与换行，意外命令立即失败，没有网络 fallback。虚拟 wait 注入响应并记录毫秒数，不实际等待，不消费编码工具或云调用额度。
+
+覆盖：资源字段、文本过滤、低气血及查询例外、堵门／busy／中毒停机、战斗继续、人工接管、挑水五轮与每步等待、开门／敲门后立即穿门、skill 阻塞回退、方向别名、mock 负例、队列清空。
+
+限制：测试真实共用模块和 transport 边界，但 fake runner 不等于完整生产工具处理器；未覆盖真实 TCP 分包／telnet 协商、房间消歧、完整 progressLoop、WebSocket UI、session compact、存档恢复或真实模型响应。未声称端到端测试通过。后续可沿显式 player、transport、wait 注入边界继续拆出工具执行器。
+
+真实冒烟结果：**未运行**，遵循本任务不连接真实账号的约束。模型／provider 不在本轮新增、选择或调用范围；createSession 保留原默认解析路径，未枚举或宣称任何具体模型可用。免费剩余额度：`unknown`；未用估算花费推断额度。
+
+## 产物位置
+
+本轮仅修改 AAM 工作树，根路径：
+`/Users/zhangdapeng/Desktop/ai-agent-manager/.aam/worktrees/MUD/MUD-1`
+
+产物相对于该绝对根路径：`pi_mud_gateway/lib/core.mjs`、`pi_mud_gateway/lib/transport.mjs`、`pi_mud_gateway/tests/replay.test.mjs`、`pi_mud_gateway/tests/helpers/replay.mjs`、`pi_mud_gateway/tests/fixtures/transcripts.json`、本 README；集成修改在 `pi_mud_gateway/mud_gateway.ts` 和 `package.json`。开始时 `git status --short` 为空。未 add、commit、push 或推广到 base。

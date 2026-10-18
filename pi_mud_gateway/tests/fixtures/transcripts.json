@@ -1,0 +1,8 @@
+{
+  "source": "Synthetic offline transcripts matching checked-in status-patterns.json and gateway stop phrases; no live account capture.",
+  "status": "\u001b[32m精： 80/ 100 (90%) 精力： 70/ 120 (+0)\u001b[0m\r\n气： 29/ 100 (80%) 内力： 40/ 200 (+5)\r\n食物： 50/ 100 饮水： 60/ 100\n潜能： 31/ 200 经验： 12345\n<!-- room metadata -->\n====\n>",
+  "blocked": "你必须先把门打开。\r\n",
+  "busy": "你正忙着呢。\n",
+  "combat": "你被击中了！\n",
+  "poison": "你突然毒发，四肢发麻。\n"
+}
