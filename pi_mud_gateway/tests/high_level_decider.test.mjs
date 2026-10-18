@@ -45,6 +45,27 @@ test('controller calls fake provider once at a boundary and runs one allowlisted
   assert.deepEqual(executions, [{ id: 'route.safe_home', params: {} }]);
 });
 
+test('control change during fake provider request is rechecked before candidate execution', async () => {
+  const executions = [];
+  let allowed = true;
+  const controller = new HighLevelDecisionController({
+    provider: {
+      async completeJson() {
+        allowed = false;
+        return { id: 'route.safe_home', params: {}, reason: 'provider finished after cancel', confidence: 1 };
+      },
+    },
+    candidates: fixtureCandidates(executions),
+    executionPolicy: () => allowed,
+  });
+
+  const result = await controller.run('task_start', {});
+
+  assert.equal(result.status, 'WAIT');
+  assert.equal(result.reason, 'policy_denied');
+  assert.deepEqual(executions, []);
+});
+
 test('deterministic route steps do not request the model', async () => {
   let providerCalls = 0;
   const writes = [];

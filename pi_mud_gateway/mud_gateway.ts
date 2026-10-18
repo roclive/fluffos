@@ -23,7 +23,7 @@ import { loadGatewayConfig } from './lib/gateway_config.mjs';
 import { shouldStopRouteForDeviation } from './lib/route_logic.mjs';
 import { precomputeFixedRouteRoomIds, resolveGatewayRoute, routeLocationError, routeStartMatches } from './lib/pathfinder.mjs';
 import { sendMudCommand, collectMudEvents } from './lib/transport.mjs';
-import { applyAutomationEvent, applyControlEvent, automationSnapshot, createAutomationState, isTrustedWebSocketRequest } from './lib/automation_visualizer.mjs';
+import { applyAutomationEvent, applyControlEvent, automationEventFromTrace, automationInterruption, automationSnapshot, createAutomationState, isTrustedWebSocketRequest, validateLegacyControlEvent } from './lib/automation_visualizer.mjs';
 import net from 'node:net';
 import fs from 'node:fs/promises';
 import fsSync from 'node:fs';
@@ -1680,20 +1680,8 @@ async function main() {
       state.recentTraces.splice(0, state.recentTraces.length - 200);
     }
     broadcast({ type: 'agent_trace', data });
-    if ((patch.kind === 'route' || patch.kind === 'skill') && patch.phase !== 'error') {
-      const input = patch.input || patch.outputSummary || {};
-      updateAutomation({
-        type: 'step',
-        skill: patch.kind === 'skill' ? patch.name : undefined,
-        route: patch.kind === 'route' ? patch.name : undefined,
-        step: input.step || 0,
-        total: input.total || 0,
-        command: input.cmd || '',
-        expectedRoom: input.expectedRoom || input.expectedStage || '',
-        actualRoom: input.actualRoom || state.world.location.room_id || state.world.location.name || '',
-        confirmed: patch.status === 'ok' ? true : patch.status === 'stopped' ? false : null,
-      });
-    }
+    const automationEvent = automationEventFromTrace(patch, state.world.location, automationState.confirmation);
+    if (automationEvent) updateAutomation(automationEvent);
   };
 
   const summarizeEvents = (events: Array<{ content: string }>) => ({
@@ -1800,6 +1788,11 @@ async function main() {
 
   const runFastExploreStep = () => {
     if (!fastExplore.enabled) return;
+    const automationStop = automationInterruption(automationState);
+    if (automationStop) {
+      stopFastExplore(automationStop);
+      return;
+    }
     if (fastExplore.busy) {
       scheduleFastExplore(config.agent.fastExploreIntervalMs);
       return;
@@ -1888,6 +1881,12 @@ async function main() {
           automationState = result.state;
           publishAutomation();
           ws.send(JSON.stringify({ type: 'automation_control_result', ok: true, action: result.action, sequence: automationState.control.lastSequence }));
+          return;
+        }
+
+        const legacyControl = validateLegacyControlEvent(m, { isTrustedSource: trustedControlSource });
+        if (!legacyControl.ok) {
+          ws.send(JSON.stringify({ type: 'control_result', ok: false, requestType: m.type, error: legacyControl.error }));
           return;
         }
 
@@ -2097,6 +2096,9 @@ async function main() {
       const cmd = String(params?.cmd || '').trim();
       if (!cmd) return { content: [{ type: 'text', text: 'Error: empty command.' }], details: {} };
       if (!state.connected) return { content: [{ type: 'text', text: 'Error: not connected.' }], details: {} };
+
+      const automationStop = automationInterruption(automationState);
+      if (automationStop) return { content: [{ type: 'text', text: `Paused: ${automationStop}.` }], details: { stopReason: automationStop } };
 
       if (fastExplore.enabled && !isInfoCommand(cmd)) {
         return { content: [{ type: 'text', text: 'Paused: fast_explore is active.' }], details: {} };
@@ -2350,6 +2352,11 @@ async function main() {
       });
 
       for (const [index, cmd] of commands.entries()) {
+        const automationStop = automationInterruption(automationState);
+        if (automationStop) {
+          stopReason = automationStop;
+          break;
+        }
         if (Date.now() < collab.manualUntil) {
           stopReason = 'manual_control_active';
           emitTrace({
@@ -2552,6 +2559,11 @@ async function main() {
       });
 
       for (const [index, rawStep] of route.commands.slice(0, maxSteps).entries()) {
+        const automationStop = automationInterruption(automationState);
+        if (automationStop) {
+          stopReason = automationStop;
+          break;
+        }
         if (Date.now() < collab.manualUntil) {
           stopReason = 'manual_control_active';
           const actualRoom = state.world.location.name || '';
@@ -2686,7 +2698,7 @@ async function main() {
           phase: 'progress',
           kind: 'route',
           name,
-          outputSummary: { step: index + 1, cmd, expectedStage: expected.label || null, actualRoom, deviation: deviation || null, deviationKind: deviationKind || null, recoveryHint: recoveryHint || null, stopReason: routeStopReason || null, ...summarizeEvents(events) },
+          outputSummary: { step: index + 1, totalSteps: route.commands.length, cmd, expectedRoomIdNext, expectedStage: expected.label || null, actualRoomId, actualRoom, deviation: deviation || null, deviationKind: deviationKind || null, recoveryHint: recoveryHint || null, stopReason: routeStopReason || null, ...summarizeEvents(events) },
           status: routeStopReason && routeStopReason !== 'combat_or_damage' ? 'stopped' : 'ok',
         });
 
@@ -2814,6 +2826,11 @@ async function main() {
       });
 
       for (const direction of directions.slice(0, maxSteps)) {
+        const automationStop = automationInterruption(automationState);
+        if (automationStop) {
+          stopReason = automationStop;
+          break;
+        }
         if (Date.now() < collab.manualUntil) {
           stopReason = 'manual_control_active';
           emitTrace({
@@ -3337,6 +3354,10 @@ async function main() {
         });
       }
       try {
+        const automationStop = automationInterruption(automationState);
+        if (automationStop) {
+          return { content: [{ type: 'text', text: `Paused: ${automationStop}.` }], details: { stopReason: automationStop } };
+        }
         const result = await tool.execute(toolCallId, params);
         if (!skipWrapperTrace) {
           emitTrace({
@@ -3439,6 +3460,7 @@ async function main() {
     candidates: decisionCandidates,
     minimumConfidence: config.decision.minimumConfidence,
     executionPolicy: ({ candidate }: any) => {
+      if (automationInterruption(automationState)) return false;
       if (candidate.id === 'skill.shaolin_progress') return true;
       const routeName = candidate.id.startsWith('route.') ? candidate.id.slice('route.'.length) : '';
       const route = KNOWN_ROUTES[routeName];
@@ -3556,6 +3578,7 @@ async function main() {
       broadcast({ type: 'log', data: `[COMPACT] turn ${state.turn}: rebuilding session...` });
 
       // 1. 生成记忆摘要
+      updateAutomation({ type: 'model_call', trigger: 'compact_memory' });
       state.memorySummary = await compactMemory(session, config);
 
       // 2. 压缩 world.events.recent
@@ -3594,6 +3617,7 @@ async function main() {
       console.log('[COMPACT] New session started with memory summary.');
 
       try {
+        updateAutomation({ type: 'model_call', trigger: 'compact_resume' });
         await session.prompt(resumePrompt);
       } catch (e: any) {
         console.error('[COMPACT] resume prompt error:', e?.message || e);
@@ -3662,6 +3686,7 @@ async function main() {
     });
 
     try {
+      updateAutomation({ type: 'model_call', trigger: 'agent_action_series' });
       await session.prompt(prompt);
       emitTrace({
         phase: 'end',

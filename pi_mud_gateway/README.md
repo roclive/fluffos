@@ -1,5 +1,34 @@
 # Pi MUD Gateway：离线回放与高层本地决策
 
+## MUD-5 review fixes
+
+Automation status updates no longer replace an in-flight `pause` or `cancel`. The
+high-level decision policy rechecks that status after the provider returns and before
+candidate execution. Legacy Pi tool chains, command sequences, fixed routes,
+`follow_path`, and fast exploration also check the control state before every next MUD
+write, so cancellation stops the remaining commands at the next command boundary.
+
+All inbound WebSocket controls now share the loopback/origin trust decision. The legacy
+`cmd`, `fast_explore`, `loop_control`, `water_state`, and `prompt` messages additionally
+use exact per-type schemas; the existing web client's optional bounded
+`fast_explore.intervalMs` field remains accepted. Invalid or untrusted messages are
+rejected before they can change game or automation state.
+
+Default Pi mode now publishes model-call events for compact-memory, compact-resume, and
+normal action-series requests. Route visualization maps the production
+`totalSteps/completedSteps/requestedSteps`, `expectedStage/expectedRoomIdNext`, and room
+ID fields. End traces preserve the last command and expected-room confirmation instead
+of resetting the display to `0/0`.
+
+Review regressions use fake providers/runners and source-bundle checks only. No live MUD,
+real account, provider, coding tool, or cloud quota was used; real smoke remains not run
+and free quota remains `unknown`. `pi/` resolves to the same top-level repository, so no
+independent-repository patch was required. Changed artifacts remain under
+`/Users/zhangdapeng/Desktop/ai-agent-manager/.aam/worktrees/MUD/MUD-5/pi_mud_gateway`.
+Verification: `node --test pi_mud_gateway/tests/*.test.mjs` and
+`npm --prefix pi_mud_gateway test` both passed 58/58 with no skips; `git diff --check`
+also passed. No dependency installation, service start, commit, or push was performed.
+
 ## MUD-5：Pi / Web 自动化可视化
 
 新增 `lib/automation_visualizer.mjs` 作为 Pi 与 Web 客户端之间的适配层，生产入口会

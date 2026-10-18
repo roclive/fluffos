@@ -2,6 +2,21 @@ import { randomUUID } from 'node:crypto';
 
 const CONTROL_ACTIONS = new Set(['pause', 'resume', 'cancel']);
 const CONTROL_KEYS = new Set(['type', 'version', 'sessionId', 'source', 'sequence', 'action']);
+const LEGACY_CONTROL_SCHEMAS = {
+  cmd: { keys: ['type', 'cmd'], check: (input) => safeString(input.cmd, 500) && input.cmd.trim().length > 0 },
+  fast_explore: {
+    keys: ['type', 'enabled', 'intervalMs'],
+    check: (input) => typeof input.enabled === 'boolean'
+      && (input.intervalMs === undefined || (Number.isSafeInteger(input.intervalMs) && input.intervalMs >= 50 && input.intervalMs <= 60_000)),
+  },
+  loop_control: { keys: ['type', 'action'], check: (input) => input.action === 'start' || input.action === 'stop' },
+  water_state: {
+    keys: ['type', 'state', 'stage', 'action', 'reason'],
+    check: (input) => safeString(input.state, 80) && input.state.trim().length > 0
+      && optionalString(input.stage, 80) && optionalString(input.action, 120) && optionalString(input.reason, 300),
+  },
+  prompt: { keys: ['type', 'prompt', 'oneShot'], check: (input) => safeString(input.prompt, 1000) && (input.oneShot === undefined || typeof input.oneShot === 'boolean') },
+};
 const SAFE_TEXT = /^[\w./:* -]{0,160}$/u;
 
 export function createAutomationState({ sessionId = randomUUID(), now = Date.now } = {}) {
@@ -29,7 +44,7 @@ export function applyAutomationEvent(state, event, { now = Date.now } = {}) {
   if (event.type === 'model_call') {
     next.modelCalls += 1;
     next.decision.trigger = cleanText(event.trigger);
-    next.status = 'running';
+    setRunningUnlessControlled(next);
   } else if (event.type === 'decision') {
     if (event.countCall !== false) next.modelCalls += 1;
     next.currentSkill = cleanOptional(event.skill);
@@ -39,7 +54,7 @@ export function applyAutomationEvent(state, event, { now = Date.now } = {}) {
       confidence: Number.isFinite(event.confidence) ? Math.max(0, Math.min(1, event.confidence)) : null,
       trigger: cleanText(event.trigger),
     };
-    next.status = 'running';
+    setRunningUnlessControlled(next);
   } else if (event.type === 'step') {
     next.currentSkill = cleanOptional(event.skill) ?? next.currentSkill;
     next.currentRoute = cleanOptional(event.route) ?? next.currentRoute;
@@ -51,17 +66,58 @@ export function applyAutomationEvent(state, event, { now = Date.now } = {}) {
       actualRoom: cleanText(event.actualRoom),
       confirmed: typeof event.confirmed === 'boolean' ? event.confirmed : null,
     };
-    next.status = 'running';
+    setRunningUnlessControlled(next);
   } else if (event.type === 'complete') {
-    next.status = 'completed';
+    if (!automationInterruption(next)) next.status = 'completed';
   } else if (event.type === 'error') {
-    next.status = 'error';
+    if (!automationInterruption(next)) next.status = 'error';
     next.decision.reason = cleanText(event.reason);
   } else {
     throw new Error(`unsupported automation event: ${String(event.type)}`);
   }
   next.updatedAt = now();
   return next;
+}
+
+export function automationInterruption(state) {
+  return state?.status === 'paused' ? 'automation_paused'
+    : state?.status === 'cancelled' ? 'automation_cancelled'
+      : '';
+}
+
+export function automationEventFromTrace(patch, location = {}, previous = {}) {
+  if (!patch || (patch.kind !== 'route' && patch.kind !== 'skill') || patch.phase === 'error') return null;
+  const input = patch.input || {};
+  const output = patch.outputSummary || {};
+  const data = { ...input, ...output };
+  const ending = patch.phase === 'end';
+  const step = firstInteger(
+    data.step,
+    ending ? data.completedSteps : undefined,
+    ending ? data.completedCommands : undefined,
+    previous.step,
+  );
+  const total = firstInteger(
+    data.total,
+    data.totalSteps,
+    data.requestedSteps,
+    data.requestedCommands,
+    data.maxSteps,
+    previous.total,
+  );
+  const expectedRoom = data.expectedRoomIdNext || data.expectedRoom || data.expectedStage || previous.expectedRoom || '';
+  const actualRoom = data.actualRoomId || data.actualRoom || location.room_id || location.name || previous.actualRoom || '';
+  return {
+    type: 'step',
+    skill: patch.kind === 'skill' ? patch.name : undefined,
+    route: patch.kind === 'route' ? patch.name : undefined,
+    step,
+    total,
+    command: data.cmd || data.command || data.direction || previous.command || '',
+    expectedRoom,
+    actualRoom,
+    confirmed: patch.status === 'ok' ? true : ['stopped', 'blocked'].includes(patch.status) ? false : previous.confirmed ?? null,
+  };
 }
 
 export function validateControlEvent(input, context) {
@@ -74,6 +130,16 @@ export function validateControlEvent(input, context) {
   if (!context.isTrustedSource) return reject('untrusted_source');
   if (!Number.isSafeInteger(input.sequence) || input.sequence <= context.lastSequence) return reject('stale_sequence');
   return { ok: true, value: { action: input.action, sequence: input.sequence, source: input.source } };
+}
+
+export function validateLegacyControlEvent(input, { isTrustedSource = false } = {}) {
+  if (!isTrustedSource) return reject('untrusted_source');
+  if (!input || typeof input !== 'object' || Array.isArray(input)) return reject('invalid_schema');
+  const schema = LEGACY_CONTROL_SCHEMAS[input.type];
+  if (!schema) return reject('unsupported_type');
+  const allowed = new Set(schema.keys);
+  if (Object.keys(input).some((key) => !allowed.has(key))) return reject('unknown_field');
+  return schema.check(input) ? { ok: true, value: input } : reject('invalid_schema');
 }
 
 export function applyControlEvent(state, input, context = {}) {
@@ -106,6 +172,14 @@ export function isTrustedWebSocketRequest(request) {
 }
 
 function reject(error) { return { ok: false, error }; }
+function setRunningUnlessControlled(state) {
+  if (state.status !== 'paused' && state.status !== 'cancelled') state.status = 'running';
+}
+function safeString(value, maxLength) { return typeof value === 'string' && value.length <= maxLength; }
+function optionalString(value, maxLength) { return value === undefined || safeString(value, maxLength); }
+function firstInteger(...values) {
+  return values.find((value) => Number.isSafeInteger(value) && value >= 0) ?? 0;
+}
 function boundedInteger(value, min, max) {
   return Number.isSafeInteger(value) ? Math.max(min, Math.min(max, value)) : 0;
 }

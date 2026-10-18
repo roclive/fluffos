@@ -16,6 +16,23 @@ test('production gateway bundles all local code without starting sockets or a mo
   assert.ok(r.outputFiles[0].text.length>1000);
 });
 
+test('production gateway guards legacy controls, every multi-step sender and Pi tool chains', async () => {
+  const source = await readFile(new URL('../mud_gateway.ts', import.meta.url), 'utf8');
+  assert.match(source, /validateLegacyControlEvent\(m, \{ isTrustedSource: trustedControlSource \}\)/);
+  assert.match(source, /const runFastExploreStep = \(\) => \{[\s\S]*?automationInterruption\(automationState\)/);
+  assert.match(source, /for \(const \[index, cmd\] of commands\.entries\(\)\) \{\s*const automationStop = automationInterruption\(automationState\)/);
+  assert.match(source, /for \(const \[index, rawStep\][\s\S]*?\{\s*const automationStop = automationInterruption\(automationState\)/);
+  assert.match(source, /for \(const direction of directions\.slice\(0, maxSteps\)\) \{\s*const automationStop = automationInterruption\(automationState\)/);
+  assert.match(source, /execute: async \(toolCallId, params\) => \{[\s\S]*?const automationStop = automationInterruption\(automationState\)/);
+});
+
+test('legacy Pi mode publishes each real model request to the visualizer', async () => {
+  const source = await readFile(new URL('../mud_gateway.ts', import.meta.url), 'utf8');
+  assert.match(source, /updateAutomation\(\{ type: 'model_call', trigger: 'compact_memory' \}\);\s*state\.memorySummary = await compactMemory/);
+  assert.match(source, /updateAutomation\(\{ type: 'model_call', trigger: 'compact_resume' \}\);\s*await session\.prompt\(resumePrompt\)/);
+  assert.match(source, /updateAutomation\(\{ type: 'model_call', trigger: 'agent_action_series' \}\);\s*await session\.prompt\(prompt\)/);
+});
+
 test('production config loader preserves configured decision endpoint and model', async (t) => {
   const directory = await mkdtemp(path.join(tmpdir(), 'mud-gateway-config-'));
   t.after(async () => (await import('node:fs/promises')).rm(directory, {recursive: true, force: true}));
