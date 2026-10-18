@@ -78,3 +78,20 @@ export function findShortestPath(startTerm, goalTerm, rooms) {
 
   return { error: `No path found between ${start} and ${goal}` };
 }
+
+
+// Resolve only known fixed routes or graph edges, never arbitrary model commands.
+export function resolveGatewayRoute(name, currentRoom, rooms, knownRoutes) {
+  if (Object.hasOwn(knownRoutes, name)) return knownRoutes[name];
+  if (!rooms || !currentRoom || !rooms.has(name)) return undefined;
+  const result = findShortestPath(currentRoom, name, rooms);
+  if (result.error) return undefined;
+  return {from: result.from, to: result.to, notes: 'Map BFS', commands: result.path.map(step => step.dir), expectedRoomIds: result.path.map(step => step.roomId)};
+}
+
+
+export function routeLocationError(expected, actual) {
+  if (!actual) return 'unknown_room';
+  if (expected && expected !== actual) return 'room_mismatch';
+  return '';
+}

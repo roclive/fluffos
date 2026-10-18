@@ -10,8 +10,7 @@ route/skill；固定 route 内的每一步继续由本地确定性执行器完�
 
 配置位于 `gateway.config.json` 的 `decision`。支持 Ollama 官方 `/api/chat` JSON
 模式，或 GW 的 OpenAI-compatible `/v1/chat/completions` JSON object 模式。默认
-`enabled: false` 且 `model` 留空，必须按本机已安装模型显式填写后才可启动；不会
-猜测模型名，也不会自动转用云端或付费服务。若 GW 需要令牌，只填写环境变量名
+`enabled: false` 且 `model` 留空：此时保留旧 gateway 模式，不创建高层 provider。启用新控制器时必须显式配置已有模型；高层 provider 不猜测模型名或自动转付费服务。旧模式沿用原 session 配置。若 GW 需要令牌，只填写环境变量名
 `apiKeyEnv`，不要把密钥写入配置。免费剩余额度：`unknown`。
 
 离线测试使用 fake provider/fetch，没有连接 Ollama、GW、MUD 或真实账号，也没有
@@ -25,11 +24,7 @@ node --test pi_mud_gateway/tests/*.test.mjs
 git diff --check
 ```
 
-结果：29 tests / 29 pass，无 skip；`git diff --check` 通过。真实模型冒烟未运行。
-生产入口的纯转译检查仍被本轮开始前已存在的截断文本
-`汉水岸…36267 tokens truncated…` 阻断，位置在 `mud_gateway.ts` 的既有
-`expectedWaterStage` 区域；本轮未尝试臆造丢失的生产代码。新增独立模块与完整验收
-套件可正常解析运行。
+结果：34 tests / 34 pass，无 skip；`git diff --check` 通过。生产入口已从完整、可编译的 Git 祖先恢复，保留决策控制器和图寻路接入；新的构建回归检查入口及本地模块。真实模型和游戏账号冒烟未运行。详见文末 Manager recovery 记录。
 
 产物绝对路径根目录：
 `/Users/zhangdapeng/Desktop/ai-agent-manager/.aam/worktrees/MUD/MUD-4/pi_mud_gateway`。
@@ -44,7 +39,7 @@ git diff --check
 
 ## 验收与依赖
 
-在工作树根目录执行，只有 Node 内置模块，无需安装依赖、凭据或 MUD 服务：
+在工作树根目录执行；模块回放无需凭据或 MUD 服务。新增生产构建测试还需要相邻 `pi/node_modules` 中已安装的 esbuild：
 
 ```sh
 node --test pi_mud_gateway/tests/*.test.mjs
@@ -108,3 +103,12 @@ rm pi_mud_gateway/tests/.gateway-syntax-check.mjs
 `/Users/zhangdapeng/Desktop/ai-agent-manager/.aam/worktrees/MUD/MUD-1`
 
 产物相对于该绝对根路径：`pi_mud_gateway/lib/core.mjs`、`pi_mud_gateway/lib/transport.mjs`、`pi_mud_gateway/tests/replay.test.mjs`、`pi_mud_gateway/tests/helpers/replay.mjs`、`pi_mud_gateway/tests/fixtures/transcripts.json`、本 README；集成修改在 `pi_mud_gateway/mud_gateway.ts` 和 `package.json`。开始时 `git status --short` 为空。未 add、commit、push 或推广到 base。
+
+
+### Manager production recovery (MUD-4)
+
+The production entry had inherited a literal truncation marker and lost over 3,000 lines from MUD-3. Restored the complete compilable ancestor's parser, WebSocket control, transport, tools, progress state machine, persistence and legacy session mode, retaining the high-level controller and graph pathfinder. A disabled decision provider keeps the existing gateway mode; enabling it requires the operator's explicit configured endpoint/model. No model was loaded or live game service started during verification.
+
+High-level decisions consume one-shot input before calling the provider. WAIT and rejected decisions require a new operator revision, so persistent steering cannot cause a request loop; input arriving during a request is retained. Stopped/error/deviation and paused nested tool results stay WAIT and resume at recovery_uncertain, never skill_complete. Named fixed routes and graph destination room IDs share the execution path; unknown/mismatched current rooms stop movement before a command is sent.
+
+`node --test pi_mud_gateway/tests/*.test.mjs` now includes production esbuild bundling (local imports checked, external packages excluded), graph route resolution and room guards, failed tool results and operator revision regressions. This compile check uses the installed sibling `pi/node_modules/esbuild`; it never imports/runs the gateway or invokes an AI CLI. It does not establish full TypeScript type safety, external-package availability, real game behavior or live model compatibility. Existing offline module tests remain intact.

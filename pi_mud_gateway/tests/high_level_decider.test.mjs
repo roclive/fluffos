@@ -149,3 +149,20 @@ test('gateway provider uses OpenAI-compatible JSON response with fake fetch', as
   assert.deepEqual(request.body.response_format, { type: 'json_object' });
   assert.equal(result.params.times, 2);
 });
+
+test('stopped and nested recovery tool results never count as completed', async () => {
+  for (const output of [{details:{stopReason:'room_mismatch'}}, {details:{toolResult:{msg:'stopped: blocked_exit'}}}, {isError:true}, {details:{progressLoop:{lastAction:'pause'}}}]) {
+    const c = new HighLevelDecisionController({provider:{completeJson:async()=>({id:'route.x',params:{},reason:'safe',confidence:1})}, candidates:[{id:'route.x',execute:async()=>output}]});
+    assert.equal((await c.run('task_start',{})).status, 'WAIT');
+  }
+});
+
+test('one-shot intent is consumed and stale persistent steering cannot wake a paused decision', async () => {
+  const {takeOperatorIntent,waitForFreshIntent} = await import('../lib/high_level_decider.mjs');
+  const collab={oneShotPrompt:'once',oneShotPromptId:1,steeringPrompt:'persistent',steeringPromptId:1};
+  const intent=takeOperatorIntent(collab);
+  assert.equal(intent.text,'persistent\nonce');assert.equal(collab.oneShotPrompt,'');
+  let waits=0;
+  await waitForFreshIntent(collab,intent.revision,async()=>{ waits++; if(waits===2){collab.oneShotPrompt='new';collab.oneShotPromptId++;} });
+  assert.equal(waits,2);assert.equal(collab.oneShotPrompt,'new');
+});

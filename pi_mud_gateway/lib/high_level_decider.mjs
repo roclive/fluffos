@@ -114,7 +114,7 @@ export class HighLevelDecisionController {
     const result = await this.decide(trigger, state);
     if (result.status !== 'READY') return result;
     const output = await result.candidate.execute(result.decision.params);
-    return { ...result, status: 'COMPLETED', output };
+    return { ...result, status: executionUncertain(output) ? 'WAIT' : 'COMPLETED', reason: executionUncertain(output) ? 'execution_uncertain' : undefined, output };
   }
 }
 
@@ -131,3 +131,24 @@ export function parseJsonObject(text) {
   }
 }
 
+function executionUncertain(output) {
+  if (!output || typeof output !== 'object') return false;
+  const d = output.details || output;
+  if (output.isError || d.error || d.stopReason || d.deviationKind || d.deviation || d.progressLoop?.lastAction === 'pause') return true;
+  if (typeof d.msg === 'string' && /^(stopped|error|paused)/i.test(d.msg)) return true;
+  if (d.status && ['stopped', 'failed', 'error', 'WAIT'].includes(d.status)) return true;
+  if (output.content?.some(item => item.type === 'text' && /^(Error:|Paused:|stopped:)/i.test(item.text || ''))) return true;
+  return d.toolResult ? executionUncertain(d.toolResult) : false;
+}
+
+const operatorRevision = (collab) => JSON.stringify([collab.oneShotPromptId || 0, collab.steeringPromptId || 0]);
+export function takeOperatorIntent(collab) {
+  const text = [collab.steeringPrompt, collab.oneShotPrompt].filter(Boolean).join('\n').slice(0, 1000);
+  const revision = operatorRevision(collab);
+  collab.oneShotPrompt = '';
+  return {text, revision};
+}
+
+export async function waitForFreshIntent(collab, revision, wait) {
+  while (operatorRevision(collab) === revision) await wait(1000);
+}
