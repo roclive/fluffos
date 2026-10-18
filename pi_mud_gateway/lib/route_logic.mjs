@@ -14,24 +14,24 @@ export function routeDeviation(
 ) {
   if (expectedRoomId && actualRoomId) {
     if (expectedRoomId === actualRoomId) return '';
-    const expectedRoom = describeRoom ? describeRoom(expectedRoomId, expected.label) : `Expected ${expectedRoomId}`;
-    const actual = describeRoom ? describeRoom(actualRoomId, actualRoom) : `Actual ${actualRoomId}`;
-    return `route偏离: 期望房间 ${expectedRoom}，实际 ${actual}`;
+    const expectedRoom = describeRoom ? describeRoom(expectedRoomId, expected.label) : \`Expected \${expectedRoomId}\`;
+    const actual = describeRoom ? describeRoom(actualRoomId, actualRoom) : \`Actual \${actualRoomId}\`;
+    return \`route偏离: 期望房间 \${expectedRoom}，实际 \${actual}\`;
   }
 
   if (expectedRoomId && !actualRoomId && actualRoom) {
     const expectedShort = kbRoomShort ? kbRoomShort(expectedRoomId) : '';
     if (expectedShort && expectedShort === actualRoom) return '';
     if (expectedShort) {
-      const expectedRoom = describeRoom ? describeRoom(expectedRoomId, expected.label) : `Expected ${expectedRoomId}`;
-      return `route偏离: 期望房间 ${expectedRoom}，实际 ${actualRoom}`;
+      const expectedRoom = describeRoom ? describeRoom(expectedRoomId, expected.label) : \`Expected \${expectedRoomId}\`;
+      return \`route偏离: 期望房间 \${expectedRoom}，实际 \${actualRoom}\`;
     }
   }
 
   if (!expected.keywords.length || !actualRoom) return '';
   return expected.keywords.some((k) => actualRoom.includes(k))
     ? ''
-    : `route偏离: 期望 ${expected.label} (${expected.keywords.join('/')})，实际 ${actualRoom}`;
+    : \`route偏离: 期望 \${expected.label} (\${expected.keywords.join('/')})，实际 \${actualRoom}\`;
 }
 
 /**
@@ -82,19 +82,19 @@ export function routeRecoveryHint(
   if (deviationKind === 'busy_or_blocked') return '角色 busy 或被阻挡；下一轮先 wait_event/get_world_summary，必要时只用2-3条 execute_command_sequence 纠错。';
   if (deviationKind === 'gate_blocked') {
     if (place.includes('山门殿') || cmd.trim().toLowerCase() === 'south') {
-      return `当前在${place}，出寺应短序列执行 ["open gate", "south", "look"]。`;
+      return \`当前在\${place}，出寺应短序列执行 ["open gate", "south", "look"]。\`;
     }
     if (place.includes('广场') || cmd.trim().toLowerCase() === 'north') {
-      return `当前在${place}，回寺应短序列执行 ["knock gate", "north", "look"]。`;
+      return \`当前在\${place}，回寺应短序列执行 ["knock gate", "north", "look"]。\`;
     }
-    return `疑似山门 gate 阻塞，当前房间=${place} exits=${exits || '--'}；先 look，再按内侧 open gate/south 或外侧 knock gate/north 恢复。`;
+    return \`疑似山门 gate 阻塞，当前房间=\${place} exits=\${exits || '--'}；先 look，再按内侧 open gate/south 或外侧 knock gate/north 恢复。\`;
   }
   if (deviationKind === 'room_mismatch') {
-    return `房间不匹配；请确认当前在 ${place} 是否正确，可用 look 查看详情。若确实偏航，请尝试用 execute_command_sequence 回到预期房间或重新开始 route。`;
+    return \`房间不匹配；请确认当前在 \${place} 是否正确，可用 look 查看详情。若确实偏航，请尝试用 execute_command_sequence 回到预期房间或重新开始 route。\`;
   }
-  return `检测到偏航 (${deviationKind})；请观察环境并手动纠正。`;
+  return \`检测到偏航 (\${deviationKind})；请观察环境并手动纠正。\`;
 }
 
 export function shouldStopRouteForDeviation(deviationKind: string) {
-  return Boolean(deviationKind && deviationKind !== 'room_mismatch');
+  return Boolean(deviationKind);
 }
