@@ -121,6 +121,34 @@ Verification commands: `node --test pi_mud_gateway/tests/*.test.mjs` (36/36 pass
 
 Review-fix artifacts are under `/Users/zhangdapeng/Desktop/ai-agent-manager/.aam/worktrees/MUD/MUD-4/pi_mud_gateway`: `lib/gateway_config.mjs`, `mud_gateway.ts`, `tests/production_build.test.mjs`, and this README.
 
+### MUD-4 injection and final-room review fixes
+
+High-level prompts now receive a strict structured-state projection. Free-form MUD
+room names, event text and raw output are excluded; only bounded numeric/boolean
+player state, a validated `/d/...` room ID, bounded internal progress fields and
+trusted operator control-plane input are retained. After schema/allowlist validation,
+an independent execution policy must also authorize the selected candidate. Production
+route candidates are denied unless the current parsed room ID exactly matches the
+route's reviewed starting room. A fake provider regression attempts to react to injected
+MUD text and verifies that no candidate executes; a separate regression verifies that a
+high-confidence allowlisted choice is still stopped by policy.
+
+Fixed-route room precomputation now stores N+1 rooms for N commands: every step's
+starting room plus the final destination. The existing post-step guard can therefore
+detect a wrong landing after the final movement and return an uncertain/stopped result
+instead of reporting `skill_complete`. The regression asserts both the final entry and
+its `room_mismatch` outcome.
+
+Verification commands: `node --test pi_mud_gateway/tests/*.test.mjs` (40/40 pass),
+`npm --prefix pi_mud_gateway test` (40/40 pass), and `git diff --check` (pass). Tests
+used fake providers and in-memory room graphs only. No live Ollama/GW/MUD smoke test
+was run, no running service was changed, and free quota remains `unknown`.
+
+Changed artifacts are under the absolute root
+`/Users/zhangdapeng/Desktop/ai-agent-manager/.aam/worktrees/MUD/MUD-4/pi_mud_gateway`:
+`lib/high_level_decider.mjs`, `lib/pathfinder.mjs`, `mud_gateway.ts`,
+`tests/high_level_decider.test.mjs`, `tests/production_build.test.mjs`, and this README.
+
 The progress-loop pause guard now recognizes the production tool result shape,
 `details.lastAction === "pause"`, as well as the nested recovery shape. The regression
 test uses the production shape and verifies the boundary returns `WAIT` with

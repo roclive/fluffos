@@ -21,7 +21,7 @@ import { HighLevelDecisionController, takeOperatorIntent, waitForFreshIntent } f
 import { createLocalModelProvider } from './lib/local_model_provider.mjs';
 import { loadGatewayConfig } from './lib/gateway_config.mjs';
 import { shouldStopRouteForDeviation } from './lib/route_logic.mjs';
-import { resolveGatewayRoute, routeLocationError } from './lib/pathfinder.mjs';
+import { precomputeFixedRouteRoomIds, resolveGatewayRoute, routeLocationError } from './lib/pathfinder.mjs';
 import { sendMudCommand, collectMudEvents } from './lib/transport.mjs';
 import net from 'node:net';
 import fs from 'node:fs/promises';
@@ -503,26 +503,12 @@ function resolveRoomIdByShortExits(short: string | undefined, exits: string[] | 
   return matches.length === 1 ? matches[0] : undefined;
 }
 
-// Walk a route's command list through KB.byId; returns the expected room_id at the
-// START of each step (i.e. expected[i] is where the agent should be BEFORE issuing
-// commands[i]). null entries = unknown (off-map / non-direction / random exit).
+// Walk a route through KB.byId. Entries 0..N-1 are step starting rooms and entry
+// N is the final destination, so the last movement is checked too. null = unknown.
 function precomputeRouteExpectedRoomIds(routeName: string, route: KnownRoute): (string | null)[] {
   const cmds: RouteStep[] = route.commands || (route.directions || []);
-  if (!KB) return cmds.map(() => null);
-  const startId = extractRoomIdFromLabel(route.from);
-  const seq: (string | null)[] = [];
-  let cur: string | null = startId && KB.byId.has(startId) ? startId : null;
-  for (const step of cmds) {
-    seq.push(cur);
-    const cmd = routeStepCommand(step).trim().toLowerCase();
-    if (!cur) continue;
-    const dir = DIRECTION_ALIASES[cmd];
-    if (!dir) continue; // non-direction (knock gate, give, look, etc.) — stay in same room
-    const r = KB.byId.get(cur);
-    const next = r?.exits?.[dir];
-    cur = next && KB.byId.has(next) ? next : null;
-  }
-  return seq;
+  if (!KB) return [...cmds.map(() => null), null];
+  return precomputeFixedRouteRoomIds(route, KB.byId, DIRECTION_ALIASES);
 }
 
 const ROUTE_EXPECTED_ROOM_IDS: Map<string, (string | null)[]> = (() => {
@@ -3411,6 +3397,13 @@ async function main() {
     provider: decisionProvider,
     candidates: decisionCandidates,
     minimumConfidence: config.decision.minimumConfidence,
+    executionPolicy: ({ candidate }: any) => {
+      if (candidate.id === 'skill.shaolin_progress') return true;
+      const routeName = candidate.id.startsWith('route.') ? candidate.id.slice('route.'.length) : '';
+      const route = KNOWN_ROUTES[routeName];
+      const expectedStart = extractRoomIdFromLabel(route?.from);
+      return Boolean(route && expectedStart && state.world.location.room_id === expectedStart);
+    },
   });
   let decisionTrigger: 'task_start' | 'skill_complete' | 'recovery_uncertain' = 'task_start';
 

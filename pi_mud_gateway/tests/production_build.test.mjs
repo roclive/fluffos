@@ -5,7 +5,7 @@ import {fileURLToPath} from 'node:url';
 import {mkdtemp, writeFile} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
 import path from 'node:path';
-import {resolveGatewayRoute, routeLocationError} from '../lib/pathfinder.mjs';
+import {precomputeFixedRouteRoomIds, resolveGatewayRoute, routeLocationError} from '../lib/pathfinder.mjs';
 import {loadGatewayConfig} from '../lib/gateway_config.mjs';
 
 test('production gateway bundles all local code without starting sockets or a model', async()=>{
@@ -57,4 +57,12 @@ test('production route guard refuses an unknown or mismatched room before moveme
  assert.equal(routeLocationError('/a',''),'unknown_room');
  assert.equal(routeLocationError('/a','/b'),'room_mismatch');
  assert.equal(routeLocationError('/a','/a'),'');
+});
+
+test('fixed route room precomputation includes and verifies the final destination',()=>{
+ const rooms=new Map([['/d/test/a',{exits:{north:'/d/test/b'}}],['/d/test/b',{exits:{east:'/d/test/c'}}],['/d/test/c',{exits:{}}]]);
+ const route={from:'Start /d/test/a',to:'End /d/test/c',commands:['north','east']};
+ const expected=precomputeFixedRouteRoomIds(route,rooms,{north:'north',east:'east'});
+ assert.deepEqual(expected,['/d/test/a','/d/test/b','/d/test/c']);
+ assert.equal(routeLocationError(expected[route.commands.length],'/d/test/wrong'),'room_mismatch');
 });

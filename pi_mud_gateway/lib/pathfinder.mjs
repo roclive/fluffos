@@ -95,3 +95,23 @@ export function routeLocationError(expected, actual) {
   if (expected && expected !== actual) return 'room_mismatch';
   return '';
 }
+
+// Includes both every step's starting room and the final destination.  Thus a
+// route with N commands has N+1 entries and its last movement is verifiable.
+export function precomputeFixedRouteRoomIds(route, rooms, directionAliases = {}) {
+  const commands = route.commands || route.directions || [];
+  const start = typeof route.from === 'string' ? route.from.match(/(\/d\/[a-z0-9_/\-]+)/i)?.[1] : undefined;
+  let current = start && rooms?.has(start) ? start : null;
+  const sequence = [];
+  for (const step of commands) {
+    sequence.push(current);
+    const command = String(typeof step === 'string' ? step : step?.cmd || '').trim().toLowerCase();
+    if (!current) continue;
+    const direction = directionAliases[command];
+    if (!direction) continue;
+    const next = rooms.get(current)?.exits?.[direction];
+    current = next && rooms.has(next) ? next : null;
+  }
+  sequence.push(current);
+  return sequence;
+}
