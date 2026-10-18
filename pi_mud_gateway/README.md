@@ -1,4 +1,44 @@
-# Pi MUD Gateway：拆分与离线回放基线（MUD-1）
+# Pi MUD Gateway：离线回放与高层本地决策
+
+## MUD-4：本地模型决策边界
+
+新增 `lib/high_level_decider.mjs` 与 `lib/local_model_provider.mjs`。本地模型只在
+`task_start`、`skill_complete`、`recovery_uncertain` 三种边界选择一个白名单
+route/skill；固定 route 内的每一步继续由本地确定性执行器完成，不请求模型。
+输出必须是且只能是 `id`、`params`、`reason`、`confidence` 四个 JSON 字段。
+未知 id/参数、参数越界、非法 JSON 会拒绝且不执行；低于配置阈值时进入等待。
+
+配置位于 `gateway.config.json` 的 `decision`。支持 Ollama 官方 `/api/chat` JSON
+模式，或 GW 的 OpenAI-compatible `/v1/chat/completions` JSON object 模式。默认
+`enabled: false` 且 `model` 留空，必须按本机已安装模型显式填写后才可启动；不会
+猜测模型名，也不会自动转用云端或付费服务。若 GW 需要令牌，只填写环境变量名
+`apiKeyEnv`，不要把密钥写入配置。免费剩余额度：`unknown`。
+
+离线测试使用 fake provider/fetch，没有连接 Ollama、GW、MUD 或真实账号，也没有
+消耗编码工具/云额度。覆盖边界调用次数、route 多步不调用模型、schema 与参数范围、
+未知动作、低置信度等待，以及恶意 MUD 文本不能加入候选或注入命令。
+
+本轮验收命令：
+
+```sh
+node --test pi_mud_gateway/tests/*.test.mjs
+git diff --check
+```
+
+结果：29 tests / 29 pass，无 skip；`git diff --check` 通过。真实模型冒烟未运行。
+生产入口的纯转译检查仍被本轮开始前已存在的截断文本
+`汉水岸…36267 tokens truncated…` 阻断，位置在 `mud_gateway.ts` 的既有
+`expectedWaterStage` 区域；本轮未尝试臆造丢失的生产代码。新增独立模块与完整验收
+套件可正常解析运行。
+
+产物绝对路径根目录：
+`/Users/zhangdapeng/Desktop/ai-agent-manager/.aam/worktrees/MUD/MUD-4/pi_mud_gateway`。
+关键产物为 `lib/high_level_decider.mjs`、`lib/local_model_provider.mjs`、
+`tests/high_level_decider.test.mjs`、`gateway.config.json` 与本 README。
+
+---
+
+## MUD-1 基线记录
 
 本目录生产入口是 `mud_gateway.ts`；`mud_gateway_verysilly.ts` 和 `gateway2_5 copy.ts` 是另存版本，启动脚本不使用它们，本轮未修改。仓库根 README 描述 FluffOS 的 CMake 构建，不是 Gateway 的 Node 测试流程。
 

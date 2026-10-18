@@ -19,17 +19,14 @@
 import { DIRECTION_ALIASES, KNOWN_ROUTES, normalizeDirection, isInfoCommand, summarizeEvents, routeStepCommand, routeStepNote, commandSequenceWaitMs, chooseProgressSkill, detectStopReason, shouldStopBeforeNextCommand, parseStatusLine, cleanMudText, splitCleanMudLines } from './lib/core.mjs';
 import { routeDeviation, classifyRouteDeviation, routeRecoveryHint, shouldStopRouteForDeviation } from './lib/route_logic.mjs';
 import { loadMap, findShortestPath } from './lib/pathfinder.mjs';
+import { HighLevelDecisionController } from './lib/high_level_decider.mjs';
+import { createLocalModelProvider } from './lib/local_model_provider.mjs';
 
 import { sendMudCommand, collectMudEvents } from './lib/transport.mjs';
 import net from 'node:net';
 import fs from 'node:fs/promises';
 import fsSync from 'node:fs';
 import path from 'node:path';
-import {
-  createAgentSession,
-  SessionManager,
-  DefaultResourceLoader,
-} from '@mariozechner/pi-coding-agent';
 import { WebSocketServer } from 'ws';
 
 // ---------------------------------------------------------------------------
@@ -217,10 +214,16 @@ type GatewayConfig = {
     manualHoldMs: number;
     waterAbandonHoldMs: number;
   };
+  decision: {
+    enabled: boolean;
+    provider: 'ollama' | 'gateway';
+    endpoint: string;
+    model: string;
+    apiKeyEnv?: string;
+    minimumConfidence: number;
+    timeoutMs: number;
+  };
 };
-
-/** pi-coding-agent session 对象（库未导出 type 时用 any） */
-type AgentSession = any;
 type NativeToolTraceHandler = (event: any) => void;
 
 type RouteStep = string | { cmd: string; waitMs?: number; note?: string };
@@ -309,6 +312,14 @@ const DEFAULT_CONFIG: GatewayConfig = {
     monitorPort: 8099,
     manualHoldMs: 1_500,
     waterAbandonHoldMs: 180_000,
+  },
+  decision: {
+    enabled: false,
+    provider: 'ollama',
+    endpoint: 'http://127.0.0.1:11434',
+    model: '',
+    minimumConfidence: 0.7,
+    timeoutMs: 15_000,
   },
 };
 
@@ -436,10 +447,10 @@ function loadKbIndex(): KbIndex | null {
         idx.byShort.set(r.short, arr);
       }
     }
-    console.log(\`[KB] loaded map.json: \${idx.byId.size} rooms, \${idx.byShort.size} distinct shorts\`);
+    console.log(`[KB] loaded map.json: ${idx.byId.size} rooms, ${idx.byShort.size} distinct shorts`);
     return idx;
   } catch (err) {
-    console.warn(\`[KB] map.json not loaded; room_id resolution disabled (\${(err as Error)?.message})\`);
+    console.warn(`[KB] map.json not loaded; room_id resolution disabled (${(err as Error)?.message})`);
     return null;
   }
 }
@@ -460,7 +471,7 @@ function kbRoomShort(roomId: string | null | undefined): string {
 function describeRoomForDeviation(roomId: string | null | undefined, fallbackShort: string): string {
   if (!roomId) return fallbackShort || '未知房间';
   const short = kbRoomShort(roomId) || fallbackShort;
-  return \`\${roomId}\${short ? ' ' + short : ''}\`;
+  return `${roomId}${short ? ' ' + short : ''}`;
 }
 
 // Resolve a room_id given a parsed short name and (optionally) parsed exits.
@@ -513,7 +524,7 @@ const ROUTE_EXPECTED_ROOM_IDS: Map<string, (string | null)[]> = (() => {
   if (KB) {
     const resolved = [...m.values()].reduce((acc, arr) => acc + arr.filter((x) => x).length, 0);
     const total = [...m.values()].reduce((acc, arr) => acc + arr.length, 0);
-    console.log(\`[KB] precomputed expected room_ids for \${m.size} routes: \${resolved}/\${total} steps resolved\`);
+    console.log(`[KB] precomputed expected room_ids for ${m.size} routes: ${resolved}/${total} steps resolved`);
   }
   return m;
 })();
@@ -580,7 +591,7 @@ function expectedWaterStage(routeName: string, stepNo: number, total: number, cm
       const outcome = progressLearnOutcome(events);
       if (outcome === 'skill_blocked' || outcome === 'not_apprentice_or_wrong_master') {
         updateProgressLoop({
-          blockedSkills: { ...state.progressLoop.blockedSkills, [skill]: \`\${master}:\${outcome}\` },
+          blockedSkills: { ...state.progressLoop.blockedSkills, [skill]: `${master}:${outcome}` },
           lastResult: outcome,
         });
       } else if (outcome === 'potential_low') {
@@ -617,7 +628,7 @@ function expectedWaterStage(routeName: string, stepNo: number, total: number, cm
     }
     if (toolName === 'execute_route_skill') {
       const name = String(params?.name || result?.details?.route?.name || 'route_skill');
-      return [{ type: 'skill', name, query: result?.details?.route ? \`\${result.details.route.from} -> \${result.details.route.to}\` : undefined }];
+      return [{ type: 'skill', name, query: result?.details?.route ? `${result.details.route.from} -> ${result.details.route.to}` : undefined }];
     }
     if (toolName === 'execute_progress_loop_step') {
       return [{ type: 'skill', name: 'shaolin progress loop', query: params?.action || 'step' }];
@@ -715,20 +726,95 @@ function expectedWaterStage(routeName: string, stepNo: number, total: number, cm
     state.pendingActions = old.scheduler.pending_actions || [];
     state.memorySummary = old.memory_summary || ''; // ← v2.5 恢复记忆摘要
     state.world.player.combat = false; // Always start from safe non-combat state
-    console.log(\`[Gateway] Checkpoint restored: phase=\${old.phase} turn=\${old.turn}\`);
+    console.log(`[Gateway] Checkpoint restored: phase=${old.phase} turn=${old.turn}`);
     if (state.memorySummary) {
-      console.log(\`[Gateway] Memory summary restored (\${state.memorySummary.length} chars).\`);
+      console.log(`[Gateway] Memory summary restored (${state.memorySummary.length} chars).`);
     }
   }
 
   // 清掉登录噪音
   console.log('[Gateway] Warming up...');
   await sleep(config.runtime.clearInitialNoiseMs);
-  console.log(\`[Gateway] Skipped \${state.eventQueue.length} initial events.\`);
+  console.log(`[Gateway] Skipped ${state.eventQueue.length} initial events.`);
   state.eventQueue.length = 0;
 
   // ---- 创建初始 session ---------------------------------------------------
 
+  if (!config.decision.enabled) {
+    throw new Error('High-level decision model is disabled; configure an explicit local model before starting');
+  }
+  const decisionProvider = createLocalModelProvider(config.decision);
+  const decisionCandidates = [
+    ...Object.entries(KNOWN_ROUTES).map(([name, route]) => ({
+      id: `route.${name}`,
+      description: `${route.from} -> ${route.to}`,
+      paramsSchema: { properties: {}, required: [] },
+      execute: () => executeRouteSkillTool.execute(`decision-route-${state.turn}`, { name }),
+    })),
+    {
+      id: 'skill.shaolin_progress',
+      description: 'Advance the bounded Shaolin learning/water state machine by one skill boundary',
+      paramsSchema: {
+        properties: { action: { type: 'string', enum: ['start', 'step'] } },
+        required: ['action'],
+      },
+      execute: (params: { action: string }) => executeProgressLoopStepTool.execute(`decision-skill-${state.turn}`, params),
+    },
+  ];
+  const decisionController = new HighLevelDecisionController({
+    provider: decisionProvider,
+    candidates: decisionCandidates,
+    minimumConfidence: config.decision.minimumConfidence,
+  });
+  let decisionTrigger: 'task_start' | 'skill_complete' | 'recovery_uncertain' = 'task_start';
+
+  // Deliberately does not return to the legacy agent loop below. A route/skill
+  // executes fully in deterministic code; the model is consulted only here at
+  // task start, skill completion, or an explicitly uncertain recovery boundary.
+  while (true) {
+    const decisionState = {
+      turn: state.turn,
+      player: state.world.player,
+      location: state.world.location,
+      quests: state.world.quests.active,
+      routeRecovery: state.routeState.deviation ? {
+        kind: state.routeState.deviationKind,
+        hint: state.routeState.recoveryHint,
+      } : null,
+      progress: state.progressLoop,
+      recentEvents: state.world.events.recent.slice(-5).map((event) => ({
+        type: event.type,
+        text: event.text.slice(0, 500),
+      })),
+      operatorIntent: [collab.steeringPrompt, collab.oneShotPrompt].filter(Boolean).join('\n').slice(0, 1000),
+    };
+    try {
+      state.phase = decisionTrigger === 'recovery_uncertain' ? 'RECOVER' : 'PLAN';
+      const result = await decisionController.run(decisionTrigger, decisionState);
+      if (result.status === 'WAIT') {
+        state.phase = 'WAIT';
+        broadcast({ type: 'log', data: `Decision paused: ${result.reason}` });
+        while (!collab.oneShotPrompt && !collab.steeringPrompt) await sleep(1000);
+        decisionTrigger = 'recovery_uncertain';
+        continue;
+      }
+      decisionTrigger = 'skill_complete';
+    } catch (err: any) {
+      const message = String(err?.message || err);
+      state.phase = 'WAIT';
+      console.error('[Gateway] high-level decision rejected/stopped:', message);
+      broadcast({ type: 'log', data: `Decision rejected/stopped: ${message}` });
+      while (!collab.oneShotPrompt && !collab.steeringPrompt) await sleep(1000);
+      decisionTrigger = 'recovery_uncertain';
+    }
+    await savePersistentMemory(config);
+    if (state.turn % config.agent.checkpointEveryTurns === 0) await saveCheckpoint(config);
+    state.turn += 1;
+    await sleep(config.agent.turnIntervalMs);
+  }
+
+  // Kept temporarily as unreachable migration reference; the code path above
+  // is the only production decision loop.
   let session = await createSession(config, ALL_TOOLS, emitNativeKnowledgeTrace);
 
   // ---------------------------------------------------------------------------
@@ -753,11 +839,11 @@ function expectedWaterStage(routeName: string, stepNo: number, total: number, cm
       state.phase = 'PLAN';
     }
 
-    console.log(\`\n\n========== Turn \${state.turn} [\${state.phase}] ==========\`);
-    broadcast({ type: 'log', data: \`Turn \${state.turn} [\${state.phase}] planning next action\` });
+    console.log(`\n\n========== Turn ${state.turn} [${state.phase}] ==========`);
+    broadcast({ type: 'log', data: `Turn ${state.turn} [${state.phase}] planning next action` });
 
     if (fastExplore.enabled) {
-      broadcast({ type: 'log', data: \`LLM loop paused; fast-explore is driving actions every \${config.agent.fastExploreIntervalMs}ms\` });
+      broadcast({ type: 'log', data: `LLM loop paused; fast-explore is driving actions every ${config.agent.fastExploreIntervalMs}ms` });
       await sleep(config.agent.turnIntervalMs);
       continue;
     }
@@ -769,7 +855,7 @@ function expectedWaterStage(routeName: string, stepNo: number, total: number, cm
 
     if (shouldCompact) {
       state.phase = 'COMPACT';
-      broadcast({ type: 'log', data: \`[COMPACT] turn \${state.turn}: rebuilding session...\` });
+      broadcast({ type: 'log', data: `[COMPACT] turn ${state.turn}: rebuilding session...` });
 
       // 1. 生成记忆摘要
       state.memorySummary = await compactMemory(session, config);
@@ -795,12 +881,12 @@ function expectedWaterStage(routeName: string, stepNo: number, total: number, cm
       });
 
       const resumePrompt = [
-        \`【记忆摘要（前 \${state.turn - 1} 回合）】\`,
+        `【记忆摘要（前 ${state.turn - 1} 回合）】`,
         state.memorySummary,
         '',
         formatPersistentMemoryForPrompt(),
         '',
-        \`【当前世界状态（Turn \${state.turn}）】\`,
+        `【当前世界状态（Turn ${state.turn}）】`,
         worldNow,
         '',
         '请根据以上信息继续游戏，先调用 wait_event() 确认当前环境。',
@@ -832,7 +918,7 @@ function expectedWaterStage(routeName: string, stepNo: number, total: number, cm
       // 第一回合：如果有 memorySummary（来自 checkpoint），注入它
       if (state.memorySummary) {
         prompt = [
-          \`【恢复运行 - 记忆摘要】\`,
+          `【恢复运行 - 记忆摘要】`,
           state.memorySummary,
           '',
           formatPersistentMemoryForPrompt(),
@@ -850,7 +936,7 @@ function expectedWaterStage(routeName: string, stepNo: number, total: number, cm
       prompt = [
         formatPersistentMemoryForPrompt(),
         '',
-        \`第 \${state.turn} 回合：先观察（wait_event/get_world_summary）。\`,
+        `第 ${state.turn} 回合：先观察（wait_event/get_world_summary）。`,
         '若目标是少林/扬州往返或其它已知路线，调用 get_known_routes() 后只调用一次 execute_route_skill()。',
         '若上一轮 route 返回 deviationKind/recoveryHint，按 recoveryHint 用 execute_command_sequence 发送2-3条纠错命令，不要继续硬跑长 route。',
         '若目标是少林新手成长循环：吃喝恢复、只找清善 qingshan 学习、潜能不足挑水、工具/交付异常找知客僧放弃、回来继续学，优先调用 execute_progress_loop_step(action=start/step)。',
@@ -861,12 +947,12 @@ function expectedWaterStage(routeName: string, stepNo: number, total: number, cm
 
     // 注入人类 steering prompt
     if (collab.steeringPrompt) {
-      prompt += \`\n\n【人类临时策略】\${collab.steeringPrompt}\n请优先执行，但仍需保证生存安全。\`;
+      prompt += `\n\n【人类临时策略】${collab.steeringPrompt}\n请优先执行，但仍需保证生存安全。`;
     }
 
     if (oneShotPrompt) {
       collab.activeOneShotPromptId = oneShotPromptId;
-      prompt += \`\n\n【人类一次性策略，仅本轮 action series 有效】\${oneShotPrompt}\n这条指令只影响本次工具调用链；本轮结束后自动忽略。\`;
+      prompt += `\n\n【人类一次性策略，仅本轮 action series 有效】${oneShotPrompt}\n这条指令只影响本次工具调用链；本轮结束后自动忽略。`;
       sendStateSnapshot();
     }
 

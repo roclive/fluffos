@@ -27,5 +27,13 @@
         "monitorPort": 8081,
         "manualHoldMs": 1500,
         "waterAbandonHoldMs": 180000
+    },
+    "decision": {
+        "enabled": false,
+        "provider": "ollama",
+        "endpoint": "http://127.0.0.1:11434",
+        "model": "",
+        "minimumConfidence": 0.7,
+        "timeoutMs": 15000
     }
 }
