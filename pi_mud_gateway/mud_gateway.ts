@@ -16,7 +16,7 @@
  *   - 历史对话不携带，彻底打断累积链
  */
 
-import { DIRECTION_ALIASES, KNOWN_ROUTES, normalizeDirection, isInfoCommand, summarizeEvents, routeStepCommand, routeStepNote, commandSequenceWaitMs, chooseProgressSkill, detectStopReason, shouldStopBeforeNextCommand, parseStatusLine, cleanMudText, splitCleanMudLines } from './lib/core.mjs';
+import { DIRECTION_ALIASES, KNOWN_ROUTES, executableRouteEntries, normalizeDirection, isInfoCommand, summarizeEvents, routeStepCommand, routeStepNote, commandSequenceWaitMs, chooseProgressSkill, detectStopReason, shouldStopBeforeNextCommand, parseStatusLine, cleanMudText, splitCleanMudLines } from './lib/core.mjs';
 import { HighLevelDecisionController, takeOperatorIntent, waitForFreshIntent } from './lib/high_level_decider.mjs';
 import { createLocalModelProvider } from './lib/local_model_provider.mjs';
 import { loadGatewayConfig } from './lib/gateway_config.mjs';
@@ -3391,7 +3391,7 @@ async function main() {
   if (config.decision.enabled) {
   const decisionProvider = createLocalModelProvider(config.decision);
   const decisionCandidates = [
-    ...Object.entries(KNOWN_ROUTES).map(([name, route]) => ({
+    ...executableRouteEntries(KNOWN_ROUTES).map(([name, route]) => ({
       id: `route.${name}`,
       description: `${route.from} -> ${route.to}`,
       paramsSchema: { properties: {}, required: [] },

@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { replay } from './helpers/replay.mjs';
 import { KNOWN_ROUTES, chooseProgressSkill, commandSequenceWaitMs, normalizeDirection,
-  detectStopReason, shouldStopBeforeNextCommand } from '../lib/core.mjs';
+  detectStopReason, executableRouteEntries, shouldStopBeforeNextCommand } from '../lib/core.mjs';
 const fixture = JSON.parse(readFileSync(new URL('./fixtures/transcripts.json', import.meta.url)));
 
 test('status transcript: ANSI/metadata removed, actual resource fields parsed; low qi allows info then stops movement', async () => {
@@ -55,6 +55,15 @@ test('gate routes keep open/knock immediately before crossing', () => {
     const commands=KNOWN_ROUTES['shaolin_water_return_shanlu_to_chufang_via_'+suffix].commands.map(s=>typeof s==='string'?s:s.cmd);
     assert.equal(commands[commands.indexOf('knock gate')+1],'north');
   }
+});
+
+test('decision route candidates exclude direction hints that the route executor cannot run', () => {
+  const candidateNames = executableRouteEntries(KNOWN_ROUTES).map(([name]) => name);
+  assert.ok(candidateNames.includes('yangzhou_guangchang_to_shaolin_shanmen_overland'));
+  assert.ok(!candidateNames.includes('wizard_guest_room_to_wumiao'));
+  assert.ok(!candidateNames.includes('wumiao_to_wizard_guest_room'));
+  assert.ok(!candidateNames.includes('probe_from_current_room'));
+  assert.equal(executableRouteEntries({empty: {commands: []}, invalid: {commands: 'north'}}).length, 0);
 });
 
 test('decision boundaries preserve skill fallback, direction aliases, waits and qi threshold', () => {

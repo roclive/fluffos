@@ -132,3 +132,19 @@ Pause-fix artifacts are `lib/high_level_decider.mjs`,
 `tests/high_level_decider.test.mjs`, and this README under the absolute artifact root
 above. This remains an offline structural regression; no live provider or game smoke
 test was run.
+
+The route-candidate review finding is fixed by filtering the high-level model's route
+allowlist through `executableRouteEntries()`. Routes that only document `directions`
+are still available as route knowledge, but are no longer advertised as executable
+decisions because `execute_route_skill` requires a non-empty `commands` array. The
+regression covers all three affected routes, a valid executable route, and malformed or
+empty command collections.
+
+Verification commands: `node --test pi_mud_gateway/tests/*.test.mjs` (37/37 pass),
+`npm --prefix pi_mud_gateway test` (37/37 pass), and `git diff --check` (pass). All
+tests remained offline; no Ollama/GW/MUD smoke test or running service was used, and
+free quota remains `unknown`. Artifacts are
+`/Users/zhangdapeng/Desktop/ai-agent-manager/.aam/worktrees/MUD/MUD-4/pi_mud_gateway/lib/core.mjs`,
+`/Users/zhangdapeng/Desktop/ai-agent-manager/.aam/worktrees/MUD/MUD-4/pi_mud_gateway/mud_gateway.ts`,
+`/Users/zhangdapeng/Desktop/ai-agent-manager/.aam/worktrees/MUD/MUD-4/pi_mud_gateway/tests/replay.test.mjs`,
+and this README.

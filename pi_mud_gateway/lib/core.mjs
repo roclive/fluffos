@@ -368,6 +368,10 @@ function normalizeDirection(raw) {
   return DIRECTION_ALIASES[dir] || dir;
 }
 
+function executableRouteEntries(routes) {
+  return Object.entries(routes).filter(([, route]) => Array.isArray(route?.commands) && route.commands.length > 0);
+}
+
 
 function summarizeEvents(events, limit = 8) {
   return events.slice(-limit).map((e) => e.content).join('\n');
@@ -500,4 +504,4 @@ function splitCleanMudLines(raw) {
 }
 
 
-export { DIRECTION_ALIASES, KNOWN_ROUTES, normalizeDirection, isInfoCommand, summarizeEvents, routeStepCommand, routeStepNote, commandSequenceWaitMs, chooseProgressSkill, detectStopReason, shouldStopBeforeNextCommand, parseStatusLine, cleanMudText, splitCleanMudLines };
+export { DIRECTION_ALIASES, KNOWN_ROUTES, executableRouteEntries, normalizeDirection, isInfoCommand, summarizeEvents, routeStepCommand, routeStepNote, commandSequenceWaitMs, chooseProgressSkill, detectStopReason, shouldStopBeforeNextCommand, parseStatusLine, cleanMudText, splitCleanMudLines };
