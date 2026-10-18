@@ -1,5 +1,31 @@
 # Pi MUD Gateway：离线回放与高层本地决策
 
+## MUD-5 review follow-up (2026-10-19)
+
+The four review findings are covered by offline regressions. WebSocket clients must now
+have both a loopback peer address and an explicit loopback `http:` or `https:` Origin;
+missing and opaque `null` origins are rejected, and the connection is closed before any
+hello, session snapshot, or legacy control handling. No authentication token fallback
+is enabled.
+
+A high-level decision that returns `WAIT` while automation is paused now waits on the
+automation control state. `resume` releases that wait without requiring a new steering
+prompt revision; cancellation remains stopped. Legacy Pi model-call visualization is
+driven by Pi's `turn_start` event, one per actual assistant model request, so tool-call
+continuations are counted independently. Prompt-level increments were removed, and the
+separate compact session uses the same event boundary. Visualization text retains
+Unicode (including Chinese skill names, reasons, and room confirmations) while stripping
+control/format/surrogate characters and retaining the existing length bound.
+
+Verification used fake events/providers/runners and the offline production bundle only:
+`node --test pi_mud_gateway/tests/*.test.mjs` and
+`npm --prefix pi_mud_gateway test` passed 62/62 with no skips; `git diff --check` passed.
+No live MUD/account/provider smoke test was run, no service was started, and no cloud or
+coding-tool quota was consumed. Real smoke result: not run. Free quota: `unknown`.
+There is only one repository (`pi/` is not nested), so no independent-repository patch
+was needed. Artifacts are under
+`/Users/zhangdapeng/Desktop/ai-agent-manager/.aam/worktrees/MUD/MUD-5/pi_mud_gateway`.
+
 ## MUD-5 review fixes
 
 Automation status updates no longer replace an in-flight `pause` or `cancel`. The

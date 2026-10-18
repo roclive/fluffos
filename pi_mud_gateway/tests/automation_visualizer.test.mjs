@@ -7,6 +7,8 @@ import {
   automationInterruption,
   automationSnapshot,
   createAutomationState,
+  decisionWaitRequirement,
+  isPiModelRequestEvent,
   isTrustedWebSocketRequest,
   validateControlEvent,
   validateLegacyControlEvent,
@@ -57,12 +59,53 @@ test('control schema rejects spoofing, replay, session mismatch and extra fields
   assert.equal(validateControlEvent(base, { ...context, isTrustedSource: false }).error, 'untrusted_source');
 });
 
-test('trusted source requires loopback peer and loopback or opaque origin', () => {
+test('trusted source requires loopback peer and an explicit loopback HTTP(S) origin', () => {
   const request = (remoteAddress, origin) => ({ socket: { remoteAddress }, headers: { origin } });
   assert.equal(isTrustedWebSocketRequest(request('127.0.0.1', 'http://localhost:8000')), true);
-  assert.equal(isTrustedWebSocketRequest(request('::1', 'null')), true);
+  assert.equal(isTrustedWebSocketRequest(request('::1', 'https://[::1]:8000')), true);
+  assert.equal(isTrustedWebSocketRequest(request('::1', 'null')), false);
+  assert.equal(isTrustedWebSocketRequest(request('127.0.0.1', undefined)), false);
+  assert.equal(isTrustedWebSocketRequest(request('127.0.0.1', 'file:///tmp/client.html')), false);
   assert.equal(isTrustedWebSocketRequest(request('10.0.0.8', 'http://localhost:8000')), false);
   assert.equal(isTrustedWebSocketRequest(request('127.0.0.1', 'https://evil.example')), false);
+});
+
+test('resume control releases automation waits without requiring a steering revision', () => {
+  let state = createAutomationState({ sessionId: 's' });
+  state = applyControlEvent(state, {
+    type: 'automation_control', version: 1, sessionId: 's', source: 'web-client', sequence: 1, action: 'pause',
+  }, { isTrustedSource: true }).state;
+  assert.equal(decisionWaitRequirement(state), 'automation_resume');
+  state = applyControlEvent(state, {
+    type: 'automation_control', version: 1, sessionId: 's', source: 'web-client', sequence: 2, action: 'resume',
+  }, { isTrustedSource: true }).state;
+  assert.equal(decisionWaitRequirement(state), 'operator_intent');
+});
+
+test('Pi turn_start events count every model request across tool-call turns', () => {
+  const fakeEvents = [
+    { type: 'agent_start' },
+    { type: 'turn_start' },
+    { type: 'tool_execution_start' },
+    { type: 'turn_start' },
+    { type: 'turn_start' },
+    { type: 'agent_end' },
+  ];
+  assert.equal(fakeEvents.filter(isPiModelRequestEvent).length, 3);
+});
+
+test('localized visualization text preserves Chinese skill, reason and room confirmation', () => {
+  let state = createAutomationState({ sessionId: 's' });
+  state = applyAutomationEvent(state, {
+    type: 'decision', skill: '少林挑水', reason: '需要去河边补水', confidence: 0.9,
+  });
+  state = applyAutomationEvent(state, {
+    type: 'step', expectedRoom: '汉水岸边', actualRoom: '汉水岸边', confirmed: true,
+  });
+  assert.equal(state.currentSkill, '少林挑水');
+  assert.equal(state.decision.reason, '需要去河边补水');
+  assert.equal(state.confirmation.expectedRoom, '汉水岸边');
+  assert.equal(state.confirmation.actualRoom, '汉水岸边');
 });
 
 test('provider callbacks cannot overwrite pause or cancel received in flight', () => {

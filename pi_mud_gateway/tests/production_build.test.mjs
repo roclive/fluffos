@@ -18,6 +18,7 @@ test('production gateway bundles all local code without starting sockets or a mo
 
 test('production gateway guards legacy controls, every multi-step sender and Pi tool chains', async () => {
   const source = await readFile(new URL('../mud_gateway.ts', import.meta.url), 'utf8');
+  assert.match(source, /if \(!trustedControlSource\) \{\s*ws\.close\(1008, 'trusted loopback HTTP\(S\) origin required'\);\s*return;/);
   assert.match(source, /validateLegacyControlEvent\(m, \{ isTrustedSource: trustedControlSource \}\)/);
   assert.match(source, /const runFastExploreStep = \(\) => \{[\s\S]*?automationInterruption\(automationState\)/);
   assert.match(source, /for \(const \[index, cmd\] of commands\.entries\(\)\) \{\s*const automationStop = automationInterruption\(automationState\)/);
@@ -26,11 +27,17 @@ test('production gateway guards legacy controls, every multi-step sender and Pi 
   assert.match(source, /execute: async \(toolCallId, params\) => \{[\s\S]*?const automationStop = automationInterruption\(automationState\)/);
 });
 
-test('legacy Pi mode publishes each real model request to the visualizer', async () => {
+test('legacy Pi mode counts Pi turn_start events instead of prompt calls', async () => {
   const source = await readFile(new URL('../mud_gateway.ts', import.meta.url), 'utf8');
-  assert.match(source, /updateAutomation\(\{ type: 'model_call', trigger: 'compact_memory' \}\);\s*state\.memorySummary = await compactMemory/);
-  assert.match(source, /updateAutomation\(\{ type: 'model_call', trigger: 'compact_resume' \}\);\s*await session\.prompt\(resumePrompt\)/);
-  assert.match(source, /updateAutomation\(\{ type: 'model_call', trigger: 'agent_action_series' \}\);\s*await session\.prompt\(prompt\)/);
+  assert.match(source, /if \(isPiModelRequestEvent\(event\)\) onModelCall\?\.\(\)/);
+  assert.match(source, /compactMemory\(session, config, countPiModelCall\)/);
+  assert.doesNotMatch(source, /updateAutomation\(\{ type: 'model_call', trigger: 'agent_action_series' \}\)/);
+});
+
+test('high-level WAIT distinguishes automation resume from fresh operator intent', async () => {
+  const source = await readFile(new URL('../mud_gateway.ts', import.meta.url), 'utf8');
+  assert.match(source, /const waitRequirement = decisionWaitRequirement\(automationState\);\s*if \(waitRequirement === 'automation_resume'\) \{\s*await awaitAutomationPermission\(\)/);
+  assert.match(source, /if \(waitRequirement === 'automation_cancelled'\)/);
 });
 
 test('production config loader preserves configured decision endpoint and model', async (t) => {

@@ -17,7 +17,6 @@ const LEGACY_CONTROL_SCHEMAS = {
   },
   prompt: { keys: ['type', 'prompt', 'oneShot'], check: (input) => safeString(input.prompt, 1000) && (input.oneShot === undefined || typeof input.oneShot === 'boolean') },
 };
-const SAFE_TEXT = /^[\w./:* -]{0,160}$/u;
 
 export function createAutomationState({ sessionId = randomUUID(), now = Date.now } = {}) {
   return {
@@ -83,6 +82,17 @@ export function automationInterruption(state) {
   return state?.status === 'paused' ? 'automation_paused'
     : state?.status === 'cancelled' ? 'automation_cancelled'
       : '';
+}
+
+export function decisionWaitRequirement(state) {
+  const interruption = automationInterruption(state);
+  if (interruption === 'automation_paused') return 'automation_resume';
+  if (interruption === 'automation_cancelled') return 'automation_cancelled';
+  return 'operator_intent';
+}
+
+export function isPiModelRequestEvent(event) {
+  return event?.type === 'turn_start';
 }
 
 export function automationEventFromTrace(patch, location = {}, previous = {}) {
@@ -161,11 +171,12 @@ export function isTrustedWebSocketRequest(request) {
   const address = request?.socket?.remoteAddress || '';
   const local = address === '127.0.0.1' || address === '::1' || address === '::ffff:127.0.0.1';
   const origin = request?.headers?.origin;
-  if (!local) return false;
-  if (!origin || origin === 'null') return true;
+  if (!local || !origin || origin === 'null') return false;
   try {
-    const host = new URL(origin).hostname;
-    return host === '127.0.0.1' || host === 'localhost' || host === '::1';
+    const parsed = new URL(origin);
+    const host = parsed.hostname;
+    return (parsed.protocol === 'http:' || parsed.protocol === 'https:')
+      && (host === '127.0.0.1' || host === 'localhost' || host === '::1' || host === '[::1]');
   } catch {
     return false;
   }
@@ -185,6 +196,9 @@ function boundedInteger(value, min, max) {
 }
 function cleanOptional(value) { return value == null || value === '' ? null : cleanText(value); }
 function cleanText(value) {
-  const text = String(value ?? '').replace(/[\r\n\0]/g, ' ').trim().slice(0, 160);
-  return SAFE_TEXT.test(text) ? text : text.replace(/[^\w./:* -]/gu, '');
+  return String(value ?? '')
+    .replace(/[\r\n\0]/g, ' ')
+    .replace(/[\p{Cc}\p{Cf}\p{Cs}]/gu, '')
+    .trim()
+    .slice(0, 160);
 }

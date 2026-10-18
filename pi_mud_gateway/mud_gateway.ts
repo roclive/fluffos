@@ -23,7 +23,7 @@ import { loadGatewayConfig } from './lib/gateway_config.mjs';
 import { shouldStopRouteForDeviation } from './lib/route_logic.mjs';
 import { precomputeFixedRouteRoomIds, resolveGatewayRoute, routeLocationError, routeStartMatches } from './lib/pathfinder.mjs';
 import { sendMudCommand, collectMudEvents } from './lib/transport.mjs';
-import { applyAutomationEvent, applyControlEvent, automationEventFromTrace, automationInterruption, automationSnapshot, createAutomationState, isTrustedWebSocketRequest, validateLegacyControlEvent } from './lib/automation_visualizer.mjs';
+import { applyAutomationEvent, applyControlEvent, automationEventFromTrace, automationInterruption, automationSnapshot, createAutomationState, decisionWaitRequirement, isPiModelRequestEvent, isTrustedWebSocketRequest, validateLegacyControlEvent } from './lib/automation_visualizer.mjs';
 import net from 'node:net';
 import fs from 'node:fs/promises';
 import fsSync from 'node:fs';
@@ -1466,7 +1466,8 @@ const COMPACT_SYSTEM_PROMPT = `
 
 async function compactMemory(
   oldSession: AgentSession,
-  config: GatewayConfig
+  config: GatewayConfig,
+  onModelCall?: () => void,
 ): Promise<string> {
   console.log('[Compact] Generating memory summary from current session...');
 
@@ -1481,6 +1482,9 @@ async function compactMemory(
   const { session: compactSession } = await createAgentSession({
     resourceLoader: compactLoader,
     sessionManager: SessionManager.inMemory(),
+  });
+  compactSession.subscribe((event: any) => {
+    if (isPiModelRequestEvent(event)) onModelCall?.();
   });
 
   // 把旧 session 的关键信息浓缩送给摘要 session
@@ -1594,7 +1598,12 @@ function classifyNativeKnowledgeTool(toolName: string, args: any): {
   return null;
 }
 
-async function createSession(config: GatewayConfig, tools: Tool[], onNativeToolTrace?: NativeToolTraceHandler): Promise<AgentSession> {
+async function createSession(
+  config: GatewayConfig,
+  tools: Tool[],
+  onNativeToolTrace?: NativeToolTraceHandler,
+  onModelCall?: () => void,
+): Promise<AgentSession> {
   const loader = new DefaultResourceLoader({
     cwd: ROOT_DIR,
     additionalSkillPaths: [SKILLS_DIR],
@@ -1611,6 +1620,7 @@ async function createSession(config: GatewayConfig, tools: Tool[], onNativeToolT
 
   // 订阅事件，输出到 stdout
   session.subscribe((event: any) => {
+    if (isPiModelRequestEvent(event)) onModelCall?.();
     if (event.type === 'message_update') {
       const asm = event.assistantMessageEvent;
       if (asm?.type === 'text_delta') {
@@ -1863,6 +1873,10 @@ async function main() {
 
   wss.on('connection', (ws, request) => {
     const trustedControlSource = isTrustedWebSocketRequest(request);
+    if (!trustedControlSource) {
+      ws.close(1008, 'trusted loopback HTTP(S) origin required');
+      return;
+    }
     ws.send(JSON.stringify({ type: 'hello', version: '2.5' }));
     ws.send(JSON.stringify(automationSnapshot(automationState)));
     sendStateSnapshot();
@@ -3511,6 +3525,16 @@ async function main() {
       if (result.status === 'WAIT') {
         state.phase = 'WAIT';
         broadcast({ type: 'log', data: `Decision paused: ${result.reason}` });
+        const waitRequirement = decisionWaitRequirement(automationState);
+        if (waitRequirement === 'automation_resume') {
+          await awaitAutomationPermission();
+          decisionTrigger = 'recovery_uncertain';
+          continue;
+        }
+        if (waitRequirement === 'automation_cancelled') {
+          decisionTrigger = 'recovery_uncertain';
+          continue;
+        }
         await waitForFreshIntent(collab, intent.revision, sleep);
         decisionTrigger = 'recovery_uncertain';
         continue;
@@ -3521,6 +3545,16 @@ async function main() {
       state.phase = 'WAIT';
       console.error('[Gateway] high-level decision rejected/stopped:', message);
       broadcast({ type: 'log', data: `Decision rejected/stopped: ${message}` });
+      const waitRequirement = decisionWaitRequirement(automationState);
+      if (waitRequirement === 'automation_resume') {
+        await awaitAutomationPermission();
+        decisionTrigger = 'recovery_uncertain';
+        continue;
+      }
+      if (waitRequirement === 'automation_cancelled') {
+        decisionTrigger = 'recovery_uncertain';
+        continue;
+      }
       await waitForFreshIntent(collab, intent.revision, sleep);
       decisionTrigger = 'recovery_uncertain';
     }
@@ -3531,7 +3565,8 @@ async function main() {
   }
 
   } // Optional high-level controller; disabled retains the existing gateway mode.
-  let session = await createSession(config, ALL_TOOLS, emitNativeKnowledgeTrace);
+  const countPiModelCall = () => updateAutomation({ type: 'model_call', trigger: 'pi_model_request' });
+  let session = await createSession(config, ALL_TOOLS, emitNativeKnowledgeTrace, countPiModelCall);
 
   // ---------------------------------------------------------------------------
   // Agent 主循环
@@ -3578,8 +3613,7 @@ async function main() {
       broadcast({ type: 'log', data: `[COMPACT] turn ${state.turn}: rebuilding session...` });
 
       // 1. 生成记忆摘要
-      updateAutomation({ type: 'model_call', trigger: 'compact_memory' });
-      state.memorySummary = await compactMemory(session, config);
+      state.memorySummary = await compactMemory(session, config, countPiModelCall);
 
       // 2. 压缩 world.events.recent
       if (state.world.events.recent.length > config.agent.compactKeepRecentEvents) {
@@ -3591,7 +3625,7 @@ async function main() {
 
       // 4. 销毁旧 session，创建全新 session
       //    旧 session 的所有对话历史在此被完全丢弃
-      session = await createSession(config, ALL_TOOLS, emitNativeKnowledgeTrace);
+      session = await createSession(config, ALL_TOOLS, emitNativeKnowledgeTrace, countPiModelCall);
 
       // 5. 新 session 首 prompt：注入摘要 + 当前 WorldSummary
       //    这是新 session 唯一的"记忆来源"
@@ -3617,7 +3651,6 @@ async function main() {
       console.log('[COMPACT] New session started with memory summary.');
 
       try {
-        updateAutomation({ type: 'model_call', trigger: 'compact_resume' });
         await session.prompt(resumePrompt);
       } catch (e: any) {
         console.error('[COMPACT] resume prompt error:', e?.message || e);
@@ -3686,7 +3719,6 @@ async function main() {
     });
 
     try {
-      updateAutomation({ type: 'model_call', trigger: 'agent_action_series' });
       await session.prompt(prompt);
       emitTrace({
         phase: 'end',
