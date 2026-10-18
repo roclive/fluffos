@@ -17,6 +17,8 @@
  */
 
 import { DIRECTION_ALIASES, KNOWN_ROUTES, normalizeDirection, isInfoCommand, summarizeEvents, routeStepCommand, routeStepNote, commandSequenceWaitMs, chooseProgressSkill, detectStopReason, shouldStopBeforeNextCommand, parseStatusLine, cleanMudText, splitCleanMudLines } from './lib/core.mjs';
+import { routeDeviation, classifyRouteDeviation, routeRecoveryHint, shouldStopRouteForDeviation } from './lib/route_logic.mjs';
+
 import { sendMudCommand, collectMudEvents } from './lib/transport.mjs';
 import net from 'node:net';
 import fs from 'node:fs/promises';
@@ -324,7 +326,7 @@ const state = {
   traceSeq: 0,
   recentTraces: [] as AgentTraceData[],
   persistentMemory: createEmptyPersistentMemory(),
-  waterRoute: {
+  routeState: {
     active: false,
     routeName: '',
     from: '',
@@ -593,7 +595,7 @@ function expectedWaterStage(routeName: string, stepNo: number, total: number, cm
 // 路线偏离判定（优先 room_id 精确比对，回退到关键字模糊匹配）
 // 调用方传入 expectedRoomId（来自 ROUTE_EXPECTED_ROOM_IDS 预计算）和当前 location.room_id。
 // 若两个都有：直接比 room_id（最权威）。任一缺失：回退到旧的 keyword∈actualRoom 检查。
-function waterRouteDeviation(
+function routeStateDeviation(
   expected: { label: string; keywords: string[] },
   actualRoom: string,
   expectedRoomId?: string | null,
@@ -625,51 +627,11 @@ function waterRouteDeviation(
     : `route偏离: 期望 ${expected.label} (${expected.keywords.join('/')})，实际 ${actualRoom}`;
 }
 
-function classifyRouteDeviation(
-  routeName: string,
-  cmd: string,
-  expected: { label: string; keywords: string[] },
-  actualRoom: string,
-  events: Array<{ type: string; content: string; timestamp: number }>,
-  stopReason?: string | null,
-  expectedRoomId?: string | null,
-  actualRoomId?: string | null,
-) {
-  const c = cmd.trim().toLowerCase();
-  const text = summarizeEvents(events, 20);
-  if (stopReason === 'manual_control_active') return 'manual_control_active';
-  if (stopReason === 'low_qi') return stopReason;
-  if (/门|gate/.test(text) && /关|必须先|打不开|不能|没有门|阻|拦|挡/.test(text)) return 'gate_blocked';
-  if ((c === 'south' || c === 'north') && routeName.includes('shaolin') && stopReason === 'blocked_exit') return 'gate_blocked';
-  if (/正忙|busy|现在不能/.test(text) || stopReason === 'blocked_or_busy') return 'busy_or_blocked';
-  if (stopReason === 'blocked_exit') return 'blocked_exit';
-  if (waterRouteDeviation(expected, actualRoom, expectedRoomId, actualRoomId)) return 'room_mismatch';
-  return '';
-}
 
-function shouldStopRouteForDeviation(deviationKind: string) {
-  // room_mismatch is often caused by ambiguous room-name resolution while a known route is still
-  // making forward progress. Show it in the monitor, but let the long route finish unless a hard
-  // command failure such as gate/busy/blocked/low-qi is detected.
-  return Boolean(deviationKind && deviationKind !== 'room_mismatch');
-}
 
-function routeRecoveryHint(
-  routeName: string,
-  cmd: string,
-  deviationKind: string,
-  actualRoom: string,
-  actualExits: string[],
-) {
-  const exits = actualExits.join('/');
-  const place = actualRoom || '当前位置未知';
-  if (!deviationKind) return '';
-  if (deviationKind === 'manual_control_active') return '人类刚输入了命令；等待约1.5秒后先 look/hp 重新定位，再继续最近的 route skill。';
-  if (deviationKind === 'low_qi') return '气太低；先 yun recover 或撤到安全地点，恢复后再继续挑水 route。';
-  if (deviationKind === 'busy_or_blocked') return '角色 busy 或被阻挡；下一轮先 wait_event/get_world_summary，必要时只用2-3条 execute_command_sequence 纠错。';
-  if (deviationKind === 'gate_blocked') {
-    if (place.includes('山门殿') || cmd.trim().toLowerCase() === 'south') {
-      return `当前在${place}，出寺应短序列执行 ["open gate", "south", "look"]。`;
+
+
+，出寺应短序列执行 ["open gate", "south", "look"]。`;
     }
     if (place.includes('广场') || cmd.trim().toLowerCase() === 'north') {
       return `当前在${place}，回寺应短序列执行 ["knock gate", "north", "look"]。`;
@@ -687,7 +649,7 @@ function routeRecoveryHint(
 }
 
 function appendRecentWaterRoom(actualRoom: string) {
-  const rooms = state.waterRoute.recentActualRooms || [];
+  const rooms = state.routeState.recentActualRooms || [];
   if (actualRoom && rooms[rooms.length - 1] !== actualRoom) {
     rooms.push(actualRoom);
   }
@@ -1388,7 +1350,7 @@ function parseFluffosText(raw: string): string[] {
 
   // 挑水状态机自动同步只在路线空闲时运行。长 route skill 执行期间先让 known route
   // 跑完整段，结束后由 waterTaskOutcome 统一结算，避免中途频繁纠偏。
-  if (!state.waterRoute.active) syncWaterTaskFromText(text);
+  if (!state.routeState.active) syncWaterTaskFromText(text);
 
   state.world.meta.tick += 1;
   state.world.meta.timestamp = Date.now();
@@ -1838,7 +1800,7 @@ async function main() {
         oneShotPromptId: collab.oneShotPromptId,
         activeOneShotPromptId: collab.activeOneShotPromptId,
         recentTraces: state.recentTraces.slice(-50),
-        waterRoute: state.waterRoute,
+        routeState: state.routeState,
         progressLoop: state.progressLoop,
         waterTaskBadge: waterTaskBadge(state.progressLoop),
         fastExplore: {
@@ -2195,7 +2157,7 @@ async function main() {
             updatedAt: state.persistentMemory.updated_at,
           },
           manualHoldRemainingMs: Math.max(0, collab.manualUntil - Date.now()),
-          waterRoute: state.waterRoute,
+          routeState: state.routeState,
           progressLoop: state.progressLoop,
         }),
       }],
@@ -2213,7 +2175,7 @@ async function main() {
           updatedAt: state.persistentMemory.updated_at,
         },
         manualHoldRemainingMs: Math.max(0, collab.manualUntil - Date.now()),
-        waterRoute: state.waterRoute,
+        routeState: state.routeState,
         progressLoop: state.progressLoop,
       },
     }),
@@ -2431,10 +2393,12 @@ async function main() {
   /**
    * execute_route_skill: 执行预先调查好的长路线，避免 LLM 用普通探索序列分段规划
    */
+  
+  
   const executeRouteSkillTool: Tool = {
     name: 'execute_route_skill',
     label: 'execute_route_skill',
-    description: '按名称执行已知路线skill。支持长路线、渡船等待、丐帮暗道等特殊步骤；每步直接返回MUD原文rawText/rawEvents。',
+    description: '按名称执行已知路线skill。支持长路线、渡船等待、丐帮暗道等特殊步骤；每步直接返回MUD原文rawText/rawEvents。支持断点恢复与偏航修复。',
     parameters: {
       type: 'object',
       properties: {
@@ -2479,11 +2443,567 @@ async function main() {
       }> = [];
       let stopReason = '';
 
+      // ---- Breakpoint Recovery ----
+      let startIndex = 0;
+      if (state.routeState.active && state.routeState.routeName === name) {
+        const savedStep = state.routeState.step;
+        const expectedId = expectedRoomIdAtStep(name, savedStep);
+        const actualId = state.world.location.room_id || null;
+        if (expectedId && actualId && expectedId === actualId) {
+          console.log(`[Route] Breakpoint recovered: resuming ${name} from step ${savedStep}`);
+          startIndex = savedStep;
+        } else {
+          console.log(`[Route] Breakpoint mismatch or unknown room: restarting ${name}`);
+          state.routeState.active = false;
+        }
+      }
+
+      state.phase = 'ACT';
+      console.log(`[Agent] route ${name} start: ${route.from} -> ${route.to}, ${maxSteps}/${route.commands.length} step(s) from step ${startIndex}`);
+      broadcast({ type: 'log', data: `route ${name} start: ${route.from} -> ${route.to}, ${maxSteps}/${route.commands.length} step(s) from step ${startIndex}` });
+      
+      state.routeState = {
+        active: true,
+        routeName: name,
+        from: route.from,
+        to: route.to,
+        step: startIndex,
+        total: maxSteps,
+        currentCmd: '',
+        expectedStage: `${route.from} -> ${route.to}`,
+        expectedCommand: '',
+        actualRoom: state.world.location.name || '',
+        actualExits: state.world.location.exits || [],
+        deviation: '',
+        deviationKind: '',
+        recoveryHint: '',
+        recentActualRooms: [],
+        lastLine: '',
+        plannedCommands: route.commands.slice(startIndex, maxSteps).map((s, i) => `${startIndex + i + 1}. ${routeStepCommand(s)}${routeStepNote(s) ? ` (${routeStepNote(s)})` : ''}`),
+        updatedAt: Date.now(),
+      };
+      sendStateSnapshot();
+
+      emitTrace({
+        phase: 'start',
+        kind: 'route',
+        name,
+        input: {
+          from: route.from,
+          to: route.to,
+          maxSteps,
+          totalSteps: route.commands.length,
+          startIndex,
+          plannedCommands: route.commands.slice(startIndex, maxSteps).map(routeStepCommand),
+        },
+        keywords: ['skill', 'route', name, route.from, route.to].filter(Boolean),
+        resources: [{ type: 'skill', name, query: `${route.from} -> ${route.to}` }],
+      });
+
+      for (let i = startIndex; i < maxSteps; i++) {
+        const rawStep = route.commands[i];
+        if (Date.now() < collab.manualUntil) {
+          stopReason = 'manual_control_active';
+          const actualRoom = state.world.location.name || '';
+          const actualExits = state.world.location.exits || [];
+          const recoveryHint = routeRecoveryHint(name, '', stopReason, actualRoom, actualExits);
+          state.routeState = {
+            ...state.routeState,
+            active: false,
+            step: i + 1,
+            deviation: stopReason,
+            deviationKind: stopReason,
+            recoveryHint,
+            updatedAt: Date.now(),
+          };
+          sendStateSnapshot();
+          emitTrace({
+            phase: 'progress',
+            kind: 'route',
+            name,
+            outputSummary: { step: i + 1, stopReason, actualRoom, recoveryHint },
+            status: 'blocked',
+          });
+          break;
+        }
+
+        const step = typeof rawStep === 'string' ? { cmd: rawStep } : rawStep;
+        const cmd = step.cmd.trim();
+        const waitMs = Math.max(100, Math.min(60_000, Number(step.waitMs || defaultWaitMs)));
+        if (!cmd) continue;
+        
+        const expected = expectedWaterStage(name, i + 1, maxSteps, cmd);
+        const preActualRoom = state.world.location.name || '';
+        const preActualRoomId = state.world.location.room_id || null;
+        const expectedRoomIdHere = expectedRoomIdAtStep(name, i);
+        const preDeviation = routeDeviation(expected, preActualRoom, expectedRoomIdHere, preActualRoomId, kbRoomShort, describeRoomForDeviation);
+        
+        state.routeState = {
+          ...state.routeState,
+          active: true,
+          step: i + 1,
+          currentCmd: cmd,
+          expectedCommand: cmd,
+          expectedStage: expected.label || `${route.from} -> ${route.to}`,
+          actualRoom: preActualRoom,
+          actualExits: state.world.location.exits || [],
+          deviation: preDeviation,
+          deviationKind: preDeviation ? 'room_mismatch' : '',
+          recoveryHint: '',
+          updatedAt: Date.now(),
+        };
+        sendStateSnapshot();
+
+        sendMudCommand(mud, cmd);
+        state.pendingActions.push(`route:${name}:${cmd}`);
+        console.log(`[Agent] route ${name} ${i + 1}/${route.commands.length} -> ${cmd}; wait ${waitMs}ms`);
+        broadcast({ type: 'log', data: `route ${name} ${i + 1}/${route.commands.length} → ${cmd}${waitMs > defaultWaitMs ? `; wait ${waitMs}ms` : ''}` });
+        emitTrace({
+          phase: 'progress',
+          kind: 'route',
+          name,
+          input: { step: i + 1, total: route.commands.length, cmd, waitMs },
+        });
+        const events = await collectMudEvents(waitMs, sleep, state.eventQueue);
+        const stop = detectStopReason(events, cmd, state.world.player);
+        const rawEvents = events.map((e) => e.content);
+        const actualRoom = state.world.location.name || '';
+        const actualRoomId = state.world.location.room_id || null;
+        const expectedRoomIdNext = expectedRoomIdAtStep(name, i + 1);
+        const deviation = routeDeviation(expected, actualRoom, expectedRoomIdNext, actualRoomId, kbRoomShort, describeRoomForDeviation);
+        const deviationKind = classifyRouteDeviation(name, cmd, expected, actualRoom, summarizeEvents(events), stop, expectedRoomIdNext, actualRoomId, routeDeviation, kbRoomShort, describeRoomForDeviation);
+        const routeStopReason = (deviationKind && shouldStopRouteForDeviation(deviationKind)) ? deviationKind : (stop || '');
+        const recoveryHint = routeRecoveryHint(name, cmd, deviationKind || stop || '', actualRoom, state.world.location.exits || []);
+        const lastLine = rawEvents.length ? rawEvents[rawEvents.length - 1].slice(0, 240) : '';
+        steps.push({
+          step: i + 1,
+          cmd,
+          waitMs,
+          expectedStage: expected.label || undefined,
+          actualRoom,
+          deviation: deviation || undefined,
+          deviationKind: deviationKind || undefined,
+          recoveryHint: recoveryHint || undefined,
+          rawEvents,
+          rawText: rawEvents.join('
+'),
+          ...(routeStopReason ? { stopReason: routeStopReason } : {}),
+        });
+        
+        state.routeState = {
+          ...state.routeState,
+          active: true,
+          step: i + 1,
+          currentCmd: cmd,
+          expectedCommand: cmd,
+          expectedStage: expected.label || `${route.from} -> ${route.to}`,
+          actualRoom,
+          actualExits: state.world.location.exits || [],
+          deviation,
+          deviationKind,
+          recoveryHint,
+          lastLine,
+          updatedAt: Date.now(),
+        };
+        sendStateSnapshot();
+        
+        emitTrace({
+          phase: 'progress',
+          kind: 'route',
+          name,
+          outputSummary: { step: i + 1, cmd, expectedStage: expected.label || null, actualRoom, deviation: deviation || null, deviationKind: deviationKind || null, recoveryHint: recoveryHint || null, stopReason: routeStopReason || null, ...summarizeEvents(events) },
+          status: routeStopReason && routeStopReason !== 'combat_or_damage' ? 'stopped' : 'ok',
+        });
+
+        state.world.events.recent = events.slice(-config.agent.maxRecentEvents).map((e) => ({
+          type: e.type,
+          text: e.content,
+          timestamp: e.timestamp,
+        }));
+
+        if (routeStopReason && routeStopReason !== 'combat_or_damage') {
+          stopReason = routeStopReason;
+          break;
+        }
+      }
+
+      state.pendingActions = [];
+      state.phase = 'OBSERVE';
+      state.routeState = {
+        ...state.routeState,
+        active: false,
+        step: steps.length || state.routeState.step,
+        currentCmd: stopReason ? state.routeState.currentCmd : '',
+        expectedCommand: stopReason ? state.routeState.expectedCommand : '',
+        expectedStage: stopReason ? `stopped: ${stopReason}` : `completed: ${route.to}`,
+        actualRoom: state.world.location.name || state.routeState.actualRoom,
+        actualExits: state.world.location.exits || [],
+        deviation: stopReason ? (state.routeState.deviation || stopReason) : state.routeState.deviation,
+        deviationKind: stopReason ? (state.routeState.deviationKind || stopReason) : state.routeState.deviationKind,
+        recoveryHint: stopReason ? (state.routeState.recoveryHint || routeRecoveryHint(name, '', stopReason, state.world.location.name || state.routeState.actualRoom, state.world.location.exits || [])) : state.routeState.recoveryHint,
+        updatedAt: Date.now(),
+      };
+      sendStateSnapshot();
+      
+      console.log(`[Agent] route ${name} done: ${steps.length}/${route.commands.length}${stopReason ? `, stopped=${stopReason}` : ''}`);
+      broadcast({ type: 'log', data: `route ${name} done: ${steps.length}/${route.commands.length}${stopReason ? `, stopped=${stopReason}` : ''}` });
+      emitTrace({
+        phase: 'end',
+        kind: 'route',
+        name,
+        outputSummary: {
+          completedSteps: steps.length,
+          requestedSteps: maxSteps,
+          stopReason: stopReason || null,
+          deviationKind: state.routeState.deviationKind || null,
+          recoveryHint: state.routeState.recoveryHint || null,
+        },
+        status: stopReason ? 'stopped' : 'ok',
+      });
+
+      const result = {
+        msg: stopReason ? `stopped: ${stopReason}` : 'completed',
+        route: { name, from: route.from, to: route.to, notes: route.notes, requirements: route.requirements || [] },
+        requestedSteps: maxSteps,
+        completedSteps: steps.length,
+        stopReason: stopReason || null,
+        deviationKind: state.routeState.deviationKind || null,
+        recoveryHint: state.routeState.recoveryHint || null,
+        finalLocation: state.world.location,
+        player: state.world.player,
+        steps,
+      };
+
+      return {
+        content: [{ type: 'text', text: JSON.stringify(result) }],
+        details: result,
+      };
+    },
+  };
+,
+        stepWaitMs: { type: 'number', description: '普通步骤后的等待毫秒数，默认150，范围80-1000。特殊步骤可覆盖。' },
+        maxSteps: { type: 'number', description: '最多执行多少步，默认执行完整稳定路线。用于测试时可设为2到3。' },
+      },
+      required: ['name'],
+    },
+    execute: async (_id, params) => {
+      if (!state.connected) {
+        return { content: [{ type: 'text', text: 'Error: not connected.' }], details: {} };
+      }
+      if (fastExplore.enabled) {
+        return { content: [{ type: 'text', text: 'Paused: fast_explore is active.' }], details: {} };
+      }
+
+      const name = String(params?.name || '').trim();
+      const route = KNOWN_ROUTES[name];
+      if (!route?.commands?.length) {
+        return {
+          content: [{ type: 'text', text: `Error: route "${name}" has no executable commands.` }],
+          details: { name, availableRoutes: Object.keys(KNOWN_ROUTES) },
+        };
+      }
+
+      const defaultWaitMs = Math.max(80, Math.min(1000, Number(params?.stepWaitMs || 150)));
+      const maxStepsRaw = Number(params?.maxSteps || route.commands.length);
+      const maxSteps = Math.max(1, Math.min(route.commands.length, Number.isFinite(maxStepsRaw) ? maxStepsRaw : route.commands.length));
+      const steps: Array<{
+        step: number;
+        cmd: string;
+        waitMs: number;
+        expectedStage?: string;
+        actualRoom?: string;
+        deviation?: string;
+        deviationKind?: string;
+        recoveryHint?: string;
+        rawEvents: string[];
+        rawText: string;
+        stopReason?: string;
+      }> = [];
+      let stopReason = '';
+
+      // ---- Breakpoint Recovery ----
+      let startIndex = 0;
+      if (state.routeState.active && state.routeState.routeName === name) {
+        const savedStep = state.routeState.step;
+        const expectedId = expectedRoomIdAtStep(name, savedStep);
+        const actualId = state.world.location.room_id || null;
+        if (expectedId && actualId && expectedId === actualId) {
+          console.log(`[Route] Breakpoint recovered: resuming ${name} from step ${savedStep}`);
+          startIndex = savedStep;
+        } else {
+          console.log(`[Route] Breakpoint mismatch or unknown room: restarting ${name}`);
+          state.routeState.active = false;
+        }
+      }
+
+      state.phase = 'ACT';
+      console.log(`[Agent] route ${name} start: ${route.from} -> ${route.to}, ${maxSteps}/${route.commands.length} step(s) from step ${startIndex}`);
+      broadcast({ type: 'log', data: `route ${name} start: ${route.from} -> ${route.to}, ${maxSteps}/${route.commands.length} step(s) from step ${startIndex}` });
+      
+      state.routeState = {
+        active: true,
+        routeName: name,
+        from: route.from,
+        to: route.to,
+        step: startIndex,
+        total: maxSteps,
+        currentCmd: '',
+        expectedStage: `${route.from} -> ${route.to}`,
+        expectedCommand: '',
+        actualRoom: state.world.location.name || '',
+        actualExits: state.world.location.exits || [],
+        deviation: '',
+        deviationKind: '',
+        recoveryHint: '',
+        recentActualRooms: [],
+        lastLine: '',
+        plannedCommands: route.commands.slice(startIndex, maxSteps).map((s, i) => `${startIndex + i + 1}. ${routeStepCommand(s)}${routeStepNote(s) ? ` (${routeStepNote(s)})` : ''}`),
+        updatedAt: Date.now(),
+      };
+      sendStateSnapshot();
+
+      emitTrace({
+        phase: 'start',
+        kind: 'route',
+        name,
+        input: {
+          from: route.from,
+          to: route.to,
+          maxSteps,
+          totalSteps: route.commands.length,
+          startIndex,
+          plannedCommands: route.commands.slice(startIndex, maxSteps).map(routeStepCommand),
+        },
+        keywords: ['skill', 'route', name, route.from, route.to].filter(Boolean),
+        resources: [{ type: 'skill', name, query: `${route.from} -> ${route.to}` }],
+      });
+
+      for (let i = startIndex; i < maxSteps; i++) {
+        const rawStep = route.commands[i];
+        if (Date.now() < collab.manualUntil) {
+          stopReason = 'manual_control_active';
+          const actualRoom = state.world.location.name || '';
+          const actualExits = state.world.location.exits || [];
+          const recoveryHint = routeRecoveryHint(name, '', stopReason, actualRoom, actualExits);
+          state.routeState = {
+            ...state.routeState,
+            active: false,
+            step: i + 1,
+            deviation: stopReason,
+            deviationKind: stopReason,
+            recoveryHint,
+            updatedAt: Date.now(),
+          };
+          sendStateSnapshot();
+          emitTrace({
+            phase: 'progress',
+            kind: 'route',
+            name,
+            outputSummary: { step: i + 1, stopReason, actualRoom, recoveryHint },
+            status: 'blocked',
+          });
+          break;
+        }
+
+        const step = typeof rawStep === 'string' ? { cmd: rawStep } : rawStep;
+        const cmd = step.cmd.trim();
+        const waitMs = Math.max(100, Math.min(60_000, Number(step.waitMs || defaultWaitMs)));
+        if (!cmd) continue;
+        
+        const expected = expectedWaterStage(name, i + 1, maxSteps, cmd);
+        const preActualRoom = state.world.location.name || '';
+        const preActualRoomId = state.world.location.room_id || null;
+        const expectedRoomIdHere = expectedRoomIdAtStep(name, i);
+        const preDeviation = routeDeviation(expected, preActualRoom, expectedRoomIdHere, preActualRoomId, kbRoomShort, describeRoomForDeviation);
+        
+        state.routeState = {
+          ...state.routeState,
+          active: true,
+          step: i + 1,
+          currentCmd: cmd,
+          expectedCommand: cmd,
+          expectedStage: expected.label || `${route.from} -> ${route.to}`,
+          actualRoom: preActualRoom,
+          actualExits: state.world.location.exits || [],
+          deviation: preDeviation,
+          deviationKind: preDeviation ? 'room_mismatch' : '',
+          recoveryHint: '',
+          updatedAt: Date.now(),
+        };
+        sendStateSnapshot();
+
+        sendMudCommand(mud, cmd);
+        state.pendingActions.push(`route:${name}:${cmd}`);
+        console.log(`[Agent] route ${name} ${i + 1}/${route.commands.length} -> ${cmd}; wait ${waitMs}ms`);
+        broadcast({ type: 'log', data: `route ${name} ${i + 1}/${route.commands.length} → ${cmd}${waitMs > defaultWaitMs ? `; wait ${waitMs}ms` : ''}` });
+        emitTrace({
+          phase: 'progress',
+          kind: 'route',
+          name,
+          input: { step: i + 1, total: route.commands.length, cmd, waitMs },
+        });
+        const events = await collectMudEvents(waitMs, sleep, state.eventQueue);
+        const stop = detectStopReason(events, cmd, state.world.player);
+        const rawEvents = events.map((e) => e.content);
+        const actualRoom = state.world.location.name || '';
+        const actualRoomId = state.world.location.room_id || null;
+        const expectedRoomIdNext = expectedRoomIdAtStep(name, i + 1);
+        const deviation = routeDeviation(expected, actualRoom, expectedRoomIdNext, actualRoomId, kbRoomShort, describeRoomForDeviation);
+        const deviationKind = classifyRouteDeviation(name, cmd, expected, actualRoom, summarizeEvents(events), stop, expectedRoomIdNext, actualRoomId, routeDeviation, kbRoomShort, describeRoomForDeviation);
+        const routeStopReason = (deviationKind && shouldStopRouteForDeviation(deviationKind)) ? deviationKind : (stop || '');
+        const recoveryHint = routeRecoveryHint(name, cmd, deviationKind || stop || '', actualRoom, state.world.location.exits || []);
+        const lastLine = rawEvents.length ? rawEvents[rawEvents.length - 1].slice(0, 240) : '';
+        steps.push({
+          step: i + 1,
+          cmd,
+          waitMs,
+          expectedStage: expected.label || undefined,
+          actualRoom,
+          deviation: deviation || undefined,
+          deviationKind: deviationKind || undefined,
+          recoveryHint: recoveryHint || undefined,
+          rawEvents,
+          rawText: rawEvents.join('
+'),
+          ...(routeStopReason ? { stopReason: routeStopReason } : {}),
+        });
+        
+        state.routeState = {
+          ...state.routeState,
+          active: true,
+          step: i + 1,
+          currentCmd: cmd,
+          expectedCommand: cmd,
+          expectedStage: expected.label || `${route.from} -> ${route.to}`,
+          actualRoom,
+          actualExits: state.world.location.exits || [],
+          deviation,
+          deviationKind,
+          recoveryHint,
+          lastLine,
+          updatedAt: Date.now(),
+        };
+        sendStateSnapshot();
+        
+        emitTrace({
+          phase: 'progress',
+          kind: 'route',
+          name,
+          outputSummary: { step: i + 1, cmd, expectedStage: expected.label || null, actualRoom, deviation: deviation || null, deviationKind: deviationKind || null, recoveryHint: recoveryHint || null, stopReason: routeStopReason || null, ...summarizeEvents(events) },
+          status: routeStopReason && routeStopReason !== 'combat_or_damage' ? 'stopped' : 'ok',
+        });
+
+        state.world.events.recent = events.slice(-config.agent.maxRecentEvents).map((e) => ({
+          type: e.type,
+          text: e.content,
+          timestamp: e.timestamp,
+        }));
+
+        if (routeStopReason && routeStopReason !== 'combat_or_damage') {
+          stopReason = routeStopReason;
+          break;
+        }
+      }
+
+      state.pendingActions = [];
+      state.phase = 'OBSERVE';
+      state.routeState = {
+        ...state.routeState,
+        active: false,
+        step: steps.length || state.routeState.step,
+        currentCmd: stopReason ? state.routeState.currentCmd : '',
+        expectedCommand: stopReason ? state.routeState.expectedCommand : '',
+        expectedStage: stopReason ? `stopped: ${stopReason}` : `completed: ${route.to}`,
+        actualRoom: state.world.location.name || state.routeState.actualRoom,
+        actualExits: state.world.location.exits || [],
+        deviation: stopReason ? (state.routeState.deviation || stopReason) : state.routeState.deviation,
+        deviationKind: stopReason ? (state.routeState.deviationKind || stopReason) : state.routeState.deviationKind,
+        recoveryHint: stopReason ? (state.routeState.recoveryHint || routeRecoveryHint(name, '', stopReason, state.world.location.name || state.routeState.actualRoom, state.world.location.exits || [])) : state.routeState.recoveryHint,
+        updatedAt: Date.now(),
+      };
+      sendStateSnapshot();
+      
+      console.log(`[Agent] route ${name} done: ${steps.length}/${route.commands.length}${stopReason ? `, stopped=${stopReason}` : ''}`);
+      broadcast({ type: 'log', data: `route ${name} done: ${steps.length}/${route.commands.length}${stopReason ? `, stopped=${stopReason}` : ''}` });
+      emitTrace({
+        phase: 'end',
+        kind: 'route',
+        name,
+        outputSummary: {
+          completedSteps: steps.length,
+          requestedSteps: maxSteps,
+          stopReason: stopReason || null,
+          deviationKind: state.routeState.deviationKind || null,
+          recoveryHint: state.routeState.recoveryHint || null,
+        },
+        status: stopReason ? 'stopped' : 'ok',
+      });
+
+      const result = {
+        msg: stopReason ? `stopped: ${stopReason}` : 'completed',
+        route: { name, from: route.from, to: route.to, notes: route.notes, requirements: route.requirements || [] },
+        requestedSteps: maxSteps,
+        completedSteps: steps.length,
+        stopReason: stopReason || null,
+        deviationKind: state.routeState.deviationKind || null,
+        recoveryHint: state.routeState.recoveryHint || null,
+        finalLocation: state.world.location,
+        player: state.world.player,
+        steps,
+      };
+
+      return {
+        content: [{ type: 'text', text: JSON.stringify(result) }],
+        details: result,
+      };
+    },
+  };
+,
+        stepWaitMs: { type: 'number', description: '普通步骤后的等待毫秒数，默认150，范围80-1000。特殊步骤可覆盖。' },
+        maxSteps: { type: 'number', description: '最多执行多少步，默认执行完整稳定路线。用于测试时可设为2到3。' },
+      },
+      required: ['name'],
+    },
+    execute: async (_id, params) => {
+      if (!state.connected) {
+        return { content: [{ type: 'text', text: 'Error: not connected.' }], details: {} };
+      }
+      if (fastExplore.enabled) {
+        return { content: [{ type: 'text', text: 'Paused: fast_explore is active.' }], details: {} };
+      }
+
+      const name = String(params?.name || '').trim();
+      const route = KNOWN_ROUTES[name];
+      if (!route?.commands?.length) {
+        return {
+          content: [{ type: 'text', text: `Error: route "${name}" has no executable commands.` }],
+          details: { name, availableRoutes: Object.keys(KNOWN_ROUTES) },
+        };
+      }
+
+      const defaultWaitMs = Math.max(80, Math.min(1000, Number(params?.stepWaitMs || 150)));
+      const maxStepsRaw = Number(params?.maxSteps || route.commands.length);
+      const maxSteps = Math.max(1, Math.min(route.commands.length, Number.isFinite(maxStepsRaw) ? maxStepsRaw : route.commands.length));
+      const steps: Array<{
+        step: number;
+        cmd: string;
+        waitMs: number;
+        expectedStage?: string;
+        actualRoom?: string;
+        deviation?: string;
+        deviationKind?: string;
+        recoveryHint?: string;
+        rawEvents: string[];
+        rawText: string;
+        stopReason?: string;
+      }> = [];
+      let stopReason = '';
+
       state.phase = 'ACT';
       console.log(`[Agent] route ${name} start: ${route.from} -> ${route.to}, ${maxSteps}/${route.commands.length} step(s)`);
       broadcast({ type: 'log', data: `route ${name} start: ${route.from} -> ${route.to}, ${maxSteps}/${route.commands.length} step(s)` });
       if (isShaolinWaterRoute(name)) {
-        state.waterRoute = {
+        state.routeState = {
           active: true,
           routeName: name,
           from: route.from,
@@ -2527,8 +3047,8 @@ async function main() {
           const actualExits = state.world.location.exits || [];
           const recoveryHint = routeRecoveryHint(name, '', stopReason, actualRoom, actualExits);
           if (isShaolinWaterRoute(name)) {
-            state.waterRoute = {
-              ...state.waterRoute,
+            state.routeState = {
+              ...state.routeState,
               active: false,
               routeName: name,
               step: index + 1,
@@ -2565,10 +3085,10 @@ async function main() {
         const preActualRoomId = state.world.location.room_id || null;
         // 本步开始前 agent 应在的 KB room_id（来自预计算的路线序列）
         const expectedRoomIdHere = expectedRoomIdAtStep(name, index);
-        const preDeviation = waterRouteDeviation(expected, preActualRoom, expectedRoomIdHere, preActualRoomId);
+        const preDeviation = routeStateDeviation(expected, preActualRoom, expectedRoomIdHere, preActualRoomId);
         if (isShaolinWaterRoute(name)) {
-          state.waterRoute = {
-            ...state.waterRoute,
+          state.routeState = {
+            ...state.routeState,
             active: true,
             routeName: name,
             step: index + 1,
@@ -2604,7 +3124,7 @@ async function main() {
         const actualRoomId = state.world.location.room_id || null;
         // 本步执行后 agent 应到达的 KB room_id（= 下一步开始时的预期房间）
         const expectedRoomIdNext = expectedRoomIdAtStep(name, index + 1);
-        const deviation = waterRouteDeviation(expected, actualRoom, expectedRoomIdNext, actualRoomId);
+        const deviation = routeStateDeviation(expected, actualRoom, expectedRoomIdNext, actualRoomId);
         const deviationKind = isShaolinWaterRoute(name)
           ? classifyRouteDeviation(name, cmd, expected, actualRoom, events, stop, expectedRoomIdNext, actualRoomId)
           : '';
@@ -2627,8 +3147,8 @@ async function main() {
           ...(routeStopReason ? { stopReason: routeStopReason } : {}),
         });
         if (isShaolinWaterRoute(name)) {
-          state.waterRoute = {
-            ...state.waterRoute,
+          state.routeState = {
+            ...state.routeState,
             active: true,
             routeName: name,
             step: index + 1,
@@ -2670,21 +3190,21 @@ async function main() {
       state.pendingActions = [];
       state.phase = 'OBSERVE';
       if (isShaolinWaterRoute(name)) {
-        state.waterRoute = {
-          ...state.waterRoute,
+        state.routeState = {
+          ...state.routeState,
           active: false,
           routeName: name,
-          step: steps.length || state.waterRoute.step,
+          step: steps.length || state.routeState.step,
           total: maxSteps,
-          currentCmd: stopReason ? state.waterRoute.currentCmd : '',
-          expectedCommand: stopReason ? state.waterRoute.expectedCommand : '',
+          currentCmd: stopReason ? state.routeState.currentCmd : '',
+          expectedCommand: stopReason ? state.routeState.expectedCommand : '',
           expectedStage: stopReason ? `stopped: ${stopReason}` : `completed: ${route.to}`,
-          actualRoom: state.world.location.name || state.waterRoute.actualRoom,
+          actualRoom: state.world.location.name || state.routeState.actualRoom,
           actualExits: state.world.location.exits || [],
-          deviation: stopReason ? (state.waterRoute.deviation || stopReason) : state.waterRoute.deviation,
-          deviationKind: stopReason ? (state.waterRoute.deviationKind || stopReason) : state.waterRoute.deviationKind,
-          recoveryHint: stopReason ? (state.waterRoute.recoveryHint || routeRecoveryHint(name, '', stopReason, state.world.location.name || state.waterRoute.actualRoom, state.world.location.exits || [])) : state.waterRoute.recoveryHint,
-          recentActualRooms: appendRecentWaterRoom(state.world.location.name || state.waterRoute.actualRoom),
+          deviation: stopReason ? (state.routeState.deviation || stopReason) : state.routeState.deviation,
+          deviationKind: stopReason ? (state.routeState.deviationKind || stopReason) : state.routeState.deviationKind,
+          recoveryHint: stopReason ? (state.routeState.recoveryHint || routeRecoveryHint(name, '', stopReason, state.world.location.name || state.routeState.actualRoom, state.world.location.exits || [])) : state.routeState.recoveryHint,
+          recentActualRooms: appendRecentWaterRoom(state.world.location.name || state.routeState.actualRoom),
           updatedAt: Date.now(),
         };
         sendStateSnapshot();
@@ -2699,8 +3219,8 @@ async function main() {
           completedSteps: steps.length,
           requestedSteps: maxSteps,
           stopReason: stopReason || null,
-          deviationKind: isShaolinWaterRoute(name) ? state.waterRoute.deviationKind || null : null,
-          recoveryHint: isShaolinWaterRoute(name) ? state.waterRoute.recoveryHint || null : null,
+          deviationKind: isShaolinWaterRoute(name) ? state.routeState.deviationKind || null : null,
+          recoveryHint: isShaolinWaterRoute(name) ? state.routeState.recoveryHint || null : null,
         },
         status: stopReason ? 'stopped' : 'ok',
       });
@@ -2711,8 +3231,8 @@ async function main() {
         requestedSteps: maxSteps,
         completedSteps: steps.length,
         stopReason: stopReason || null,
-        deviationKind: isShaolinWaterRoute(name) ? state.waterRoute.deviationKind || null : null,
-        recoveryHint: isShaolinWaterRoute(name) ? state.waterRoute.recoveryHint || null : null,
+        deviationKind: isShaolinWaterRoute(name) ? state.routeState.deviationKind || null : null,
+        recoveryHint: isShaolinWaterRoute(name) ? state.routeState.recoveryHint || null : null,
         finalLocation: state.world.location,
         player: state.world.player,
         steps,
