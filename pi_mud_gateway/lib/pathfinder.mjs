@@ -92,25 +92,40 @@ export function resolveGatewayRoute(name, currentRoom, rooms, knownRoutes) {
 
 export function routeLocationError(expected, actual) {
   if (!actual) return 'unknown_room';
-  if (expected && expected !== actual) return 'room_mismatch';
+  if (expected && expected !== actual && !routeStartMatches(expected, actual)) return 'room_mismatch';
   return '';
+}
+
+// Route labels may explicitly review a terminal `*` room-id prefix, such as
+// /d/shaolin/shanlu*. No other glob syntax is accepted.
+export function routeStartMatches(routeFrom, actualRoomId) {
+  if (typeof routeFrom !== 'string' || typeof actualRoomId !== 'string') return false;
+  const match = routeFrom.match(/(\/d\/[a-z0-9_/\-]+)(\*)?/i);
+  if (!match) return false;
+  return match[2] ? actualRoomId.startsWith(match[1]) : actualRoomId === match[1];
 }
 
 // Includes both every step's starting room and the final destination.  Thus a
 // route with N commands has N+1 entries and its last movement is verifiable.
 export function precomputeFixedRouteRoomIds(route, rooms, directionAliases = {}) {
   const commands = route.commands || route.directions || [];
-  const start = typeof route.from === 'string' ? route.from.match(/(\/d\/[a-z0-9_/\-]+)/i)?.[1] : undefined;
-  let current = start && rooms?.has(start) ? start : null;
+  const startMatch = typeof route.from === 'string' ? route.from.match(/(\/d\/[a-z0-9_/\-]+)(\*)?/i) : null;
+  const start = startMatch?.[1];
+  const startPattern = start && startMatch?.[2] ? `${start}*` : start;
+  let candidates = start
+    ? [...(rooms?.keys() || [])].filter(roomId => startMatch?.[2] ? roomId.startsWith(start) : roomId === start)
+    : [];
+  let current = candidates.length ? startPattern : null;
   const sequence = [];
   for (const step of commands) {
     sequence.push(current);
     const command = String(typeof step === 'string' ? step : step?.cmd || '').trim().toLowerCase();
-    if (!current) continue;
+    if (!candidates.length) continue;
     const direction = directionAliases[command];
     if (!direction) continue;
-    const next = rooms.get(current)?.exits?.[direction];
-    current = next && rooms.has(next) ? next : null;
+    const nextRooms = new Set(candidates.map(roomId => rooms.get(roomId)?.exits?.[direction]).filter(roomId => roomId && rooms.has(roomId)));
+    candidates = [...nextRooms];
+    current = candidates.length === 1 ? candidates[0] : null;
   }
   sequence.push(current);
   return sequence;

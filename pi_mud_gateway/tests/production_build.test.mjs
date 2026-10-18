@@ -2,11 +2,12 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createRequire} from 'node:module';
 import {fileURLToPath} from 'node:url';
-import {mkdtemp, writeFile} from 'node:fs/promises';
+import {mkdtemp, readFile, writeFile} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
 import path from 'node:path';
-import {precomputeFixedRouteRoomIds, resolveGatewayRoute, routeLocationError} from '../lib/pathfinder.mjs';
+import {precomputeFixedRouteRoomIds, resolveGatewayRoute, routeLocationError, routeStartMatches} from '../lib/pathfinder.mjs';
 import {loadGatewayConfig} from '../lib/gateway_config.mjs';
+import {DIRECTION_ALIASES, KNOWN_ROUTES} from '../lib/core.mjs';
 
 test('production gateway bundles all local code without starting sockets or a model', async()=>{
   const require=createRequire(new URL('../../pi/package.json',import.meta.url));
@@ -65,4 +66,44 @@ test('fixed route room precomputation includes and verifies the final destinatio
  const expected=precomputeFixedRouteRoomIds(route,rooms,{north:'north',east:'east'});
  assert.deepEqual(expected,['/d/test/a','/d/test/b','/d/test/c']);
  assert.equal(routeLocationError(expected[route.commands.length],'/d/test/wrong'),'room_mismatch');
+});
+
+test('fixed route room precomputation advances through compound map exits',()=>{
+ const compoundDirections=['northup','southdown','eastup','westup','northdown','eastdown','southup','westdown'];
+ for(const direction of compoundDirections){
+  const start=`/d/test/${direction}_start`;const end=`/d/test/${direction}_end`;
+  const rooms=new Map([[start,{exits:{[direction]:end}}],[end,{exits:{}}]]);
+  const expected=precomputeFixedRouteRoomIds({from:`Start ${start}`,commands:[direction]},rooms,DIRECTION_ALIASES);
+  assert.deepEqual(expected,[start,end],direction);
+ }
+});
+
+test('riverbank production route predicts shanlu after northup',async()=>{
+ const map=JSON.parse(await readFile(new URL('../skills/xkx2001-knowledge/data/map.json',import.meta.url),'utf8'));
+ const rooms=new Map(map.rooms.map(room=>[room.room_id,room]));
+ const route=KNOWN_ROUTES.shaolin_water_return_riverbank_to_shanlu_probe;
+ assert.deepEqual(precomputeFixedRouteRoomIds(route,rooms,DIRECTION_ALIASES),[
+  '/d/shaolin/riverbank','/d/shaolin/shanlu',
+ ]);
+});
+
+test('reviewed wildcard route start accepts alternate shanlu rooms only',()=>{
+ const routeFrom='挑水山路 /d/shaolin/shanlu*';
+ assert.equal(routeStartMatches(routeFrom,'/d/shaolin/shanlu'),true);
+ assert.equal(routeStartMatches(routeFrom,'/d/shaolin/shanlu1'),true);
+ assert.equal(routeStartMatches(routeFrom,'/d/shaolin/riverbank'),false);
+ assert.equal(routeStartMatches('汉水岸边 /d/shaolin/riverbank','/d/shaolin/riverbank'),true);
+ assert.equal(routeStartMatches('汉水岸边 /d/shaolin/riverbank','/d/shaolin/riverbank1'),false);
+});
+
+test('wildcard fixed route precomputation accepts either reviewed start variant',()=>{
+ const rooms=new Map([
+  ['/d/shaolin/shanlu',{exits:{southdown:'/d/shaolin/riverbank'}}],
+  ['/d/shaolin/shanlu1',{exits:{southdown:'/d/shaolin/riverbank'}}],
+  ['/d/shaolin/riverbank',{exits:{}}],
+ ]);
+ const route={from:'挑水山路 /d/shaolin/shanlu*',commands:['southdown']};
+ const expected=precomputeFixedRouteRoomIds(route,rooms,DIRECTION_ALIASES);
+ assert.deepEqual(expected,['/d/shaolin/shanlu*','/d/shaolin/riverbank']);
+ assert.equal(routeLocationError(expected[0],'/d/shaolin/shanlu1'),'');
 });

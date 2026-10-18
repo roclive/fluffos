@@ -161,6 +161,30 @@ Pause-fix artifacts are `lib/high_level_decider.mjs`,
 above. This remains an offline structural regression; no live provider or game smoke
 test was run.
 
+### MUD-4 compound-exit and wildcard-start review fixes
+
+Fixed-route prediction now recognizes all compound vertical map exits used by the
+checked-in map (`northup`, `southdown`, `eastup`, `westup`, `northdown`, `eastdown`,
+`southup`, and `westdown`). Routes such as the riverbank-to-mountain-road transition
+therefore advance and verify their destination instead of retaining the previous room.
+
+Reviewed terminal-wildcard starts are preserved as patterns. The refill route from
+`/d/shaolin/shanlu*` is policy-authorized from both `/d/shaolin/shanlu` and
+`/d/shaolin/shanlu1`; its deterministic pre-step guard accepts either variant and
+still verifies their common `southdown` destination. Exact route starts remain exact.
+
+Verification commands: `node --test pi_mud_gateway/tests/production_build.test.mjs`
+(9/9 pass), `node --test pi_mud_gateway/tests/*.test.mjs` (44/44 pass),
+`npm --prefix pi_mud_gateway test` (44/44 pass), and `git diff --check` (pass).
+Tests used only in-memory maps/fake providers and the existing offline esbuild check.
+No live Ollama/GW/MUD smoke test was run, no running service was changed, and free
+quota remains `unknown`.
+
+Changed artifacts are under
+`/Users/zhangdapeng/Desktop/ai-agent-manager/.aam/worktrees/MUD/MUD-4/pi_mud_gateway`:
+`lib/core.mjs`, `lib/pathfinder.mjs`, `mud_gateway.ts`,
+`tests/production_build.test.mjs`, and this README.
+
 The route-candidate review finding is fixed by filtering the high-level model's route
 allowlist through `executableRouteEntries()`. Routes that only document `directions`
 are still available as route knowledge, but are no longer advertised as executable

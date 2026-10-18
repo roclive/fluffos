@@ -21,7 +21,7 @@ import { HighLevelDecisionController, takeOperatorIntent, waitForFreshIntent } f
 import { createLocalModelProvider } from './lib/local_model_provider.mjs';
 import { loadGatewayConfig } from './lib/gateway_config.mjs';
 import { shouldStopRouteForDeviation } from './lib/route_logic.mjs';
-import { precomputeFixedRouteRoomIds, resolveGatewayRoute, routeLocationError } from './lib/pathfinder.mjs';
+import { precomputeFixedRouteRoomIds, resolveGatewayRoute, routeLocationError, routeStartMatches } from './lib/pathfinder.mjs';
 import { sendMudCommand, collectMudEvents } from './lib/transport.mjs';
 import net from 'node:net';
 import fs from 'node:fs/promises';
@@ -3401,8 +3401,7 @@ async function main() {
       if (candidate.id === 'skill.shaolin_progress') return true;
       const routeName = candidate.id.startsWith('route.') ? candidate.id.slice('route.'.length) : '';
       const route = KNOWN_ROUTES[routeName];
-      const expectedStart = extractRoomIdFromLabel(route?.from);
-      return Boolean(route && expectedStart && state.world.location.room_id === expectedStart);
+      return Boolean(route && routeStartMatches(route.from, state.world.location.room_id));
     },
   });
   let decisionTrigger: 'task_start' | 'skill_complete' | 'recovery_uncertain' = 'task_start';
