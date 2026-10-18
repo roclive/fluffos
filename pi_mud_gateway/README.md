@@ -12,7 +12,7 @@ node --test pi_mud_gateway/tests/*.test.mjs
 
 `package.json` 的 placeholder test 已替换为上述真实套件的目录内等价命令：`npm --prefix pi_mud_gateway test`。验收记录使用直接 `node --test` 命令，不以 placeholder 或空测试代替。
 
-本轮基线：Node v26.5.0，11 tests / 11 pass，无 skip。还执行了 `git diff --check`，以及以下纯转译语法检查（不执行 Gateway，不加载账号）：
+本轮基线：Node v20.x，11 tests / 11 pass，无 skip。还执行了 `git diff --check`，以及以下纯转译语法检查（不执行 Gateway，不加载账号）：
 
 ```sh
 pi/node_modules/.bin/esbuild pi_mud_gateway/mud_gateway.ts --format=esm --platform=node --outfile=pi_mud_gateway/tests/.gateway-syntax-check.mjs
