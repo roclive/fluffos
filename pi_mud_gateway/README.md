@@ -24,7 +24,7 @@ node --test pi_mud_gateway/tests/*.test.mjs
 git diff --check
 ```
 
-结果：34 tests / 34 pass，无 skip；`git diff --check` 通过。生产入口已从完整、可编译的 Git 祖先恢复，保留决策控制器和图寻路接入；新的构建回归检查入口及本地模块。真实模型和游戏账号冒烟未运行。详见文末 Manager recovery 记录。
+结果：35 tests / 35 pass，无 skip；`git diff --check` 通过。生产入口已从完整、可编译的 Git 祖先恢复，保留决策控制器和图寻路接入；新的构建回归检查入口及本地模块。真实模型和游戏账号冒烟未运行。详见文末 Manager recovery 记录。
 
 产物绝对路径根目录：
 `/Users/zhangdapeng/Desktop/ai-agent-manager/.aam/worktrees/MUD/MUD-4/pi_mud_gateway`。
@@ -112,3 +112,11 @@ The production entry had inherited a literal truncation marker and lost over 3,0
 High-level decisions consume one-shot input before calling the provider. WAIT and rejected decisions require a new operator revision, so persistent steering cannot cause a request loop; input arriving during a request is retained. Stopped/error/deviation and paused nested tool results stay WAIT and resume at recovery_uncertain, never skill_complete. Named fixed routes and graph destination room IDs share the execution path; unknown/mismatched current rooms stop movement before a command is sent.
 
 `node --test pi_mud_gateway/tests/*.test.mjs` now includes production esbuild bundling (local imports checked, external packages excluded), graph route resolution and room guards, failed tool results and operator revision regressions. This compile check uses the installed sibling `pi/node_modules/esbuild`; it never imports/runs the gateway or invokes an AI CLI. It does not establish full TypeScript type safety, external-package availability, real game behavior or live model compatibility. Existing offline module tests remain intact.
+
+### MUD-4 review regression
+
+The production `loadConfig()` now delegates to `lib/gateway_config.mjs`, which merges all five supported sections, including `decision`. A file-backed regression test verifies that an enabled gateway provider retains its configured endpoint and model while inheriting omitted decision defaults. This prevents startup from receiving an undefined `config.decision` and ensures operator-selected local provider settings reach `main()`.
+
+Verification commands: `node --test pi_mud_gateway/tests/*.test.mjs` (35/35 pass) and `git diff --check` (pass). Tests use temporary files and fake providers only. No live Ollama/GW/MUD smoke test was run, no service was started, and free quota remains `unknown`.
+
+Review-fix artifacts are under `/Users/zhangdapeng/Desktop/ai-agent-manager/.aam/worktrees/MUD/MUD-4/pi_mud_gateway`: `lib/gateway_config.mjs`, `mud_gateway.ts`, `tests/production_build.test.mjs`, and this README.

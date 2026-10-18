@@ -19,6 +19,7 @@
 import { DIRECTION_ALIASES, KNOWN_ROUTES, normalizeDirection, isInfoCommand, summarizeEvents, routeStepCommand, routeStepNote, commandSequenceWaitMs, chooseProgressSkill, detectStopReason, shouldStopBeforeNextCommand, parseStatusLine, cleanMudText, splitCleanMudLines } from './lib/core.mjs';
 import { HighLevelDecisionController, takeOperatorIntent, waitForFreshIntent } from './lib/high_level_decider.mjs';
 import { createLocalModelProvider } from './lib/local_model_provider.mjs';
+import { loadGatewayConfig } from './lib/gateway_config.mjs';
 import { shouldStopRouteForDeviation } from './lib/route_logic.mjs';
 import { resolveGatewayRoute, routeLocationError } from './lib/pathfinder.mjs';
 import { sendMudCommand, collectMudEvents } from './lib/transport.mjs';
@@ -1075,18 +1076,7 @@ function safeJsonParse<T>(s: string, fallback: T): T {
 }
 
 async function loadConfig(): Promise<GatewayConfig> {
-  try {
-    const raw = await fs.readFile(CONFIG_PATH, 'utf-8');
-    const user = safeJsonParse<Partial<GatewayConfig>>(raw, {});
-    return {
-      mud: { ...DEFAULT_CONFIG.mud, ...(user.mud || {}) },
-      auth: { ...DEFAULT_CONFIG.auth, ...(user.auth || {}) },
-      agent: { ...DEFAULT_CONFIG.agent, ...(user.agent || {}) },
-      runtime: { ...DEFAULT_CONFIG.runtime, ...(user.runtime || {}) },
-    };
-  } catch {
-    return DEFAULT_CONFIG;
-  }
+  return loadGatewayConfig(CONFIG_PATH, DEFAULT_CONFIG) as Promise<GatewayConfig>;
 }
 
 function memoryFilePath(config: GatewayConfig) {
