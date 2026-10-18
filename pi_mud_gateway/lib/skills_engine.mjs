@@ -77,6 +77,11 @@ export class SkillExecutor {
           this.transport.write(command + '\n');
           await this.transport.wait(waitMs);
 
+          // Timeout check after wait, before verification
+          if (Date.now() - this.startTime > (skill.timeoutMs || 60000)) {
+            throw new SkillError('Skill execution timed out', 'TIMEOUT', initialGameState);
+          }
+
           const events = this.transport.collectEvents();
           const verifyResult = step.verify(events, i);
           
